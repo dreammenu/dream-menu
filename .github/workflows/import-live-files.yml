@@ -11,7 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download, verify and commit
+        shell: bash {0}
         run: |
+          exec > >(tee tools/import-log.txt) 2>&1
+          set -x
           B=https://www.dream-menu.com
           : > tools/import-report.txt
           for u in $B/robots.txt https://dream-menu.com/robots.txt https://dream-menu-chi.vercel.app/robots.txt; do echo "probe $u $(curl -sS -o /tmp/p -w '%{http_code} %{size_download}' $u 2>&1) $(head -c 120 /tmp/p | tr '\n' ' ')" >> tools/import-report.txt; done
@@ -35,4 +38,4 @@ jobs:
           if [ ! -s tools/import-list.txt ]; then git rm -q tools/import-list.txt .github/workflows/import-live-files.yml; fi
           git add -A
           git commit -m "Import public site files from the live deployment (each checked against its Vercel hash)" || true
-          git push
+          git push || { git pull --rebase && git push; }
