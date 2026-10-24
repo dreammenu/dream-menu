@@ -10,27 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download and verify
+      - name: Download, verify and commit
         run: |
-          set -e
-          bad=0
+          B=https://www.dream-menu.com
+          : > tools/import-report.txt
+          left=""
           while read -r f sha; do
             [ -z "$f" ] && continue
             mkdir -p "$(dirname "$f")"
-            url="https://www.dream-menu.com/$f"
-            case "$f" in *.html) url="https://www.dream-menu.com/${f%.html}";; esac
-            [ "$f" = "index.html" ] && url="https://www.dream-menu.com/"
-            curl -fsSL --retry 3 -H 'Accept-Encoding: identity' -o "$f" "$url" || curl -fsSL --retry 3 -o "$f" "https://www.dream-menu.com/$f"
-            got=$(sha1sum "$f" | cut -c1-40)
-            if [ "$got" != "$sha" ]; then echo "MISMATCH $f $got (want $sha)"; bad=1; else echo "ok $f"; fi
+            ok=0
+            base="${f%.html}"
+            for u in "$B/$f" "$B/$base" "$B/"; do
+              [ "$u" = "$B/" ] && [ "$f" != "index.html" ] && continue
+              curl -sSL --retry 2 -o /tmp/dl "$u" || continue
+              if [ "$(sha1sum /tmp/dl | cut -c1-40)" = "$sha" ]; then mv /tmp/dl "$f"; ok=1; break; fi
+            done
+            if [ $ok = 1 ]; then echo "ok $f" >> tools/import-report.txt; else echo "MISSING $f $sha" >> tools/import-report.txt; left="$left$f $sha\n"; rm -f "$f"; fi
           done < tools/import-list.txt
-          exit $bad
-      - name: Commit
-        run: |
+          cat tools/import-report.txt
+          printf "$left" > tools/import-list.txt
           git config user.name "dream-menu-bot"
           git config user.email "actions@github.com"
-          git rm -q --cached tools/import-list.txt .github/workflows/import-live-files.yml
-          rm tools/import-list.txt .github/workflows/import-live-files.yml
+          if [ ! -s tools/import-list.txt ]; then git rm -q tools/import-list.txt .github/workflows/import-live-files.yml; fi
           git add -A
-          git commit -m "Import public site files from the live deployment (verified against Vercel hashes)"
+          git commit -m "Import public site files from the live deployment (each checked against its Vercel hash)" || true
           git push
