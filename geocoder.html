@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Geocoder | Dream Menu</title>
+<meta name="description" content="Find coordinates for a venue.">
+<link rel="canonical" href="https://www.dream-menu.com/geocoder">
+<meta property="og:title" content="Geocoder | Dream Menu">
+<meta property="og:description" content="Find coordinates for a venue.">
+<meta property="og:image" content="https://www.dream-menu.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/league-spartan-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/brand.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="mark" href="/"><img src="/logo-128.png" alt="" width="40" height="40">Dream Menu</a><nav class="nav" aria-label="Site"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/awards">Awards</a><a href="/for-business">For business</a><a href="/partner">Partners <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><a class="takepart" href="/take-part">Take part</a></div></header>
+<main>
+<section class="hero"><div class="wrap"><div class="eyebrow">Geocoder</div><h1>Find a <em>venue</em></h1>
+<p class="lede">Search OpenStreetMap for a venue and town, then copy the row into the Venue LATLON tab of the responses sheet.</p></div></section>
+<section><div class="wrap">
+  <form class="controls" id="gf"><label for="gv">Venue<input id="gv" type="search" placeholder="e.g. Crabshakk" required></label><label for="gt">Town or city<input id="gt" type="search" placeholder="e.g. Glasgow"></label><button class="cta" type="submit" style="border:0;cursor:pointer">Search</button></form>
+  <div class="tablewrap"><table><thead><tr><th>Result</th><th>Lat, Lng</th><th></th></tr></thead><tbody id="gr"><tr><td colspan="3">Results appear here.</td></tr></tbody></table></div>
+  <p class="note">Search by Photon (photon.komoot.io), OpenStreetMap data. Check each result before using it.</p>
+</div></section>
+</main>
+<footer class="foot"><div class="footband"><img src="/logo-128.png" alt="Dream Menu" width="64" height="64"><b>Dream Menu</b><span>Glasgow's food community, speaking for itself.</span></div><nav class="footlinks" aria-label="All pages"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/awards">Award winners</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/operators">Operator toolkit <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a><a href="/restaurant-mot">Restaurant MOT</a><a href="/specials">Specials</a><a href="/from-the-kitchen">From the kitchen</a><a href="/for-business">For business</a><a href="/take-part">Take part</a><a href="/how-it-works">How it works</a><a href="/partner">Partner area <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><div class="wrap"><span>Dream Menu, Glasgow. Data to 19 October 2026.</span><span><a href="/privacy">Privacy</a> · <a href="/partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/" rel="noopener" target="_blank">@dream.menu on Instagram</a></span></div></footer>
+<script>
+(function(){var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+document.getElementById('gf').addEventListener('submit',function(e){e.preventDefault();var v=document.getElementById('gv').value.trim(),t=document.getElementById('gt').value.trim(),out=document.getElementById('gr');
+out.innerHTML='<tr><td colspan="3">Searching…</td></tr>';
+fetch('https://photon.komoot.io/api/?limit=8&q='+encodeURIComponent(v+(t?' '+t:''))).then(function(r){return r.json()}).then(function(j){
+var f=(j.features||[]);if(!f.length){out.innerHTML='<tr><td colspan="3">Nothing found. Try a shorter name or add the street.</td></tr>';return}
+out.innerHTML=f.map(function(x,i){var p=x.properties,c=x.geometry.coordinates,addr=[p.name,p.housenumber&&p.street?p.housenumber+' '+p.street:p.street,p.city||p.town||p.village,p.postcode,p.country].filter(Boolean).join(', ');
+var row=[v,'',c[1].toFixed(6),c[0].toFixed(6),c[1].toFixed(6)+','+c[0].toFixed(6),addr,'ok'].join('\t');
+return '<tr><td>'+esc(addr)+'<small>'+esc(p.osm_value||'')+'</small></td><td class="num">'+c[1].toFixed(5)+', '+c[0].toFixed(5)+'</td><td><button type="button" class="pager-btn" data-row="'+esc(row)+'">Copy row</button></td></tr>'}).join('')}).catch(function(){out.innerHTML='<tr><td colspan="3">The search service did not answer. Try again in a minute.</td></tr>'})});
+document.addEventListener('click',function(e){var b=e.target.closest('button[data-row]');if(!b)return;navigator.clipboard.writeText(b.dataset.row).then(function(){b.textContent='Copied'},function(){b.textContent='Copy failed'})});})();
+</script>
+</body>
+</html>

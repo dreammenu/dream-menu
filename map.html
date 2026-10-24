@@ -1,0 +1,1456 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<style>
+/* map polish */
+.dm-tiles{filter:grayscale(1) brightness(1.06) contrast(.9)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dm-tiles{filter:grayscale(1) invert(1) brightness(.82) contrast(.92)}}
+:root[data-theme="dark"] .dm-tiles{filter:grayscale(1) invert(1) brightness(.82) contrast(.92)}
+.leaflet-container{font-family:var(--body)}
+.leaflet-tile-container img{image-rendering:auto}
+.dm-pin i{box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.dm-cluster span{box-shadow:0 0 0 4px rgba(11,11,11,.16),0 3px 10px rgba(0,0,0,.22)!important}
+.leaflet-control-zoom a{width:34px!important;height:34px!important;line-height:34px!important;font-size:18px!important}
+.leaflet-bar{border:0!important;box-shadow:0 2px 10px rgba(0,0,0,.18)!important;border-radius:8px!important;overflow:hidden}
+.awbar{opacity:.92}
+.awbar>label:first-child::after{content:"secondary layer";margin-left:6px;font:600 10px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--rule);border-radius:99px;padding:3px 6px}
+#map{box-shadow:0 1px 0 var(--rule)}
+@media (min-width:980px){#map{border-radius:10px;overflow:hidden}
+  .hero .wrap{padding-block:22px 16px!important;grid-template-columns:minmax(0,1fr) auto;align-items:end;column-gap:40px}
+  .hero h1{font-size:clamp(30px,3.4vw,46px)!important}
+  .hero .eyebrow,.hero h1,#hLede{grid-column:1}
+  #hLede{font-size:15px;max-width:72ch}
+  #facts{grid-column:2;grid-row:1/4;margin:0;justify-content:flex-end}
+}
+@media (max-width:640px){
+  #hLede{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:15px}
+  .hero .wrap{padding-block:18px 12px!important}
+  #facts{gap:6px!important}
+  #facts div:nth-child(n+4){display:none!important}
+}
+</style>
+</head><body>
+<title>The venue map | Dream Menu</title>
+<link rel="canonical" href="https://www.dream-menu.com/map">
+<meta property="og:title" content="Dream Menu: the venue map, worldwide">
+<meta property="og:description" content="Every venue Dream Menu guests have named, set against the world's restaurant and bar awards.">
+<meta property="og:image" content="https://www.dream-menu.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Every venue Dream Menu guests have named, by region, country and city.">
+
+<link rel="preload" href="/fonts/league-spartan-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0b0b0b">
+
+<style>
+/* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
+
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+	pointer-events: auto;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+/* Printing */
+
+@media print {
+	/* Prevent printers from removing background-images of controls. */
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
+	-webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
+	transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.leaflet-cluster-spider-leg {
+	/* stroke-dashoffset (duration and function) should match with leaflet-marker-icon transform in order to track it exactly */
+	-webkit-transition: -webkit-stroke-dashoffset 0.3s ease-out, -webkit-stroke-opacity 0.3s ease-in;
+	-moz-transition: -moz-stroke-dashoffset 0.3s ease-out, -moz-stroke-opacity 0.3s ease-in;
+	-o-transition: -o-stroke-dashoffset 0.3s ease-out, -o-stroke-opacity 0.3s ease-in;
+	transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
+}
+
+</style>
+<style>
+/* Layout: menu-card panel beside a world map; market drill-down World > Region > Country > Nation > City */
+:root{
+  --paper:#fafaf7; --card:#ffffff; --panel:#efefe9; --ink:#1b211c; --muted:#5b645d; --rule:#d8dbd1; --rule-strong:#9aa39a;
+  --accent:#b07a10; --accent-soft:#f3e3bd; --sea:#dfe5dd; --land:#f7f7f2; --coast:#b9c2b7; --pin:#1b211c; --pin-ring:#fafaf7;
+  --area:#56705f; --area-fill:rgba(86,112,95,.16); --good:#2f6b3f; --warn:#a1580e;
+  --display:"Anton","Impact","Arial Narrow Bold",sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111511; --card:#171c18; --panel:#1b211c; --ink:#ebeee7; --muted:#a6aea2; --rule:#2c342d; --rule-strong:#5d675e;
+  --accent:#e2b24a; --accent-soft:#3a3018; --sea:#0d120f; --land:#1c231d; --coast:#3b463c; --pin:#ebeee7; --pin-ring:#111511;
+  --area:#8fb39c; --area-fill:rgba(143,179,156,.18); --good:#7fc28f; --warn:#e3a35a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111511; --card:#171c18; --panel:#1b211c; --ink:#ebeee7; --muted:#a6aea2; --rule:#2c342d; --rule-strong:#5d675e;
+  --accent:#e2b24a; --accent-soft:#3a3018; --sea:#0d120f; --land:#1c231d; --coast:#3b463c; --pin:#ebeee7; --pin-ring:#111511;
+  --area:#8fb39c; --area-fill:rgba(143,179,156,.18); --good:#7fc28f; --warn:#e3a35a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1440px;margin:0 auto}
+.top{border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-block:12px}
+.mark{font:400 22px/1 var(--display);letter-spacing:.02em;text-transform:uppercase;text-decoration:none}
+.mark span{color:var(--accent)}
+.nav{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a[aria-current="page"],.nav a:hover{color:var(--ink)}
+.hero .wrap{padding-block:26px 18px;display:grid;gap:10px}
+.eyebrow{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font:400 clamp(34px,6vw,64px)/.98 var(--display);text-transform:uppercase;margin:0;text-wrap:balance;letter-spacing:.01em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{margin:0;max-width:68ch;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:6px;font:500 13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+.facts b{font-weight:600;color:var(--ink)}
+.facts span{color:var(--muted)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:900;background:var(--paper);border-block:1px solid var(--rule)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:950;background:var(--paper)}
+.bar .wrap{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap;padding-block:10px}
+.crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:14px;min-width:0}
+.crumbs button{background:none;border:0;padding:4px 2px;cursor:pointer;color:var(--muted);text-decoration:underline;text-decoration-color:var(--rule-strong);text-underline-offset:3px}
+.crumbs button:hover{color:var(--ink)}
+.crumbs .here{font-weight:700;color:var(--ink);padding:4px 2px}
+.crumbs .sep{color:var(--rule-strong)}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.search{position:relative}
+.search input{width:min(300px,78vw);padding:8px 12px;border:1px solid var(--rule-strong);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:14px}
+.results{position:absolute;right:0;top:calc(100% + 4px);width:min(360px,90vw);background:var(--card);border:1px solid var(--rule-strong);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:4px;z-index:1000;max-height:60vh;overflow:auto}
+.results button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:14px}
+.results button:hover,.results button:focus-visible{background:var(--panel)}
+.results small{color:var(--muted);font:500 11px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+select{padding:8px 10px;border:1px solid var(--rule-strong);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:14px;max-width:46vw}
+.app .wrap{display:grid;gap:0;grid-template-columns:1fr;padding-block:0}
+.mapbox{position:relative;border-bottom:1px solid var(--rule)}
+#map{height:min(58vh,460px);background:var(--sea)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 0;font-size:12.5px;color:var(--muted);align-items:center}
+.legend label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.legend input{accent-color:var(--accent)}
+.key{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px}
+.key.l{background:var(--pin);box-shadow:0 0 0 2px var(--pin-ring)}
+.key.a{border:2px dashed var(--accent);background:var(--accent-soft)}
+.key.u{background:var(--area-fill);border:1.5px solid var(--area)}
+.panel{min-width:0;padding-block:22px 40px}
+@media (min-width:980px){
+  .app .wrap{grid-template-columns:minmax(0,1.45fr) minmax(380px,1fr);gap:28px}
+  .mapbox{border-bottom:0}
+  .mapstick{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px)}
+  #map{height:calc(100vh - 150px);min-height:520px;max-height:860px;border:1px solid var(--rule);border-radius:10px}
+  .panel{padding-top:18px}
+}
+.kind{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:99px;border:1px solid currentColor}
+.badge.deep{color:var(--good)}
+.badge.early{color:var(--warn)}
+.badge.closed{color:var(--warn)}
+.panel h2{font:400 clamp(30px,4.2vw,46px)/1 var(--display);text-transform:uppercase;margin:10px 0 6px;letter-spacing:.01em;text-wrap:balance;overflow-wrap:anywhere}
+.lede{margin:0 0 16px;color:var(--muted);max-width:60ch}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin:6px 0 18px}
+.stats div{background:var(--card);padding:10px 12px;display:grid;gap:2px;min-width:0}
+.stats b{font:600 22px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--muted);line-height:1.3}
+@media (max-width:440px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+section.blk{margin:0 0 22px}
+section.blk h3{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;gap:8px}
+section.blk h3 small{font-weight:500;letter-spacing:.04em;text-transform:none}
+.cov{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--panel)}
+.cov i{display:block;height:100%}
+.cov .l{background:var(--pin)} .cov .a{background:var(--accent)} .cov .u{background:var(--area-fill);border-left:1px solid var(--area)}
+.covkey{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.menu{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.menu li{display:flex;align-items:baseline;gap:8px;min-width:0}
+.menu .dish{min-width:0;overflow-wrap:anywhere}
+.menu .dots{flex:1 1 24px;border-bottom:1.5px dotted var(--rule-strong);transform:translateY(-4px);min-width:16px}
+.menu .price{font:600 13px/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.menu .price small{color:var(--muted);font-weight:500}
+.note{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.rank{list-style:none;margin:0;padding:0;display:grid}
+.rank li{border-bottom:1px solid var(--rule)}
+.rank button{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;background:none;border:0;padding:9px 2px;cursor:pointer;text-align:left}
+.rank button:hover .nm{text-decoration:underline;text-underline-offset:3px}
+.rank .nm{font-weight:600;overflow-wrap:anywhere}
+.rank .sub{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
+.rank .n{font:600 13px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.dot.L{background:var(--pin)} .dot.A{border:2px dashed var(--accent);background:var(--accent-soft)} .dot.U{background:var(--area-fill);border:1.5px solid var(--area)}
+.kids{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.kids button{display:grid;gap:2px;text-align:left;padding:10px 12px;border:1px solid var(--rule);background:var(--card);border-radius:8px;cursor:pointer;min-width:0}
+.kids button:hover{border-color:var(--rule-strong)}
+.kids b{font-weight:600;overflow-wrap:anywhere}
+.kids span{font:500 12px/1.3 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.kids em{font-style:normal;color:var(--warn);font:600 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.more{margin-top:10px;background:none;border:1px solid var(--rule-strong);border-radius:6px;padding:7px 12px;cursor:pointer;font-size:13px}
+.spark{width:100%;height:84px;display:block}
+.spark text{font:500 10px var(--mono);fill:var(--muted)}
+.back{background:none;border:0;padding:0;margin:0 0 6px;cursor:pointer;color:var(--muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.where{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:8px;background:var(--panel);font-size:13.5px;margin:0 0 16px}
+.quote{margin:0 0 10px;padding-left:12px;border-left:2px solid var(--accent)}
+.quote small{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;padding:4px 9px;border-radius:99px;background:var(--panel)}
+.method{border-top:1px solid var(--rule);margin-top:10px;padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px}
+.foot{border-top:1px solid var(--rule)}
+.foot .wrap{padding-block:18px 28px;font-size:12.5px;color:var(--muted);display:grid;gap:6px}
+/* map marks */
+.dm-pin i{display:block;width:100%;height:100%;border-radius:50%}
+.dm-pin.is-located i{background:var(--pin);box-shadow:0 0 0 2px var(--pin-ring)}
+.dm-pin.is-approx i{background:var(--accent-soft);border:2px dashed var(--accent)}
+.dm-pin.is-sel i{box-shadow:0 0 0 3px var(--pin-ring),0 0 0 6px var(--accent)}
+.dm-cluster{background:none}
+.dm-cluster span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--ink);color:var(--paper);font:600 12px/1 var(--mono);box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 22%,transparent)}
+.dm-area{background:none}
+.dm-area span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--area-fill);border:1.5px solid var(--area);color:var(--ink);font:600 11px/1 var(--mono)}
+.dm-area.is-country span{border-style:dashed}
+.dm-label{background:none;border:0;pointer-events:none}
+.dm-label span{display:block;transform:translate(-50%,-50%);width:max-content;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-shadow:0 0 3px var(--land),0 0 3px var(--land),0 0 6px var(--land)}
+.dm-label.hood span{font:italic 500 11px/1 var(--body);letter-spacing:.01em;text-transform:none}
+.leaflet-container{font:13px/1.4 var(--body);background:var(--sea)}
+.leaflet-tooltip{background:var(--card);color:var(--ink);border:1px solid var(--rule-strong);box-shadow:0 4px 14px rgba(0,0,0,.14);font-size:12.5px}
+.leaflet-tooltip-top:before{border-top-color:var(--rule-strong)}
+.leaflet-control-zoom a{background:var(--card);color:var(--ink);border-color:var(--rule)!important}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--card) 82%,transparent)!important;color:var(--muted)}
+.leaflet-control-attribution a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<style>
+/* Awards layer: recognition marks sit beside guest pins; stars are red, 50 Best lists blue, Bib and Green Star warm/green, guide-selected quiet grey */
+:root{--aw-guide:#6b3fa0;--aw-star:#b3261e;--aw-fifty:#1f5fa8;--aw-bib:#c25e00;--aw-green:#2f7a3b;--aw-sel:#8a8f86;--aw-ring:#fafaf7;--aw-cluster:#7a1c15}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--aw-guide:#b998e6;--aw-star:#ff6b5e;--aw-fifty:#79aef0;--aw-bib:#f0a050;--aw-green:#7fc28f;--aw-sel:#8f978d;--aw-ring:#111511;--aw-cluster:#e8857b}}
+:root[data-theme="dark"]{--aw-guide:#b998e6;--aw-star:#ff6b5e;--aw-fifty:#79aef0;--aw-bib:#f0a050;--aw-green:#7fc28f;--aw-sel:#8f978d;--aw-ring:#111511;--aw-cluster:#e8857b}
+.aw-pin i{display:block;width:100%;height:100%;transform:rotate(45deg);border-radius:2px;box-shadow:0 0 0 1.5px var(--aw-ring)}
+.aw-pin.t-star i{background:var(--aw-star)} .aw-pin.t-fifty i{background:var(--aw-fifty)} .aw-pin.t-bib i{background:var(--aw-bib)}
+.aw-pin.t-green i{background:var(--aw-green)} .aw-pin.t-sel i{background:var(--aw-sel)} .aw-pin.t-guide i{background:var(--aw-guide)}
+.aw-pin.is-city i{background:transparent!important;border:2px dashed currentColor}
+.aw-pin.is-city.t-star{color:var(--aw-star)} .aw-pin.is-city.t-fifty{color:var(--aw-fifty)} .aw-pin.is-city.t-bib{color:var(--aw-bib)} .aw-pin.is-city.t-sel{color:var(--aw-sel)} .aw-pin.is-city.t-green{color:var(--aw-green)} .aw-pin.is-city.t-guide{color:var(--aw-guide)}
+.aw-pin.is-sel i{box-shadow:0 0 0 3px var(--aw-ring),0 0 0 6px var(--accent)}
+.aw-cluster{background:none}
+.aw-cluster span{display:grid;place-items:center;width:100%;height:100%;transform:rotate(45deg);border-radius:6px;background:var(--card);border:2px solid var(--aw-cluster);box-shadow:0 0 0 3px color-mix(in srgb,var(--aw-cluster) 18%,transparent)}
+.aw-cluster b{transform:rotate(-45deg);font:600 11px/1 var(--mono);color:var(--aw-cluster)}
+.key.aw{width:11px;height:11px;border-radius:2px;transform:rotate(45deg);background:var(--aw-star)}
+.awbar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:0 0 10px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:10px}
+.awbar label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.awbar input{accent-color:var(--accent)}
+.awkey{display:flex;flex-wrap:wrap;gap:4px 12px}
+.awkey span{display:inline-flex;gap:5px;align-items:center}
+.awkey i{display:inline-block;width:9px;height:9px;transform:rotate(45deg);border-radius:1.5px}
+.awlist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.awlist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:9px}
+.awlist .yr{font:600 13px/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.awlist .rk{font:600 12px/1 var(--mono);color:var(--muted);white-space:nowrap}
+.awlist b{font-weight:600}
+.awlist small{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:2px}
+.mk{display:inline-block;width:10px;height:10px;transform:rotate(45deg) translateY(-1px);border-radius:1.5px;flex:none}
+.mk.star{background:var(--aw-star)} .mk.fifty{background:var(--aw-fifty)} .mk.bib{background:var(--aw-bib)} .mk.green{background:var(--aw-green)} .mk.sel{background:var(--aw-sel)} .mk.guide{background:var(--aw-guide)}
+.recog{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.recog div{display:grid;gap:2px;padding:9px 11px;border:1px solid var(--rule);border-radius:8px;background:var(--card)}
+.recog b{font:600 20px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.recog span{font-size:12px;color:var(--muted);line-height:1.3;display:flex;gap:6px;align-items:center}
+.badge.aw{color:var(--aw-star)}
+.badge.fifty{color:var(--aw-fifty)}
+.badge.guide{color:var(--aw-guide)}
+.linkrow{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px}
+.dmlink{background:var(--accent-soft);border:0;border-radius:8px;padding:10px 12px;text-align:left;cursor:pointer;display:block;width:100%;margin:0 0 16px;font-size:13.5px}
+.dmlink b{font-weight:700}
+</style>
+<link rel="stylesheet" href="/brand.css">
+<header class="top"><div class="wrap">
+  <a class="mark" href="/"><img src="/logo-128.png" alt="" width="40" height="40">Dream Menu</a>
+  <nav class="nav" aria-label="Site"><a href="/">Food trends</a><a href="/map" aria-current="page">Venue map</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/awards">Awards</a><a href="/for-business">For business</a><a href="/partner">Partners <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><a class="takepart" href="/take-part">Take part</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">The venue map, worldwide</div>
+  <h1 id="headline">Named by guests in <em id="hCountries">32</em> countries</h1>
+  <p id="hLede">Every venue Dream Menu guests have named for their dream menu, from Glasgow side streets to Singapore hawker centres. Pick a city to see what people order there, course by course, and the venues they name most. Award winners from the MICHELIN Guide, the 50 Best lists and other guides sit on a secondary layer you can switch on.</p>
+  <div class="facts" id="facts"></div>
+</div></section>
+
+<nav class="bar" aria-label="Market"><div class="wrap">
+  <div class="crumbs" id="crumbs"></div>
+  <div class="tools">
+    <label for="jump" class="eyebrow" style="position:absolute;left:-9999px">Jump to a market</label>
+    <select id="jump"></select>
+    <div class="search">
+      <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Search venues and places</label>
+      <input id="q" type="search" placeholder="Search a venue, city or country" autocomplete="off">
+      <div class="results" id="results" hidden></div>
+    </div>
+  </div>
+</div></nav>
+
+<main class="app"><div class="wrap">
+  <div class="mapbox"><div class="mapstick">
+    <div id="map" role="region" aria-label="Map of venues named by guests"></div>
+    <div class="legend">
+      <span><i class="key l"></i> Address confirmed</span>
+      <label><input type="checkbox" id="fApprox" checked> <i class="key a"></i> Approximate pin</label>
+      <label><input type="checkbox" id="fArea" checked> <i class="key u"></i> Named, not yet pinned</label>
+      <label for="fCourse">Course</label>
+      <select id="fCourse"><option value="">All courses</option></select>
+    </div>
+    <div class="awbar" id="awbar">
+      <label><input type="checkbox" id="fAw"> <i class="key aw"></i> Awards and guides</label>
+      <label for="fAwKind" style="position:absolute;left:-9999px">Which awards</label>
+      <select id="fAwKind">
+        <option value="all">Every recognised venue</option>
+        <option value="stars">MICHELIN Stars</option>
+        <option value="fifty">50 Best lists (restaurants and bars)</option>
+        <option value="fiftyr">50 Best restaurants</option>
+        <option value="fiftyb">50 Best bars</option>
+        <option value="bib">Bib Gourmand</option>
+        <option value="green">MICHELIN Green Star</option>
+        <option value="top">Stars and 50 Best only</option>
+        <option value="sel">MICHELIN Guide selected</option>
+        <optgroup label="Other guides">
+          <option value="src:AA Rosettes">AA Rosettes (UK)</option>
+          <option value="src:The Good Food Guide">Good Food Guide (UK)</option>
+          <option value="src:Opinionated About Dining">Opinionated About Dining</option>
+          <option value="src:La Liste">La Liste</option>
+          <option value="src:Tabelog Award">Tabelog Award (Japan)</option>
+          <option value="src:Gault&amp;Millau">Gault&amp;Millau</option>
+        </optgroup>
+      </select>
+      <div class="awkey"><span><i style="background:var(--aw-star)"></i>Stars</span><span><i style="background:var(--aw-fifty)"></i>50 Best</span><span><i style="background:var(--aw-bib)"></i>Bib</span><span><i style="background:var(--aw-green)"></i>Green Star</span><span><i style="background:var(--aw-guide)"></i>Other guides</span><span><i style="background:var(--aw-sel)"></i>Selected</span></div>
+    </div>
+  </div></div>
+  <div class="panel" id="panel" aria-live="polite"></div>
+</div></main>
+
+<footer class="foot"><div class="footband"><img src="/logo-128.png" alt="Dream Menu" width="64" height="64"><b>Dream Menu</b><span>Glasgow's food community, speaking for itself.</span></div><nav class="footlinks" aria-label="All pages"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/awards">Award winners</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/operators">Operator toolkit <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a><a href="/restaurant-mot">Restaurant MOT</a><a href="/specials">Specials</a><a href="/from-the-kitchen">From the kitchen</a><a href="/for-business">For business</a><a href="/take-part">Take part</a><a href="/how-it-works">How it works</a><a href="/partner">Partner area <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><div class="wrap" id="foot"></div><div class="wrap" style="padding-top:0"><a href="/privacy">Privacy</a> · <a href="/partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/" rel="noopener" target="_blank">@dream.menu on Instagram</a></div></footer>
+
+<script>window.DM_TILES=true;</script>
+<script src="/dm.js"></script>
+<script src="/world-topo.js"></script>
+<script src="/partner/map-trends.js" onerror="void 0"></script>
+<script>if(window.DM_TRENDS){window.DM.markets.forEach(function(m){if(DM_TRENDS[m.id])m.qs=DM_TRENDS[m.id]})}</script>
+<script src="/lib/leaflet.js"></script>
+<script src="/lib/leaflet.markercluster.js"></script>
+<script src="/lib/topojson-client.min.js"></script>
+<script src="/awards.js"></script>
+<script>
+(function(){
+"use strict";
+var D=window.DM, META=D.meta, TILES=!!window.DM_TILES;
+var fmt=function(n){return (n||0).toLocaleString('en-GB')};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var COURSE={s:'Starter',m:'Main',d:'Side',p:'Dessert',k:'Soft drink',a:'Alcoholic drink',h:'Hidden gem or next stop'};
+var KIND={world:'World',region:'Region',country:'Country',nation:'Nation',city:'City'};
+var PREC={exact:'Address confirmed',street:'Placed on the right street',neighbourhood:'Placed in the right neighbourhood',district:'Placed in the right postcode district',town:'Placed in the right town',citycentre:'Placed in the likely city; exact spot not known',city:'Named here, not yet pinned',country:'Country only',region:'Region only',none:'Location not yet known'};
+var REGION_VIEW={'Europe':[[52,8],4],'North America':[[40,-96],3],'Asia':[[22,100],3],'Oceania':[[-28,145],3],'Africa':[[2,20],3],'South America':[[-16,-60],3]};
+var MK={},VN={},KIDS={},SLUG={};
+D.markets.forEach(function(m){MK[m.id]=m});
+D.venues.forEach(function(v){VN[v.i]=v});
+function slug(s){return String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+function parentOf(m){
+  if(m.k==='world')return null;
+  if(m.k==='region')return 'world:World';
+  if(m.k==='country')return m.r&&MK['region:'+m.r]?'region:'+m.r:'world:World';
+  if(m.k==='nation')return 'country:'+m.co;
+  if(m.k==='city')return m.na&&MK['nation:'+m.na]?'nation:'+m.na:'country:'+m.co;
+}
+D.markets.forEach(function(m){
+  var p=parentOf(m); if(p&&MK[p]){(KIDS[p]=KIDS[p]||[]).push(m.id)}
+  var s=m.k==='world'?'world':m.k+'-'+slug(m.n)+(m.k==='city'?'-'+slug(m.co):'');
+  m.slug=s; SLUG[s]=m.id;
+});
+function inMarket(v,m){
+  switch(m.k){case 'world':return true;case 'region':return v.r===m.n;case 'country':return v.co===m.n;case 'nation':return v.na===m.n;case 'city':return v.c===m.n&&v.co===m.co}
+  return false;
+}
+function chain(id){var out=[],m=MK[id];while(m){out.unshift(m);var p=parentOf(m);m=p?MK[p]:null}return out}
+function css(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+
+/* ---------- hero, footer, selects ---------- */
+var guestsNaming=MK['world:World'].g;
+document.getElementById('hCountries').textContent=META.countries;
+document.getElementById('facts').innerHTML=[
+  [fmt(META.venues),'venues named'],[fmt(META.pinned),'on the map'],[fmt(META.cities),'cities'],[fmt(META.interviews),'dream-menu interviews']
+].concat([[fmt(META.mentions),'venue mentions']]).map(function(f){return '<div><b>'+f[0]+'</b> <span>'+f[1]+'</span></div>'}).join('');
+document.getElementById('foot').innerHTML=(window.DM_AWARDS?'<div>Awards: '+Object.keys(window.DM_AWARDS.sources).map(function(k){var s=window.DM_AWARDS.sources[k];return s.n+'. '+s.note}).join(' ')+' Venues on a list but not in the guide are placed in their city until a street address is confirmed.</div>':'')+
+  '<div>Data: '+fmt(META.interviews)+' dream-menu interviews to 19 October 2026. Venues mapped from interviews to 18 October 2026, the Dream Menu 2025/26 Google map list and venue research.</div>'+
+  '<div>Locations: '+fmt(META.located)+' confirmed addresses, '+fmt(META.approximate)+' approximate pins (street, neighbourhood or town level), '+fmt(META.unpinned)+' venues counted by city or country until an address is confirmed.</div>'+
+  '<div>Category shares appear once at least '+META.thresholds.min_guests_shares+' guests have named venues in a market; quarter-by-quarter lines need '+META.thresholds.min_mentions_trend+' mentions.</div>';
+var jump=document.getElementById('jump');
+(function(){
+  var groups=[['Regions','region'],['Countries','country'],['UK nations','nation'],['Cities','city']];
+  var h='<option value="world:World">World</option>';
+  groups.forEach(function(g){
+    var ms=D.markets.filter(function(m){return m.k===g[1]&&(g[1]!=='city'||m.v>=3)});
+    if(!ms.length)return;
+    ms.sort(function(a,b){return b.v-a.v||a.n.localeCompare(b.n)});
+    h+='<optgroup label="'+g[0]+'">'+ms.map(function(m){return '<option value="'+esc(m.id)+'">'+esc(m.n)+(m.k==='city'&&m.co!=='United Kingdom'?', '+esc(m.co):'')+' ('+m.v+')</option>'}).join('')+'</optgroup>';
+  });
+  jump.innerHTML=h;
+})();
+var fCourse=document.getElementById('fCourse');
+fCourse.innerHTML+=Object.keys(COURSE).map(function(k){return '<option value="'+k+'">'+COURSE[k]+'</option>'}).join('');
+
+/* ---------- map ---------- */
+var map=L.map('map',{zoomControl:true,worldCopyJump:true,minZoom:2,maxZoom:18,zoomSnap:1,zoomDelta:1,wheelPxPerZoomLevel:100});window.dmMap=map;map.createPane('basemap').style.zIndex=150;map.getPane('basemap').style.pointerEvents='none';
+map.createPane('labels').style.zIndex=450; map.getPane('labels').style.pointerEvents='none';
+map.createPane('areas').style.zIndex=590;
+function worldZoom(){var w=document.getElementById('map').clientWidth||600;return Math.max(2,Math.floor(Math.log2(w/256)))}
+var basemapLayer=null, tileLayer=null;
+function drawBasemap(){
+  if(!window.WORLD||!window.topojson)return;
+  var land=topojson.feature(window.WORLD,window.WORLD.objects.countries);
+  if(basemapLayer)map.removeLayer(basemapLayer);
+  basemapLayer=L.geoJSON(land,{interactive:false,pane:'basemap',renderer:L.canvas({padding:0.3,pane:'basemap'}),style:{color:css('--coast'),weight:0.7,fillColor:css('--land'),fillOpacity:1}}).addTo(map);
+  basemapLayer.bringToBack();
+}
+function isDark(){var t=document.documentElement.getAttribute('data-theme');if(t)return t==='dark';return matchMedia('(prefers-color-scheme: dark)').matches}
+function drawTiles(){
+  if(!TILES)return;
+  if(tileLayer)map.removeLayer(tileLayer);
+  tileLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{minZoom:0,maxZoom:19,keepBuffer:6,updateWhenZooming:false,className:'dm-tiles',attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);tileLayer.on('tileerror',function(e){if(e.tile)e.tile.style.visibility='hidden'});
+}
+drawBasemap(); drawTiles();
+map.attributionControl.setPrefix(false);
+map.attributionControl.addAttribution('Coastlines: Natural Earth');
+function retheme(){drawBasemap();drawTiles();buildAreas();if(typeof drawLabels==='function')drawLabels()}
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme)}catch(e){}
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+var cluster=L.markerClusterGroup({showCoverageOnHover:false,removeOutsideVisibleBounds:false,maxClusterRadius:function(z){return z>=16?14:z>=14?22:z>=12?32:44},spiderfyOnMaxZoom:true,chunkedLoading:true,
+  iconCreateFunction:function(c){var n=c.getChildCount(),s=n>=100?44:n>=20?38:32;return L.divIcon({html:'<span>'+n+'</span>',className:'dm-cluster',iconSize:[s,s]})}});
+map.addLayer(cluster);
+var areaLayer=L.layerGroup().addTo(map);
+var markers={}, selected=null;
+function size(v){return v.m>=8?20:v.m>=3?16:13}
+function pinIcon(v,sel){var s=size(v);return L.divIcon({className:'dm-pin '+(v.t==='L'?'is-located':'is-approx')+(sel?' is-sel':''),html:'<i></i>',iconSize:[s,s]})}
+function passCourse(v){var c=fCourse.value;return !c||(v.cs&&v.cs[c])}
+function buildPins(){
+  cluster.clearLayers(); markers={};
+  var showA=document.getElementById('fApprox').checked, list=[];
+  D.venues.forEach(function(v){
+    if(v.la==null)return; if(v.t==='A'&&!showA)return; if(!passCourse(v))return;
+    var mk=L.marker([v.la,v.lo],{icon:pinIcon(v,v.i===selected),title:v.n,keyboard:false});
+    mk.bindTooltip(esc(v.n)+(v.m?' · named '+v.m+'×':''),{direction:'top',offset:[0,-8]});
+    mk.on('click',function(){showVenue(v.i,false)});
+    markers[v.i]=mk; list.push(mk);
+  });
+  cluster.addLayers(list);
+}
+function buildAreas(){
+  areaLayer.clearLayers();
+  if(!document.getElementById('fArea').checked)return;
+  var groups={};
+  D.venues.forEach(function(v){
+    if(v.la!=null||!v.ar||!passCourse(v))return;
+    var key=v.al==='country'?'co:'+v.co:'c:'+v.c+'|'+v.co;
+    var g=groups[key]||(groups[key]={ll:v.ar,n:0,m:0,label:v.al==='country'?v.co:v.c,level:v.al,co:v.co,c:v.c});
+    g.n++; g.m+=v.m;
+  });
+  Object.keys(groups).forEach(function(k){
+    var g=groups[k], d=Math.round(Math.min(46,Math.max(22,14+2.4*Math.sqrt(g.n))));
+    var cm=L.marker(g.ll,{pane:'areas',keyboard:false,icon:L.divIcon({className:'dm-area'+(g.level==='country'?' is-country':''),html:'<span>'+g.n+'</span>',iconSize:[d,d]})});
+    cm.bindTooltip(fmt(g.n)+' venue'+(g.n===1?'':'s')+' named in '+esc(g.label)+', not yet pinned',{direction:'top'});
+    cm.on('click',function(){
+      var id=g.level==='country'?'country:'+g.co:'city:'+g.c+'|'+g.co;
+      if(MK[id])showMarket(id,true);
+    });
+    areaLayer.addLayer(cm);
+  });
+}
+var HOODS=[['Finnieston',55.8640,-4.2850],['West End',55.8745,-4.2930],['Partick',55.8700,-4.3080],['Merchant City',55.8590,-4.2440],['City Centre',55.8615,-4.2560],
+ ['Shawlands',55.8290,-4.2840],['Strathbungo',55.8370,-4.2740],['Govanhill',55.8370,-4.2590],['Dennistoun',55.8600,-4.2130],['Southside',55.8350,-4.2700],['Calton',55.8540,-4.2370],
+ ['Woodlands',55.8690,-4.2770],['Hyndland',55.8775,-4.3110],['Pollokshields',55.8410,-4.2800],['Leith',55.9745,-3.1720],['Stockbridge',55.9585,-3.2085],['New Town',55.9545,-3.1980],
+ ['Old Town',55.9495,-3.1900],['Bruntsfield',55.9385,-3.2065],['Morningside',55.9290,-3.2100],['Marchmont',55.9370,-3.1950],['Newington',55.9380,-3.1780],['Haymarket',55.9460,-3.2180],
+ ['Portobello',55.9530,-3.1100],['Broughton',55.9590,-3.1890],['Tollcross',55.9435,-3.2040],['Soho',51.5136,-0.1340],['Shoreditch',51.5255,-0.0790],['Covent Garden',51.5117,-0.1240],
+ ['Islington',51.5362,-0.1033],['Borough',51.5011,-0.0941],['Hackney',51.5450,-0.0553],['Mayfair',51.5100,-0.1470],['Clapham',51.4622,-0.1384],['Peckham',51.4740,-0.0690]];
+var labelLayer=L.layerGroup().addTo(map), CITYLAB=[];
+(function(){
+  D.markets.forEach(function(m){
+    if(m.k!=='city'||m.v<2)return;
+    var la=[],lo=[],ar=null;
+    D.venues.forEach(function(v){if(v.c===m.n&&v.co===m.co){if(v.la!=null){la.push(v.la);lo.push(v.lo)}else if(v.ar&&!ar)ar=v.ar}});
+    var pt=la.length?[quant(la,.5),quant(lo,.5)]:ar; if(pt)CITYLAB.push([m.n,pt[0],pt[1],m.v]);
+  });
+})();
+function drawLabels(){
+  labelLayer.clearLayers(); if(TILES||!map._loaded)return;
+  var z=map.getZoom(), b=map.getBounds().pad(0.2);
+  var lab=function(t,la,lo,cls){if(!b.contains([la,lo]))return;labelLayer.addLayer(L.marker([la,lo],{pane:'labels',interactive:false,keyboard:false,icon:L.divIcon({className:'dm-label'+(cls?' '+cls:''),html:'<span>'+esc(t)+'</span>',iconSize:[0,0]})}))};
+  if(z>=11.5){HOODS.forEach(function(h){lab(h[0],h[1],h[2],'hood')});return}
+  if(z<3.5)return;
+  var min=z<5?40:z<6.5?12:z<8?5:2;
+  CITYLAB.forEach(function(c){if(c[3]>=min)lab(c[0],c[1],c[2])});
+}
+map.on('zoomend moveend',drawLabels);
+['fApprox','fArea'].forEach(function(id){document.getElementById(id).addEventListener('change',function(){buildPins();buildAreas()})});
+fCourse.addEventListener('change',function(){buildPins();buildAreas();renderCurrent()});
+
+function quant(arr,q){var a=arr.slice().sort(function(x,y){return x-y});var i=Math.min(a.length-1,Math.max(0,Math.round(q*(a.length-1))));return a[i]}
+function focusMarket(m,animate){
+  if(m.k==='world'){map.setView([30,12],worldZoom(),{animate:animate});return}
+  if(m.k==='region'&&REGION_VIEW[m.n]){var rv=REGION_VIEW[m.n];map.setView(rv[0],rv[1],{animate:animate});return}
+  var la=[],lo=[],ar=null;
+  D.venues.forEach(function(v){if(!inMarket(v,m))return;if(v.la!=null){la.push(v.la);lo.push(v.lo)}else if(v.ar&&!ar)ar=v.ar});
+  if(la.length){
+    var q=la.length>=8?0.04:0;
+    var b=L.latLngBounds([quant(la,q),quant(lo,q)],[quant(la,1-q),quant(lo,1-q)]);
+    map.fitBounds(b.pad(0.12),{maxZoom:m.k==='city'?14:10,animate:animate});
+  }else if(ar){map.setView(ar,m.k==='city'?12:5,{animate:animate})}
+}
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- panel ---------- */
+var panel=document.getElementById('panel'), state={market:'world:World',venue:null,award:null,showAllKids:false,showAllAw:false};
+function crumbs(id,extra){
+  var c=chain(id), h='';
+  c.forEach(function(m,i){
+    var last=i===c.length-1&&!extra;
+    h+=(i?'<span class="sep">/</span>':'')+(last?'<span class="here">'+esc(m.n)+'</span>':'<button type="button" data-m="'+esc(m.id)+'">'+esc(m.n)+'</button>');
+  });
+  if(extra)h+='<span class="sep">/</span><span class="here">'+esc(extra)+'</span>';
+  var el=document.getElementById('crumbs'); el.innerHTML=h;
+}
+document.getElementById('crumbs').addEventListener('click',function(e){var b=e.target.closest('button[data-m]');if(b)showMarket(b.dataset.m,true)});
+function tierCounts(m){var t={L:0,A:0,U:0};D.venues.forEach(function(v){if(inMarket(v,m)&&passCourse(v))t[v.t]++});return t}
+function sparkline(m){
+  if(!m.qs)return '<section class="blk"><h3>Trend by quarter <small>partners</small></h3><p class="note">Quarter-by-quarter trends are part of the Dream Menu partner service. <a href="/login?next=/map">Partner sign-in</a></p></section>';
+  var qs=META.quarters.filter(function(q){return (META.qtot[q]||0)>=200});
+  if(qs.length<3)return '';
+  var share=m.k!=='world', pts=qs.map(function(q){var n=m.qs[q]||0;return share?100*n/META.qtot[q]:n});
+  var W=320,H=84,pl=34,pr=8,pt=10,pb=18, max=Math.max.apply(null,pts)*1.15||1, min=share?0:0;
+  var x=function(i){return pl+(W-pl-pr)*i/(qs.length-1)}, y=function(v){return pt+(H-pt-pb)*(1-(v-min)/(max-min))};
+  var path=pts.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' ');
+  var area=path+' L'+x(pts.length-1).toFixed(1)+' '+(H-pb)+' L'+x(0).toFixed(1)+' '+(H-pb)+' Z';
+  var lab=function(v){return share?(v<10?v.toFixed(1):Math.round(v))+'%':fmt(Math.round(v))};
+  var g='<svg class="spark" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+(share?'Share of all venue mentions by quarter':'Venue mentions by quarter')+'">'+
+    '<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+(H-pb)+'" y2="'+(H-pb)+'" stroke="var(--rule-strong)" stroke-width="1"/>'+
+    '<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(max/1.15/2)+'" y2="'+y(max/1.15/2)+'" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 3"/>'+
+    '<path d="'+area+'" fill="var(--accent-soft)" stroke="none"/>'+
+    '<path d="'+path+'" fill="none" stroke="var(--accent)" stroke-width="2"/>'+
+    '<circle cx="'+x(pts.length-1)+'" cy="'+y(pts[pts.length-1])+'" r="3.5" fill="var(--accent)"/>'+
+    '<text x="'+(pl-6)+'" y="'+(y(max/1.15/2)+3)+'" text-anchor="end">'+lab(max/1.15/2)+'</text>'+
+    '<text x="'+(pl-6)+'" y="'+(H-pb+3)+'" text-anchor="end">0</text>'+
+    qs.map(function(q,i){return (i===0||i===qs.length-1)?'<text x="'+x(i)+'" y="'+(H-4)+'" text-anchor="'+(i?'end':'start')+'">'+q.replace('-',' ')+'</text>':''}).join('')+
+    '<text x="'+x(pts.length-1)+'" y="'+(y(pts[pts.length-1])-7)+'" text-anchor="end" style="fill:var(--ink)">'+lab(pts[pts.length-1])+'</text></svg>';
+  return '<section class="blk"><h3>'+(share?'Share of all venue mentions':'Venue mentions')+' <small>by quarter</small></h3>'+g+
+    '<p class="note">'+(share?'How much of every quarter\'s naming lands in '+esc(m.n)+'. Quarters with fewer than 200 mentions in total are left out.':'Mentions follow interview volume, so read this as activity, not popularity.')+'</p></section>';
+}
+function marketHTML(m){
+  var t=tierCounts(m), tot=t.L+t.A+t.U||1, deep=m.so, c=fCourse.value;
+  var kindLabel=KIND[m.k]+(m.k==='city'&&m.co?' · '+m.co:'');
+  var lede=m.k==='world'
+    ? 'Guests have named '+fmt(m.v)+' venues across '+META.countries+' countries. '+fmt(META.pinned)+' are on the map; the rest are counted by city or country until an address is confirmed.'
+    : (deep?fmt(m.g)+' guests have named venues here, enough to read the mix with confidence.'
+           :'Only '+fmt(m.g)+' guest'+(m.g===1?' has':'s have')+' named venues here so far. Treat this as an early signal, not a trend.');
+  var h='<div class="kind"><span class="eyebrow">'+esc(kindLabel)+'</span>'+(m.k!=='world'?'<span class="badge '+(deep?'deep':'early')+'">'+(deep?'Deep market':'Early signal')+'</span>':'')+'</div>'+
+    '<h2>'+esc(m.n)+'</h2><p class="lede">'+lede+'</p>'+
+    '<div class="stats"><div><b>'+fmt(m.v)+'</b><span>venues named</span></div><div><b>'+fmt(m.pn)+'</b><span>on the map</span></div><div><b>'+fmt(m.mn)+'</b><span>mentions</span></div><div><b>'+fmt(m.g)+'</b><span>guests</span></div></div>';
+  h+='<section class="blk"><h3>Map coverage'+(c?' <small>'+COURSE[c]+' only</small>':'')+'</h3><div class="cov" role="img" aria-label="'+t.L+' confirmed, '+t.A+' approximate, '+t.U+' not yet pinned">'+
+     '<i class="l" style="width:'+(100*t.L/tot)+'%"></i><i class="a" style="width:'+(100*t.A/tot)+'%"></i><i class="u" style="width:'+(100*t.U/tot)+'%"></i></div>'+
+     '<div class="covkey"><span><i class="dot L"></i> '+fmt(t.L)+' confirmed</span><span><i class="dot A"></i> '+fmt(t.A)+' approximate</span><span><i class="dot U"></i> '+fmt(t.U)+' not yet pinned</span></div></section>';
+  if(m.cat&&m.cat.length){
+    h+='<section class="blk"><h3>What guests name here <small>dish category, all courses</small></h3><ol class="menu">'+
+      m.cat.slice(0,deep?8:5).map(function(r){return '<li><span class="dish">'+esc(r[0])+'</span><span class="dots"></span><span class="price">'+(deep?r[2]+'%':r[1]+' <small>named</small>')+'</span></li>'}).join('')+'</ol>'+
+      (deep?'':'<p class="note">Shown as counts. Shares appear once '+META.thresholds.min_guests_shares+' guests have named venues here.</p>')+'</section>';
+  }
+  var cs=m.cs||{}, ctot=0; Object.keys(cs).forEach(function(k){ctot+=cs[k]});
+  if(ctot){
+    h+='<section class="blk"><h3>By course <small>where in the menu venues are named</small></h3><ol class="menu">'+
+      Object.keys(COURSE).filter(function(k){return cs[k]}).map(function(k){return '<li><span class="dish">'+COURSE[k]+'</span><span class="dots"></span><span class="price">'+fmt(cs[k])+(deep?' <small>'+Math.round(100*cs[k]/ctot)+'%</small>':'')+'</span></li>'}).join('')+'</ol></section>';
+  }
+  if(m.to)h+=sparkline(m);
+  var top=(m.top||[]).map(function(id){return VN[id]}).filter(function(v){return v&&passCourse(v)});
+  if(top.length){
+    h+='<section class="blk"><h3>Most named venues <small>times named</small></h3><ol class="rank">'+top.map(function(v){
+      var sub=[v.tw||v.c,m.k==='city'?'':(v.co!=='United Kingdom'?v.co:'')].filter(Boolean).join(', ');
+      return '<li><button type="button" data-v="'+esc(v.i)+'"><i class="dot '+v.t+'" title="'+esc(PREC[v.p]||'')+'"></i><span class="nm">'+esc(v.n)+(sub?'<span class="sub">'+esc(sub)+(v.s==='closed'?' · closed':'')+'</span>':'')+'</span><span class="n">'+(v.m||'')+'</span></button></li>'}).join('')+'</ol></section>';
+  }
+  h+=recognitionHTML(m);
+  var kids=(KIDS[m.id]||[]).map(function(id){return MK[id]}).sort(function(a,b){return b.v-a.v||a.n.localeCompare(b.n)});
+  if(kids.length){
+    var lab={world:'Regions',region:'Countries',country:MK['nation:Scotland']&&m.n==='United Kingdom'?'Nations':'Cities',nation:'Cities and towns',city:''}[m.k];
+    var shown=state.showAllKids?kids:kids.slice(0,12);
+    h+='<section class="blk"><h3>'+lab+' <small>'+kids.length+'</small></h3><div class="kids">'+shown.map(function(k){
+      return '<button type="button" data-m="'+esc(k.id)+'"><b>'+esc(k.n)+'</b><span>'+fmt(k.v)+' venue'+(k.v===1?'':'s')+' · '+fmt(k.g)+' guest'+(k.g===1?'':'s')+'</span>'+(k.so?'':'<em>Early signal</em>')+'</button>'}).join('')+'</div>'+
+      (kids.length>12&&!state.showAllKids?'<button type="button" class="more" data-more="1">Show all '+kids.length+'</button>':'')+'</section>';
+  }
+  h+='<div class="method"><div><i class="dot L"></i> Address confirmed: located from a verified address or postcode.</div><div><i class="dot A"></i> Approximate: placed on the right street, in the right neighbourhood or town from the guest\'s own words or venue research.</div><div><i class="dot U"></i> Not yet pinned: counted in its city or country until an address is confirmed.</div></div>';
+  return h;
+}
+function venueHTML(v){
+  var m=MK[state.market], where=PREC[v.p]||'';
+  var place=[v.tw,v.c,v.na&&v.na!==v.c?v.na:'',v.co].filter(function(x,i,a){return x&&a.indexOf(x)===i}).join(', ');
+  var h='<button type="button" class="back" data-m="'+esc(state.market)+'">Back to '+esc(m.n)+'</button>'+
+    '<div class="kind"><span class="eyebrow">'+esc(v.y==='chain'?'Chain':v.y==='producer'?'Producer':v.y==='area'?'Area':'Venue')+'</span>'+(v.s==='closed'?'<span class="badge closed">Closed</span>':'')+(v.u?'<span class="badge early">Needs checking</span>':'')+'</div>'+
+    '<h2>'+esc(v.n)+'</h2><p class="lede">'+esc(place||'Location not yet known')+'</p>'+
+    '<div class="where"><i class="dot '+v.t+'" style="margin-top:4px;flex:none"></i><div><b>'+esc(where)+'</b>'+(v.ad?'<br>'+esc(v.ad):'')+(v.no?'<br><span style="color:var(--muted)">'+esc(v.no)+'</span>':'')+(v.su?'<br><a href="'+esc(v.su)+'" target="_blank" rel="noopener">Source for this location</a>':'')+'</div></div>'+
+    awardsForVenueHTML(v)+
+    '<div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><b>'+fmt(v.m)+'</b><span>times named</span></div><div><b>'+fmt(v.g)+'</b><span>guests</span></div></div>';
+  if(v.cs){h+='<section class="blk"><h3>Named for</h3><ol class="menu">'+Object.keys(COURSE).filter(function(k){return v.cs[k]}).map(function(k){return '<li><span class="dish">'+COURSE[k]+'</span><span class="dots"></span><span class="price">'+v.cs[k]+'</span></li>'}).join('')+'</ol></section>'}
+  if(v.q&&v.q.length){h+='<section class="blk"><h3>In the guests\' words</h3>'+v.q.map(function(q){return '<blockquote class="quote"><small>'+esc(COURSE[q[0]]||'')+'</small>'+esc(q[1])+'</blockquote>'}).join('')+'</section>'}
+  if(v.d&&v.d.length){h+='<section class="blk"><h3>On the Dream Menu map list</h3><div class="chips">'+v.d.map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('')+'</div></section>'}
+  if(v.k&&v.k.length){h+='<section class="blk"><h3>Dish categories</h3><div class="chips">'+v.k.map(function(k){return '<span class="chip">'+esc(k[0])+' · '+k[1]+'</span>'}).join('')+'</div></section>'}
+  return h;
+}
+function setHash(s){try{history.replaceState(null,'','#'+s)}catch(e){}}
+function renderCurrent(){if(state.award)showAward(state.award,false,true);else if(state.venue)showVenue(state.venue,false,true);else showMarket(state.market,false,true)}
+function showMarket(id,move,noHash){
+  var m=MK[id]; if(!m)return;
+  if(state.market!==id){state.showAllKids=false;state.showAllAw=false}
+  state.market=id; state.venue=null; state.award=null;
+  if(typeof awSelected!=='undefined'&&awSelected&&awMarkers[awSelected]){awMarkers[awSelected].setIcon(awIcon(AWI[awSelected],false));awSelected=null}
+  if(selected&&markers[selected])markers[selected].setIcon(pinIcon(VN[selected],false)); selected=null;
+  crumbs(id); jump.value=id; panel.innerHTML=marketHTML(m);
+  if(move)focusMarket(m,!reduce);
+  if(!noHash)setHash(m.slug);
+}
+function showVenue(vid,fly,noHash){
+  var v=VN[vid]; if(!v)return;
+  if(!state.venue){
+    var best=null; ['city','nation','country','region'].some(function(k){
+      var id=k==='city'?'city:'+v.c+'|'+v.co:k==='nation'?'nation:'+v.na:k==='country'?'country:'+v.co:'region:'+v.r;
+      if(MK[id]){best=id;return true} return false});
+    if(best&&!inMarket(v,MK[state.market]))state.market=best;
+  }
+  state.venue=vid; state.award=null;
+  if(selected&&markers[selected])markers[selected].setIcon(pinIcon(VN[selected],false));
+  selected=vid;
+  if(markers[vid])markers[vid].setIcon(pinIcon(v,true));
+  crumbs(state.market,v.n); panel.innerHTML=venueHTML(v);
+  if(fly){
+    if(v.la!=null){cluster.zoomToShowLayer(markers[vid]||L.marker([v.la,v.lo]),function(){});map.setView([v.la,v.lo],Math.max(map.getZoom(),14),{animate:!reduce})}
+    else if(v.ar){map.setView(v.ar,v.al==='country'?5:12,{animate:!reduce})}
+  }
+  if(window.innerWidth<980&&fly)document.getElementById('map').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  if(!noHash)setHash('venue-'+slug(v.i));
+}
+panel.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b)return;
+  if(b.dataset.a){showAward(b.dataset.a,true);return}
+  if(b.dataset.v){showVenue(b.dataset.v,true);return}
+  if(b.dataset.more){state.showAllKids=true;renderCurrent();return}
+  if(b.dataset.moreaw){state.showAllAw=true;renderCurrent();return}
+  if(b.dataset.m){showMarket(b.dataset.m,true);window.scrollTo({top:Math.min(window.scrollY,document.querySelector('.app').offsetTop-60),behavior:reduce?'auto':'smooth'})}
+});
+jump.addEventListener('change',function(){showMarket(jump.value,true)});
+
+/* ---------- search ---------- */
+var q=document.getElementById('q'), res=document.getElementById('results');
+var NAMES=D.venues.map(function(v){return [v.n.toLowerCase(),v.i]});
+function search(){
+  var s=q.value.trim().toLowerCase(); if(s.length<2){res.hidden=true;return}
+  var ms=D.markets.filter(function(m){return m.k!=='world'&&m.n.toLowerCase().indexOf(s)>=0}).sort(function(a,b){return b.v-a.v}).slice(0,5);
+  var vs=[];NAMES.forEach(function(p){if(p[0].indexOf(s)>=0)vs.push(VN[p[1]])});
+  vs.sort(function(a,b){return (a.n.toLowerCase().indexOf(s)===0?0:1)-(b.n.toLowerCase().indexOf(s)===0?0:1)||b.m-a.m});vs=vs.slice(0,8);
+  var as=[]; if(AWD&&s.length>=3){for(var i=0;i<AW.length&&as.length<40;i++){var nm=AW[i].n.toLowerCase();if(nm.indexOf(s)>=0)as.push(AW[i])}
+    as.sort(function(a,b){return (a.n.toLowerCase().indexOf(s)===0?0:1)-(b.n.toLowerCase().indexOf(s)===0?0:1)||a.t-b.t});as=as.slice(0,6)}
+  if(!ms.length&&!vs.length&&!as.length){res.innerHTML='<div style="padding:10px;font-size:13px;color:var(--muted)">No venue or place matches "'+esc(q.value)+'".</div>';res.hidden=false;return}
+  res.innerHTML=ms.map(function(m){return '<button type="button" data-m="'+esc(m.id)+'"><span>'+esc(m.n)+(m.k==='city'?', '+esc(m.co):'')+'</span><small>'+KIND[m.k]+'</small></button>'}).join('')+
+    vs.map(function(v){return '<button type="button" data-v="'+esc(v.i)+'"><span>'+esc(v.n)+'</span><small>'+esc(v.c||v.co||'Venue')+'</small></button>'}).join('')+
+    as.map(function(a){return '<button type="button" data-a="'+esc(a.i)+'"><span><i class="mk '+a.g+'"></i> '+esc(a.n)+'</span><small>'+esc(a.c)+' · award</small></button>'}).join('');
+  res.hidden=false;
+}
+q.addEventListener('input',search);
+q.addEventListener('keydown',function(e){if(e.key==='Enter'){var f=res.querySelector('button');if(f){f.click();e.preventDefault()}}if(e.key==='Escape'){res.hidden=true}});
+res.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;res.hidden=true;q.value='';
+  if(b.dataset.m)showMarket(b.dataset.m,true);else if(b.dataset.a)showAward(b.dataset.a,true);else if(b.dataset.v){showVenue(b.dataset.v,true)}});
+document.addEventListener('click',function(e){if(!e.target.closest('.search'))res.hidden=true});
+
+
+/* ---------- awards and guides ---------- */
+var AWD=window.DM_AWARDS||null, AW=[], AWI={}, AWBYDM={}, awMarkers={}, awSelected=null;
+var AWGROUP={m3:'star',m2:'star',m1:'star',fw:'fifty',fwx:'fifty',bw:'fifty',bwx:'fifty',fa:'fifty',fax:'fifty',fl:'fifty',flx:'fifty',fm:'fifty',ba:'fifty',bax:'fifty',bn:'fifty',bnx:'fifty',mg:'green',mb:'bib',ms:'sel'};
+var AWSTAR={m3:'Three MICHELIN Stars',m2:'Two MICHELIN Stars',m1:'One MICHELIN Star'};
+if(AWD&&AWD.groups)AWGROUP=AWD.groups;
+var SRCURL={}; if(AWD)Object.keys(AWD.sources).forEach(function(k){SRCURL[AWD.sources[k].n]=AWD.sources[k].url});
+function awSrc(code){return (AWD.legend[code]||['',''])[1]}
+if(AWD){
+  AWD.places.forEach(function(r){
+    var a={i:r[0],n:r[1],la:r[2],lo:r[3],c:r[4],cc:r[5],na:r[6],kd:r[7],pc:r[8],t:r[9],aw:r[10],cu:r[11],pr:r[12],ad:r[13],u:r[14],dm:r[15]||[]};
+    var cn=AWD.countries[a.cc]||[a.cc,''];a.co=cn[0];a.r=cn[1];
+    a.top=AWD.meta.order[a.t]; a.g=AWGROUP[a.top]||'sel';
+    a.codes={}; a.aw.forEach(function(x){a.codes[x[0]]=1});
+    AW.push(a); AWI[a.i]=a; a.dm.forEach(function(id){(AWBYDM[id]=AWBYDM[id]||[]).push(a.i)});
+  });
+}
+function awUrl(u){return !u?'':u.indexOf('M:')===0?'https://guide.michelin.com/en/'+u.slice(2):u.indexOf('F:')===0?'https://www.the50.com/'+u.slice(2):u}
+function awLabel(x){return (AWD.legend[x[0]]||[x[0]])[0]}
+function awText(x){return (x[2]?'#'+x[2]+' ':'')+awLabel(x).replace(' 51-100','')+(awSrc(x[0])!=='MICHELIN Guide'?' '+x[1]:'')}
+var fAw=document.getElementById('fAw'), fAwKind=document.getElementById('fAwKind');
+if(!AWD)document.getElementById('awbar').hidden=true;
+function awPass(a){
+  var k=fAwKind.value, c=a.codes;
+  if(k==='all')return true;
+  if(k.indexOf('src:')===0){var sn=k.slice(4);return Object.keys(c).some(function(x){return awSrc(x)===sn})}
+  if(k==='stars')return c.m1||c.m2||c.m3;
+  if(k==='fifty')return a.g==='fifty'||Object.keys(c).some(function(x){return AWGROUP[x]==='fifty'});
+  if(k==='fiftyr')return Object.keys(c).some(function(x){return AWGROUP[x]==='fifty'&&x.charAt(0)==='f'});
+  if(k==='fiftyb')return Object.keys(c).some(function(x){return AWGROUP[x]==='fifty'&&x.charAt(0)==='b'});
+  if(k==='bib')return c.mb; if(k==='green')return c.mg; if(k==='sel')return c.ms;
+  if(k==='top')return a.g==='star'||a.g==='fifty'||Object.keys(c).some(function(x){return AWGROUP[x]==='fifty'});
+  return true;
+}
+var awCluster=L.markerClusterGroup({showCoverageOnHover:false,removeOutsideVisibleBounds:false,maxClusterRadius:function(z){return z>=15?24:z>=12?36:50},spiderfyOnMaxZoom:true,chunkedLoading:true,chunkInterval:120,
+  iconCreateFunction:function(c){var n=c.getChildCount(),s=n>=1000?46:n>=100?40:n>=20?34:30;return L.divIcon({html:'<span><b>'+(n>=10000?Math.round(n/1000)+'k':fmt(n))+'</b></span>',className:'aw-cluster',iconSize:[s,s]})}});
+map.addLayer(awCluster);
+var AWICON={};
+function awIcon(a,sel){
+  var s=a.g==='star'?(a.top==='m3'?16:a.top==='m2'?14:12):a.g==='fifty'||a.g==='guide'?13:a.g==='sel'?9:11;
+  var key=a.g+'|'+s+'|'+a.pc+'|'+(sel?1:0);
+  return AWICON[key]||(AWICON[key]=L.divIcon({className:'aw-pin t-'+a.g+(a.pc==='c'?' is-city':'')+(sel?' is-sel':''),html:'<i></i>',iconSize:[s,s]}));
+}
+function buildAwards(){
+  awCluster.clearLayers(); awMarkers={};
+  if(!AWD||!fAw.checked)return;
+  var list=[];
+  AW.forEach(function(a){
+    if(!awPass(a))return;
+    var mk=L.marker([a.la,a.lo],{icon:awIcon(a,a.i===awSelected),title:a.n,keyboard:false});
+    mk.on('mouseover',function(){if(!mk.getTooltip())mk.bindTooltip(esc(a.n)+' · '+esc(awText(a.aw.slice().sort(function(x,y){return AWD.meta.order.indexOf(x[0])-AWD.meta.order.indexOf(y[0])})[0])),{direction:'top',offset:[0,-6]}).openTooltip()});
+    mk.on('click',function(){showAward(a.i,false)});
+    awMarkers[a.i]=mk; list.push(mk);
+  });
+  awCluster.addLayers(list);
+}
+fAw.addEventListener('change',function(){buildAwards();renderCurrent()});
+fAwKind.addEventListener('change',function(){if(!fAw.checked)fAw.checked=true;buildAwards();renderCurrent()});
+var CITYPT={};
+CITYLAB.forEach(function(c){});
+D.markets.forEach(function(m){
+  if(m.k!=='city')return; var la=[],lo=[],ar=null;
+  D.venues.forEach(function(v){if(v.c===m.n&&v.co===m.co){if(v.la!=null){la.push(v.la);lo.push(v.lo)}else if(v.ar&&!ar)ar=v.ar}});
+  CITYPT[m.id]=la.length?[quant(la,.5),quant(lo,.5)]:ar;
+});
+function kmD(a,b,c,d){var p=Math.PI/180,x=Math.pow(Math.sin((c-a)*p/2),2)+Math.cos(a*p)*Math.cos(c*p)*Math.pow(Math.sin((d-b)*p/2),2);return 12742*Math.asin(Math.sqrt(x))}
+function awInMarket(a,m){
+  switch(m.k){case 'world':return true;case 'region':return a.r===m.n;case 'country':return a.co===m.n;case 'nation':return a.na===m.na||a.na===m.n;
+  case 'city':var pt=CITYPT[m.id];return !!pt&&a.co===m.co&&kmD(pt[0],pt[1],a.la,a.lo)<=12}
+  return false;
+}
+function awOrder(a,b){return a.t-b.t||(b.aw.length-a.aw.length)||a.n.localeCompare(b.n)}
+function recognitionHTML(m){
+  if(!AWD||!fAw.checked)return '';
+  var ps=AW.filter(function(a){return awInMarket(a,m)&&awPass(a)});
+  if(!ps.length)return '<section class="blk"><h3>Awards and guides <small>none here for this filter</small></h3><p class="note">No venue in '+esc(m.n)+' holds the selected recognition in the guides and lists covered so far.</p></section>';
+  var c={star:0,m3:0,fifty:0,bib:0,green:0,sel:0,guide:0};
+  ps.forEach(function(a){if(a.codes.m1||a.codes.m2||a.codes.m3)c.star++;if(a.codes.m3)c.m3++;if(Object.keys(a.codes).some(function(x){return AWGROUP[x]==='fifty'}))c.fifty++;if(a.codes.mb)c.bib++;if(a.codes.mg)c.green++;if(a.codes.ms)c.sel++;if(Object.keys(a.codes).some(function(x){return AWGROUP[x]==='guide'}))c.guide++});
+  var tiles=[['star',c.star,'MICHELIN Starred'+(c.m3?' ('+c.m3+' with three)':'')],['fifty',c.fifty,'on a 50 Best list'],['guide',c.guide,'in other guides'],['bib',c.bib,'Bib Gourmand'],['green',c.green,'Green Star'],['sel',c.sel,'Guide selected']].filter(function(t){return t[1]});
+  var guestHits=ps.filter(function(a){return a.dm.length}).length;
+  var top=ps.slice().sort(awOrder).slice(0,state.showAllAw?60:10);
+  return '<section class="blk"><h3>Awards and guides <small>'+fmt(ps.length)+' recognised venue'+(ps.length===1?'':'s')+'</small></h3>'+
+    '<div class="recog">'+tiles.map(function(t){return '<div><b>'+fmt(t[1])+'</b><span><i class="mk '+t[0]+'"></i>'+t[2]+'</span></div>'}).join('')+'</div>'+
+    (guestHits?'<p class="note" style="margin:0 0 10px">'+fmt(guestHits)+' of these '+(guestHits===1?'is':'are')+' also named by Dream Menu guests.</p>':'')+
+    '<ol class="rank">'+top.map(function(a){
+      var best=a.aw.slice().sort(function(x,y){return AWD.meta.order.indexOf(x[0])-AWD.meta.order.indexOf(y[0])})[0];
+      return '<li><button type="button" data-a="'+esc(a.i)+'"><i class="mk '+a.g+'"></i><span class="nm">'+esc(a.n)+'<span class="sub">'+esc(awText(best))+' · '+esc([a.c,m.k==='city'?'':a.co].filter(Boolean).join(', '))+(a.dm.length?' · named by guests':'')+'</span></span><span class="n">'+(a.aw.length>1?a.aw.length+' awards':'')+'</span></button></li>'}).join('')+'</ol>'+
+    (ps.length>10&&!state.showAllAw?'<button type="button" class="more" data-moreaw="1">Show the top '+Math.min(60,ps.length)+'</button>':'')+'</section>';
+}
+function awardsForVenueHTML(v){
+  var ids=AWBYDM[v.i]; if(!AWD||!ids)return '';
+  return ids.map(function(id){var a=AWI[id];return '<button type="button" class="dmlink" data-a="'+esc(a.i)+'"><b>Recognised:</b> '+a.aw.map(function(x){return esc(awText(x))+(awSrc(x[0])==='MICHELIN Guide'?' '+x[1]:'')}).join(' · ')+'<br><span style="color:var(--muted)">See the full award record for '+esc(a.n)+'</span></button>'}).join('');
+}
+function awardHTML(a){
+  var m=MK[state.market]||MK['world:World'];
+  var sorted=a.aw.slice().sort(function(x,y){return y[1]-x[1]||AWD.meta.order.indexOf(x[0])-AWD.meta.order.indexOf(y[0])});
+  var star=sorted.filter(function(x){return AWSTAR[x[0]]})[0], fifty=sorted.filter(function(x){return AWGROUP[x[0]]==='fifty'})[0];
+  var h='<button type="button" class="back" data-m="'+esc(state.market)+'">Back to '+esc(m.n)+'</button>'+
+    '<div class="kind"><span class="eyebrow">'+(a.kd==='b'?'Bar':'Restaurant')+(a.cu?' · '+esc(a.cu):'')+(a.pr?' · '+esc(a.pr):'')+'</span>'+
+    (star?'<span class="badge aw">'+esc(AWSTAR[star[0]])+'</span>':'')+(fifty?'<span class="badge fifty">50 Best</span>':'')+(sorted.some(function(x){return AWGROUP[x[0]]==='guide'})?'<span class="badge guide">Guide awards</span>':'')+'</div>'+
+    '<h2>'+esc(a.n)+'</h2><p class="lede">'+esc([a.c,a.na&&a.na!==a.c?a.na:'',a.co].filter(Boolean).join(', '))+'</p>';
+  if(a.dm.length){h+=a.dm.map(function(id){var v=VN[id];return v?'<button type="button" class="dmlink" data-v="'+esc(v.i)+'"><b>Named by Dream Menu guests</b> '+fmt(v.m)+' time'+(v.m===1?'':'s')+'. Open the guest record for '+esc(v.n)+'.</button>':''}).join('')}
+  h+='<section class="blk"><h3>What it won and when <small>'+a.aw.length+' award'+(a.aw.length===1?'':'s')+'</small></h3><ul class="awlist">'+sorted.map(function(x){
+    var g=AWGROUP[x[0]], lab=awLabel(x), src=awSrc(x[0]); if(src==='50 Best')src="The World's 50 Best";
+    var note=src==='MICHELIN Guide'?'2026 guide edition, as listed on '+AWD.meta.michelin_as_of.split('-').reverse().join('/'):
+      (g==='fifty'&&x[0].slice(-1)==='x'?'Extended list, positions 51 to 100':x[2]?'Ranked list':'Listed')+', '+x[1]+' edition';
+    return '<li><i class="mk '+g+'"></i><div><b>'+esc(lab.replace(' 51-100',''))+'</b><small>'+esc(src)+'. '+esc(note)+'</small></div><div style="text-align:right"><div class="yr">'+x[1]+'</div>'+(x[2]?'<div class="rk">No. '+x[2]+'</div>':'')+'</div></li>'}).join('')+'</ul></section>';
+  h+='<div class="where"><i class="mk '+a.g+'" style="margin-top:5px"></i><div><b>'+(a.pc==='e'?'Address from the guide':'Placed in the city centre')+'</b>'+(a.ad?'<br>'+esc(a.ad):'')+(a.pc==='c'?'<br><span style="color:var(--muted)">The list gives the city only. The street address will be added once confirmed.</span>':'')+'</div></div>';
+  var srcs={}; a.aw.forEach(function(x){var n=awSrc(x[0]);if(n!=='MICHELIN Guide'&&n!=='50 Best')srcs[n]=1});
+  h+='<div class="linkrow">'+(a.u?'<a href="'+esc(awUrl(a.u))+'" target="_blank" rel="noopener">'+(a.u.indexOf('M:')===0?'MICHELIN Guide page':a.u.indexOf('F:')===0?'50 Best list page':'Source list')+'</a>':'')+
+    Object.keys(srcs).map(function(n){return SRCURL[n]?'<a href="'+esc(SRCURL[n])+'" target="_blank" rel="noopener">'+esc(n)+'</a>':''}).join('')+'</div>';
+  return h;
+}
+function showAward(id,fly,noHash){
+  var a=AWI[id]; if(!a)return;
+  if(!fAw.checked){fAw.checked=true;buildAwards()}
+  if(awSelected&&awMarkers[awSelected])awMarkers[awSelected].setIcon(awIcon(AWI[awSelected],false));
+  awSelected=id; if(awMarkers[id])awMarkers[id].setIcon(awIcon(a,true));
+  if(!awInMarket(a,MK[state.market]||MK['world:World'])){var c=MK['country:'+a.co];state.market=c?c.id:'world:World'}
+  state.venue=null; state.award=id;
+  crumbs(state.market,a.n); panel.innerHTML=awardHTML(a);
+  if(fly){
+    var mk=awMarkers[id]; map.setView([a.la,a.lo],Math.max(map.getZoom(),15),{animate:!reduce});
+    if(mk&&awCluster.hasLayer(mk)){try{awCluster.zoomToShowLayer(mk,function(){})}catch(err){}}
+    if(window.innerWidth<980)document.getElementById('map').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  }
+  if(!noHash)setHash('award-'+a.i);
+}
+
+/* ---------- boot ---------- */
+buildPins(); buildAreas(); buildAwards();
+var h=(location.hash||'').replace('#','');
+if(h.indexOf('award-')===0&&AWI[h.slice(6)]){showMarket('world:World',false,true);showAward(h.slice(6),true,true)}
+else if(h.indexOf('venue-')===0){
+  var vid=D.venues.filter(function(v){return 'venue-'+slug(v.i)===h})[0];
+  if(vid){showMarket('world:World',false,true);showVenue(vid.i,true,true)}else showMarket('world:World',true,true);
+}else if(SLUG[h]){showMarket(SLUG[h],true,true)}
+else{showMarket(MK['nation:Scotland']?'nation:Scotland':'world:World',true,true)}
+window.addEventListener('hashchange',function(){var h=(location.hash||'').replace('#','');if(SLUG[h]&&SLUG[h]!==state.market)showMarket(SLUG[h],true,true)});
+setTimeout(function(){map.invalidateSize()},200);
+})();
+</script>
+
+</body></html>

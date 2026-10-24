@@ -1,0 +1,91 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/world",
+      "destination": "/map",
+      "permanent": true
+    },
+    {
+      "source": "/find-the-best",
+      "destination": "/rankings",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(dm|awards|world-topo)\\.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/partner-data.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/(briefing|geocoder|review|onepager|operators|insights|partner)(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'none'"
+        }
+      ]
+    },
+    {
+      "source": "/login(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
+      ]
+    },
+    {
+      "source": "/report/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ]
+    }
+  ]
+}
