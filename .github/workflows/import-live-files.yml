@@ -14,6 +14,7 @@ jobs:
         run: |
           B=https://www.dream-menu.com
           : > tools/import-report.txt
+          for u in $B/robots.txt https://dream-menu.com/robots.txt https://dream-menu-chi.vercel.app/robots.txt; do echo "probe $u $(curl -sS -o /tmp/p -w '%{http_code} %{size_download}' $u 2>&1) $(head -c 120 /tmp/p | tr '\n' ' ')" >> tools/import-report.txt; done
           left=""
           while read -r f sha; do
             [ -z "$f" ] && continue
