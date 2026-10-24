@@ -1,44 +1,44 @@
-probe https://www.dream-menu.com/robots.txt 404 79 The page could not be found  NOT_FOUND  sfo1::hwj84-1792847386482-d9c819935284 
+probe https://www.dream-menu.com/robots.txt 200 263 User-agent: * Disallow: /briefing Disallow: /onepager Disallow: /review Disallow: /geocoder Disallow: /login Disallow: /
 probe https://dream-menu.com/robots.txt 308 15 Redirecting... 
-probe https://dream-menu-chi.vercel.app/robots.txt 404 79 The page could not be found  NOT_FOUND  sfo1::jcw28-1792847386607-274734618540 
-MISSING 404.html 1161caca7fffef883bc17e5a8c227246f84399d3
-MISSING apple-touch-icon.png 81263ee7381998391e4c87d673912dd233ce7cfd
-MISSING awards.html 88ffe530f09b17f8b2f0ba610022b27ef56278b1
-MISSING awards.js 3af9a64e32c32ec40b717725256fbf5560ef1933
-MISSING brand.css cedbe0b5eb8253abc10b9fd3d2f5a2cda5ea5c94
-MISSING dunns.png 474daac17b2c961cd95aaf541804985b681df0a1
-MISSING favicon-32.png 19b9351543d3b6617bfe144e2d8ea06dd350db97
-MISSING favicon.ico 26663184f1d5491986ece3f99574f594a4adbbfa
-MISSING fonts/league-spartan-latin-600-normal.woff2 ccadd27e418b5edb65550bf239574b2ae79d7ddc
-MISSING fonts/league-spartan-latin-700-normal.woff2 92e085f298374f7fac5a56657bbd7734218d2b3e
-MISSING fonts/league-spartan-latin-800-normal.woff2 d76e9b44a20d8c9be05b3c6075be51d971ad918b
-MISSING fonts/public-sans-latin-400-italic.woff2 7059925d2958536e306d6487f936c8d7b2988d5f
-MISSING fonts/public-sans-latin-400-normal.woff2 897d92cc8218d1a13394009298004fad8f3d5ebe
-MISSING fonts/public-sans-latin-600-italic.woff2 347be301f14861524ab80d688c84319d477e061f
-MISSING fonts/public-sans-latin-600-normal.woff2 521637b6ad863839a930d34fbf69e704f9004a9c
-MISSING fonts/public-sans-latin-700-italic.woff2 366f7120b02cfd48144f90a5df0c7cad1e01e6a9
-MISSING fonts/public-sans-latin-700-normal.woff2 7c6a4faf15386fa7d0cc8a6d24c2df32db0dacfc
-MISSING for-business.html d24e7836274465912a3f530d7e1da8cf170094fc
-MISSING from-the-kitchen.html 6cd2ee8e021b71fb3e7c943627f26d75bae8a24d
-MISSING home.css ab3a51706a57a880faefa5f74dd2d0f994d28ac9
-MISSING how-it-works.html 1b3663b3f5ce33853eda45a4088a0747f1b2b8e2
-MISSING lib/leaflet.js 5a640ff863e7902a8cac2ce6ba37c87b30677761
-MISSING lib/leaflet.markercluster.js 19805c0db1d5e2876d3fab826c87ae0c103eedd8
-MISSING lib/topojson-client.min.js bc057598e85a2966c116346e159d053ef56307f0
-MISSING login.html 284f3819db119b0e0415a6f4fc6485a18a173d84
-MISSING logo-128.png 270574a3a2f5ad69375ac248280f39053446e2c8
-MISSING logo-192.png e1aa8124970c6c003f3ce55521771bed77b1980e
-MISSING logo-256.png c1093111f7d636584afec8d1bd791c97ac22687c
-MISSING logo-64.png 4c55a9c850ed7f5930df701655ecbac4e83456bc
-MISSING map-preview.png fd7c28c78a80b532d42efe1f224043cce5656554
-MISSING og.png 1dbcfcbc0d8b942de62b98a53c58a9162ca97f0e
-MISSING popular-venue-2026.png 925633ecafa943b093f76291a3438b9f15ddf348
-MISSING privacy.html f3effd51511ad690dd5c2943200fddb9421fa66b
-MISSING rankings.html 141315c5801ff903c07918b97a6c100382b04a29
-MISSING restaurant-mot.html c80d45a5c3a0cfc45146888c5296748597cd9a8c
-MISSING robots.txt 7c21d6e3d90deebdbd5d5bc1eca88eca74ae41da
-MISSING site.css 6f540f215868a81cb816a099271bd125e29fda7a
-MISSING sitemap.xml 2c132cdc4b0d61fd76aa7239e24a8ced37fd0027
-MISSING specials.html 244b072ca1609e8313651d1da865f214e6ba954e
-MISSING take-part.html ca1f135d2208295b6359eddbf502eee0619d74a4
-MISSING world-topo.js cba0a4630eab7b3c0a353e4f32250eecb8bed8da
+probe https://dream-menu-chi.vercel.app/robots.txt 200 263 User-agent: * Disallow: /briefing Disallow: /onepager Disallow: /review Disallow: /geocoder Disallow: /login Disallow: /
+ok 404.html
+ok apple-touch-icon.png
+ok awards.html
+ok awards.js
+ok brand.css
+ok dunns.png
+ok favicon-32.png
+ok favicon.ico
+ok fonts/league-spartan-latin-600-normal.woff2
+ok fonts/league-spartan-latin-700-normal.woff2
+ok fonts/league-spartan-latin-800-normal.woff2
+ok fonts/public-sans-latin-400-italic.woff2
+ok fonts/public-sans-latin-400-normal.woff2
+ok fonts/public-sans-latin-600-italic.woff2
+ok fonts/public-sans-latin-600-normal.woff2
+ok fonts/public-sans-latin-700-italic.woff2
+ok fonts/public-sans-latin-700-normal.woff2
+ok for-business.html
+ok from-the-kitchen.html
+ok home.css
+ok how-it-works.html
+ok lib/leaflet.js
+ok lib/leaflet.markercluster.js
+ok lib/topojson-client.min.js
+ok login.html
+ok logo-128.png
+ok logo-192.png
+ok logo-256.png
+ok logo-64.png
+ok map-preview.png
+ok og.png
+ok popular-venue-2026.png
+ok privacy.html
+ok rankings.html
+ok restaurant-mot.html
+ok robots.txt
+ok site.css
+ok sitemap.xml
+ok specials.html
+ok take-part.html
+ok world-topo.js

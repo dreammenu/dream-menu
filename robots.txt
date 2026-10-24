@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /briefing
+Disallow: /onepager
+Disallow: /review
+Disallow: /geocoder
+Disallow: /login
+Disallow: /partner-data.js
+Disallow: /report/
+Disallow: /operators
+Disallow: /insights
+Disallow: /partner
+Sitemap: https://www.dream-menu.com/sitemap.xml

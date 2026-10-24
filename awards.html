@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Award winners | Dream Menu</title>
+<meta name="description" content="Every MICHELIN Guide restaurant, 50 Best list and leading guide award on one searchable list, with what each venue won and when.">
+<link rel="canonical" href="https://www.dream-menu.com/awards">
+<meta property="og:title" content="Award winners | Dream Menu">
+<meta property="og:description" content="Every MICHELIN Guide restaurant, 50 Best list and leading guide award on one searchable list, with what each venue won and when.">
+<meta property="og:image" content="https://www.dream-menu.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/league-spartan-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/brand.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="mark" href="/"><img src="/logo-128.png" alt="" width="40" height="40">Dream Menu</a><nav class="nav" aria-label="Site"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/awards" aria-current="page">Awards</a><a href="/for-business">For business</a><a href="/partner">Partners <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><a class="takepart" href="/take-part">Take part</a></div></header>
+<main>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">Award winners</div>
+  <h1>21,008 recognised <em>venues</em></h1>
+  <p class="lede">Every venue on the map that holds a guide award: what it won, which edition, and whether Dream Menu guests name it too. 23,019 awards across 91 countries.</p>
+  <div class="facts"><div><b>3,880</b> <span>MICHELIN Starred</span></div><div><b>687</b> <span>on a 50 Best list</span></div><div><b>98</b> <span>also named by guests</span></div><div><b>15</b> <span>starred in Scotland</span></div></div>
+</div></section>
+<section><div class="wrap">
+  <div class="controls">
+    <label for="fGuide">Guide<select id="fGuide"><option value="">All guides</option></select></label>
+    <label for="fAward">Award<select id="fAward"><option value="">Any award</option></select></label>
+    <label for="fCountry">Country<select id="fCountry"><option value="">All countries</option></select></label>
+    <label for="fQ">Search<input id="fQ" type="search" placeholder="Venue or town" autocomplete="off"></label>
+    <label><span>Show</span><span class="seg" role="group" aria-label="Show"><button type="button" id="bAll" aria-pressed="true">All</button><button type="button" id="bGuest" aria-pressed="false">Named by guests</button></span></label>
+  </div>
+  <div class="pager" id="pagerTop"></div>
+  <div class="tablewrap"><table><thead><tr><th>Venue</th><th>Where</th><th>What it won and when</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="pager" id="pager"></div>
+  <p class="note">Sorted by the highest award each venue holds. MICHELIN distinctions are the 2026 guide editions as listed on 11/10/2026. Venues on a list but not in a guide with addresses are placed in their town. Sources: AA Rosettes, Gault&amp;Millau, La Liste, MICHELIN Guide, Opinionated About Dining, Tabelog Award, The Good Food Guide, The World&#x27;s 50 Best.</p>
+</div></section>
+</main>
+<footer class="foot"><div class="footband"><img src="/logo-128.png" alt="Dream Menu" width="64" height="64"><b>Dream Menu</b><span>Glasgow's food community, speaking for itself.</span></div><nav class="footlinks" aria-label="All pages"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/awards">Award winners</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/operators">Operator toolkit <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a><a href="/restaurant-mot">Restaurant MOT</a><a href="/specials">Specials</a><a href="/from-the-kitchen">From the kitchen</a><a href="/for-business">For business</a><a href="/take-part">Take part</a><a href="/how-it-works">How it works</a><a href="/partner">Partner area <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><div class="wrap"><span>Dream Menu, Glasgow. Data to 19 October 2026.</span><span><a href="/privacy">Privacy</a> · <a href="/partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/" rel="noopener" target="_blank">@dream.menu on Instagram</a></span></div></footer>
+<script src="/awards.js"></script>
+<script>
+(function(){
+"use strict";
+var A=window.DM_AWARDS, O=A.meta.order, L=A.legend, G=A.groups, PER=100, page=0, guestOnly=false;
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var fmt=function(n){return n.toLocaleString('en-GB')};
+var P=A.places.map(function(r){return {i:r[0],n:r[1],c:r[4],cc:r[5],na:r[6],t:r[9],aw:r[10].slice().sort(function(a,b){return O.indexOf(a[0])-O.indexOf(b[0])}),dm:(r[15]||[]).length,s:(r[1]+' '+r[4]).toLowerCase()}});
+function src(code){var s=(L[code]||['',''])[1];return s==='50 Best'?"The World's 50 Best":s}
+function label(a){var l=(L[a[0]]||[a[0]])[0].replace(' 51-100','');return (a[2]?'#'+a[2]+' ':'')+l+' '+a[1]}
+var fG=document.getElementById('fGuide'), fA=document.getElementById('fAward'), fC=document.getElementById('fCountry'), fQ=document.getElementById('fQ');
+var srcs={}; Object.keys(L).forEach(function(k){srcs[src(k)]=1});
+fG.innerHTML+=Object.keys(srcs).sort().map(function(s){return '<option>'+esc(s)+'</option>'}).join('');
+function fillAwards(){var g=fG.value;fA.innerHTML='<option value="">Any award</option>'+O.filter(function(k){return L[k]&&(!g||src(k)===g)}).map(function(k){return '<option value="'+k+'">'+esc(L[k][0])+'</option>'}).join('')}
+fillAwards();
+var cs={}; P.forEach(function(p){var n=(A.countries[p.cc]||[p.cc])[0];cs[n]=(cs[n]||0)+1});
+fC.innerHTML+='<option value="nation:Scotland">Scotland</option>'+Object.keys(cs).sort().map(function(n){return '<option>'+esc(n)+'</option>'}).join('');
+function pass(p){
+  if(guestOnly&&!p.dm)return false;
+  var c=fC.value; if(c){if(c==='nation:Scotland'){if(p.na!=='Scotland')return false}else if((A.countries[p.cc]||[p.cc])[0]!==c)return false}
+  if(fA.value&&!p.aw.some(function(a){return a[0]===fA.value}))return false;
+  if(fG.value&&!p.aw.some(function(a){return src(a[0])===fG.value}))return false;
+  var q=fQ.value.trim().toLowerCase(); if(q&&p.s.indexOf(q)<0)return false;
+  return true;
+}
+function render(){
+  var list=P.filter(pass).sort(function(a,b){return a.t-b.t||b.aw.length-a.aw.length||a.n.localeCompare(b.n)});
+  var pages=Math.max(1,Math.ceil(list.length/PER)); if(page>=pages)page=pages-1;
+  var rows=list.slice(page*PER,page*PER+PER);
+  document.getElementById('rows').innerHTML=rows.length?rows.map(function(p){
+    var g=G[O[p.t]]||'sel', where=[p.c,p.na&&p.na!==p.c?p.na:'',(A.countries[p.cc]||[p.cc])[0]].filter(Boolean).join(', ');
+    return '<tr><td><i class="mk '+g+'"></i><a href="/map#award-'+esc(p.i)+'">'+esc(p.n)+'</a>'+(p.dm?'<small>Named by Dream Menu guests</small>':'')+'</td><td>'+esc(where)+'</td><td>'+
+      p.aw.slice(0,4).map(function(a){return esc(label(a))}).join('<br>')+(p.aw.length>4?'<small>and '+(p.aw.length-4)+' more</small>':'')+'</td></tr>'}).join('')
+    :'<tr><td colspan="3">No venue matches these filters.</td></tr>';
+  var info=fmt(list.length)+' venue'+(list.length===1?'':'s')+(list.length>PER?' · page '+(page+1)+' of '+pages:'');
+  var btns='<span>'+info+'</span><span><button type="button" data-p="-1"'+(page===0?' disabled':'')+'>Previous</button> <button type="button" data-p="1"'+(page>=pages-1?' disabled':'')+'>Next</button></span>';
+  document.getElementById('pager').innerHTML=btns; document.getElementById('pagerTop').innerHTML=btns;
+}
+document.addEventListener('click',function(e){var b=e.target.closest('button[data-p]');if(b){page+=+b.dataset.p;render();window.scrollTo({top:document.querySelector('.controls').offsetTop-10})}});
+fG.addEventListener('change',function(){fillAwards();page=0;render()});
+[fA,fC].forEach(function(el){el.addEventListener('change',function(){page=0;render()})});
+fQ.addEventListener('input',function(){page=0;render()});
+document.getElementById('bAll').onclick=function(){guestOnly=false;this.setAttribute('aria-pressed','true');document.getElementById('bGuest').setAttribute('aria-pressed','false');page=0;render()};
+document.getElementById('bGuest').onclick=function(){guestOnly=true;this.setAttribute('aria-pressed','true');document.getElementById('bAll').setAttribute('aria-pressed','false');page=0;render()};
+render();
+})();
+</script>
+</body>
+</html>

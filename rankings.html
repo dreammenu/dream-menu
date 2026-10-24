@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rankings | Dream Menu</title>
+<meta name="description" content="The venues Dream Menu guests name most, by market and by course, ranked by mentions, dishes logged or guests.">
+<link rel="canonical" href="https://www.dream-menu.com/rankings">
+<meta property="og:title" content="Rankings | Dream Menu">
+<meta property="og:description" content="The venues Dream Menu guests name most, by market and by course, ranked by mentions, dishes logged or guests.">
+<meta property="og:image" content="https://www.dream-menu.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/league-spartan-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/brand.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="mark" href="/"><img src="/logo-128.png" alt="" width="40" height="40">Dream Menu</a><nav class="nav" aria-label="Site"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/rankings" aria-current="page">Rankings</a><a href="/report">Report 2026</a><a href="/awards">Awards</a><a href="/for-business">For business</a><a href="/partner">Partners <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><a class="takepart" href="/take-part">Take part</a></div></header>
+<main>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">Find the best</div>
+  <h1>The venues guests <em>name most</em></h1>
+  <p class="lede">Rank any market by how often guests name a venue, how many dishes they log there, or how many different guests name it. Pick a course to see where people go for a starter, a dessert or a drink.</p>
+</div></section>
+<section><div class="wrap">
+  <div class="controls">
+    <label for="fMarket">Market<select id="fMarket"></select></label>
+    <label for="fCourse">Course<select id="fCourse"><option value="">All courses</option></select></label>
+    <label><span>Rank by</span><span class="seg" role="group" aria-label="Rank by"><button type="button" data-by="m" aria-pressed="true">Mentions</button><button type="button" data-by="d" aria-pressed="false">Dishes logged</button><button type="button" data-by="g" aria-pressed="false">Guests</button></span></label>
+  </div>
+  <div class="tablewrap"><table><thead><tr><th class="num">#</th><th>Venue</th><th>What guests name</th><th class="num" id="hBy">Mentions</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <p class="note" id="note"></p>
+</div></section>
+</main>
+<footer class="foot"><div class="footband"><img src="/logo-128.png" alt="Dream Menu" width="64" height="64"><b>Dream Menu</b><span>Glasgow's food community, speaking for itself.</span></div><nav class="footlinks" aria-label="All pages"><a href="/">Food trends</a><a href="/map">Venue map</a><a href="/awards">Award winners</a><a href="/rankings">Rankings</a><a href="/report">Report 2026</a><a href="/operators">Operator toolkit <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a><a href="/restaurant-mot">Restaurant MOT</a><a href="/specials">Specials</a><a href="/from-the-kitchen">From the kitchen</a><a href="/for-business">For business</a><a href="/take-part">Take part</a><a href="/how-it-works">How it works</a><a href="/partner">Partner area <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></a></nav><div class="wrap"><span>Dream Menu, Glasgow. Data to 19 October 2026.</span><span><a href="/privacy">Privacy</a> · <a href="/partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/" rel="noopener" target="_blank">@dream.menu on Instagram</a></span></div></footer>
+<script src="/dm.js"></script>
+<script>
+(function(){
+"use strict";
+var D=window.DM, by='m';
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+function slug(s){return String(s).toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+var COURSE={s:'Starter',m:'Main',d:'Side',p:'Dessert',k:'Soft drink',a:'Alcoholic drink',h:'Hidden gem or next stop'};
+var KIND={world:'World',region:'Regions',country:'Countries',nation:'UK nations',city:'Cities'};
+var fM=document.getElementById('fMarket'), fC=document.getElementById('fCourse');
+var h='';['world','region','country','nation','city'].forEach(function(k){
+  var ms=D.markets.filter(function(m){return m.k===k&&m.v>=(k==='city'?5:1)}).sort(function(a,b){return b.v-a.v});
+  if(!ms.length)return; if(k==='world'){h+='<option value="world:World">World</option>';return}
+  h+='<optgroup label="'+KIND[k]+'">'+ms.map(function(m){return '<option value="'+esc(m.id)+'">'+esc(m.n)+(m.k==='city'?', '+esc(m.co):'')+'</option>'}).join('')+'</optgroup>'});
+fM.innerHTML=h;
+try{var saved=localStorage.getItem('dm-rank-market');if(saved&&fM.querySelector('option[value="'+saved.replace(/"/g,'')+'"]'))fM.value=saved}catch(e){}
+fC.innerHTML+=Object.keys(COURSE).map(function(k){return '<option value="'+k+'">'+COURSE[k]+'</option>'}).join('');
+var MK={};D.markets.forEach(function(m){MK[m.id]=m});
+function inM(v,m){switch(m.k){case 'world':return true;case 'region':return v.r===m.n;case 'country':return v.co===m.n;case 'nation':return v.na===m.n;case 'city':return v.c===m.n&&v.co===m.co}return false}
+function dishes(v,c){if(!v.cs)return 0;if(c)return v.cs[c]||0;var t=0;for(var k in v.cs)t+=v.cs[k];return t}
+function score(v,c){if(by==='d')return dishes(v,c);if(by==='g')return c?Math.min(v.g||0,dishes(v,c)):(v.g||0);return c?dishes(v,c):(v.m||0)}
+function render(){
+  var m=MK[fM.value]||MK['world:World'], c=fC.value;
+  var list=D.venues.filter(function(v){return inM(v,m)&&v.y!=='area'&&score(v,c)>0}).sort(function(a,b){return score(b,c)-score(a,c)||(b.m||0)-(a.m||0)||a.n.localeCompare(b.n)}).slice(0,50);
+  document.getElementById('hBy').textContent=by==='d'?'Dishes':by==='g'?'Guests':'Mentions';
+  document.getElementById('rows').innerHTML=list.length?list.map(function(v,i){
+    var place=[v.tw||v.c,m.k==='city'?'':(v.co!=='United Kingdom'?v.co:'')].filter(Boolean).join(', ');
+    var aw=D.aw&&D.aw[v.i];
+    var chips=(v.d||[]).slice(0,3).map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('')+(aw?'<span class="chip aw">'+esc(aw.a[0])+'</span>':'');
+    return '<tr><td class="num">'+(i+1)+'</td><td><a href="/map#venue-'+slug(v.i)+'">'+esc(v.n)+'</a><small>'+esc(place)+(v.s==='closed'?' · closed':'')+'</small></td><td><div class="chips">'+(chips||'<span class="note">No dish recorded</span>')+'</div></td><td class="num">'+score(v,c)+'</td></tr>'}).join('')
+    :'<tr><td colspan="4">No venue in this market has been named for that course yet.</td></tr>';
+  document.getElementById('note').textContent=(m.so?'Deep market: ':'Early signal: ')+(m.g||0).toLocaleString('en-GB')+' guests have named venues in '+m.n+'. '+(m.so?'':'Rankings here can change quickly as more interviews come in.')+' Showing the top '+list.length+'.';
+  try{localStorage.setItem('dm-rank-market',fM.value)}catch(e){}
+}
+document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){by=b.dataset.by;document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});render()}});
+fM.onchange=render; fC.onchange=render; render();
+})();
+</script>
+</body>
+</html>
