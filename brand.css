@@ -193,3 +193,46 @@ td small{display:block;color:var(--muted);font-size:12px}
   .top .nav{order:3;flex-basis:100%;mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);padding-bottom:2px}
   .takepart{padding:9px 13px;font-size:11px}
 }
+
+/* operator toolkit */
+.jump{border-bottom:1px solid var(--rule);background:var(--panel)}
+.jump .wrap{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.jump a{font:600 13.5px/1 var(--body);text-decoration:none;color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:8px 14px;background:var(--card)}
+.jump a:hover{background:var(--ink);color:var(--paper)}
+.tgroup{display:flex;align-items:center;gap:10px;margin:30px 0 12px}
+.tgroup span{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#0b0b0b;font:800 14px/1 var(--display);flex:none}
+.grid.tools{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:start}
+.grid.cls{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));align-items:start}
+.tool label.inline{display:flex;align-items:center;gap:8px;font-weight:500}
+.tool label.inline input{width:18px;height:18px;margin:0;accent-color:var(--navy)}
+.tool textarea{font:500 14px/1.5 ui-monospace,Menlo,Consolas,monospace;padding:10px 12px;border:1.5px solid var(--rule-strong);border-radius:8px;background:var(--card);color:var(--ink);width:100%;box-sizing:border-box;resize:vertical}
+.tool textarea:focus{border-color:var(--navy);outline:none}
+.card.tool.wide{padding:18px 20px}
+.card.explain ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14.5px;display:grid;gap:6px}
+.tag{display:inline-block;font:700 12px/1 var(--body);padding:5px 9px;border-radius:999px;white-space:nowrap}
+.tag.star{background:#e4f1e8;color:#1f6b3a}.tag.horse{background:#e7e9f3;color:#1c2152}.tag.puzzle{background:#fbf3d0;color:#6b5600}.tag.dog{background:#f9e0de;color:#b3261e}
+.mxkey{display:grid;gap:8px;margin-top:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.mxkey p{margin:0;font-size:14px;color:var(--muted)}.mxkey .tag{margin-right:6px}
+.oddband{background:var(--panel)}
+.callout.test{background:var(--card);margin-bottom:18px}
+.oddgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.card.odd h3{margin:0 0 10px}
+.card.odd dl{margin:0;display:grid;gap:4px}
+.card.odd dt{font:700 11.5px/1.2 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:8px}
+.card.odd dt:first-child{margin-top:0}
+.card.odd dd{margin:0;font-size:15px}
+.card.odd dt:nth-of-type(2){color:var(--navy)}
+.card.odd dt:nth-of-type(2)+dd{font-weight:600}
+details.cl{padding:0}
+details.cl summary{cursor:pointer;list-style:none;padding:14px 18px;font:800 18px/1.2 var(--display);display:flex;align-items:center;gap:10px}
+details.cl summary::-webkit-details-marker{display:none}
+details.cl summary::after{content:"+";margin-left:auto;font:700 22px/1 var(--body);color:var(--muted)}
+details.cl[open] summary::after{content:"−"}
+details.cl>ul,details.cl>p{margin-left:18px;margin-right:18px}
+details.cl>p:last-child{margin-bottom:16px}
+.clcount{font:700 12px/1 var(--body);background:var(--gold);color:#0b0b0b;border-radius:999px;padding:4px 8px}
+.clcount:empty{display:none}
+.linkbtn{border:0;background:none;padding:0;color:var(--navy);text-decoration:underline;cursor:pointer;font:inherit}
+:root[data-theme="dark"] .tag.star{background:#16301f;color:#7fc28f}:root[data-theme="dark"] .tag.horse{background:#24284d;color:#aab3ee}:root[data-theme="dark"] .tag.puzzle{background:#3a3214;color:#e8c843}:root[data-theme="dark"] .tag.dog{background:#3d1a18;color:#ff8a80}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag.star{background:#16301f;color:#7fc28f}:root:not([data-theme="light"]) .tag.horse{background:#24284d;color:#aab3ee}:root:not([data-theme="light"]) .tag.puzzle{background:#3a3214;color:#e8c843}:root:not([data-theme="light"]) .tag.dog{background:#3d1a18;color:#ff8a80}}
+@media print{.jump,.subnav,.linkbtn{display:none!important}details.cl{break-inside:avoid}}
