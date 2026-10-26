@@ -6,7 +6,7 @@
 export const config = { matcher: [
   '/briefing', '/briefing/:path*', '/briefing.html', '/onepager', '/onepager.html', '/review', '/review.html',
   '/geocoder', '/geocoder.html', '/partner-data.js',
-  '/report/:path+', '/operators', '/operators.html',
+  '/report/:path+', '/operators', '/operators.html', '/tested-ideas', '/tested-ideas.html',
   '/insights', '/insights.html', '/partner', '/partner.html', '/partner/:path*',
   '/login', '/logout'] };
 

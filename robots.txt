@@ -7,6 +7,7 @@ Disallow: /login
 Disallow: /partner-data.js
 Disallow: /report/
 Disallow: /operators
+Disallow: /tested-ideas
 Disallow: /insights
 Disallow: /partner
 Sitemap: https://www.dream-menu.com/sitemap.xml
