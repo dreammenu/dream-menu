@@ -13,21 +13,22 @@ To add a page or section: add one row to ITEMS below and run the script again.
 """
 import glob, html, json, os, re
 
-LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights')
+LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence')
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
  ('food', 'Food lover', 'food lovers', 'What Scotland wants to eat, where to go, and the debates that never end.', ['f4', 'f6', 'f5', 'f8', 'f9', 'f14']),
  ('venue', 'Running a venue', 'people running a venue', 'Tools, benchmarks and tested ideas to lift every cover.', ['o3', 'o8', 'r9', 'r14', 'o6', 'o12']),
  ('new', 'Opening a venue', 'people opening a venue', 'Gaps in the market, neighbourhoods and the numbers to model before you sign.', ['r16', 'r8', 'r3', 'o3', 'r10', 'o12']),
  ('chef', 'Chef or kitchen lead', 'chefs and kitchen leads', 'What guests order, what is moving and what they are tired of.', ['r14', 'o4', 'r13', 'f5', 'f14', 'r10']),
- ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['b3', 'r13', 'r2', 'b5', 'r19', 'f2']),
- ('investor', 'Investor or developer', 'investors and developers', 'Where the evidence points for capital, concepts and sites.', ['r18', 'r16', 'r2', 'r8', 'f6', 'r5']),
- ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['r2', 'f4', 'o10', 'f8', 'a1', 'r6']),
+ ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['b8', 'b3', 'r13', 'r2', 'b5', 'f16']),
+ ('investor', 'Investor or developer', 'investors and developers', 'Where the evidence points for capital, concepts and sites.', ['r18', 'r16', 'f16', 'r2', 'r8', 'f6']),
+ ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['r2', 'f16', 'f4', 'o10', 'f8', 'r6']),
 ]
 AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', 'chef': 'chefs', 'supplier': 'suppliers', 'investor': 'investors', 'press': 'press'}
 # extra search words, so people find things by the words they use
 KEYWORDS = {
  'f1': 'dishes trends starters mains desserts drinks sides course', 'f4': 'irn-bru coke coffee tea pineapple pizza water', 'f5': 'comfort food matcha dubai chocolate tired',
+ 'f16': 'analysis index city glasgow edinburgh critics michelin awards concentration data', 'b8': 'dashboard analysis momentum matrix opportunity score confidence segments consultant',
  'f6': 'map restaurants bars cafes venues near me city country', 'f7': 'best restaurants top venues most named', 'f8': 'michelin stars 50 best bib gourmand guides',
  'f9': 'fringe cocktail sandwich edinburgh festival', 'f11': 'cocktails drinks bar bartender', 'f15': 'interview submit share my menu',
  'r2': 'headline summary key findings opportunities risks', 'r4': 'survey operators costs confidence trading energy labour', 'r8': 'finnieston southside shawlands barras west end rents sites location',
@@ -60,6 +61,9 @@ GROUPS = [  # key, label, landing page, one-line summary
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
  ('f1', 'Food trends', '/', 'What 1,221 guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
+ ('f16', 'The analysis', '/analysis', 'Every city\'s appetite indexed, guests against the critics, and how settled each course is', 'food', 'food investor press supplier', 1, None),
+ ('f17', "Every city's appetite, indexed", '/analysis#cities', 'Which dishes each market names more than everyone else', 'food', 'investor new supplier', 0, 'f16'),
+ ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
  ('f2', 'The dishes people choose', '/#courses', 'The top dishes for every course and their share of guests', 'food', 'food chef supplier', 0, 'f1'),
  ('f3', "Every city's appetite", '/#places', 'What Glasgow, Edinburgh and every market names, and the venues behind it', 'food', 'food investor supplier', 0, 'f1'),
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
@@ -111,6 +115,7 @@ ITEMS = [
  ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with Scotland\'s food people', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
  ('b2', 'Partner area', '/partner', 'Everything included in the partnership, in one place', 'biz', 'supplier', 0, None),
+ ('b8', 'Partner intelligence', '/intelligence', 'Momentum matrix, confidence ranges, segments, opportunity scores and the operator pulse', 'biz', 'supplier investor', 1, 'b2'),
  ('b3', 'Partner briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
  ('b4', 'Insights', '/insights', 'Debates, dishes by group and how the trade feels, in full', 'biz', 'supplier chef press', 0, 'b2'),
  ('b5', 'Data extracts', '/partner#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
@@ -233,7 +238,7 @@ def page_group(path):
             return it['g']
     return {'/explore': 'start'}.get(path)
 
-HEAD_TAGS = '<script>document.documentElement.classList.add("js")</script><script src="/nav-data.js" defer></script><script src="/nav.js" defer></script>'
+HEAD_TAGS = '<script>document.documentElement.classList.add("js")</script><script src="/nav-data.js" defer></script><script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>'
 
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -252,6 +257,8 @@ def main():
         path = '/' if path == '/index' else path
         s = re.sub(r'<header class="top">.*?</header>', lambda m: header(page_group(path)), s, count=1, flags=re.S)
         s = re.sub(r'<nav class="footlinks[^"]*" aria-label="All pages">.*?</nav>', lambda m: foot, s, count=1, flags=re.S)
+        if 'src="/nav.js"' in s and 'src="/dm-fresh.js"' not in s:
+            s = s.replace('<script src="/nav.js" defer></script>', '<script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>', 1)
         if 'src="/nav.js"' not in s:
             s = s.replace('<link rel="stylesheet" href="/brand.css">', HEAD_TAGS + '\n<link rel="stylesheet" href="/brand.css">', 1)
         if fn == 'index.html' and 'class="audband"' not in s:

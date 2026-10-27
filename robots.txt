@@ -10,4 +10,5 @@ Disallow: /operators
 Disallow: /tested-ideas
 Disallow: /insights
 Disallow: /partner
+Disallow: /intelligence
 Sitemap: https://www.dream-menu.com/sitemap.xml

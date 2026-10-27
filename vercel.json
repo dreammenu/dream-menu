@@ -37,7 +37,7 @@
       ]
     },
     {
-      "source": "/(briefing|geocoder|review|onepager|operators|tested-ideas|insights|partner)(.*)",
+      "source": "/(briefing|geocoder|review|onepager|operators|tested-ideas|insights|intelligence|partner)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
