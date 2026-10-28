@@ -51,6 +51,9 @@ COARSE = {
     'Whisky / dram': 'Whisky / dram', 'Dirty / classic martini': 'Martini (non-espresso)',
     'Mocktail / alcohol-free': 'Mocktail (non-alcoholic specialty)', 'Guinness / stout': 'Guinness',
     'Black pudding': 'British / Scottish / Pub', 'Haggis bon bons / haggis': 'Haggis bon bons',
+    'Mushrooms': 'Vegetable sides (greens, broccoli, cabbage)', 'Ramen': 'Asian noodles / hotpot',
+    'Bao buns': 'Bread-based sides (naan, focaccia, bao, sourdough)', 'Basque cheesecake': 'Cheesecake',
+    'Mozzarella sticks / fried cheese': 'Cheese-based sides (mozzarella, halloumi, burrata)',
 }
 CC = {'United Kingdom': 'GB', 'Ireland': 'IE', 'Netherlands': 'NL', 'Mexico': 'MX', 'Italy': 'IT', 'Australia': 'AU'}
 

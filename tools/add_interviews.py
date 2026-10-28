@@ -145,7 +145,8 @@ def main(batch_fn):
     P['n'] += answered
     P['n_all'] += len(batch)
     P['last'] = max(r['date'] for r in batch)
-    P['built'] = '2026-10-28'
+    import datetime
+    P['built'] = datetime.date.today().isoformat()
     open('partner-data.js', 'w', encoding='utf-8').write(head + 'window.DM_PARTNER=' + json.dumps(P, ensure_ascii=False, separators=(',', ':')) + tail)
     print('partner-data.js: n', P['n'], 'n_all', P['n_all'], 'last', P['last'], 'movers', len(P['movers']))
 

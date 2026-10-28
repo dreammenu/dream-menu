@@ -155,6 +155,7 @@ panes = '\n'.join([
     market_pane(2, 'nation:Scotland', 'Scotland', '/map#nation-scotland', 'See Scotland on the map →', True),
     market_pane(3, 'world:World', 'every market', '/map#world', 'See the world on the map →', True)])
 edit('index.html', [
+    (r'(food trends and insights from )[\d,]+( Dream Menu interviews)', rf'\g<1>{N_ALL}\g<2>'),
     (r'from places you actually go\. [\d,]+ interviews later', f'from places you actually go. {N_ALL} interviews later'),
     (r'(<div class="ms">as voted by )[\d,]+( guests</div>)', rf'\g<1>{N_ALL}\g<2>'),
     (r'(<div class="ms">as voted by [\d,]+ guests</div>\s*)<ol>.*?</ol>', lambda m: m.group(1) + menu_html),

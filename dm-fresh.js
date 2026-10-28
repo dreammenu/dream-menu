@@ -1,34 +1,36 @@
 /* dm-fresh.js: when each dataset behind the site was last collected and updated.
    Loaded on every page (added by tools/build_nav.py). It adds a "Data to ... · Updated ..." line under
    every visual or block of figures, a short status chip under the page title, and a data status panel
-   in the footer. To record a refresh, change the dates in SETS below. Nothing else needs editing. */
+   in the footer. To record a refresh, change the dates in SETS below (set 'checked' when a source was checked and had nothing new). Nothing else needs editing. */
 (function () {
   'use strict';
   var SETS = {
-    interviews: { label: 'Dream Menu interviews', size: '1,234 interviews', from: '2025-09-01', to: '2026-10-27', updated: '2026-10-28',
-      note: 'Dish categories refined 24 Oct 2026. Interviews to 27 Oct added 28 Oct.' },
-    venues: { label: 'Venues named by guests', size: '1,862 venues, 1,649 pinned', from: '2025-09-01', to: '2026-10-27', updated: '2026-10-28',
+    interviews: { label: 'Dream Menu interviews', size: '1,236 interviews', from: '2025-09-01', to: '2026-10-28', updated: '2026-10-28',
+      note: 'Dish categories refined 24 Oct 2026. Interviews to 28 Oct added 28 Oct.' },
+    venues: { label: 'Venues named by guests', size: '1,865 venues, 1,652 pinned', from: '2025-09-01', to: '2026-10-28', updated: '2026-10-28',
       note: 'Addresses researched 22 Oct 2026; new venues added 28 Oct.' },
     awards: { label: 'Awards and guides', size: '21,008 award winners', to: '2026-10-21', updated: '2026-10-21',
       note: 'MICHELIN extract of 11 Oct 2026; 50 Best, AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },
-    look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24' },
+    look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24', checked: '2026-10-28' },
     report: { label: 'Hospitality Intelligence Report 2026', size: 'Edition 6', to: '2026-10-09', updated: '2026-10-21' },
-    fringe: { label: 'Dream Fringe interviews', size: '52 interviews', from: '2026-07-24', to: '2026-08-28', updated: '2026-10-21' },
-    cocktail: { label: 'Dream Cocktail entries', size: '16 creations', to: '2026-06-08', updated: '2026-10-21' },
-    sandwich: { label: 'Dream Sandwich entries', size: '20 creations', to: '2026-05-14', updated: '2026-10-21' },
-    kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21' },
+    fringe: { label: 'Dream Fringe interviews', size: '52 interviews', from: '2026-07-24', to: '2026-08-28', updated: '2026-10-21', checked: '2026-10-28' },
+    cocktail: { label: 'Dream Cocktail entries', size: '16 creations', to: '2026-06-08', updated: '2026-10-21', checked: '2026-10-28' },
+    sandwich: { label: 'Dream Sandwich entries', size: '20 creations', to: '2026-05-14', updated: '2026-10-21', checked: '2026-10-28' },
+    kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21', checked: '2026-10-28' },
     research: { label: 'Published research reviewed', size: '20 ideas scored', updated: '2026-10-26' },
     toolkit: { label: 'Operator toolkit', size: 'Benchmarks from the 2026 report', to: '2026-10-09', updated: '2026-10-26' },
-    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-27', updated: '2026-10-28' }
+    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-28', updated: '2026-10-28' }
   };
   var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   function fmt(d) { if (!d) return ''; var p = d.split('-'); return (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0]; }
+  function seen(s) { return s.checked && s.checked > s.updated ? s.checked : s.updated; }
   function days(d) { return Math.floor((Date.now() - new Date(d + 'T12:00:00Z').getTime()) / 864e5); }
   function line(k, opts) {
     var s = SETS[k]; if (!s) return '';
     var parts = [];
     if (s.to) parts.push((s.from ? 'Data ' + fmt(s.from) + ' to ' : 'Data to ') + fmt(s.to));
-    parts.push('Updated ' + fmt(s.updated));
+    if (seen(s) !== s.updated) parts.push('No new responses · checked ' + fmt(s.checked));
+    else parts.push('Updated ' + fmt(s.updated));
     return (opts && opts.label === false ? '' : s.label + ' · ') + parts.join(' · ');
   }
   var CLOCK = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
@@ -37,7 +39,7 @@
     var p = document.createElement('p');
     p.className = 'dm-fresh';
     p.setAttribute('data-fresh-stamp', keys.join(' '));
-    var age = days(SETS[keys[0]] ? SETS[keys[0]].updated : '2026-10-27');
+    var age = days(SETS[keys[0]] ? seen(SETS[keys[0]]) : '2026-10-27');
     p.innerHTML = CLOCK + '<span>' + keys.map(function (k) { return line(k); }).join('<br>') + (extra ? '<br>' + extra : '') + '</span>' +
       (age > 120 ? '<em class="dm-fresh-old">Over four months old</em>' : '');
     p.title = keys.map(function (k) { return SETS[k] && SETS[k].note ? SETS[k].note : ''; }).filter(Boolean).join(' ');
@@ -94,7 +96,8 @@
         var c = document.createElement('p');
         c.className = 'dm-chip';
         var latest = cfg.chip.map(function (k) { return SETS[k].updated; }).sort().pop();
-        c.innerHTML = CLOCK + '<span>Last updated <b>' + fmt(latest) + '</b></span>' +
+        var check = cfg.chip.map(function (k) { return seen(SETS[k]); }).sort().pop();
+        c.innerHTML = CLOCK + '<span>' + (check > latest ? 'Checked for new responses <b>' + fmt(check) + '</b> · last change ' + fmt(latest) : 'Last updated <b>' + fmt(latest) + '</b>') + '</span>' +
           cfg.chip.map(function (k) { var s = SETS[k]; return '<span class="dm-chip-set">' + s.label + (s.to ? ': data to ' + fmt(s.to) : '') + '</span>'; }).join('');
         host.appendChild(c);
       }
@@ -122,7 +125,7 @@
       d.className = 'dm-status';
       var rows = Object.keys(SETS).map(function (k) {
         var s = SETS[k];
-        return '<tr><th scope="row">' + s.label + '</th><td>' + s.size + '</td><td>' + (s.to ? (s.from ? fmt(s.from) + ' to ' : 'to ') + fmt(s.to) : '') + '</td><td>' + fmt(s.updated) + '</td></tr>';
+        return '<tr><th scope="row">' + s.label + '</th><td>' + s.size + '</td><td>' + (s.to ? (s.from ? fmt(s.from) + ' to ' : 'to ') + fmt(s.to) : '') + '</td><td>' + fmt(s.updated) + (s.checked && s.checked > s.updated ? '<br><small>checked ' + fmt(s.checked) + ', nothing new</small>' : '') + '</td></tr>';
       }).join('');
       var newest = Object.keys(SETS).map(function (k) { return SETS[k].updated; }).sort().pop();
       d.innerHTML = '<summary>' + CLOCK + ' Data status: last updated ' + fmt(newest) + '</summary><div class="dm-status-in"><table><thead><tr><th>Dataset</th><th>Size</th><th>Collected</th><th>Updated</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
