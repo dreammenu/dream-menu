@@ -311,7 +311,8 @@ details.cl>p:last-child{margin-bottom:16px}
   .top .wrap{gap:8px}
   .msearch{margin-left:auto}
   .mburger{display:inline-grid;place-items:center;width:42px;height:42px;flex:none;border:1.5px solid var(--ink);border-radius:50%;background:var(--card);color:var(--ink);cursor:pointer;padding:0}
-  .bars i{display:block;width:18px;height:2px;background:currentColor;margin:4px 0;transition:transform .2s,opacity .2s}
+  .mburger .bars{display:block;margin:0;padding:0}
+  .mburger .bars i{display:block;width:18px;height:2px;background:currentColor;margin:4px 0;transition:transform .2s,opacity .2s}
   .mburger[aria-expanded="true"] .bars i:nth-child(1){transform:translateY(6px) rotate(45deg)}
   .mburger[aria-expanded="true"] .bars i:nth-child(2){opacity:0}
   .mburger[aria-expanded="true"] .bars i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}

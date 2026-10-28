@@ -1,0 +1,78 @@
+{
+ "note": "Counts behind the static home and insights figures that partner-data.js does not hold. Updated by tools/add_interviews.py; used by tools/refresh_static.py. As at 2026-10-19 before the 28 Oct batch is applied.",
+ "applied": [
+  "tools/data/new-interviews-2026-10-28.json"
+ ],
+ "debates": {
+  "coke": {
+   "n": 1207,
+   "c": {
+    "Irn Bru": 552,
+    "Coca Cola": 404,
+    "Neither": 251
+   }
+  },
+  "tea": {
+   "n": 935,
+   "c": {
+    "Coffee": 625,
+    "Tea": 242,
+    "Neither": 68
+   }
+  },
+  "pineapple": {
+   "n": 1208,
+   "c": {
+    "Yes": 594,
+    "No": 614
+   }
+  },
+  "water": {
+   "n": 1208,
+   "c": {
+    "Still": 450,
+    "Tap": 367,
+    "Sparkling": 334,
+    "Scottish tap water": 57
+   }
+  }
+ },
+ "course_card_answers": {
+  "s": 1225,
+  "m": 1221,
+  "d": 1216,
+  "p": 1220
+ },
+ "drink_card": {
+  "n": 1233,
+  "c": [
+   [
+    "Spicy margarita",
+    52
+   ],
+   [
+    "Whisky",
+    52
+   ],
+   [
+    "House cocktails",
+    51
+   ],
+   [
+    "Mocktails and alcohol-free",
+    46
+   ],
+   [
+    "Diet Coke and Coke Zero",
+    43
+   ]
+  ],
+  "map": {
+   "Spicy margarita": "Spicy margarita",
+   "Whisky / dram": "Whisky",
+   "Cocktail (other / named house cocktail)": "House cocktails",
+   "Mocktail / alcohol-free": "Mocktails and alcohol-free",
+   "Diet Coke / Coke Zero": "Diet Coke and Coke Zero"
+  }
+ }
+}

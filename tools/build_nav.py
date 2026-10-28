@@ -13,6 +13,12 @@ To add a page or section: add one row to ITEMS below and run the script again.
 """
 import glob, html, json, os, re
 
+def _load(fn):
+    t = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), fn), encoding='utf-8').read()
+    return json.JSONDecoder().raw_decode(t[t.index('=') + 1:])[0]
+_P, _M = _load('partner-data.js'), _load('dm-data.js')['meta']
+N_ALL, N_PINNED, N_COUNTRIES = f"{_P['n_all']:,}", f"{_M['pinned']:,}", _M['countries']
+
 LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence')
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
@@ -60,7 +66,7 @@ GROUPS = [  # key, label, landing page, one-line summary
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
- ('f1', 'Food trends', '/', 'What 1,221 guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
+ ('f1', 'Food trends', '/', f'What {N_ALL} guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
  ('f16', 'The analysis', '/analysis', 'Every city\'s appetite indexed, guests against the critics, and how settled each course is', 'food', 'food investor press supplier', 1, None),
  ('f17', "Every city's appetite, indexed", '/analysis#cities', 'Which dishes each market names more than everyone else', 'food', 'investor new supplier', 0, 'f16'),
  ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
@@ -68,7 +74,7 @@ ITEMS = [
  ('f3', "Every city's appetite", '/#places', 'What Glasgow, Edinburgh and every market names, and the venues behind it', 'food', 'food investor supplier', 0, 'f1'),
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
  ('f5', 'Guilty pleasures and Bin it', '/#mood', 'The comfort food guests admit to, and the trends they want gone', 'food', 'food chef venue', 1, 'f1'),
- ('f6', 'Venue map', '/map', '1,610 venues guests have named in 32 countries, with award winners', 'food', 'food investor new supplier', 1, None),
+ ('f6', 'Venue map', '/map', f'{N_PINNED} venues guests have named in {N_COUNTRIES} countries, with award winners', 'food', 'food investor new supplier', 1, None),
  ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
  ('f8', 'Award winners', '/awards', '21,008 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),

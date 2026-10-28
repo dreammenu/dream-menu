@@ -7,11 +7,16 @@ site's shared head, header and footer (taken from insights.html). Run from the r
 The charts are drawn in the browser by analysis.js and partner/intel.js from the data files
 that build_intel.py writes. Section titles are filled from the data, so they stay true after a refresh.
 """
-import os, re
+import json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 T = open('insights.html', encoding='utf-8').read()
+_ps = open('partner-data.js', encoding='utf-8').read()
+P = json.JSONDecoder().raw_decode(_ps[_ps.index('=') + 1:])[0]
+N_ALL = f"{P['n_all']:,}"   # interviews in the data, e.g. 1,234
+import datetime as _dt
+LAST_H = _dt.date.fromisoformat(P['last']).strftime('%-d %B %Y')   # e.g. 27 October 2026
 HEAD_END = T.index('</head>')
 BODY = T.index('<body')
 HEADER = T[BODY:T.index('<main')]
@@ -52,7 +57,7 @@ intel_main = f'''<main class="iv-page">
 <h1>The market read, in ten minutes</h1>
 <p class="lede">Eight views of what Scotland’s food people want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
 </div></section>
-{sec(1, 'Executive read', 't1', 'The three things to take into this quarter’s planning, then the numbers behind them.', '<div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><div class="iv-callout"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><b>Next refresh.</b> 11 interviews have come in since the data was cut on 19 October (the latest on 27 October). They join every chart at the next refresh, along with the rest of the fourth quarter.</span></div><div data-fresh="interviews look"></div>', 'read')}
+{sec(1, 'Executive read', 't1', 'The three things to take into this quarter’s planning, then the numbers behind them.', '<div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><div class="iv-callout"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><b>Data to ' + LAST_H + '.</b> Every chart includes all ' + N_ALL + ' interviews received to that date. Quarters with fewer than ' + str(P['min_n']) + ' answers, including the fourth quarter so far, are shown faded: read them as an early signal.</span></div><div data-fresh="interviews look"></div>', 'read')}
 {sec(2, 'Momentum matrix', 't2', 'Each dish placed by how big it is (across) and how fast its share is moving (up or down). Pick a course. Top right is where volume and momentum meet; top left is where the next staples come from.', '<div id="c-matrix"></div>', 'matrix-sec')}
 {sec(3, 'How sure we are', 't3', '', '<div id="c-forest"></div>', 'confidence-sec')}
 {sec(4, 'Trend wall', 't4', 'Thirty-six small charts on one scale per cell, so the shape of each course reads at a glance. Hover any cell for the quarter-by-quarter numbers.', '<div id="c-wall"></div>', 'wall-sec')}
@@ -93,8 +98,8 @@ an_main = f'''<main class="iv-page">
 </div></section>
 </main>
 '''
-an_main = an_main.replace('{interviews}', '1,221')
-an = (head('The analysis: Scotland’s appetite | Dream Menu', 'How each city eats differently, where guests and critics agree, and how settled each course is: analysis from 1,221 Dream Menu interviews.', '/analysis')
+an_main = an_main.replace('{interviews}', N_ALL)
+an = (head('The analysis: Scotland’s appetite | Dream Menu', 'How each city eats differently, where guests and critics agree, and how settled each course is: analysis from ' + N_ALL + ' Dream Menu interviews.', '/analysis')
       + HEADER + an_main + FOOTER
       + '<script src="/dmviz.js"></script>\n<script src="/analysis-data.js"></script>\n<script src="/analysis.js"></script>\n</body>\n</html>\n')
 open('analysis.html', 'w', encoding='utf-8').write(an)

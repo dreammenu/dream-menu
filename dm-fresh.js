@@ -5,10 +5,10 @@
 (function () {
   'use strict';
   var SETS = {
-    interviews: { label: 'Dream Menu interviews', size: '1,221 interviews', from: '2025-09-01', to: '2026-10-19', updated: '2026-10-24',
-      note: 'Dish categories refined 24 Oct 2026. 11 newer interviews (to 27 Oct) join at the next refresh.' },
-    venues: { label: 'Venues named by guests', size: '1,824 venues, 1,610 pinned', from: '2025-09-01', to: '2026-10-19', updated: '2026-10-22',
-      note: 'Addresses researched 22 Oct 2026.' },
+    interviews: { label: 'Dream Menu interviews', size: '1,234 interviews', from: '2025-09-01', to: '2026-10-27', updated: '2026-10-28',
+      note: 'Dish categories refined 24 Oct 2026. Interviews to 27 Oct added 28 Oct.' },
+    venues: { label: 'Venues named by guests', size: '1,862 venues, 1,649 pinned', from: '2025-09-01', to: '2026-10-27', updated: '2026-10-28',
+      note: 'Addresses researched 22 Oct 2026; new venues added 28 Oct.' },
     awards: { label: 'Awards and guides', size: '21,008 award winners', to: '2026-10-21', updated: '2026-10-21',
       note: 'MICHELIN extract of 11 Oct 2026; 50 Best, AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },
     look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24' },
@@ -19,7 +19,7 @@
     kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21' },
     research: { label: 'Published research reviewed', size: '20 ideas scored', updated: '2026-10-26' },
     toolkit: { label: 'Operator toolkit', size: 'Benchmarks from the 2026 report', to: '2026-10-09', updated: '2026-10-26' },
-    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-19', updated: '2026-10-27' }
+    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-27', updated: '2026-10-28' }
   };
   var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   function fmt(d) { if (!d) return ''; var p = d.split('-'); return (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0]; }

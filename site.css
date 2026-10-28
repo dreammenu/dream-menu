@@ -116,7 +116,7 @@ td small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35}
 .spark{width:120px;height:30px;color:var(--accent);display:block}
 td.sp{padding-top:4px;padding-bottom:4px}
 td.up{color:var(--good);font-weight:600}td.down{color:var(--warn);font-weight:600}
-.grid.wide{grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}
+.grid.wide{grid-template-columns:repeat(auto-fit,minmax(min(100%,620px),1fr))}
 .login{max-width:380px}.login label{display:block;font-size:14px;margin-bottom:6px}
 .login input{width:100%;box-sizing:border-box;font-size:16px;padding:10px 12px;border:1px solid var(--rule-strong);border-radius:6px;background:var(--card);color:var(--ink)}
 .login .err{color:var(--warn);font-size:14px}
