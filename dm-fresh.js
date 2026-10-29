@@ -80,6 +80,10 @@
     '/case-studies/steak': { def: null, chip: ['interviews', 'venues'] },
     '/case-studies/italian': { def: null, chip: ['interviews', 'venues'] },
     '/case-studies/operator-confidence': { def: null, chip: ['look'] },
+    '/case-studies/glasgow-2030': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/edinburgh-2030': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/ten-forces': { def: null, chip: ['interviews'] },
+    '/case-studies/edge-of-the-menu': { def: null, chip: ['interviews'] },
     '/analysis': { def: null, chip: ['analysis', 'interviews', 'venues', 'awards'] },
     '/intelligence': { def: null, chip: ['analysis', 'interviews', 'look'] }
   };

@@ -18,7 +18,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 from cs_kit import (Ex, esc, num, pts, hbar, dumbbell, diverge, stack, cols, heat, matrix, small_multiples,
-                    strip, waterfall, glasgow_map, sowhat, pull, quotes, table)
+                    strip, waterfall, glasgow_map, sowhat, pull, quotes, table,
+                    project, fan_multiples, lanes, roadmap, ledger, scenarios, forces)
 
 CONTACT = 'contact.dreammenu@gmail.com'
 
@@ -128,9 +129,10 @@ def write(path, title, desc, body):
     return fn
 
 
-AUD = {'supplier': 'Suppliers and brands', 'venue': 'Operators', 'investor': 'Investors and property', 'public': 'Public sector, tourism and press'}
+AUD = {'supplier': 'Suppliers and brands', 'venue': 'Operators', 'investor': 'Investors and property', 'public': 'Public sector, tourism and press', 'forecast': 'Trends and forecasts'}
 ORDER = ['night-out', 'glasgow-edinburgh', 'seafood', 'dessert', 'drinks', 'trend-fatigue',
-         'neighbourhoods', 'guests-and-critics', 'steak', 'italian', 'operator-confidence']
+         'neighbourhoods', 'guests-and-critics', 'steak', 'italian', 'operator-confidence',
+         'glasgow-2030', 'edinburgh-2030', 'ten-forces', 'edge-of-the-menu']
 META = {
     'night-out': dict(no=1, kind='Price and cost briefing', plain='The cost of a night out in Glasgow'),
     'glasgow-edinburgh': dict(no=2, kind='Market-entry read', plain='Two cities, two appetites'),
@@ -143,6 +145,10 @@ META = {
     'steak': dict(no=9, kind='Category deep-dive', plain='The steak economy'),
     'italian': dict(no=10, kind='Cuisine deep-dive', plain="Glasgow's Italian table"),
     'operator-confidence': dict(no=11, kind='Sector pulse', plain='The confidence gap'),
+    'glasgow-2030': dict(no=12, kind='City forecast', plain='Glasgow to 2030'),
+    'edinburgh-2030': dict(no=13, kind='City forecast, directional', plain='Edinburgh and Scotland to 2030'),
+    'ten-forces': dict(no=14, kind='Long-term forces', plain='Ten forces to 2031'),
+    'edge-of-the-menu': dict(no=15, kind='Niche watchlist', plain='The edge of the menu'),
 }
 REPORTS = []
 
@@ -928,7 +934,449 @@ def r_confidence():
         blurb='Trading, predictability and confidence from Scottish operators, the pressures they face and the support they want.'))
 
 
-written = [fn() for fn in (r_night_out, r_two_cities, r_seafood, r_dessert, r_drinks, r_fatigue, r_neighbourhoods, r_critics, r_steak, r_italian, r_confidence)]
+# ================================================================== forecast series (Nos. 12 to 15)
+L = link
+XL = Q + ['Q1 27', 'Q2 27', 'Q3 27', 'Q4 27']
+POS = json.load(open('tools/data/positive-trends-2026.json', encoding='utf-8'))
+PT = POS['tags']
+OMK = "Omakase and chef's counters"
+SRC = {
+    'savills': ('https://www.savills.co.uk/insight-and-opinion/savills-news/388121/record-year-for-glasgow-fandb-operators-with-38-new-openings-in-2025', 'Savills, February 2026'),
+    'glevy': ('https://www.scotsman.com/news/glasgow-tourist-tax-given-go-ahead-by-councillors-with-hopes-visitor-levy-will-generate-ps16m-5185874', 'The Scotsman'),
+    'glevy2': ('https://www.glasgow.gov.uk/article/14799/Glasgow-s-Visitor-Levy', 'Glasgow City Council'),
+    'elevy': ('https://www.edinburgh.gov.uk/business/visitor-levy-edinburgh', 'City of Edinburgh Council'),
+    'elevy50': ('https://edinburghmagazine.com/transforming-tourism-edinburghs-visitor-levy-to-raise-50m-annually', 'Edinburgh Magazine, August 2026'),
+    'eindie': ('https://www.scotsman.com/business/the-independent-restaurant-resurgence-driving-edinburghs-buoyant-food-and-beverage-sector-8931275', 'The Scotsman, August 2026'),
+    'glp1': ('https://www.restaurantonline.co.uk/Article/2026/07/03/use-of-weight-loss-medication-to-reduce-out-of-home-food-and-drink-spend-by-1bn/', 'IGD via Restaurant Online, July 2026'),
+    'drink': ('https://theboar.org/2026/10/new-data-shows-young-people-drinking-less-than-ever/', 'The Boar, October 2026'),
+    'niq': ('https://nielseniq.com/global/en/news-center/2026/hospitality-closures-accelerate-in-fourth-quarter-as-costs-rise-again/', 'NielsenIQ, January 2026'),
+    'rates': ('https://cater.affino.com/news/scottish-pubs-to-be-hit-with-staggering-increases-to-business-rates', 'UKHospitality Scotland via Cater'),
+    'bidfood': ('https://www.thegrocer.co.uk/news/weight-loss-drugs-to-fuel-rise-of-smaller-plates-in-2027-says-bidfood/724308.article', 'Bidfood via The Grocer'),
+    'wfm': ('https://press.aboutamazon.com/2026/10/whole-foods-market-reveals-its-top-food-and-beverage-trend-predictions-for-2027', 'Whole Foods Market, October 2026'),
+    'datassential': ('https://www.foodmanufacture.co.uk/Article/2026/10/15/2027-flavours-from-buldak-to-koji-milk/', 'Datassential via Food Manufacture, October 2026'),
+    'hojicha': ('https://www.foodmanufacture.co.uk/Article/2026/08/28/what-is-hojicha-and-can-it-overtake-matchas-popularity/', 'Food Manufacture, August 2026'),
+    'pandan': ('https://www.foodnavigator.com/Article/2026/10/27/a-flavour-to-watch-the-rise-of-pandan/', 'FoodNavigator, October 2026'),
+    'sesame': ('https://www.timeout.com/usa/news/is-black-sesame-going-to-be-the-it-flavor-of-2026-112025', 'Time Out'),
+    'westaf': ('https://www.euronews.com/culture/2025/02/18/londons-african-fine-dining-boom-how-restaurants-like-akoko-and-chishuru-are-redefining-th', 'Euronews, February 2025'),
+    'seaweed': ('https://www.scotsman.com/food/scottish-seaweed-set-to-be-next-global-food-trend', 'The Scotsman'),
+    'kelp': ('https://ww1.sruc.ac.uk/media/tfnmad5h/food-and-footprint-kelpcrofting-case-study.pdf', 'SRUC kelpcrofting case study'),
+    'tinned': ('https://www.thecaterer.com/sector/chef/tinned-fish-trend-table', 'The Caterer'),
+}
+S = lambda k: L(*SRC[k])
+SRC_LIST = lambda keys: '<p><b>Sources:</b> ' + ', '.join(S(k) for k in keys) + '.</p>'
+FC_METHOD = ('<p><b>How the projections work.</b> Each line is a recency-weighted straight line through the quarters with enough answers, '
+             'started from the latest solid quarter and damped by 30% each quarter so that no trend runs on for ever. The shaded band is a '
+             'planning range that widens with the horizon and with the steepness of the trend, because a steep trend is the one most likely to stall. It shows how far the line could reasonably wander, not a statistical confidence interval. '
+             'These are projections of the recent trend, not predictions: they say where things go if nothing changes, which is useful precisely '
+             'because something usually does. Calls beyond 2027 are Dream Menu judgement, combining the projections with the published research cited.</p>')
+
+
+MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+ym = lambda x: f'{MON[min(11, int(round((x % 1) * 12)))]} {int(x)}'
+
+
+def fanp(title, c, name, level='groups', k='k1'):
+    it = item(c, name, level)
+    vals, fd = it['share'], faded(c)
+    ai, _ = project(vals, fd, 1)
+    ai, pr = project(vals, fd, len(XL) - 1 - ai)
+    return (title, vals, k, fd, ai, pr)
+
+
+def fan_data(panels):
+    return (['Measure', 'Latest solid quarter', 'Q4 27 on trend', 'Planning range'],
+            [[t, f'{vs[ai]:.1f}% ({XL[ai]})', f'{pr[-1][0]:.1f}%', f'{pr[-1][1]:.1f}% to {pr[-1][2]:.1f}%'] for t, vs, k, fd, ai, pr in panels])
+
+
+def big3(cols_):
+    cls = {'In': '', 'Holding': 'hold', 'Out': 'out'}
+    return '<div class="cs-big3">' + ''.join(f'<div class="{cls[h]}"><h4>{h}</h4><ul>' + ''.join(f'<li>{x}</li>' for x in xs) + '</ul></div>' for h, xs in cols_) + '</div>'
+
+
+def areas_of(city, centres, radius, bbox):
+    kmd = lambda a, b: math.hypot((a[0] - b[0]) * 111, (a[1] - b[1]) * 111 * math.cos(math.radians(a[0])))
+    la0, la1, lo0, lo1 = bbox
+    vs = [v for v in DM['venues'] if v.get('c') == city and not v.get('tw') and v['p'] in ('exact', 'street', 'neighbourhood') and v.get('la') and la0 < v['la'] < la1 and lo0 < v['lo'] < lo1]
+    agg = defaultdict(lambda: dict(v=0, m=0, h=0, names=[], k=Counter()))
+    for v in vs:
+        d, n = min((kmd((v['la'], v['lo']), c), n) for n, c in centres.items())
+        n = n if d < radius else 'Elsewhere'
+        a = agg[n]; a['v'] += 1; a['m'] += v['m']; a['h'] += v.get('cs', {}).get('h', 0); a['names'].append((v['m'], v['n']))
+        for kk, c in v.get('k', []):
+            a['k'][kk] += c
+    return agg
+
+
+def cat_label(c):
+    return c.replace(' / ', ', ').replace('Tartare, carpaccio', 'Tartare and carpaccio')
+
+
+# ------------------------------------------------------------------ 12 Glasgow to 2030
+def r_glasgow_2030():
+    ex = Ex()
+    tot_g = CM['totals'][GI]
+    rows = [r for r in CM['rows'] if not r['cells'][GI]['thin']]
+    gi = sorted(((r['l'], r['cells'][GI]['idx']) for r in rows), key=lambda x: -x[1])
+    ch1 = (ex('Glasgow over-orders margaritas, scallops and tiramisu, and under-orders the Negroni', 'Glasgow\'s index against all Dream Menu answers for the most-named dishes and drinks (100 = average). Bars show the gap from average.',
+              diverge([(n, v - 100) for n, v in gi], unit='', show=lambda v: str(round(v + 100)), left='Less than average', right='More than average'),
+              f'{DM_SRC}; {f0(CM["totals"][GI])} Glasgow answers. Only dishes with enough Glasgow answers shown.',
+              (['Dish or drink', 'Glasgow index', 'Glasgow share'], [[r['l'], r['cells'][GI]['idx'], f'{r["cells"][GI]["share"]}%'] for r in sorted(rows, key=lambda r: -r['cells'][GI]['idx'])]))
+           + '<div class="prose"><p>Glasgow\'s table is generous, loud and familiar. The city indexes high on the margarita (the city\'s signature drink in the archive), scallops, tiramisu, fillet steak and chicken tenders, and low on the Negroni and the martini that define Edinburgh. That profile is a strength for the next five years: the forces below mostly reward classics done well, and they punish novelty that is only there to be photographed.</p></div>'
+           + table(['Market signal', 'What it says about 2030'], [
+               ['<b>38 city-centre food and drink openings in 2025</b>', f'The most since 2018 and about 10% up on 2024, across 87,000 sq ft ({S("savills")}). Demand for space is real.'],
+               ['<b>Prime rents up about 15% to £50 per sq ft</b>', 'Space is getting dearer where footfall is highest. Independents will look to the Southside and the East End.'],
+               ['<b>Larger operators took about a quarter of deals</b>', 'Dishoom and Sticks\'n\'Sushi signal that national brands now see Glasgow as a must-have city. Expect more by 2028.'],
+               ['<b>Rates rises of up to 900% for some bars</b>', f'Scottish pub rates are forecast to rise 77% on average in 2026/27 ({S("rates")}). Wet-led bars are most exposed.'],
+               ['<b>More than four licensed sites closing a day across Britain</b>', f'98,914 sites at the end of 2025, down 382 in the quarter; casual dining down 1.8% ({S("niq")}). Growth and closure are happening at once.'],
+           ]))
+    events = [
+        ('National Living Wage rises to £12.71', 'k0', 2026.25, None, 'April 2026: the third big wage step in three years'),
+        ('Commonwealth Games in Glasgow', 'k3', 2026.56, None, 'July to August 2026: a one-off spike in visitors'),
+        ('£2 bus fare cap across the SPT area', 'k1', 2026.68, None, 'From September 2026: a cheaper way home'),
+        ('Glasgow visitor levy starts at 5%', 'k1', 2027.07, 2031, 'From 25 January 2027, about £16m a year for the visitor economy'),
+        ('Scottish pub and bar rates shock', 'k2', 2026.25, 2029.25, '2026/27 revaluation; average pub bill up 77%'),
+        ('Weight-loss drugs reduce eating-out spend', 'k2', 2026.5, 2031, 'IGD expects almost £1bn less out-of-home spend by 2031'),
+        ('Younger guests drinking less', 'k2', 2026, 2031, 'A steady shift from volume to quality at the bar'),
+        ('National brands enter the city centre', 'k1', 2025.5, 2028.5, 'Dishoom, Sticks\'n\'Sushi and followers'),
+    ]
+    ch2 = (ex('Eight dated forces will shape Glasgow\'s tables to 2031', 'Diamonds are one-off events; bars show when a force builds and lasts. The dotted line is today.',
+              roadmap(events, 2025, 2031, now=2026.83),
+              f'{S("glevy")}; {S("glevy2")}; {S("glp1")}; {S("rates")}; {S("drink")}; {S("savills")}',
+              (['Force', 'Starts', 'Runs to', 'Note'], [[a, ym(s), ym(e) if e else 'One-off', n] for a, _, s, e, n in events]))
+           + sowhat('Glasgow venues', 'The visitor levy is the one force on this list that adds money rather than taking it away. From 2027 about £16m a year will be spent on the visitor economy. Venues that get into the events and marketing plans early will be the ones that benefit.'))
+    panels = [fanp('Spirits (of dream drinks)', 'a', 'Spirits'), fanp('Cocktails (of dream drinks)', 'a', 'Cocktails', k='k2'),
+              fanp('Vegetables and salad (of sides)', 'd', 'Vegetables and salad'), fanp('Potatoes and fries (of sides)', 'd', 'Potatoes and fries', k='k2'),
+              fanp('Seafood (of mains)', 'm', 'Seafood'), fanp('Steak and beef (of mains)', 'm', 'Steak and beef'),
+              fanp('Ice cream and frozen (of desserts)', 'p', 'Ice cream and frozen'), fanp('Chocolate desserts (of desserts)', 'p', 'Chocolate desserts', k='k2')]
+    sp = panels[0]
+    pp = panels[3]
+    ch3 = (ex(f'If recent trends hold, spirits reach about {sp[5][-1][0]:.0f}% of dream drinks and potato sides fall to about {pp[5][-1][0]:.0f}% by the end of 2027', 'Share of dream choices each quarter, with a projection on the recent trend to Q4 2027. Indigo: rising; amber: falling. Each panel has its own scale.',
+              fan_multiples(panels, XL), f'{DM_SRC}. About 57% of answers with a known home market are from Glasgow. Projection method in the appendix.', fan_data(panels))
+           + '<div class="prose"><p>The archive covers the whole of Scotland, but Glasgow supplies most of it, so these lines are the closest thing to a Glasgow demand curve that exists. Three things stand out. The bar is moving from cocktails to spirits and whisky, quickly. Vegetables are taking space from chips on the side order. And seafood keeps climbing as a main course while steak holds its ground. None of this is a fad: each has run for at least four quarters. Treat the chips line with care, though: the first weeks of Q4 2026 point back up, and potatoes are seasonal, which is why its planning range is the widest on the page.</p></div>'
+           + big3([('In', ['Whisky and spirits served simply, by the dram or in a highball', 'Vegetable sides treated as a dish, not a garnish', 'White fish, crab and shellfish mains', 'Ice cream and gelato as the default dessert']),
+                   ('Holding', ['Steak, especially named cuts and sharing steaks', 'Tiramisu, the city\'s favourite dessert', 'Pasta and Italian', 'The margarita, even as the cocktail list shrinks']),
+                   ('Out', ['Long novelty cocktail lists', 'Loaded and dirty fries', 'Chocolate-heavy desserts', 'Anything built for the camera first'])]))
+    agg = areas_of('Glasgow', {'City centre': (55.8615, -4.2560), 'Merchant City': (55.8590, -4.2440), 'Finnieston': (55.8650, -4.2860), 'West End': (55.8750, -4.2930),
+                               'Partick': (55.8700, -4.3090), 'Woodlands': (55.8680, -4.2700), 'Southside': (55.8370, -4.2680), 'Shawlands': (55.8300, -4.2830),
+                               'East End': (55.8550, -4.2330), 'Dennistoun': (55.8610, -4.2130)}, 1.6, (55.80, 55.90, -4.37, -4.17))
+    for a, b in (('Shawlands', 'Southside'), ('Dennistoun', 'East End')):
+        if a in agg:
+            x, y = agg.pop(a), agg[b]
+            for kk in ('v', 'm', 'h'):
+                y[kk] += x[kk]
+            y['names'] += x['names']
+    outlook = {'Southside': ('Rising', 'High mentions per venue and a high hidden-gem share: demand ahead of supply.'),
+               'East End': ('Rising', 'The Barras and Dennistoun have insider buzz and lower rents. The likeliest new district by 2030.'),
+               'Finnieston': ('Maturing', 'Still the destination strip, but rents and saturation slow it. Expect churn, not growth.'),
+               'West End': ('Steady', 'Deep, loyal and residential. Holds its share.'),
+               'City centre': ('Brand-led', 'Most venues and the most national brands. Volume, diluted per venue.'),
+               'Merchant City': ('Steady', 'Evening economy core; exposed to bar rates.'),
+               'Partick': ('Rising', 'Small base, growing interest next to Finnieston.'),
+               'Woodlands': ('Steady', 'Neighbourhood dining around Charing Cross.')}
+    ar = [n for n in sorted(agg, key=lambda n: -agg[n]['m']) if n != 'Elsewhere' and agg[n]['v'] >= 8]
+    ppv = {n: agg[n]['m'] / agg[n]['v'] for n in ar}
+    hid = {n: 100 * agg[n]['h'] / agg[n]['m'] for n in ar}
+    ch4 = (ex('The Southside and the East End combine high mentions per venue with insider buzz: the next five years are theirs', 'Mentions per named venue, by district (8 or more venues). The note shows the share of mentions that are hidden gems or next stops.',
+              hbar([(n, ppv[n], f'{hid[n]:.0f}% hidden gems') for n in sorted(ar, key=lambda n: -ppv[n])], on={n for n in ar if outlook.get(n, ('',))[0] == 'Rising'}, dec=1),
+              f'{DM_SRC}; venue locations from guest answers and address research', (['District', 'Venues', 'Mentions', 'Per venue', 'Hidden-gem share'], [[n, agg[n]['v'], agg[n]['m'], f'{ppv[n]:.1f}', f'{hid[n]:.0f}%'] for n in ar]))
+           + table(['District', 'Outlook to 2030', 'Why'], [[f'<b>{esc(n)}</b>', outlook.get(n, ('Steady', ''))[0], esc(outlook.get(n, ('', 'Small base.'))[1])] for n in ar])
+           + sowhat('investors and landlords', 'Leasing follows attention with a lag of a few years. Finnieston\'s numbers today are what the Southside\'s will look like around 2028, if the pattern of the last decade repeats. The East End is the outside bet.'))
+    sc = [('Classics, done better', 50, 'The base case: steady demand, tighter margins, a better bar.', 'Guests keep eating out but order fewer extras. Spirits, seafood and vegetables grow; cocktail lists shrink. The levy funds a few big events a year. The independent scene moves south and east as rents climb in the centre.', 'spirits share keeps rising; set menus spread; new openings on Victoria Road and in Dennistoun.'),
+          ('The events city', 25, 'The upside: the levy and big events lift the whole year.', 'Levy money goes into a year-round events calendar. Hotel occupancy rises and visitors fill midweek tables. National brands keep arriving, and the city-centre vacancy rate falls.', 'a published levy spending plan with events beyond the summer; hotel occupancy up two years running.'),
+          ('The squeeze', 25, 'The downside: costs outrun prices and the middle closes.', 'Rates, wages and weaker appetite (weight-loss drugs, less drinking) close mid-market casual dining and wet-led bars. The scene polarises between cheap and special.', 'more than one closure a week in the city centre; spend per head falling for two surveys in a row.')]
+    ch5 = scenarios(sc) + '<div class="prose" style="margin-top:18px"><p>The likelihoods are Dream Menu\'s judgement, not a model output. They exist to force a plan for each case: an operator who has a plan only for the base case is betting the business on a coin that lands heads half the time.</p></div>'
+    recs = [('Rebuild the bar around spirits, whisky and a short classic list', f'Spirits rose from {f1(item("a", "Spirits", "groups")["early"])}% to {f1(item("a", "Spirits", "groups")["late"])}% of dream drinks, a clear move, while cocktails fell {abs(item("a", "Cocktails", "groups")["move"]):.0f} points. Fewer, better drinks also suit guests who are drinking less.', 'High', 'Low', 'Next menu change'),
+            ('Make a vegetable side the menu\'s talking point', f'Vegetable and salad sides rose {pts(item("d", "Vegetables and salad", "groups")["move"])} points; potato sides fell {abs(item("d", "Potatoes and fries", "groups")["move"]):.0f}. Both moves are clear.', 'High', 'Low', 'Next menu change'),
+            ('Get into the levy plan before January 2027', 'Venues and suppliers that help shape the events calendar will capture the £16m a year. Approach the council and Glasgow Life now.', 'High', 'Medium', 'Before January 2027'),
+            ('Lease or open on the Southside and in the East End', 'Both districts pair high mentions per venue with insider buzz, at lower rents than Finnieston.', 'High', 'High', '12 to 24 months'),
+            ('Design smaller-portion and protein-led options', f'Weight-loss drugs could take almost £1bn out of eating-out spend by 2031 ({S("glp1")}). Half portions and protein-forward dishes keep those guests coming.', 'Medium', 'Medium', 'During 2027'),
+            ('Re-run this forecast every quarter', 'Each new quarter tightens the planning range and shows which scenario is winning.', 'Medium', 'Low', 'Quarterly')]
+    return render(dict(slug='glasgow-2030', ex=ex, status='sample', aud='forecast venue supplier investor public', **META['glasgow-2030'],
+        title='Glasgow <em>to 2030</em>', desc='A city forecast for Glasgow: what guests will order, which districts rise, the forces that bite, and three scenarios to 2030.',
+        stand='What will Glasgow order in 2027, which districts will lead by 2030, and which forces will decide it? A city forecast built from six quarters of Dream Menu demand data and the latest market research.',
+        client='A supplier, operator group or investor planning for Glasgow', question='How will Glasgow\'s food and drink scene change by 2030, and how should we prepare?', evidence=f'Six quarters of demand data, {f0(CM["totals"][GI])} Glasgow answers, market research',
+        kpis=[('38', 'city-centre food and drink openings in 2025, the most since 2018'), ('£16m', 'a year from the visitor levy, from January 2027'), (f'{pts(item("a", "Spirits", "groups")["move"])} pts', 'spirits as a share of dream drinks, a clear move'), ('50%', 'our likelihood for the base case, "Classics, done better"')],
+        answer='Glasgow is heading for fewer, better drinks, more fish and vegetables, and a scene that moves south and east, with the visitor levy as the one new source of money and rising costs as the main threat.',
+        msgs=[(f'{sp[5][-1][0]:.0f}%', 'by Q4 27', 'The bar turns to spirits', f'On the recent trend, spirits reach about {sp[5][-1][0]:.0f}% of dream drinks by the end of 2027, up from {sp[1][sp[4]]:.0f}%. Cocktails keep losing share.'),
+              ('£16m', 'a year', 'The levy is the upside', 'From January 2027, 5% on overnight stays, spent on the visitor economy. The only force on the list that adds money.'),
+              (f'{ppv.get("Southside", 0):.1f}', 'per venue', 'The scene moves south and east', f'Second only to Finnieston ({ppv.get("Finnieston", 0):.1f}) on mentions per venue; the East End has the highest hidden-gem share ({hid.get("East End", 0):.0f}%).')],
+        chapters=[('today', 'Glasgow today', 'Glasgow orders generous, loud and familiar', 'What the city over-orders against the rest of the archive, and what the property market is saying.', ch1),
+                  ('forces', 'The forces', 'Eight dated forces will shape the next five years', 'Wages, rates, the levy, weight-loss drugs and a generation drinking less, on one timeline.', ch2),
+                  ('menu', 'The menu forecast', 'What Glasgow will order in 2027', 'Six quarters of demand, projected on the recent trend, with a planning range.', ch3),
+                  ('districts', 'The map forecast', 'The Southside and the East End are next', 'Which districts have momentum, and what each is likely to look like by 2030.', ch4),
+                  ('scenarios', 'Scenarios', 'Three ways the city could go', 'A base case and two alternatives, with the early signs of each.', ch5)],
+        recs=recs, recs_lede='Six moves that work in the base case and protect against the downside.',
+        watch=[('Spirits share', 'If spirits stall below a quarter of dream drinks in 2027, the bar shift is slower than projected.'),
+               ('The levy spending plan', 'A plan weighted to year-round events moves the odds towards "The events city".'),
+               ('City-centre closures', 'More than one a week for a quarter would move the odds towards "The squeeze".'),
+               ('Southside rents', 'Rents rising faster than footfall would mean the district is pricing itself out, as Finnieston did.')],
+        method_stats=[('6', 'quarters of demand data'), (f0(tot_g), 'Glasgow answers'), ('8', 'measures projected'), ('3', 'scenarios')],
+        method=FC_METHOD + '<p>City index: Glasgow\'s share of answers for each dish against the share across all answers, times 100. District figures use venues guests named in Glasgow with a known address, assigned to the nearest district centre within 1.6 km (Shawlands joins the Southside, Dennistoun the East End).</p>',
+        sources=SRC_LIST(['savills', 'glevy', 'glevy2', 'rates', 'niq', 'glp1', 'drink']),
+        card=('£16m', 'a year from Glasgow\'s visitor levy from 2027'),
+        blurb='What Glasgow will order in 2027, which districts rise, the forces that bite and three scenarios to 2030.'))
+
+
+# ------------------------------------------------------------------ 13 Edinburgh and Scotland to 2030
+def r_edinburgh_2030():
+    ex = Ex()
+    rows = [r for r in CM['rows'] if not r['cells'][EI]['thin']]
+    ei = sorted(((r['l'], r['cells'][EI]['idx']) for r in rows), key=lambda x: -x[1])
+    neg = city_row('Negroni')['cells'][EI]['idx']
+    tot_e = CM['totals'][EI]
+    ch1 = (ex('Edinburgh drinks like a capital: the Negroni and the martini over-index more than three times', 'Edinburgh\'s index against all Dream Menu answers (100 = average), for dishes with enough Edinburgh answers.',
+              diverge([(n, v - 100) for n, v in ei], show=lambda v: str(round(v + 100)), left='Less than average', right='More than average'),
+              f'{DM_SRC}; {f0(tot_e)} Edinburgh answers', (['Dish or drink', 'Edinburgh index', 'Glasgow index'], [[r['l'], r['cells'][EI]['idx'], r['cells'][GI]['idx']] for r in sorted(rows, key=lambda r: -r['cells'][EI]['idx'])]))
+           + '<div class="prose"><p>Where Glasgow over-orders the margarita, Edinburgh over-orders the Negroni (index ' + str(neg) + ') and the martini. It also leans to sticky toffee pudding, white fish and steak. It is a stirred-drink, white-tablecloth, visitor-shaped appetite, and the next five years will be shaped by the one policy that is already live here and not yet in Glasgow: the visitor levy.</p></div>'
+           + sowhat('a supplier', 'Two cities fifty minutes apart need two bar strategies. In Edinburgh, lead with vermouth, bitters, gin and the stirred classics; in Glasgow, with tequila, whisky and a short sour-led list.'))
+    agg = areas_of('Edinburgh', {'Leith': (55.9750, -3.1720), 'Old Town': (55.9495, -3.1890), 'New Town': (55.9545, -3.1990), 'West End': (55.9485, -3.2110), 'Stockbridge': (55.9590, -3.2085),
+                                 'Southside': (55.9410, -3.1820), 'Bruntsfield': (55.9375, -3.2060), 'Leith Walk': (55.9640, -3.1770)}, 1.3, (55.90, 56.0, -3.35, -3.05))
+    ar = [n for n in sorted(agg, key=lambda n: -agg[n]['m']) if n != 'Elsewhere' and agg[n]['v'] >= 10]
+    ppv = {n: agg[n]['m'] / agg[n]['v'] for n in ar}
+    hid = {n: 100 * agg[n]['h'] / agg[n]['m'] for n in ar}
+    anc = {n: sorted(agg[n]['names'], reverse=True)[0][1] for n in ar}
+    out = {'Leith': 'Rising', 'Leith Walk': 'Rising', 'Stockbridge': 'Steady', 'New Town': 'Brand-led', 'West End': 'Steady', 'Old Town': 'Visitor-led', 'Bruntsfield': 'Steady', 'Southside': 'Rising'}
+    ch2 = (ex('Leith is Edinburgh\'s insider district: the highest share of hidden-gem answers in the city', 'Share of each district\'s mentions that are hidden gems or next stops (10 or more named venues).',
+              hbar([(n, hid[n], f'{agg[n]["v"]} venues, most named: {anc[n]}') for n in sorted(ar, key=lambda n: -hid[n])], on={'Leith', 'Leith Walk'}, unit='%'),
+              f'{DM_SRC}; venue locations from guest answers and address research', (['District', 'Venues', 'Mentions', 'Per venue', 'Hidden-gem share', 'Most named'], [[n, agg[n]['v'], agg[n]['m'], f'{ppv[n]:.1f}', f'{hid[n]:.0f}%', anc[n]] for n in ar]))
+           + ex('The New Town draws the most per venue; the Old Town, full of visitors, the least', 'Mentions per named venue, by district.',
+                hbar([(n, ppv[n]) for n in sorted(ar, key=lambda n: -ppv[n])], on={'New Town'}, alt={'Old Town'}, dec=1), DM_SRC,
+                (['District', 'Per venue', 'Outlook to 2030'], [[n, f'{ppv[n]:.1f}', out.get(n, 'Steady')] for n in ar]))
+           + sowhat('investors and landlords', f'The Old Town has the most named venues ({agg["Old Town"]["v"]}) but the fewest mentions each ({ppv["Old Town"]:.1f}): footfall without loyalty. Leith and Leith Walk are the reverse, and the levy\'s neighbourhood spending could speed them up. Edinburgh\'s Leith is what Glasgow\'s Southside is.'))
+    events = [('Edinburgh visitor levy at 5%', 'k1', 2026.56, 2031, 'From 24 July 2026; up to £50m a year, capped at five nights'),
+              ('Festival season', 'k3', 2026.58, None, 'Every August: the city\'s biggest month, now levy-funded'),
+              ('First full levy year reported', 'k0', 2027.6, None, 'Expected mid-2027: the first evidence of what the money buys'),
+              ('Glasgow levy starts', 'k0', 2027.07, None, 'January 2027: two levy cities, competing for the same visitors'),
+              ('£5m for Leith Theatre and £90m+ of levy programmes', 'k1', 2026.6, 2029.6, 'Three years of projects, including culture in Leith'),
+              ('Chain retreat, independent advance', 'k2', 2026, 2029, 'Pizza Express shut two Leith sites; Las Iguanas left George Street; about 60% of take-up is local independents')]
+    ch3 = (ex('The levy turns Edinburgh into a test case for the rest of Scotland', 'Diamonds are one-off events; bars show programmes that run. The dotted line is today.',
+              roadmap(events, 2026, 2031, now=2026.83), f'{S("elevy")}; {S("elevy50")}; {S("eindie")}', (['Event', 'Starts', 'Note'], [[a, ym(s), n] for a, _, s, e, n in events]))
+           + table(['Signal', 'What it means by 2030'], [
+               ['<b>Up to £50m a year from the levy</b>', f'The UK\'s first city-wide visitor levy went live on 24 July 2026 ({S("elevy")}). By 2030 it will have funded around £200m of visitor-economy spending: events, cleaning, culture and housing.'],
+               ['<b>About 60% of leasing take-up by local independents</b>', f'Footfall up 2% and the highest hotel occupancy of Europe\'s major gateway cities ({S("eindie")}). Independents are winning the space chains are leaving.'],
+               ['<b>Ottolenghi is coming to the west end</b>', 'A London name choosing Edinburgh says the city is now on the national-brand map for food, not just for retail.'],
+               ['<b>Chains leaving</b>', 'Pizza Express closed two Leith sites; Las Iguanas left George Street. Casual-dining chains are the losers of the decade.'],
+           ]))
+    scot = sorted([(m['n'], m['mn']) for m in DM['markets'] if m['k'] == 'city' and m.get('na') == 'Scotland' and m['n'] not in ('Glasgow', 'Edinburgh') and m['mn'] >= 4], key=lambda x: -x[1])[:12]
+    ros = [r for r in CM['rows'] if not r['cells'][2]['thin']]
+    coast = {'Ullapool', 'Portree', 'Tarbert', 'Oban', 'Isle Of Mull', 'Isle of Skye', 'North Berwick', 'Cullen', 'Ardrishaig', 'Largs', 'Isle of Lewis', 'Isle of Arran'}
+    ch4 = (ex('Outside the two cities, guests name coastal and destination venues', 'Venue mentions by town, outside Glasgow and Edinburgh (4 or more). Highlighted: coastal and island towns.',
+              hbar(scot, on={n for n, _ in scot if n in coast}), f'{DM_SRC}; venue locations', (['Town', 'Mentions'], [[n, v] for n, v in scot]))
+           + '<div class="prose"><p>Away from the cities, guests name destinations rather than locals: seafood at Ullapool, Portree and Tarbert, hotel dining at Auchterarder and Crieff, and Aberdeen as the third city. Answers from the rest of Scotland over-index on ' + nice(' / '.join(r['l'].lower() for r in sorted(ros, key=lambda r: -r['cells'][2]['idx'])[:3])) + '. ' + f'Scottish seaweed is being tipped as the next global food trend ({S("seaweed")}), and kelp crofting is turning it into a coastal crop ({S("kelp")}). If it happens, it will start on these coasts, on these menus.</p></div>'
+           + sowhat('tourism bodies', 'The rest of Scotland\'s food story is a journey, not a high street. A seafood and destination-dining trail, funded as levies spread, is the obvious product.'))
+    ch5 = (table(['Theme', 'Direction to 2030', 'Confidence', 'Why'], [
+        ['<b>Stirred classics and aperitivo</b>', 'Growing', 'Medium', 'Edinburgh over-indexes on the Negroni and martini; Whole Foods names "bitter done better" for 2027.'],
+        ['<b>Independent restaurants</b>', 'Growing', 'High', 'About 60% of take-up, as chains retreat from George Street and Leith.'],
+        ['<b>Leith and Leith Walk</b>', 'Growing', 'Medium', 'The highest hidden-gem shares in the city and levy-funded culture in Leith.'],
+        ['<b>Old Town visitor dining</b>', 'Holding', 'Medium', 'Lots of venues, few mentions each. The levy adds visitors, not loyalty.'],
+        ['<b>Casual-dining chains</b>', 'Shrinking', 'High', 'Closures in Leith and George Street mirror the national figures.'],
+        ['<b>Coastal and island seafood destinations</b>', 'Growing', 'Medium', 'Already the most-named venues outside the cities; seaweed could add a second act.'],
+    ]) + '<div class="prose" style="margin-top:12px"><p><b>Why "directional".</b> Edinburgh supplies ' + f0(tot_e) + ' answers to Glasgow\'s ' + f0(CM['totals'][GI]) + ', and the rest of Scotland ' + f0(CM['totals'][2]) + '. That is enough to see the shape of the city\'s appetite, not enough to project it quarter by quarter. Edinburgh\'s growing share of venue mentions since late 2025 mostly reflects where Dream Menu interviews have reached, not a change in demand. A commission would add about 150 Edinburgh interviews to put the city on the same footing as Glasgow.</p></div>')
+    recs = [('Run a separate Edinburgh bar programme', f'Negroni index {neg} and martini {city_row("Martini")["cells"][EI]["idx"]}: vermouth, bitters and gin-led serves, not the Glasgow margarita list.', 'High', 'Low', 'Next quarter'),
+            ('Back independents in Leith and Leith Walk', 'The insider districts, with levy-funded culture arriving. Lease to food-led independents before rents follow.', 'High', 'Medium', '12 to 24 months'),
+            ('Use levy money for food beyond August', 'Fund food events in the shoulder months so that the levy fills tables in March, not only during the festivals.', 'High', 'Medium', 'Next levy round'),
+            ('Build a coastal seafood trail', 'The most-named venues outside the cities are coastal. A trail turns scattered destinations into one product.', 'Medium', 'Medium', '2027'),
+            ('Commission 150 more Edinburgh interviews', 'Moves this read from directional to forecast-grade, with quarterly projections like Glasgow\'s.', 'Medium', 'Low', 'Next quarter')]
+    return render(dict(slug='edinburgh-2030', ex=ex, status='sample', aud='forecast public investor supplier', **META['edinburgh-2030'],
+        title='Edinburgh <em>and Scotland</em> to 2030', desc='A directional forecast for Edinburgh and the rest of Scotland: the capital\'s appetite, Leith\'s rise, the visitor levy test and coastal destinations.',
+        stand='Edinburgh is the UK\'s first levy city and orders like a capital. A directional forecast for the capital and the rest of Scotland, from Dream Menu data and the latest market research.',
+        client='A tourism body, investor or supplier with Scottish ambitions', question='How will Edinburgh and the rest of Scotland change by 2030, and where are the openings?', evidence=f'{f0(tot_e)} Edinburgh answers, {f0(MK["Edinburgh"]["v"])} Edinburgh venues, market research',
+        kpis=[('£50m', 'a year expected from Edinburgh\'s visitor levy'), (str(neg), 'Edinburgh\'s Negroni index (100 = average)'), (f'{hid["Leith"]:.0f}%', 'of Leith mentions are hidden gems'), ('60%', 'of Edinburgh leasing take-up by local independents')],
+        answer='Edinburgh is a stirred-drink, independent-led capital whose next five years will be shaped by the levy and by Leith, while the rest of Scotland\'s food story is coastal destinations; read this as direction, not a forecast, until the sample grows.',
+        msgs=[(str(neg), 'index', 'A capital\'s appetite', 'Edinburgh over-orders the Negroni and martini more than three times; Glasgow the margarita.'),
+              (f'{hid["Leith"]:.0f}%', 'hidden gems', 'Leith is the insider district', f'The highest hidden-gem share in the city; the Old Town has the most venues but just {ppv["Old Town"]:.1f} mentions each.'),
+              ('£50m', 'a year', 'The levy test', 'Live since 24 July 2026. What it buys will decide whether other Scottish cities follow.')],
+        chapters=[('appetite', 'The appetite', 'Edinburgh drinks like a capital', 'What the city orders more and less of than the rest of the archive.', ch1),
+                  ('districts', 'The districts', 'Leith is Edinburgh\'s Southside', 'Where guests name their hidden gems, and where the visitors are.', ch2),
+                  ('levy', 'The levy', 'The UK\'s first levy city is the test case', 'What is already live, what is coming and what the market is saying.', ch3),
+                  ('scotland', 'The rest of Scotland', 'Outside the cities, the story is the coast', 'The towns guests name and the ingredient that could come next.', ch4),
+                  ('outlook', 'Outlook', 'Direction to 2030', 'Six themes, with direction and confidence.', ch5)],
+        recs=recs,
+        watch=[('Levy spending', 'If the first report shows levy money in events beyond August, raise the odds on Leith and the shoulder months.'),
+               ('Independent take-up', 'If the 60% share holds through 2027, the chain retreat is structural.'),
+               ('Negroni and martini share', 'A fall would suggest the stirred-drinks profile is a 2026 fashion rather than the city\'s character.'),
+               ('Other levies', 'Highland and other councils adopting levies would fund the coastal trail.')],
+        method_stats=[(f0(tot_e), 'Edinburgh answers'), (f0(MK['Edinburgh']['v']), 'Edinburgh venues named'), (f0(sum(agg[n]['v'] for n in ar)), 'venues mapped to districts'), (f0(CM['totals'][2]), 'rest-of-Scotland answers')],
+        method='<p>City index as in No. 12. Edinburgh districts use venues with a known address, assigned to the nearest of eight district centres within 1.3 km. Town mentions use venue locations from guest answers. This report is directional: no quarterly projections are made for Edinburgh because the quarterly samples are too small.</p>',
+        sources=SRC_LIST(['elevy', 'elevy50', 'eindie', 'seaweed', 'kelp', 'wfm']),
+        card=(str(neg), 'Edinburgh\'s Negroni index: a capital\'s appetite'),
+        blurb='The capital\'s appetite, Leith\'s rise, the levy test and the coastal story, read as direction to 2030.'))
+
+
+# ------------------------------------------------------------------ 14 Ten forces to 2031
+def r_forces():
+    ex = Ex()
+    sp, ck = item('a', 'Spirits', 'groups'), item('a', 'Cocktails', 'groups')
+    veg, pot = item('d', 'Vegetables and salad', 'groups'), item('d', 'Potatoes and fries', 'groups')
+    fish = item('m', 'Cod, hake and white fish')
+    asd = item('d', 'Asian', 'groups')
+    F = [
+        (1, 'The appetite shrinks', '£1bn', 'less out-of-home spend by 2031 from weight-loss drugs', f'IGD expects GLP-1 medicines to take almost £1bn out of eating-out spend by 2031 ({S("glp1")}). Users eat less and drink less; they still go out. Portions, protein and price per plate all change.', '2027 onward', 'down'),
+        (2, 'A generation drinks less', '24%', 'of adults did not drink in 2024, up from 19% in 2022', f'Fewer than 2% of people in their 20s drink daily, against 14% in their 60s ({S("drink")}). The bar has to make money from fewer, better drinks and a serious alcohol-free list.', 'Now', 'down'),
+        (3, 'Drink less, drink better', f'{pts(sp["move"])} pts', 'spirits as a share of dream drinks, a clear move', f'Spirits rose from {f1(sp["early"])}% to {f1(sp["late"])}% of dream drinks and cocktails fell {abs(ck["move"]):.0f} points. Whisky and lager lead. Guests are moving from novelty to the classic pour.', 'Now', 'mixed'),
+        (4, 'The cost stack keeps rising', '4+', 'licensed sites closing a day in Britain at the end of 2025', f'Wages (£12.71 from April 2026), rates (Scottish pubs up 77%) and energy keep rising; 382 sites closed in one quarter ({S("niq")}). The middle of the market is the most exposed.', 'Now to 2029', 'down'),
+        (5, 'Cities tax visitors to fund themselves', '£66m', 'a year from the Edinburgh and Glasgow levies combined', f'Edinburgh\'s 5% levy went live in July 2026 (up to £50m a year); Glasgow\'s starts in January 2027 (about £16m) ({S("elevy")}, {S("glevy")}). Events and visitor spending will be planned around the money.', '2026 onward', 'up'),
+        (6, 'Vegetables move to the middle', f'{pts(veg["move"])} pts', 'vegetable and salad sides, a clear move', f'Vegetable sides rose and potato sides fell {abs(pot["move"]):.0f} points. Mediterranean sides are up too. This is guests choosing vegetables, not being told to.', 'Now', 'up'),
+        (7, 'Provenance becomes the point', f'{PT["Local, seasonal and Scottish produce"]}', f'of {POS["answers"]} guests want more local and seasonal food, the top answer', f'Asked which trend they want more of, guests name local, seasonal and Scottish produce more than anything else. White fish mains rose from {f1(fish["early"])}% to {f1(fish["late"])}%, a clear move.', 'Now to 2031', 'up'),
+        (8, 'Hype burns out faster', '113', 'guests want matcha gone; 105 want Dubai chocolate gone', 'Viral trends now reach the "bin it" list within a year of peaking. Novelty still sells for a season, but it no longer builds a reputation.', 'Now', 'mixed'),
+        (9, 'Asia keeps arriving', f'{pts(asd["move"])} pts', 'Asian sides, a clear move', f'Korean, Japanese and South-East Asian flavours move from specialists to mainstream menus: hojicha, pandan, buldak and koji are all on 2027 trend lists ({S("datassential")}).', '2027 to 2030', 'up'),
+        (10, 'The format gets rethought', f'{PT["Small plates and sharing"]}', f'guests want more small plates, while 35 want them gone', 'Small plates are the only trend that is both loved and loathed. Set menus, solo-friendly portions, chef\'s counters and short menus are the formats that follow.', '2026 to 2029', 'mixed'),
+    ]
+    imp = {1: .82, 2: .78, 3: .68, 4: .92, 5: .6, 6: .42, 7: .68, 8: .28, 9: .38, 10: .58}
+    unc = {1: .66, 2: .2, 3: .56, 4: .1, 5: .3, 6: .26, 7: .14, 8: .36, 9: .74, 10: .84}
+    ch1 = forces(F)
+    mx_ = matrix([(n, t, imp[n], unc[n]) for n, t, *_ in F], xl=('More certain', 'Less certain'), yl=('Lower impact', 'Higher impact'),
+                 q=('Prepare scenarios', 'Plan for it', 'Track it', 'Wildcards'))
+    when = [(f'{n:02d}. {t}', 'k1' if d == 'up' else 'k2' if d == 'down' else 'k3', a, b, hz) for (n, t, s, sl, body, hz, d), (a, b) in zip(F, [(2027, 2031), (2025, 2031), (2025.5, 2028.5), (2025, 2029.5), (2026.56, 2031), (2025.75, 2029), (2026, 2031), (2025.5, 2027.5), (2026.5, 2030.5), (2026, 2029.5)])]
+    ch2 = (ex('Four forces are both big and near-certain: plan for them now', 'Each force placed by our view of its impact on Scottish hospitality and how certain it is.', mx_,
+              'Dream Menu assessment', (['Force', 'Impact (0 to 1)', 'Uncertainty (0 to 1)'], [[t, imp[n], unc[n]] for n, t, *_ in F]))
+           + ex('When each force bites', 'Bars show when each force is strongest. Indigo: growing; amber: shrinking demand or margin; teal: reshaping. The dotted line is today.',
+                roadmap(when, 2025, 2031, now=2026.83), 'Dream Menu assessment from the sources cited on each force', (['Force', 'From', 'To'], [[a, ym(s), ym(e)] for a, _, s, e, _ in when])))
+    panels = [fanp('Spirits (of dream drinks)', 'a', 'Spirits'), fanp('Cocktails (of dream drinks)', 'a', 'Cocktails', k='k2'),
+              fanp('Vegetables and salad (of sides)', 'd', 'Vegetables and salad'), fanp('Potatoes and fries (of sides)', 'd', 'Potatoes and fries', k='k2'),
+              fanp('White fish (of mains)', 'm', 'Cod, hake and white fish', level='cats'), fanp('Asian (of sides)', 'd', 'Asian')]
+    tags = sorted(PT.items(), key=lambda x: -x[1])[:12]
+    ch3 = (ex('Forces 3, 6, 7 and 9 already show in what guests choose', 'Share of dream choices each quarter, with a projection on the recent trend to Q4 2027. Each panel has its own scale.', fan_multiples(panels, XL), f'{DM_SRC}. Projection method in the appendix.', fan_data(panels))
+           + ex('What guests want more of: local and seasonal food comes first', f'"Is there a trend you\'d like to see more of?" {POS["answers"]} answers, 13 August to 29 October 2026, coded by Dream Menu. One answer can name more than one.',
+                hbar(tags, on={tags[0][0]}), 'Dream Menu interviews; hand-coded, counts approximate', (['Theme', 'Answers'], [[a, b] for a, b in tags])))
+    imp_rows = [
+        ['<b>01 The appetite shrinks</b>', 'Half portions, protein-led plates, price per plate not per head', 'Smaller pack formats, protein lines', 'Fewer covers needed per site; value formats win'],
+        ['<b>02 A generation drinks less</b>', 'A real alcohol-free list, priced for margin', 'Premium soft drinks and alcohol-free', 'Wet-led bars are the riskiest assets'],
+        ['<b>03 Drink less, drink better</b>', 'Shorter cocktail lists; a whisky and spirits offer', 'Spirits and whisky ranging and training', 'Bars with a food or experience angle'],
+        ['<b>04 The cost stack</b>', 'Set menus, fewer dishes, less waste', 'Price holds and cost-engineered recipes', 'Distress sales and better entry prices'],
+        ['<b>05 Visitor levies</b>', 'Join the events calendar', 'Event packs and pop-up bars', 'Hotel-adjacent and event-district units'],
+        ['<b>06 Vegetables move to the middle</b>', 'A hero vegetable side', 'Premium vegetables and dressings', 'Lower food cost per plate'],
+        ['<b>07 Provenance</b>', 'Name farms, boats and makers', 'Scottish-sourced ranges with stories', 'Destination dining outside the cities'],
+        ['<b>08 Hype burns out</b>', 'One special at a time, retired fast', 'Short-run limited editions', 'Avoid concept bets built on one trend'],
+        ['<b>09 Asia keeps arriving</b>', 'One Asian-led dish per course', 'Pastes, ferments and flavours', 'Asian concepts outside the centre'],
+        ['<b>10 Format rethink</b>', 'Clear portions; counters and set menus', 'Portion-controlled formats', 'Smaller, more flexible units'],
+    ]
+    ch4 = table(['Force', 'For operators', 'For suppliers', 'For investors and property'], imp_rows)
+    recs = [('Plan for the four certain forces this year', 'Costs, less drinking, provenance and visitor levies are high-impact and near-certain. Put each into the 2027 plan with an owner.', 'High', 'Low', 'Now'),
+            ('Write a smaller-appetite menu', 'Half portions, protein-led dishes and price per plate protect covers as weight-loss drugs spread.', 'High', 'Medium', 'During 2027'),
+            ('Rebuild the drinks list for fewer, better drinks', 'Spirits up, cocktails down and young guests drinking less all point the same way.', 'High', 'Low', 'Next menu change'),
+            ('Make provenance specific', 'Local and seasonal is the most-wanted trend. Name the farm, the boat and the maker.', 'Medium', 'Low', 'Now'),
+            ('Retire one hype item a season', 'Hype burns out within a year. Keep novelty to a single, time-limited special.', 'Medium', 'Low', 'Every season'),
+            ('Track the wildcards quarterly', 'Weight-loss drug uptake and new formats are the least certain. Quarterly data shows which way they break.', 'Medium', 'Low', 'Quarterly')]
+    return render(dict(slug='ten-forces', ex=ex, status='sample', aud='forecast venue supplier investor public', **META['ten-forces'],
+        title='Ten forces <em>to 2031</em>', desc='The ten long-term forces that will reshape eating out in Scotland to 2031, with evidence, timing, impact and what to do about each.',
+        stand='Weight-loss drugs, a generation drinking less, visitor levies and a menu turning to vegetables and fish: the ten forces that will reshape eating out in Scotland over the next five years, and what to do about each.',
+        client='Any business planning beyond next quarter', question='What will reshape eating out in Scotland over the next five years?', evidence=f'Six quarters of Dream Menu data, {POS["answers"]} trend answers, published research',
+        kpis=[('£1bn', 'less out-of-home spend by 2031 from weight-loss drugs'), ('24%', 'of adults did not drink in 2024'), (f'{pts(sp["move"])} pts', 'spirits as a share of dream drinks'), ('£66m', 'a year from Scotland\'s two city levies')],
+        answer='The next five years will reward businesses that sell less but better: smaller portions, fewer and better drinks, vegetables, fish and named provenance, paid for in part by visitors through the new levies.',
+        msgs=[('4', 'forces', 'Plan for these now', 'Rising costs, a generation drinking less, provenance and visitor levies are both high-impact and near-certain.'),
+              ('3', 'to prepare for', 'Prepare scenarios', 'How far weight-loss drugs spread, how durable the drinks shift is and how formats change are all big but uncertain.'),
+              ('4', 'already visible', 'The data is ahead of the headlines', 'Spirits, vegetables, white fish and Asian sides are already moving in Dream Menu answers.')],
+        chapters=[('forces', 'The ten forces', 'Ten forces will reshape eating out by 2031', 'Each with the number that matters, the evidence and when it bites.', ch1),
+                  ('priority', 'Priority', 'Four forces are big and near-certain', 'Impact against certainty, and the timeline.', ch2),
+                  ('evidence', 'The evidence', 'Four forces already show in what guests choose', 'Dream Menu demand data, projected on the recent trend.', ch3),
+                  ('implications', 'Implications', 'What each force means for you', 'By audience: operators, suppliers, investors and property.', ch4)],
+        recs=recs,
+        watch=[('Weight-loss drug uptake', 'Faster uptake than IGD expects would move force 1 into "plan for it".'),
+               ('Alcohol-free share', 'If alcohol-free starts to gain share of dream drinks, force 2 has reached the menu.'),
+               ('Levy spending', 'Where the money goes decides whether force 5 lifts the whole year or only August.'),
+               ('Small plates', 'A clear rise in the "bin it" count would confirm the format shift in force 10.')],
+        method_stats=[('10', 'forces'), ('6', 'quarters of demand data'), (str(POS['answers']), 'trend answers coded'), (str(len(SRC)), 'published sources')],
+        method=FC_METHOD + '<p>Impact and certainty scores are Dream Menu judgement, made before reading the demand data so that the data could confirm or contradict them. Trend answers come from the question added on 13 August 2026 and are coded by hand.</p>',
+        sources=SRC_LIST(['glp1', 'drink', 'niq', 'rates', 'elevy', 'glevy', 'datassential', 'bidfood', 'wfm']),
+        card=('10', 'forces reshaping Scottish eating out to 2031'),
+        blurb='Weight-loss drugs, less drinking, visitor levies and the turn to vegetables and fish: ten forces to 2031.'))
+
+
+# ------------------------------------------------------------------ 15 The edge of the menu
+def r_niche():
+    ex = Ex()
+    STG = [('Fringe', 'A handful of venues'), ('Early adopters', 'Chefs and specialists'), ('Crossing over', 'Independents take it up'), ('Mainstream', 'On chain menus'), ('Past the peak', 'Fatigue sets in')]
+    BN = dict(BIN)
+    # name, stage, confidence, when (label), start, end, what, signal, who
+    W = [
+        ('Dirty soda', 0, 'Low', 'Maybe never', 2027, 2030, 'Cola or soda with cream, syrups and lime, from Utah', '1 guest asked for it; big US coverage. Sugar and Scotland\'s Irn Bru loyalty make it a hard sell.', 'Soft drinks brands'),
+        ('West African fine dining', 0, 'Low', '2030+', 2028, 2031, 'Suya, jollof and fermented flavours at the top end', f'Michelin stars for Chishuru and Akoko in London ({S("westaf")}); not yet in Scotland.', 'Investors, chefs'),
+        ('Phone-free dining', 0, 'Low', '2029', 2027, 2029.5, 'Pouches for phones, no filming at the table', f'1 guest asked for it; 45 want filming food gone. A reaction to the camera.', 'Operators'),
+        ('Koji and koji milk', 0, 'Low', '2029', 2027.5, 2029.5, 'Japanese mould ferment used for umami, now in oat milk', f'On the 2027 Datassential list ({S("datassential")}). Chef-led for now.', 'Chefs, dairy-free brands'),
+        ('Hojicha', 1, 'Medium', '2028', 2026.5, 2028.3, 'Roasted green tea: nutty, lower caffeine, less bitter than matcha', f'1 guest named it; trade press asks if it is matcha\'s successor ({S("hojicha")}). Matcha tops the "bin it" list ({BN.get("Matcha", 0)}).', 'Cafés, drinks brands'),
+        ('Pandan', 1, 'Medium', '2028', 2026.5, 2028.5, 'South-East Asian leaf: grassy vanilla, bright green', f'Part of {PT["Asian dessert flavours (ube, pandan, black sesame, kinako)"]} guests asking for Asian dessert flavours; Black Sheep Coffee launched pandan drinks in the UK in April 2026 ({S("pandan")}).', 'Dessert and bakery'),
+        ('Black sesame', 1, 'Medium', '2028', 2026.5, 2028.5, 'Toasted, nutty, grey-black: ice cream, buns, lattes', f'Tipped as an "it" flavour ({S("sesame")}); named by Glasgow guests alongside ube and kinako.', 'Ice cream, bakery'),
+        ('Scottish seaweed', 1, 'Medium', '2029', 2027, 2029.5, 'Kelp, dulse and sugar kelp as seasoning, butter and side', f'Tipped as the next global food trend ({S("seaweed")}); kelp crofting is scaling ({S("kelp")}).', 'Suppliers, coastal venues'),
+        ('Gildas and conservas', 1, 'Medium', '2028', 2026.5, 2028.3, 'Basque pintxo on a stick; premium tinned fish', f'1 guest named gildas; tinned fish is "the latest trend on the table" ({S("tinned")}).', 'Bars, wine bars'),
+        ('Omakase and chef\'s counters', 1, 'Medium', '2028', 2026, 2028.5, 'Chef chooses; guests sit at the pass', f'{PT[OMK]} guests asked for it. Small units, high spend per head.', 'Operators, landlords'),
+        ('Nose to tail cuts', 1, 'Low', '2029', 2026.5, 2029.5, 'Tongue, cheek, offal, treated as the main event', f'{PT["Nose to tail (beef tongue)"]} guests asked for beef tongue and similar; fits the cost-cutting and provenance forces.', 'Butchers, chefs'),
+        ('Crispy rice', 1, 'Low', '2028', 2026.75, 2028.3, 'Pressed, fried rice squares topped with tuna or salmon', '1 guest named it; widespread in US Japanese-fusion menus.', 'Asian concepts'),
+        ('Luxury bites', 1, 'Low', '2028', 2026.5, 2028.5, 'A caviar bump, one piece of bluefin: luxury by the bite', f'{PT["Luxury made accessible (caviar, bluefin)"]} guests asked for luxury made accessible.', 'Cocktail bars, seafood'),
+        ('Ferments and pickles', 2, 'High', '2027', 2025.5, 2027.5, 'Kimchi, miso, house pickles, wild beer and natural wine', f'{PT["Ferments, pickles and miso"]} guests asked for more; "Function and Ferment" is a Bidfood 2027 trend ({S("bidfood")}).', 'Suppliers, all menus'),
+        ('Korean, beyond fried chicken', 2, 'Medium', '2027', 2025.75, 2027.75, 'Buldak heat, makgeolli, Korean barbecue', f'{PT["Korean"]} guests asked for Korean; buldak and makgeolli are on 2027 lists ({S("datassential")}). Asian sides are a clear riser.', 'Operators, suppliers'),
+        ('Retro revival', 2, 'High', '2027', 2025.75, 2027.5, 'Prawn cocktail, Black Forest gâteau, school-dinner puddings', f'{PT["Retro and nostalgia dishes"]} guests asked for it, the third-biggest theme.', 'Pubs, dessert suppliers'),
+        ('Single-dessert specialists', 2, 'Medium', '2027', 2025.75, 2027.5, 'Shops that do one thing: tiramisu, cheesecake, gelato', f'{PT["Tiramisu and single-dessert specialists"]} guests named them; tiramisu is Glasgow\'s favourite dessert.', 'Landlords, dessert brands'),
+        ('Smaller portions and protein', 2, 'High', '2027', 2026.25, 2027.75, 'Half portions, protein-led plates, calorie clarity', f'{PT["Health, protein and lighter options"]} guests asked for it; weight-loss drugs will cut spend by almost £1bn ({S("glp1")}).', 'All'),
+        ('Regional Mexican', 2, 'Medium', '2028', 2026, 2028.3, 'Al pastor, Mexico City street food, salsa negra', f'1 guest asked for al pastor; Mexico City cuisine is on the 2027 lists ({S("datassential")}).', 'Operators'),
+        ('Small plates', 3, 'High', 'Now', 2023, 2026, 'Sharing plates across the table', f'{PT["Small plates and sharing"]} guests want more; {BN.get("Small plates", 0)} want them gone. Loved and loathed.', 'Operators'),
+        ('Tiramisu', 3, 'High', 'Now', 2024, 2026, 'The default dessert of the decade', 'The most-named dessert in Glasgow, holding its share. A classic now, not a trend.', 'Dessert suppliers'),
+        ('Matcha', 4, 'High', 'Fading by 2027', 2024, 2027, 'Green tea in everything', f'Top of the "bin it" list ({BN.get("Matcha", 0)}). Settling as a drink, leaving desserts.', 'Cafés'),
+        ('Dubai chocolate', 4, 'High', 'Fading now', 2025, 2026.75, 'Pistachio, kataifi and chocolate', f'{BN.get("Dubai chocolate", 0)} want it gone; nobody asked for more.', 'Dessert suppliers'),
+        ('Hot honey', 4, 'High', 'Fading by 2027', 2024, 2027.25, 'Chilli honey on pizza, chicken and halloumi', f'{BN.get("Hot honey", 0)} want it gone; {PT["Hot honey and flavoured honey"]} still want more.', 'Pizza, chicken concepts'),
+        ('Pistachio everything', 4, 'Medium', 'Fading by 2027', 2024.5, 2027.25, 'Pistachio cream in croissants, lattes, desserts', f'{BN.get("Pistachio (everything)", 0)} want it gone; {PT["Pistachio"]} want more. Expect it to settle in gelato.', 'Bakery, coffee'),
+        ('Loaded fries', 4, 'High', 'Fading now', 2023, 2026.5, 'Fries buried under toppings', f'Down from {f1(item("d", "Loaded fries")["early"])}% to {f1(item("d", "Loaded fries")["late"])}% of dream sides, a clear fall; {BN.get("Loaded and dirty food", 0)} want loaded food gone.', 'Operators'),
+    ]
+    nW = len(W)
+    up = [w for w in W if w[1] <= 2]
+    ch1 = (ex(f'{nW} items on one curve: most of what is coming is still with chefs and specialists', 'Each item placed at its current stage of adoption in Scotland. Hover a chip for the evidence.',
+              lanes(STG, [(w[0], w[1], w[2], w[3], w[7]) for w in W]),
+              f'Dream Menu assessment from {DM_SRC}, {POS["answers"]} coded trend answers, the "bin it" question and the published sources in each profile',
+              (['Item', 'Stage', 'Confidence', 'Mainstream in Glasgow'], [[w[0], STG[w[1]][0], w[2], w[3]] for w in W]))
+           + sowhat('menu developers', 'The useful part of the curve is the middle. Fringe items are too early to bet on and items past the peak are already costing goodwill. The six items crossing over now are where a menu or a range can lead without gambling.'))
+    led = [('Matcha', 0, BN.get('Matcha', 0)), ('Dubai chocolate', 0, BN.get('Dubai chocolate', 0)), ('Filming food', PT['Phone-free dining and dress codes'], BN.get('Filming food and mukbang', 0)),
+           ('Loaded and dirty food', 0, BN.get('Loaded and dirty food', 0)), ('Small plates', PT['Small plates and sharing'], BN.get('Small plates', 0)),
+           ('Hot honey', PT['Hot honey and flavoured honey'], BN.get('Hot honey', 0)), ('Pistachio', PT['Pistachio'], BN.get('Pistachio (everything)', 0)),
+           ('Local and seasonal', PT['Local, seasonal and Scottish produce'], 0), ('Retro and nostalgia', PT['Retro and nostalgia dishes'], 0), ('Ferments and pickles', PT['Ferments, pickles and miso'], 0)]
+    ch2 = (ex('The hype ledger: what guests want gone outweighs what they want more of, except for small plates', 'Mentions of each theme in the "bin it" question (left) and the "more of" question (right). The two questions have different sample sizes, so compare shapes, not totals.',
+              ledger([(a, p, n) for a, p, n in led]), f'{DM_SRC}; "bin it" answers since July 2025; "more of" answers since 13 August 2026', (['Theme', 'Want it gone', 'Want more'], [[a, n, p] for a, p, n in led]))
+           + '<div class="prose"><p>Two patterns repeat. First, a trend reaches the "bin it" list within about a year of its peak: matcha and Dubai chocolate went from novelty to irritation inside 2025 and 2026. Second, what guests ask for instead is rarely another novelty. Local and seasonal food, retro classics and ferments all point the same way: real food with a story, made properly. The exception is small plates, the one trend that is both loved and loathed, which means the format is right and the execution (portion, price, pacing) is what guests are judging.</p></div>')
+    rm = [(w[0], 'k1' if w[2] == 'High' else 'k3' if w[2] == 'Medium' else 'k0', w[4], w[5], f'{STG[w[1]][0]}; {w[3]}') for w in sorted(up, key=lambda w: (w[5], w[4]))]
+    ch3 = (ex('When the arrivals reach mainstream Glasgow menus', 'Bars run from first sightings in Scotland to the point we expect the item on mainstream Glasgow menus (the dot). Indigo: high confidence; teal: medium; grey: speculative. The dotted line is today.',
+              roadmap(rm, 2025, 2031, now=2026.83), 'Dream Menu judgement from the evidence in each profile', (['Item', 'First sightings', 'Mainstream', 'Confidence'], [[w[0], ym(w[4]), w[3], w[2]] for w in sorted(up, key=lambda w: (w[5], w[4]))]))
+           + sowhat('suppliers', 'Most arrivals take two to three years from first sightings to mainstream in Glasgow, usually by way of London and then Edinburgh. That gap is the window to develop, test and range a product before demand peaks.'))
+    prof = table(['Item', 'What it is', 'The signal', 'Stage', 'Mainstream in Glasgow', 'Confidence', 'Who should act'],
+                 [[f'<b>{esc(w[0])}</b>', esc(w[6]), w[7], STG[w[1]][0], esc(w[3]), w[2], esc(w[8])] for w in sorted(W, key=lambda w: (w[1], w[0]))])
+    tells = ('<ul class="cs-msgs" style="margin-top:18px">'
+             '<li><span class="n">01</span><h3>A chef names it before a guest does</h3><p>Items start in chef and staff answers. When guests start naming them unprompted, the item is crossing over.</p></li>'
+             '<li><span class="n">02</span><h3>It arrives as a flavour, then a dish</h3><p>Pandan and black sesame arrive in lattes and ice cream first. A dedicated dish is the sign of the next stage.</p></li>'
+             '<li><span class="n">03</span><h3>Edinburgh first, Glasgow a year later</h3><p>Stirred drinks and specialist formats tend to land in Edinburgh first; Glasgow adopts and scales.</p></li>'
+             '<li><span class="n">04</span><h3>The "bin it" list is the peak</h3><p>When an item first appears in "bin it" answers, it has peaked. Retire it within two seasons.</p></li></ul>')
+    ch4 = prof + tells
+    recs = [('Range ferments and pickles now', f'Crossing over with high confidence: {PT["Ferments, pickles and miso"]} guests asked for more, and it fits the provenance and vegetable forces.', 'High', 'Low', 'Now'),
+            ('Retire Dubai chocolate, and limit pistachio and hot honey to one dish each', f'{BN.get("Dubai chocolate", 0)}, {BN.get("Pistachio (everything)", 0)} and {BN.get("Hot honey", 0)} guests want them gone. Each is costing goodwill.', 'Medium', 'Low', 'Now'),
+            ('Swap matcha for hojicha on the drinks list', 'Keeps the green-tea guest and leaves the most-binned trend behind.', 'Medium', 'Low', 'Next menu change'),
+            ('Build a winter retro menu', f'{PT["Retro and nostalgia dishes"]} guests asked for retro classics: prawn cocktail, Black Forest gâteau, school puddings. Low cost, high affection.', 'High', 'Low', 'Winter 2026'),
+            ('Develop smaller-portion and protein lines', 'High confidence and growing, driven by weight-loss drugs. Suppliers who are ready in 2027 set the standard.', 'High', 'Medium', 'During 2027'),
+            ('Trial one Asian dessert flavour in summer 2027', 'Pandan or black sesame in ice cream or a bun, as a limited run. Cheap to test and early on the curve.', 'Medium', 'Low', 'Spring 2027'),
+            ('Partner a Scottish seaweed producer', 'Early, but uniquely Scottish. A supplier who develops it now owns the story if it crosses over.', 'Low', 'Medium', '2028')]
+    return render(dict(slug='edge-of-the-menu', ex=ex, status='sample', aud='forecast supplier venue', **META['edge-of-the-menu'],
+        title='The edge <em>of the menu</em>', desc=f'A watchlist of {nW} niche foods, drinks and formats that could reach Scottish menus, placed on an adoption curve with timing and confidence.',
+        stand=f'Hojicha, pandan, seaweed, gildas and the retro revival: {nW} niche items on one adoption curve, with when we expect each on mainstream Glasgow menus, how sure we are, and which trends are already burning out.',
+        client='A food supplier or menu development team', question='Which niche items will reach Scottish menus next, and when?', evidence=f'{POS["answers"]} trend answers, "bin it" answers, six quarters of data, trade research',
+        kpis=[(str(nW), 'items on the watchlist'), (str(sum(1 for w in W if w[1] == 2)), 'crossing over now'), (str(BN.get('Matcha', 0)), 'guests want matcha gone, the top of the list'), ('2 to 3', 'years from first sighting to mainstream Glasgow')],
+        answer='The next wave is real food with a story (ferments, retro classics, smaller protein-led plates, Asian dessert flavours) rather than another viral novelty, and it reaches mainstream Glasgow menus two to three years after it first appears.',
+        msgs=[(str(sum(1 for w in W if w[1] == 2)), 'crossing over', 'Where to lead', 'Ferments, Korean, retro, single-dessert shops, smaller portions and regional Mexican are moving from specialists to independents now.'),
+              (str(BN.get('Matcha', 0) + BN.get('Dubai chocolate', 0)), '"bin it" votes', 'Hype burns out in a year', 'Matcha and Dubai chocolate went from novelty to irritation inside two years.'),
+              ('2 to 3', 'years', 'The window', 'From first sighting to mainstream Glasgow menus, usually by way of London and Edinburgh.')],
+        chapters=[('curve', 'The curve', f'{nW} items on one adoption curve', 'Where each item sits today, and how sure we are.', ch1),
+                  ('hype', 'The hype ledger', 'What guests want gone outweighs what they want more of', 'Set side by side, the two questions show what is burning out and what replaces it.', ch2),
+                  ('arrivals', 'Arrivals', 'When the arrivals reach Glasgow', 'Expected timing for the items on the way up.', ch3),
+                  ('profiles', 'Profiles', f'All {nW} items, and how to spot the next one', 'What each is, the signal behind it, timing, confidence and who should act.', ch4)],
+        recs=recs,
+        watch=[('New "bin it" entries', 'The first "bin it" mention of an item on the way up means it has peaked faster than expected.'),
+               ('Guest-named arrivals', 'An item named by three or more guests in a quarter moves up a stage.'),
+               ('Hojicha against matcha', 'If matcha leaves the "bin it" list without hojicha rising, green tea fatigue is general, not matcha-specific.'),
+               ('Seaweed supply', 'Kelp crofting volumes and price decide whether seaweed can reach chain menus.')],
+        method_stats=[(str(nW), 'items assessed'), (str(POS['answers']), 'trend answers coded'), (f0(sum(v for _, v in BIN)), '"bin it" mentions (top 10)'), ('5', 'adoption stages')],
+        method='<p>Stage, timing and confidence are Dream Menu judgement, combining what guests say (the "more of" and "bin it" questions), what they choose (six quarters of dream dishes and drinks) and published trade research. "Mainstream in Glasgow" means we would expect to find the item on menus in several chains or on most independent menus in a district. Confidence is high where guest data and outside research agree, medium where one leads, and low where the item is speculative. The "more of" question began on 13 August 2026; answers were coded by hand and counts are approximate.</p>',
+        sources=SRC_LIST(['hojicha', 'pandan', 'sesame', 'seaweed', 'kelp', 'tinned', 'westaf', 'datassential', 'bidfood', 'wfm', 'glp1']),
+        card=(str(nW), 'niche items on one adoption curve, with timing'),
+        blurb=f'Hojicha, pandan, seaweed, gildas and the retro revival: {nW} niche items placed on an adoption curve, with timing and confidence.'))
+
+
+written = [fn() for fn in (r_night_out, r_two_cities, r_seafood, r_dessert, r_drinks, r_fatigue, r_neighbourhoods, r_critics, r_steak, r_italian, r_confidence,
+                            r_glasgow_2030, r_edinburgh_2030, r_forces, r_niche)]
 
 # ================================================================== library index
 by = {r['slug']: r for r in REPORTS}
@@ -941,11 +1389,11 @@ for s in ORDER:
               f'<div class="lb"><p>{esc(r["blurb"])}</p><span class="who">For {esc(who)} · {st}</span>'
               f'<div class="big"><b>{esc(r["card"][0])}</b><span>{esc(r["card"][1])}</span></div></div></a>')
 filt = '<div class="lib-filter" role="group" aria-label="Filter reports"><button type="button" data-f="all" aria-pressed="true">All reports</button>' + ''.join(f'<button type="button" data-f="{k}" aria-pressed="false">{esc(v)}</button>' for k, v in AUD.items()) + '</div>'
-idx = f'''<div class="cs-strip"><div class="wrap"><b>Dream Menu Insight Series.</b> Eleven example reports: one draft briefing for a partner and ten provisional samples built from live data to {LAST_H}.</div></div>
+idx = f'''<div class="cs-strip"><div class="wrap"><b>Dream Menu Insight Series.</b> {len(ORDER)} example reports: one draft briefing for a partner, ten provisional samples and four trend and forecast reports, built from live data to {LAST_H}.</div></div>
 <section class="cs-cover"><div class="wrap">
   <div class="cs-series"><span class="no">{len(ORDER)} reports</span><span>Dream Menu Insight Series</span></div>
   <h1>Reports on <em>request</em></h1>
-  <p class="cs-stand">Dream Menu turns {f0(N_ALL)} interviews, {f0(DM["meta"]["venues"])} named venues, {f0(AW["meta"]["places"])} award winners and a Scottish operator survey into reports that answer one commercial question, with the evidence on the page. These eleven show the range.</p>
+  <p class="cs-stand">Dream Menu turns {f0(N_ALL)} interviews, {f0(DM["meta"]["venues"])} named venues, {f0(AW["meta"]["places"])} award winners and a Scottish operator survey into reports that answer one commercial question, with the evidence on the page. These {len(ORDER)} show the range, from category deep-dives to city forecasts and a niche watchlist.</p>
   <div class="cs-kpis"><div class="cs-kpi"><b>{f0(N_ALL)}</b><span>interviews with chefs, staff and food lovers</span></div><div class="cs-kpi"><b>{f0(DM["meta"]["venues"])}</b><span>venues named, in {DM["meta"]["countries"]} countries</span></div><div class="cs-kpi"><b>{len(LOOK)}</b><span>operators in the 2026 pulse</span></div><div class="cs-kpi"><b>6</b><span>quarters of tracked demand</span></div></div>
   <div class="cs-actions"><a class="cs-btn" href="mailto:{CONTACT}?subject=Commissioned%20report">Commission a report</a></div>
 </div></section>
@@ -964,5 +1412,5 @@ idx = f'''<div class="cs-strip"><div class="wrap"><b>Dream Menu Insight Series.<
   <div class="cs-next" style="margin-top:26px"><h2>Commission a report</h2><p>Category deep-dives, market-entry reads, price briefings, location reads and sector pulses, with fresh fieldwork on top of the archive where needed.</p><a class="cs-btn" href="mailto:{CONTACT}?subject=Commissioned%20report">Talk to Dream Menu</a></div>
 </div>'''
 written.insert(0, write('/case-studies', 'Insight Series: reports on request',
-                        'Eleven Dream Menu reports on request: night-out costs, Glasgow against Edinburgh, seafood, dessert, drinks, trend fatigue, neighbourhoods, guests and critics, steak, Italian food and operator confidence.', idx))
+                        'Fifteen Dream Menu reports on request: night-out costs, Glasgow against Edinburgh, seafood, dessert, drinks, trend fatigue, neighbourhoods, guests and critics, steak, Italian food, operator confidence, city forecasts for Glasgow and Edinburgh to 2030, ten forces to 2031 and a niche trend watchlist.', idx))
 print('wrote', len(written), 'pages')

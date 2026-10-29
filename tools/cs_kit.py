@@ -143,14 +143,20 @@ def heat(head, rows, fmt=lambda v: str(v), key=('Lower', 'Higher')):
 def matrix(items, xl=('Lower effort', 'Higher effort'), yl=('Lower impact', 'Higher impact'),
            q=('Big bets', 'Quick wins', 'Fill-ins', 'Hard yards')):
     """items: (n, label, impact 0-1, effort 0-1). Quick wins top left."""
-    seen = {}
-    out = []
-    for n, lab, imp, eff in items:
-        key = (round(imp, 1), round(eff, 1))
-        k = seen.get(key, 0); seen[key] = k + 1
-        x = 8 + 84 * eff + (k * 4)
-        y = 8 + 84 * imp - (k * 12)
-        side = ' r' if x > 66 else ''
+    out, boxes = [], []
+    for n, lab, imp, eff in sorted(items, key=lambda t: (-t[2], t[3])):
+        x, y0 = 8 + 84 * eff, 8 + 84 * imp
+        pref = ' r' if x > 66 else ''
+        other = '' if pref else ' r'
+        # try the preferred side, then the other side, then small nudges up and down, so labels never collide
+        for dy, side in [(0, pref), (0, other), (-7, pref), (-7, other), (7, pref), (7, other), (-14, pref), (-14, other)]:
+            y = min(86, max(5, y0 + dy))
+            if side == ' r' and x < 34 or side == '' and x > 70:
+                continue
+            x0, x1 = (x - 31, x + 2) if side else (x - 2, x + 31)
+            if not any(abs(y - by) < 8 and x0 < bx1 and bx0 < x1 for bx0, bx1, by in boxes):
+                break
+        boxes.append((x0, x1, y))
         out.append(f'<div class="pt{side}" style="left:{x:.1f}%;bottom:{y:.1f}%" tabindex="0" data-tip="{esc("<b>" + str(n) + ". " + esc(lab) + "</b>")}"><b>{n}</b><span>{esc(lab)}</span></div>')
     return (f'<div class="mx" role="img" aria-label="Recommendations by impact and effort">'
             f'<span class="q q1">{q[0]}</span><span class="q q2">{q[1]}</span><span class="q q3">{q[2]}</span><span class="q q4">{q[3]}</span>'
@@ -283,3 +289,155 @@ def table(head, rows, num_cols=()):
     th = ''.join(f'<th>{esc(h)}</th>' for h in head)
     tr = ''.join('<tr>' + ''.join(f'<td class="{"num" if i in num_cols else ""}">{c}</td>' for i, c in enumerate(r)) + '</tr>' for r in rows)
     return f'<div class="cs-table-wrap"><table class="cs-table"><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>'
+
+
+# ------------------------------------------------------------------ forecast helpers (Nos. 12 to 15)
+def project(vals, faded=(), steps=5, phi=0.7):
+    """Damped-trend projection. Fits a recency-weighted line to the solid quarters, starts from a blend
+    of the last solid value and the fitted line, and damps the slope by phi each quarter.
+    Returns (anchor index, [(mid, lo, hi)] for each step). The band is a planning range, not a confidence interval."""
+    P = [(i, v) for i, v in enumerate(vals) if v is not None and i not in faded]
+    n = len(P)
+    w = [1 + k for k in range(n)]
+    sw = sum(w); mx = sum(wi * x for wi, (x, _) in zip(w, P)) / sw; my = sum(wi * y for wi, (_, y) in zip(w, P)) / sw
+    sxx = sum(wi * (x - mx) ** 2 for wi, (x, _) in zip(w, P)) or 1
+    b = sum(wi * (x - mx) * (y - my) for wi, (x, y) in zip(w, P)) / sxx
+    a = my - b * mx
+    s = max(1.5, math.sqrt(sum(wi * (y - (a + b * x)) ** 2 for wi, (x, y) in zip(w, P)) / sw))
+    ai, av = P[-1]
+    start = 0.5 * av + 0.5 * (a + b * ai)
+    out, cum = [], 0
+    for j in range(1, steps + 1):
+        cum += phi ** j
+        mid = start + b * cum
+        hw = s * math.sqrt(1 + 0.6 * j) + 0.5 * abs(b) * cum  # sampling noise plus doubt about the slope itself
+        out.append((max(0, mid), max(0, mid - hw), min(100, mid + hw)))
+    return ai, out
+
+
+def fan_multiples(panels, xlabels, unit='%', ymax=None, w=300, h=190, cols_min=260):
+    """panels: (title, values, k, faded, anchor, proj). values cover the history; proj continues from the anchor
+    index to the end of xlabels. Solid line = history, dashed line + band = projection on recent trend."""
+    pl, pr, pt, pb = 34, 14, 46, 26
+    iw, ih = w - pl - pr, h - pt - pb
+    N = len(xlabels)
+    X = lambda i: pl + iw * i / (N - 1)
+    out = []
+    for title, vs, k, fd, ai, proj in panels:
+        # each panel has its own scale (the measures have different bases); the axis always starts at zero
+        top = ymax or 5 * math.ceil(max([v for v in vs if v is not None] + [hi for _, _, hi in proj]) * 1.1 / 5)
+        y = lambda v: pt + ih * (1 - v / top)
+        fz = f'<rect class="fz" x="{X(ai):.1f}" y="{pt}" width="{X(N - 1) - X(ai):.1f}" height="{ih}"/><text class="fzl" x="{X(N - 1) - 3:.1f}" y="{pt + 12}" text-anchor="end">Projection</text>'
+        ticks = [0, top / 2, top]
+        g = ''.join(f'<line class="grid" x1="{pl}" x2="{w - pr}" y1="{y(t):.1f}" y2="{y(t):.1f}"/><text x="{pl - 6}" y="{y(t) + 4:.1f}" text-anchor="end">{t:.0f}</text>' for t in ticks)
+        solid = [(X(i), v) for i, v in enumerate(vs) if v is not None and i not in fd]
+        path = 'M' + ' L'.join(f'{x:.1f},{y(v):.1f}' for x, v in solid)
+        pts_ = [(X(ai), vs[ai], vs[ai], vs[ai])] + [(X(ai + j + 1), m, lo, hi) for j, (m, lo, hi) in enumerate(proj)]
+        band = 'M' + ' L'.join(f'{x:.1f},{y(hi):.1f}' for x, _, _, hi in pts_) + ' L' + ' L'.join(f'{x:.1f},{y(lo):.1f}' for x, _, lo, _ in reversed(pts_)) + ' Z'
+        pline = 'M' + ' L'.join(f'{x:.1f},{y(m):.1f}' for x, m, _, _ in pts_)
+        dots = ''
+        for i, v in enumerate(vs):
+            if v is None:
+                continue
+            op = ' opacity=".35"' if i in fd else ''
+            dots += f'<circle class="{k} ring" cx="{X(i):.1f}" cy="{y(v):.1f}" r="{4.5 if i == ai else 3.2}"{op} tabindex="0" data-tip="{esc("<b>" + esc(title) + "</b><br>" + esc(xlabels[i]) + ": " + num(v, 1, unit) + (" (few answers)" if i in fd else ""))}"/>'
+        em, elo, ehi = proj[-1]
+        dots += f'<circle class="{k} pend" cx="{X(N - 1):.1f}" cy="{y(em):.1f}" r="4.5" tabindex="0" data-tip="{esc("<b>" + esc(title) + "</b><br>" + esc(xlabels[-1]) + " on recent trend: " + num(em, 1, unit) + "<br>Planning range " + num(elo, 1) + " to " + num(ehi, 1, unit))}"/>'
+        xt = ''.join(f'<text x="{X(i):.1f}" y="{h - 8}" text-anchor="{a}">{esc(xlabels[i])}</text>' for i, a in ((0, 'start'), (ai, 'middle'), (N - 1, 'end')))
+        out.append(f'<svg class="svgc fan" viewBox="0 0 {w} {h}" role="img" aria-label="{esc(title)}"><text class="tb" x="{pl}" y="15">{esc(title)}</text>'
+                   f'<text class="tv" x="{pl}" y="33">{num(vs[ai], 1, unit)} in {esc(xlabels[ai])} → <tspan class="tb">{num(em, 1, unit)}</tspan> by {esc(xlabels[-1])}</text>{fz}{g}'
+                   f'<path class="band {k}" d="{band}"/><path class="ln {k}" d="{path}"/><path class="ln proj {k}" d="{pline}"/>{dots}{xt}</svg>')
+    legend = ('<div class="ex-legend"><span><i style="background:var(--c1)"></i>Recorded share</span><span><i class="dash"></i>Projection on the recent trend</span>'
+              '<span><i style="background:var(--c1);opacity:.22"></i>Planning range</span><span><i class="dot" style="background:var(--c1);opacity:.35"></i>Quarter with few answers</span></div>')
+    return legend + f'<div class="ex-pair" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,{cols_min}px),1fr));gap:18px 24px">' + ''.join(f'<div>{s}</div>' for s in out) + '</div>'
+
+
+def _curve(x):
+    """Adoption curve: an S-shaped rise to a peak at x = .8, then a gentle fade."""
+    if x <= .8:
+        return 1 / (1 + math.exp(-11 * (x - .44)))
+    p = 1 / (1 + math.exp(-11 * (.8 - .44)))
+    return p - 1.3 * (x - .8) ** 1.4
+
+
+def lanes(stages, items, w=680, h=180):
+    """stages: (name, note). items: (name, stage index, confidence High/Medium/Low, when, tip).
+    Draws the adoption curve with a count per stage, then the items as chips in stage columns."""
+    n = len(stages)
+    pl, pr, pt, pb = 8, 8, 18, 48
+    iw, ih = w - pl - pr, h - pt - pb
+    X = lambda t: pl + iw * t
+    Y = lambda v: pt + ih * (1 - v)
+    path = 'M' + ' L'.join(f'{X(t / 100):.1f},{Y(_curve(t / 100)):.1f}' for t in range(0, 101))
+    area = path + f' L{X(1):.1f},{Y(0):.1f} L{X(0):.1f},{Y(0):.1f} Z'
+    svg = f'<path class="area" d="{area}"/><path class="ln k1" d="{path}"/>'
+    cnt = [sum(1 for it in items if it[1] == i) for i in range(n)]
+    for i, (nm, _) in enumerate(stages):
+        if i:
+            svg += f'<line class="grid" x1="{X(i / n):.1f}" x2="{X(i / n):.1f}" y1="{pt - 6}" y2="{Y(0):.1f}" stroke-dasharray="3 4"/>'
+        cx = (i + .5) / n
+        cy = Y(_curve(cx))
+        r = 7 + 3.2 * math.sqrt(cnt[i])
+        svg += f'<circle class="k1 ring" cx="{X(cx):.1f}" cy="{cy:.1f}" r="{r:.1f}" tabindex="0" data-tip="{esc("<b>" + esc(nm) + "</b><br>" + str(cnt[i]) + " items on the watchlist")}"/>'
+        svg += f'<text class="cnum" x="{X(cx):.1f}" y="{cy + 4.5:.1f}" text-anchor="middle">{cnt[i]}</text>'
+        svg += f'<text class="tb" x="{X(cx):.1f}" y="{h - 10}" text-anchor="middle">{esc(nm)}</text>'
+    svg += f'<line class="axis" x1="{pl}" x2="{w - pr}" y1="{Y(0):.1f}" y2="{Y(0):.1f}"/>'
+    head = f'<svg class="svgc lanes-svg" viewBox="0 0 {w} {h}" role="img" aria-label="Adoption curve with the number of items at each stage">{svg}</svg>'
+    colsh = ''
+    for i, (nm, note) in enumerate(stages):
+        chips = ''.join(f'<li class="chip c-{c.lower()}" tabindex="0" data-tip="{esc("<b>" + esc(t) + "</b><br>" + tip + "<br>Confidence: " + c)}"><span>{esc(t)}</span><small>{esc(wh)}</small></li>'
+                        for t, s, c, wh, tip in items if s == i)
+        colsh += f'<div class="lane"><h4>{esc(nm)}<small>{esc(note)}</small></h4><ul>{chips}</ul></div>'
+    legend = ('<div class="ex-legend"><span><i class="chipk c-high"></i>High confidence</span><span><i class="chipk c-medium"></i>Medium</span>'
+              '<span><i class="chipk c-low"></i>Low (speculative)</span><span>Small text: when we expect it on mainstream Glasgow menus</span></div>')
+    return head + legend + f'<div class="lanes" style="--n:{n}">{colsh}</div>'
+
+
+def roadmap(rows, y0=2026, y1=2031, now=None):
+    """rows: (label, k, start, end, note). Years as decimals; end None draws a single event marker.
+    A bar runs from first arrival to the mainstream point; the dot marks the mainstream point."""
+    span = y1 - y0
+    P = lambda t: 100 * (min(max(t, y0), y1) - y0) / span
+    yrs = ''.join(f'<span style="left:{P(y):.2f}%">{y}</span>' for y in range(y0, y1 + 1))
+    nl = f'<i class="rm-now" style="left:{P(now):.2f}%"></i>' if now else ''
+    out = []
+    for lab, k, a, b, note in rows:
+        tip = f'<b>{esc(lab)}</b><br>{esc(note)}'
+        if b is None:
+            mark = f'<b class="ev {k}" style="left:{P(a):.2f}%"></b>'
+        else:
+            mark = f'<i class="bar {k}" style="left:{P(a):.2f}%;width:{max(1, P(b) - P(a)):.2f}%"></i><b class="end {k}" style="left:{P(b):.2f}%"></b>'
+        out.append(f'<li tabindex="0" data-tip="{esc(tip)}"><span class="l">{esc(lab)}<small>{esc(note)}</small></span><span class="t">{nl}{mark}</span></li>')
+    return f'<div class="rm" style="--n:{span}"><div class="rm-h"><span></span><span class="yrs">{yrs}</span></div><ul>{"".join(out)}</ul></div>'
+
+
+def ledger(rows, left='Want it gone', right='Named as a positive trend'):
+    """rows: (label, positive, negative). Bars either side of a centre line, on one shared scale."""
+    top = max(max(p, n) for _, p, n in rows) or 1
+    out = []
+    for lab, p, n in rows:
+        tip = f'<b>{esc(lab)}</b><br>{esc(right)}: {p}<br>{esc(left)}: {n}'
+        out.append(f'<li tabindex="0" data-tip="{esc(tip)}"><span class="l">{esc(lab)}</span><span class="t">'
+                   f'<i class="n" style="left:{50 - 50 * n / top:.1f}%;width:{50 * n / top:.1f}%"></i><i class="p" style="left:50%;width:{50 * p / top:.1f}%"></i></span>'
+                   f'<span class="v"><em>{n}</em> / {p}</span></li>')
+    axis = f'<div class="dv2-axis"><span></span><span><span>← {esc(left)}</span><span>{esc(right)} →</span></span><span></span></div>'
+    return axis + '<ul class="dv2 ledger">' + ''.join(out) + '</ul>'
+
+
+def scenarios(items):
+    """items: (name, probability %, tagline, body, signals). Cards with a probability bar."""
+    out = ''
+    for nm, pr, tag, body, sig in items:
+        out += (f'<div class="scen"><div class="sp"><b>{pr}%</b><span>likelihood</span><i style="width:{pr}%"></i></div>'
+                f'<h4>{esc(nm)}</h4><p class="stag">{tag}</p><p>{body}</p><p class="sig"><b>Early signs:</b> {sig}</p></div>')
+    return f'<div class="scens">{out}</div>'
+
+
+def forces(items):
+    """items: (n, title, stat, stat label, body, horizon, direction up/down/mixed)."""
+    out = ''
+    for n, t, s, sl, body, hz, d in items:
+        out += (f'<div class="force" id="force-{n}"><span class="fn">{n:02d}</span><h4>{t}</h4>'
+                f'<div class="fs"><b>{esc(s)}</b><span>{sl}</span></div><p>{body}</p>'
+                f'<div class="ft"><span class="tg">Bites: {esc(hz)}</span><span class="tg d-{d}">{ {"up": "Growing", "down": "Shrinking", "mixed": "Reshaping"}[d] }</span></div></div>')
+    return f'<div class="forces">{out}</div>'
