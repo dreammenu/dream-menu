@@ -19,7 +19,7 @@ import datetime as dt, glob, html, json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
-TODAY = '2026-10-28'
+TODAY = dt.date.today().isoformat()
 
 
 def load(fn, var):
@@ -236,4 +236,29 @@ edit('dm-fresh.js', [
     (r"analysis: \{ label: 'Dream Menu analysis', size: '([^']*)', to: '[^']*', updated: '[^']*' \}",
      rf"analysis: {{ label: 'Dream Menu analysis', size: '\1', to: '{P['last']}', updated: '{TODAY}' }}"),
 ])
+# ---------------------------------------------------------------- awards (from awards.js meta)
+_s = open('awards.js', encoding='utf-8').read()
+_m = re.search(r'window\.DM_AWARDS\s*=\s*', _s)
+AWD = json.JSONDecoder().raw_decode(_s[_m.end():])[0]
+AWM, _G, _PL = AWD['meta'], AWD['groups'], AWD['places']
+_star = lambda p: any(_G[a[0]] == 'star' for a in p[10])
+AW_FACTS = (f'<div class="facts"><div><b>{fmt(sum(1 for p in _PL if _star(p)))}</b> <span>MICHELIN Starred</span></div>'
+            f'<div><b>{fmt(sum(1 for p in _PL if any(_G[a[0]] == "fifty" for a in p[10])))}</b> <span>on a 50 Best list</span></div>'
+            f'<div><b>{fmt(sum(1 for p in _PL if p[15]))}</b> <span>also named by guests</span></div>'
+            f'<div><b>{fmt(sum(1 for p in _PL if p[6] == "Scotland" and _star(p)))}</b> <span>starred in Scotland</span></div></div>')
+AW_PLACES, AW_N, AW_BUILT = fmt(AWM['places']), fmt(AWM['awards']), AWM['built']
+AW_H = dt.date.fromisoformat(AW_BUILT).strftime('%-d %b %Y')
+edit('tools/build_nav.py', [(r"'[\d,]+ MICHELIN, 50 Best and guide winners in one searchable list'",
+                             f"'{AW_PLACES} MICHELIN, 50 Best and guide winners in one searchable list'")])
+edit('index.html', [(r'<h3>[\d,]+ award winners</h3>', f'<h3>{AW_PLACES} award winners</h3>'),
+                    (r'(<span class="eyebrow">Awards</span> )[\d,]+( award winners)', rf'\g<1>{AW_PLACES}\g<2>')], required=False)
+edit('awards.html', [(r'<h1>[\d,]+ recognised <em>venues</em></h1>', f'<h1>{AW_PLACES} recognised <em>venues</em></h1>'),
+                     (r'[\d,]+ awards across \d+ countries\.', f"{AW_N} awards across {AWM['countries']} countries."),
+                     (r'<div class="facts"><div><b>[\d,]+</b> <span>MICHELIN Starred</span>.*?</div></div>', AW_FACTS)])
+edit('how-it-works.html', [(r'[\d,]+ recognised venues and [\d,]+ awards\.', f'{AW_PLACES} recognised venues and {AW_N} awards.')])
+edit('analysis.js', [(r'Awards as listed on [^.]+\.', f'Awards as listed on {AW_H}.')])
+edit('onepager.html', [(r'<b>[\d,]+</b> <span>award venues mapped</span>', f'<b>{AW_PLACES}</b> <span>award venues mapped</span>')])
+edit('dm-fresh.js', [(r"awards: \{ label: 'Awards and guides', size: '[^']*', to: '[^']*', updated: '[^']*',",
+                      f"awards: {{ label: 'Awards and guides', size: '{AW_PLACES} award winners', to: '{AW_BUILT}', updated: '{AW_BUILT}',")])
+
 print('updated:', ', '.join(sorted(set(changed))))

@@ -2,50 +2,51 @@
  "note": "Counts behind the static home and insights figures that partner-data.js does not hold. Updated by tools/add_interviews.py; used by tools/refresh_static.py. As at 2026-10-19 before the 28 Oct batch is applied.",
  "applied": [
   "tools/data/new-interviews-2026-10-28.json",
-  "tools/data/new-interviews-2026-10-28b.json"
+  "tools/data/new-interviews-2026-10-28b.json",
+  "tools/data/new-interviews-2026-10-29.json"
  ],
  "debates": {
   "coke": {
-   "n": 1209,
+   "n": 1211,
    "c": {
-    "Irn Bru": 553,
+    "Irn Bru": 555,
     "Coca Cola": 405,
     "Neither": 251
    }
   },
   "tea": {
-   "n": 937,
+   "n": 939,
    "c": {
-    "Coffee": 627,
+    "Coffee": 629,
     "Tea": 242,
     "Neither": 68
    }
   },
   "pineapple": {
-   "n": 1210,
+   "n": 1212,
    "c": {
-    "Yes": 595,
-    "No": 615
+    "Yes": 596,
+    "No": 616
    }
   },
   "water": {
-   "n": 1210,
+   "n": 1212,
    "c": {
     "Still": 451,
     "Tap": 367,
-    "Sparkling": 335,
+    "Sparkling": 337,
     "Scottish tap water": 57
    }
   }
  },
  "course_card_answers": {
-  "s": 1227,
-  "m": 1223,
-  "d": 1218,
-  "p": 1222
+  "s": 1229,
+  "m": 1225,
+  "d": 1220,
+  "p": 1224
  },
  "drink_card": {
-  "n": 1235,
+  "n": 1237,
   "c": [
    [
     "Spicy margarita",

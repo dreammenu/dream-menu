@@ -18,6 +18,14 @@ The header menus (including the "I'm a..." audience menu), the footer links, sea
   `build_intel.py` writes `analysis-data.js` (headline analysis only, nothing about quarterly movement) and `partner/intel-data.js` (behind sign-in). The charts are drawn by `analysis.js` and `partner/intel.js` using the small chart toolkit in `dmviz.js` / `dmviz.css`; every chart has a table view, a CSV download and a link.
 - `dm-fresh.js` loads on every page. It adds a "Data to ... · Updated ..." line under each visual or block of figures, a "Last updated" chip under the page title and a data status panel in the footer. When a dataset is refreshed, change its dates in the `SETS` list at the top of that file.
 
+## Case studies
+
+`/case-studies` and its six report pages are public and built by `tools/build_case_studies.py` (shell copied from `restaurant-mot.html`). The night-out report is Gordon's draft set as a page; the other five are provisional samples whose figures are read from the live data files, so rerun the script after each data refresh, then `tools/build_nav.py`.
+
+## Awards between full rebuilds
+
+`tools/update_awards.py` applies a small JSON of new award editions to `awards.js` (new ranked lists for places already on the map, swapped records, new places) and recomputes counts and tiers; `refresh_static.py` then carries the counts into the pages. See `tools/data/awards-update-2026-10-29.json`.
+
 ## Adding new interviews between full rebuilds
 
 The full build pipeline (sheet export, machine coding, venue matching) is not in this repository. To fold a small batch of new interviews into the live data:

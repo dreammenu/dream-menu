@@ -1,0 +1,789 @@
+{
+ "built": "2026-10-29",
+ "rank": [
+  {
+   "code": "fwx",
+   "year": 2026,
+   "rows": [
+    [
+     51,
+     "uliassi-senigallia"
+    ],
+    [
+     52,
+     "la-cime-osaka"
+    ],
+    [
+     53,
+     "ling-long-shanghai"
+    ],
+    [
+     54,
+     "nelita-sao-paulo"
+    ],
+    [
+     55,
+     "alcalde-guadalajara"
+    ],
+    [
+     56,
+     "sazenka-tokyo"
+    ],
+    [
+     57,
+     "koan-copenhagen"
+    ],
+    [
+     58,
+     "frantzen-stockholm"
+    ],
+    [
+     59,
+     "narisawa-tokyo"
+    ],
+    [
+     60,
+     "hisa-franko-kobarid"
+    ],
+    [
+     61,
+     "florilege-tokyo"
+    ],
+    [
+     62,
+     "fu-he-hui-shanghai"
+    ],
+    [
+     63,
+     "the-jane-antwerpen"
+    ],
+    [
+     64,
+     "seroja-singapore"
+    ],
+    [
+     65,
+     "fyn-cape-town"
+    ],
+    [
+     66,
+     "willem-hiele-oudenburg"
+    ],
+    [
+     67,
+     "arpege-paris"
+    ],
+    [
+     68,
+     "evvai-sao-paulo"
+    ],
+    [
+     69,
+     "cocina-hermanos-torres-barcelona"
+    ],
+    [
+     70,
+     "kol-london"
+    ],
+    [
+     71,
+     "salsify-at-the-roundhouse-cape-town"
+    ],
+    [
+     72,
+     "eatanic-garden-seoul"
+    ],
+    [
+     73,
+     "chef-tam-s-seasons-macau"
+    ],
+    [
+     74,
+     "le-du-bangkok"
+    ],
+    [
+     75,
+     "belcanto-lisbon"
+    ],
+    [
+     76,
+     "nobelhart-schmutzig-berlin"
+    ],
+    [
+     77,
+     "caprice-hong-kong"
+    ],
+    [
+     78,
+     "mosu-seoul"
+    ],
+    [
+     79,
+     "huniik-merida"
+    ],
+    [
+     80,
+     "txispa-axpe"
+    ],
+    [
+     81,
+     "septime-paris"
+    ],
+    [
+     82,
+     "coda-berlin"
+    ],
+    [
+     83,
+     "the-ledbury-london"
+    ],
+    [
+     84,
+     "le-doyenne-saint-vrain"
+    ],
+    [
+     85,
+     "tim-raue-berlin"
+    ],
+    [
+     86,
+     "eliane-brussels"
+    ],
+    [
+     87,
+     "arca-tulum"
+    ],
+    [
+     88,
+     "fzn-dubai"
+    ],
+    [
+     89,
+     "burnt-ends-singapore"
+    ],
+    [
+     90,
+     "baan-tepa-bangkok"
+    ],
+    [
+     91,
+     "den-tokyo"
+    ],
+    [
+     92,
+     "lamdre-beijing"
+    ],
+    [
+     93,
+     "singlethread-healdsburg"
+    ],
+    [
+     94,
+     "neolokal-istanbul"
+    ],
+    [
+     95,
+     "mil-cusco"
+    ],
+    [
+     96,
+     "rosetta-cuauhtemoc"
+    ],
+    [
+     97,
+     "khufu-s-giza"
+    ],
+    [
+     98,
+     "labyrinth-singapore"
+    ],
+    [
+     99,
+     "fauna-valle-de-guadalupe"
+    ],
+    [
+     100,
+     "aponiente-el-puerto-de-santa-maria"
+    ]
+   ]
+  }
+ ],
+ "replace": [
+  {
+   "place": "helm-makati-metro-manila",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "asador-alfonso-cavite",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "celera-makati-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "gallery-by-chele-taguig-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "hapag-makati-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "inato-makati-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "kasa-palma-makati-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "linamnam-paranaque-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "toyo-eatery-makati-metro-manila",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "gallery-by-chele-taguig-metro-manila",
+   "from": [
+    "mg",
+    2026
+   ],
+   "to": [
+    "mg",
+    2027
+   ]
+  },
+  {
+   "place": "abaseria-deli-cafe-cebu",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "bolero-taguig-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "brick-corner-taguig-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "cabel-manila-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "cochi-taguig-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "em-ha-noi-taguig-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "esmen-cebu",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "kumba-paranaque-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "la-pita-poblacion-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "lampara-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "lasa-cebu",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "los-tacos-taguig-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "manam-at-the-triangle-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "morning-sun-eatery-quezon-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "palm-grill-diliman-quezon-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "pilya-s-kitchen-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "sarsa-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "some-thai-tomas-morato-quezon-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "taqueria-franco-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "the-pig-palm-cebu",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "the-underbelly-makati-metro-manila",
+   "from": [
+    "mb",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "ato-ah-cebu",
+   "from": [
+    "ms",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  },
+  {
+   "place": "butcher-boy-makati-metro-manila",
+   "from": [
+    "ms",
+    2026
+   ],
+   "to": [
+    "mb",
+    2027
+   ]
+  }
+ ],
+ "add": [
+  [
+   "flow-makati-metro-manila",
+   "Flow",
+   14.5592,
+   121.0157,
+   "Makati - Metro Manila",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Peruvian-Filipino",
+   "",
+   "Ground Floor, Green Sun Hotel, 2285 Chino Roces Avenue, Makati City (pin approximate)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "apag-marangle-san-fernando-pampanga",
+   "Apag Marangle",
+   15.0286,
+   120.6898,
+   "San Fernando - Pampanga",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Kapampangan",
+   "",
+   "San Fernando, Pampanga (placed in the town; exact spot not confirmed)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "balay-dako-tagaytay",
+   "Balay Dako",
+   14.1153,
+   120.9621,
+   "Tagaytay",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Filipino",
+   "",
+   "Tagaytay (placed in the town; exact spot not confirmed)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "bawai-s-vietnamese-kitchen-bacoor",
+   "Bawai's Vietnamese Kitchen",
+   14.459,
+   120.96,
+   "Bacoor - Cavite",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Vietnamese",
+   "",
+   "Bacoor, Cavite (placed in the town; exact spot not confirmed)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "che-bacolod-chicken-house-express-manila",
+   "C.H.E. Bacolod Chicken House Express",
+   14.5995,
+   120.9842,
+   "Manila - Metro Manila",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Filipino",
+   "",
+   "Manila (placed in the city; exact spot not confirmed)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "azela-manila",
+   "Azela (Manila)",
+   14.5995,
+   120.9842,
+   "Manila - Metro Manila",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "",
+   "",
+   "Manila (placed in the city; exact spot not confirmed)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "tito-boy-pampanga",
+   "Tito Boy",
+   15.0286,
+   120.6898,
+   "Pampanga",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Kapampangan",
+   "",
+   "Pampanga (placed in the province; exact spot not confirmed)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "kalipay-philippines",
+   "Kalipay!",
+   14.5995,
+   120.9842,
+   "Metro Manila",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "",
+   "",
+   "Location not yet confirmed; pinned at the guide area (Manila and Environs)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ],
+  [
+   "tatang-s-lechon-philippines",
+   "Tatang's Lechon",
+   14.5995,
+   120.9842,
+   "Metro Manila",
+   "PH",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Lechon",
+   "",
+   "Location not yet confirmed; pinned at the guide area (Manila and Environs)",
+   "https://www.drinkcollectiv.com/2026/10/29/michelin-guide-philippines-2027-full-list-of-stars-bib-gourmand-winners-and-selected-restaurants/",
+   []
+  ]
+ ],
+ "sources": {
+  "michelin": "Current distinctions as listed on guide.michelin.com, extract refreshed 2026-10-11 (2026 guide editions), via the open michelin-my-maps dataset (checked 29 Oct 2026: no newer extract). Philippines updated to the 2027 edition announced 29 Oct 2026: stars and Bib Gourmands from press coverage of the announcement; new entries are pinned in their town until the guide publishes addresses, and four 2026 Bib Gourmands not named for 2027 (CUR8, Hálong, Pares Batchoy Food House, Your Local) keep their 2026 record.",
+  "50best": "Ranked lists transcribed from the50.com: World Restaurants 2024 and 2025, plus the 2026 51-100 list published 21 Oct 2026 (the 2026 top 50 is announced in November 2026), World Bars 2025 and 2026, Asia Restaurants 2025 and 2026, Latin America Restaurants 2024 and 2025, MENA Restaurants 2025 and 2026, Asia Bars 2024 and 2026, North America Bars 2025 and 2026."
+ }
+}

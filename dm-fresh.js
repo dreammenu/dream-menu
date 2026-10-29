@@ -5,12 +5,12 @@
 (function () {
   'use strict';
   var SETS = {
-    interviews: { label: 'Dream Menu interviews', size: '1,236 interviews', from: '2025-09-01', to: '2026-10-28', updated: '2026-10-28',
-      note: 'Dish categories refined 24 Oct 2026. Interviews to 28 Oct added 28 Oct.' },
-    venues: { label: 'Venues named by guests', size: '1,865 venues, 1,652 pinned', from: '2025-09-01', to: '2026-10-28', updated: '2026-10-28',
-      note: 'Addresses researched 22 Oct 2026; new venues added 28 Oct.' },
-    awards: { label: 'Awards and guides', size: '21,008 award winners', to: '2026-10-21', updated: '2026-10-21',
-      note: 'MICHELIN extract of 11 Oct 2026; 50 Best, AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },
+    interviews: { label: 'Dream Menu interviews', size: '1,238 interviews', from: '2025-09-01', to: '2026-10-29', updated: '2026-10-29',
+      note: 'Dish categories refined 24 Oct 2026. Interviews to 29 Oct added 29 Oct.' },
+    venues: { label: 'Venues named by guests', size: '1,875 venues, 1,662 pinned', from: '2025-09-01', to: '2026-10-29', updated: '2026-10-29',
+      note: 'Addresses researched 22 Oct 2026; new venues added 29 Oct.' },
+    awards: { label: 'Awards and guides', size: '21,017 award winners', to: '2026-10-29', updated: '2026-10-29',
+      note: 'MICHELIN extract of 11 Oct 2026 (newest available) plus the Philippines 2027 edition of 29 Oct; World 50 Best Restaurants 2026 51-100 added; AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },
     look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24', checked: '2026-10-28' },
     report: { label: 'Hospitality Intelligence Report 2026', size: 'Edition 6', to: '2026-10-09', updated: '2026-10-21' },
     fringe: { label: 'Dream Fringe interviews', size: '52 interviews', from: '2026-07-24', to: '2026-08-28', updated: '2026-10-21', checked: '2026-10-28' },
@@ -19,7 +19,7 @@
     kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21', checked: '2026-10-28' },
     research: { label: 'Published research reviewed', size: '20 ideas scored', updated: '2026-10-26' },
     toolkit: { label: 'Operator toolkit', size: 'Benchmarks from the 2026 report', to: '2026-10-09', updated: '2026-10-26' },
-    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-28', updated: '2026-10-28' }
+    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-29', updated: '2026-10-29' }
   };
   var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   function fmt(d) { if (!d) return ''; var p = d.split('-'); return (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0]; }
@@ -68,6 +68,13 @@
     '/for-business': { def: 'interviews', chip: ['interviews'], rules: [[/sponsor|Work with us/i, null]] },
     '/how-it-works': { def: null, chip: ['interviews', 'venues', 'awards'] },
     '/restaurant-mot': { def: null, chip: null },
+    '/case-studies': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/night-out': { def: null, chip: null },
+    '/case-studies/glasgow-edinburgh': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/seafood': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/dessert': { def: null, chip: ['interviews', 'look'] },
+    '/case-studies/drinks': { def: null, chip: ['interviews'] },
+    '/case-studies/trend-fatigue': { def: null, chip: ['interviews'] },
     '/analysis': { def: null, chip: ['analysis', 'interviews', 'venues', 'awards'] },
     '/intelligence': { def: null, chip: ['analysis', 'interviews', 'look'] }
   };

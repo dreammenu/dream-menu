@@ -54,6 +54,9 @@ COARSE = {
     'Mushrooms': 'Vegetable sides (greens, broccoli, cabbage)', 'Ramen': 'Asian noodles / hotpot',
     'Bao buns': 'Bread-based sides (naan, focaccia, bao, sourdough)', 'Basque cheesecake': 'Cheesecake',
     'Mozzarella sticks / fried cheese': 'Cheese-based sides (mozzarella, halloumi, burrata)',
+    'Tapas / small plates': 'Small plates / sharing', 'Risotto': 'Pasta', 'Rendang / Malaysian curry': 'Curry / Indian',
+    'Traybakes / slices / Scottish bakes': 'Café / Bakery / Dessert', 'Jelly / custard / childhood puddings': 'Café / Bakery / Dessert',
+    'Gin and tonic': 'Gin & tonic', 'IPA / craft beer': 'Beer / lager / ale',
 }
 CC = {'United Kingdom': 'GB', 'Ireland': 'IE', 'Netherlands': 'NL', 'Mexico': 'MX', 'Italy': 'IT', 'Australia': 'AU'}
 

@@ -4,13 +4,13 @@ world:World,World,world,2025-Q4,815
 world:World,World,world,2026-Q1,898
 world:World,World,world,2026-Q2,811
 world:World,World,world,2026-Q3,506
-world:World,World,world,2026-Q4,178
+world:World,World,world,2026-Q4,192
 region:Europe,Europe,region,2025-Q3,245
 region:Europe,Europe,region,2025-Q4,798
 region:Europe,Europe,region,2026-Q1,807
 region:Europe,Europe,region,2026-Q2,693
 region:Europe,Europe,region,2026-Q3,378
-region:Europe,Europe,region,2026-Q4,133
+region:Europe,Europe,region,2026-Q4,146
 region:North America,North America,region,2025-Q3,2
 region:North America,North America,region,2025-Q4,4
 region:North America,North America,region,2026-Q1,10
@@ -32,7 +32,7 @@ country:United Kingdom,United Kingdom,country,2025-Q4,796
 country:United Kingdom,United Kingdom,country,2026-Q1,790
 country:United Kingdom,United Kingdom,country,2026-Q2,684
 country:United Kingdom,United Kingdom,country,2026-Q3,371
-country:United Kingdom,United Kingdom,country,2026-Q4,132
+country:United Kingdom,United Kingdom,country,2026-Q4,145
 country:United States,United States,country,2025-Q3,2
 country:United States,United States,country,2025-Q4,4
 country:United States,United States,country,2026-Q1,8
@@ -87,12 +87,12 @@ nation:Scotland,Scotland,nation,2025-Q4,762
 nation:Scotland,Scotland,nation,2026-Q1,738
 nation:Scotland,Scotland,nation,2026-Q2,634
 nation:Scotland,Scotland,nation,2026-Q3,329
-nation:Scotland,Scotland,nation,2026-Q4,109
+nation:Scotland,Scotland,nation,2026-Q4,116
 nation:England,England,nation,2025-Q4,25
 nation:England,England,nation,2026-Q1,23
 nation:England,England,nation,2026-Q2,24
 nation:England,England,nation,2026-Q3,29
-nation:England,England,nation,2026-Q4,18
+nation:England,England,nation,2026-Q4,24
 nation:Northern Ireland,Northern Ireland,nation,2026-Q2,4
 nation:Wales,Wales,nation,2026-Q2,1
 city:Glasgow|United Kingdom,Glasgow,city,2025-Q3,229
@@ -106,12 +106,12 @@ city:Edinburgh|United Kingdom,Edinburgh,city,2025-Q4,134
 city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q1,127
 city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q2,156
 city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q3,113
-city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q4,40
+city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q4,47
 city:London|United Kingdom,London,city,2025-Q4,12
 city:London|United Kingdom,London,city,2026-Q1,17
 city:London|United Kingdom,London,city,2026-Q2,17
 city:London|United Kingdom,London,city,2026-Q3,15
-city:London|United Kingdom,London,city,2026-Q4,8
+city:London|United Kingdom,London,city,2026-Q4,9
 city:Aberdeen|United Kingdom,Aberdeen,city,2025-Q4,3
 city:Aberdeen|United Kingdom,Aberdeen,city,2026-Q1,26
 city:Aberdeen|United Kingdom,Aberdeen,city,2026-Q2,20
@@ -161,7 +161,7 @@ city:New York|United States,New York,city,2026-Q3,1
 city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2025-Q4,2
 city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q1,1
 city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q3,1
-city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q4,1
+city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q4,6
 city:Pitlochry|United Kingdom,Pitlochry,city,2025-Q3,1
 city:Pitlochry|United Kingdom,Pitlochry,city,2025-Q4,1
 city:Pitlochry|United Kingdom,Pitlochry,city,2026-Q1,1

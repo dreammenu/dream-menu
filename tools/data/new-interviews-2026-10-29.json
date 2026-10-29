@@ -1,0 +1,40 @@
+{
+ "source": "Dream Menu (Responses) sheet, MENU RESPONSES rows 1238-1239 (interviews 1297-1298), 29 Oct 2026",
+ "note": "Coded by Claude on 29 Oct 2026 into the refined categories (dm-labels.js). 1297: 'Scottish seafood at Heron' as fish (other); salt and chilli chips as chips; caramel shortbread as traybakes; instant noodles as Super Noodles. 1298: cacio e pepe risotto as risotto; potatoes and aioli as chips; pork fat custard with port caramel as custard puddings; cherry Coke as Coca-Cola; Donzoko pint as craft beer; extra nuggets as fried chicken; loaded fries bin it as loaded and dirty food.",
+ "rows": [
+  {
+   "row": "1297",
+   "date": "2026-10-29",
+   "group": "Industry",
+   "s": "Tapas / small plates",
+   "m": "Fish (other)",
+   "d": "Fried potatoes / chips",
+   "p": "Traybakes / slices / Scottish bakes",
+   "k": "Irn Bru",
+   "a": "Gin and tonic",
+   "water": "Sparkling",
+   "coke": "Irn Bru",
+   "tea": "Coffee",
+   "pineapple": "No",
+   "guilty": "Super Noodles and Pot Noodles",
+   "bin": null
+  },
+  {
+   "row": "1298",
+   "date": "2026-10-29",
+   "group": "Enthusiasts",
+   "s": "Risotto",
+   "m": "Rendang / Malaysian curry",
+   "d": "Fried potatoes / chips",
+   "p": "Jelly / custard / childhood puddings",
+   "k": "Coca-Cola",
+   "a": "IPA / craft beer",
+   "water": "Sparkling",
+   "coke": "Irn Bru",
+   "tea": "Coffee",
+   "pineapple": "Yes",
+   "guilty": "Fried chicken",
+   "bin": "Loaded and dirty food"
+  }
+ ]
+}
