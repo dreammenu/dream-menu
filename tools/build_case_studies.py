@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
-"""Builds the public case-study pages: /case-studies and /case-studies/<slug>.
+"""Builds the Dream Menu Insight Series: /case-studies and /case-studies/<slug>.
 
 Run from the repository root after a data refresh:
   python3 tools/build_case_studies.py && python3 tools/build_nav.py
 
-The night-out report is Gordon's drafted briefing (28 Oct 2026), set as a page. The five provisional
-reports are samples of commissioned work, built from the live data files (partner-data.js,
-analysis-data.js, dm-data.js, tools/data/static-counts.json), so their figures follow each refresh.
-The page shell (head, header, footer) is copied from restaurant-mot.html.
+Every figure is read from the live data files (partner-data.js, analysis-data.js, dm-data.js,
+awards.js, tools/data/static-counts.json, tools/data/look-ahead-2026-scores.json), so the reports
+follow each refresh. Report 01 is Gordon's drafted night-out briefing (28 Oct 2026); its market
+benchmarks are fixed published figures with sources. Charts and layout come from tools/cs_kit.py,
+case.css and case.js; the page shell (head, header, footer) is copied from restaurant-mot.html.
 """
-import datetime as dt, html, json, os, re
+import datetime as dt, json, math, os, re, sys
+from collections import Counter, defaultdict
+from statistics import mean
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+from cs_kit import (Ex, esc, num, pts, hbar, dumbbell, diverge, stack, cols, heat, matrix, small_multiples,
+                    strip, waterfall, glasgow_map, sowhat, pull, quotes, table)
+
 CONTACT = 'contact.dreammenu@gmail.com'
 
 
@@ -25,28 +32,46 @@ def load(fn, var):
 P = load('partner-data.js', 'DM_PARTNER')
 AN = load('analysis-data.js', 'DM_ANALYSIS')
 DM = load('dm-data.js', 'DM')
+AW = load('awards.js', 'DM_AWARDS')
 SC = json.load(open('tools/data/static-counts.json', encoding='utf-8'))
+LOOK = json.load(open('tools/data/look-ahead-2026-scores.json', encoding='utf-8'))['rows']
 MK = {m['n']: m for m in DM['markets']}
 VEN = {v['i']: v for v in DM['venues']}
 LAST = dt.date.fromisoformat(P['last'])
 LAST_H = f'{LAST.day} {LAST:%B %Y}'
+TODAY = dt.date.today()
+TODAY_H = f'{TODAY.day} {TODAY:%B %Y}'
 N_ALL = P['n_all']
-
-esc = lambda s: html.escape(str(s), quote=True)
 f0 = lambda x: f'{x:,.0f}'
 f1 = lambda x: f'{x:.1f}'
-pct = lambda a, b: round(100 * a / b) if b else 0
+pc = lambda a, b: round(100 * a / b) if b else 0
+DM_SRC = f'Dream Menu interviews, {f0(N_ALL)} to {LAST_H}'
+EARLY, RECENT = 'Jul to Dec 2025', 'Apr 2026 onward'
 
 
-def trend(course):
-    return P['trends'][course]
+def trend(c):
+    return P['trends'][c]
 
 
-def item(course, name, level='cats'):
-    for it in trend(course)[level]:
+def item(c, name, level='cats'):
+    for it in trend(c)[level]:
         if it.get('l') == name or it['c'] == name:
             return it
-    raise KeyError(f'{course} {name}')
+    raise KeyError(f'{c}: {name}')
+
+
+def sig_set(c):
+    t = trend(c)
+    return {it.get('l') or it['c'] for it in t['groups'] + t['cats'] if it['sig']}
+
+
+def qlab(q):
+    y, n = q.split('-Q')
+    return f'Q{n} {y[2:]}'
+
+
+def faded(c):
+    return {i for i, lo in enumerate(trend(c)['low']) if lo}
 
 
 def city_row(label):
@@ -56,9 +81,34 @@ def city_row(label):
     raise KeyError(label)
 
 
+def vname(i):
+    return VEN[i]['n']
+
+
+def vloc(v):
+    return v.get('c') or v.get('tw') or ''
+
+
+def cat_count(v, cat):
+    return dict(v.get('k', [])).get(cat, 0)
+
+
+def link(h, t):
+    return f'<a href="{esc(h)}" rel="noopener" target="_blank">{esc(t)}</a>'
+
+
+def nice(a):
+    """'Debt / cashflow / financing' -> 'Debt, cashflow and financing'."""
+    parts = [x.strip() for x in a.replace('(', '').replace(')', '').split('/') if x.strip()]
+    if len(parts) < 2:
+        return a
+    return ', '.join(parts[:-1]) + ' and ' + parts[-1]
+
+
 # ------------------------------------------------------------------ page shell
 TPL = open('restaurant-mot.html', encoding='utf-8').read()
 HEAD, FOOT = TPL[:TPL.find('<main>')], TPL[TPL.find('</main>') + len('</main>'):]
+HEAD = HEAD.replace('<link rel="stylesheet" href="/brand.css">', '<link rel="stylesheet" href="/brand.css">\n<link rel="stylesheet" href="/case.css"><script src="/case.js" defer></script>')
 
 
 def shell(path, title, desc):
@@ -71,122 +121,6 @@ def shell(path, title, desc):
     return h
 
 
-PAGES = [  # slug, short title, client, status
-    ('night-out', 'The cost of a night out', 'A food and drink distributor', 'Draft briefing'),
-    ('glasgow-edinburgh', 'Two cities, two appetites', 'A restaurant group weighing a second city', 'Provisional sample'),
-    ('seafood', "Scotland's seafood appetite", 'A seafood supplier', 'Provisional sample'),
-    ('dessert', 'The last spend: dessert', 'A dessert maker or foodservice supplier', 'Provisional sample'),
-    ('drinks', 'What Scotland drinks with dinner', 'A drinks brand or wholesaler', 'Provisional sample'),
-    ('trend-fatigue', 'Trend fatigue', 'A menu development team or food editor', 'Provisional sample'),
-]
-
-
-def subnav(cur):
-    a = ['<a href="/case-studies"' + (' aria-current=page' if cur == '' else '') + '>All case studies</a>']
-    for slug, t, _, _ in PAGES:
-        a.append(f'<a href="/case-studies/{slug}"' + (' aria-current=page' if cur == slug else '') + f'>{esc(t)}</a>')
-    return f'<nav class="subnav" aria-label="Case studies"><div class="wrap">{"".join(a)}</div></nav>'
-
-
-def banner(text):
-    return f'<div class="confidential"><div class="wrap">{text}</div></div>'
-
-
-def hero(eyebrow, h1, lede, facts=None):
-    fx = ''
-    if facts:
-        fx = '<div class="facts">' + ''.join(f'<div><b>{esc(v)}</b> <span>{esc(k)}</span></div>' for v, k in facts) + '</div>'
-    return f'<section class="navyband"><div class="wrap">\n  <div class="eyebrow">{eyebrow}</div>\n  <h1>{h1}</h1>\n  <p class="lede">{lede}</p>\n  {fx}\n</div></section>'
-
-
-def sec(sid, h2, body, lede=None):
-    ld = f'<p class="lede" style="margin-bottom:14px">{lede}</p>' if lede else ''
-    return f'<section id="{sid}"><div class="wrap">\n  <h2>{h2}</h2>\n  {ld}{body}\n</div></section>'
-
-
-def bars(rows, unit='', scale=None, dec=0):
-    """rows: [(label, value)]; bar widths relative to scale or the largest value."""
-    top = scale or max(v for _, v in rows) or 1
-    out = []
-    for lab, v in rows:
-        val = (f'{v:,.{dec}f}' if isinstance(v, (int, float)) else esc(v)) + unit
-        out.append(f'<li><span class="bl">{esc(lab)}</span><span class="bt"><i style="width:{100 * v / top:.1f}%"></i></span><span class="bv">{val}</span></li>')
-    return '<ul class="bars">' + ''.join(out) + '</ul>'
-
-
-def diverge(rows, scale=None):
-    top = scale or max(abs(v) for _, v in rows) or 1
-    out = []
-    for lab, v in rows:
-        w = 50 * abs(v) / top
-        i = (f'<i class="pos" style="left:50%;width:{w:.1f}%"></i>' if v >= 0
-             else f'<i class="neg" style="left:{50 - w:.1f}%;width:{w:.1f}%"></i>')
-        out.append(f'<li><span class="bl">{esc(lab)}</span><span class="dv">{i}</span><span class="bv">{v:+.1f}</span></li>')
-    return '<ul class="bars diverge">' + ''.join(out) + '</ul>'
-
-
-def table(head, rows):
-    th = ''.join(f'<th>{esc(h)}</th>' for h in head)
-    tr = ''.join('<tr>' + ''.join(f'<td data-label="{esc(head[i])}">{c}</td>' for i, c in enumerate(r)) + '</tr>' for r in rows)
-    return f'<div class="tablewrap"><table class="stack"><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>'
-
-
-def cards(items):
-    return '<div class="grid">' + ''.join(f'<div class="card"><h3>{h}</h3><p>{p}</p></div>' for h, p in items) + '</div>'
-
-
-def card(h, body):
-    return f'<div class="card"><h3>{h}</h3>{body}</div>'
-
-
-def grid(*cs):
-    return '<div class="grid">' + ''.join(cs) + '</div>'
-
-
-def callout(b, text):
-    return f'<div class="callout"><b>{b}</b> {text}</div>'
-
-
-def ul(items):
-    return '<ul>' + ''.join(f'<li>{i}</li>' for i in items) + '</ul>'
-
-
-def source(text):
-    return f'<p class="source">{text}</p>'
-
-
-def quote(text, who):
-    return f'<blockquote class="quote"><p>&ldquo;{esc(text)}&rdquo;</p><small>{esc(who)}</small></blockquote>'
-
-
-def link(href, text):
-    return f'<a href="{esc(href)}" rel="noopener" target="_blank">{esc(text)}</a>'
-
-
-def fresh(keys='interviews'):
-    return f'<div data-fresh="{keys}"></div>'
-
-
-PROVISIONAL = (f'<b>Provisional sample.</b> Built from live Dream Menu data to {LAST_H} to show the kind of report '
-               f'Dream Menu writes on request. The figures are real; the client brief is illustrative and the findings '
-               f'have not yet been reviewed with a client. <a href="/case-studies">About case studies</a>')
-
-
-def full_commission(extra):
-    base = [
-        'A brief agreed with you: the questions, the markets and the decisions the report needs to support',
-        'Fresh fieldwork on top of the archive: targeted interviews with guests, chefs or buyers in your category',
-        'Venue-level detail: the named venues, dishes and quotes behind every figure, as a data extract',
-        'Quarterly tracking, so the next report shows what moved and whether it was a clear move',
-    ]
-    return sec('commission', 'What a full commission adds', ul(extra + base) +
-               f'<p><a class="cta" href="mailto:{CONTACT}?subject=Commissioned%20report">Ask about a report like this</a></p>')
-
-
-def method(text):
-    return sec('method', 'Method and limits', f'<div class="prose"><p>{text}</p><p>Dish categories were made more specific on 24 October 2026; each answer is coded to the dish itself with a parent group. A clear move means a two-proportion test between July to December 2025 and April 2026 onward came out at p &lt; 0.05. Dream Menu is qualitative fieldwork with food-literate guests, not a statistically representative survey. <a href="/how-it-works">How Dream Menu works</a>.</p></div>')
-
-
 def write(path, title, desc, body):
     fn = path.strip('/') + '.html'
     os.makedirs(os.path.dirname(fn) or '.', exist_ok=True)
@@ -194,413 +128,841 @@ def write(path, title, desc, body):
     return fn
 
 
-written = []
+AUD = {'supplier': 'Suppliers and brands', 'venue': 'Operators', 'investor': 'Investors and property', 'public': 'Public sector, tourism and press'}
+ORDER = ['night-out', 'glasgow-edinburgh', 'seafood', 'dessert', 'drinks', 'trend-fatigue',
+         'neighbourhoods', 'guests-and-critics', 'steak', 'italian', 'operator-confidence']
+META = {
+    'night-out': dict(no=1, kind='Price and cost briefing', plain='The cost of a night out in Glasgow'),
+    'glasgow-edinburgh': dict(no=2, kind='Market-entry read', plain='Two cities, two appetites'),
+    'seafood': dict(no=3, kind='Category deep-dive', plain="Scotland's seafood appetite"),
+    'dessert': dict(no=4, kind='Category deep-dive', plain='The last spend: dessert'),
+    'drinks': dict(no=5, kind='Category deep-dive', plain='What Scotland drinks with dinner'),
+    'trend-fatigue': dict(no=6, kind='Trend tracker', plain='Trend fatigue'),
+    'neighbourhoods': dict(no=7, kind='Location read', plain='Where Glasgow eats'),
+    'guests-and-critics': dict(no=8, kind='Reputation study', plain='Guests and critics'),
+    'steak': dict(no=9, kind='Category deep-dive', plain='The steak economy'),
+    'italian': dict(no=10, kind='Cuisine deep-dive', plain="Glasgow's Italian table"),
+    'operator-confidence': dict(no=11, kind='Sector pulse', plain='The confidence gap'),
+}
+REPORTS = []
 
-# ================================================================== index
-cards_html = []
-for slug, t, client, status in PAGES:
-    blurb = {
-        'night-out': 'What food, drink and transport cost on a Glasgow night out, how to budget for one, and what it means for a supplier.',
-        'glasgow-edinburgh': 'What Glasgow and Edinburgh guests name more than everyone else, and what that means for a group opening in the other city.',
-        'seafood': 'Where seafood sits on the dream menu, which dishes lead, what is rising and which venues own it.',
-        'dessert': 'The most open course on the menu: what guests choose, what is moving and where a supplier can protect the last spend.',
-        'drinks': 'The shift from cocktails to whisky and lager, the soft-drink round and the no and low question.',
-        'trend-fatigue': 'The trends guests want gone, the sides they are leaving behind and what replaces them.',
-    }[slug]
-    cards_html.append(f'<a class="card" href="/case-studies/{slug}" style="text-decoration:none;color:inherit"><span class="eyebrow">{esc(status)}</span><h3>{esc(t)}</h3><p>{blurb}</p><p style="font-size:13px;color:var(--muted)">Written for: {esc(client)}</p></a>')
-idx = '\n'.join([
-    hero('Case studies', 'Reports on <em>request</em>',
-         f'Dream Menu turns {f0(N_ALL)} interviews, {f0(DM["meta"]["venues"])} named venues and a Scottish operator survey into reports that answer one commercial question. These six show the range: a cost briefing, a market-entry read, three category deep-dives and a trend piece.',
-         [(f0(N_ALL), 'interviews'), (f0(DM['meta']['venues']), 'venues named'), ('55', 'operators surveyed'), ('6', 'example reports')]),
-    subnav(''),
-    sec('reports', 'The reports', '<div class="grid">' + ''.join(cards_html) + '</div>' + fresh('interviews venues'),
-        'The night-out briefing is a working draft. The other five are provisional samples: real figures from the live data, written to an illustrative brief.'),
-    sec('what', 'What you can commission', cards([
-        ('Category deep-dive', 'One course, ingredient or drink: share of guests, what is rising and falling, who names it, and the venues and dishes behind it.'),
-        ('Market-entry read', 'How a city or neighbourhood eats compared with everywhere else, which venues set the bar, and where the gaps are.'),
-        ('Price and cost briefing', 'What a night out, a dish or a round costs, built from published benchmarks and set against what guests choose.'),
-        ('Trend and fatigue tracker', 'What guests say they are tired of, what is replacing it and what that means for menus and ranges.'),
-        ('Restaurant MOT', 'An independent four-week check of one venue. <a href="/restaurant-mot">See how it works</a>.'),
-        ('Commissioned questions', 'Add your own questions to the interview series and get the answers back each quarter.'),
-    ])),
-    sec('how', 'How a commission works', '<ol class="steps">'
-        '<li><span class="eyebrow">Step 1</span><h3>The question</h3><p>We agree the decision the report should support and the markets it covers.</p></li>'
-        '<li><span class="eyebrow">Step 2</span><h3>The data</h3><p>The interview archive, the venue map and the operator survey, plus new fieldwork where needed.</p></li>'
-        '<li><span class="eyebrow">Step 3</span><h3>The report</h3><p>A written report with charts, named venues and recommendations, and the data behind it.</p></li>'
-        '<li><span class="eyebrow">Step 4</span><h3>The follow-up</h3><p>Optional quarterly tracking, so you can see what moved.</p></li></ol>'
-        f'<p><a class="cta" href="mailto:{CONTACT}?subject=Commissioned%20report">Talk to us about a report</a></p>'),
-])
-written.append(write('/case-studies', 'Case studies: reports on request',
-                     'Example Dream Menu reports: the cost of a night out in Glasgow, Glasgow against Edinburgh, seafood, dessert, drinks and trend fatigue.', idx))
 
-# ================================================================== 1. night out (Gordon's draft)
-S = lambda h, t: link(h, t)
-NIQ = 'https://nielseniq.com/global/en/insights/analysis/2026/why-value-matters-more-than-ever-for-restaurants/'
-no_body = '\n'.join([
-    banner('<b>Draft briefing, 28 October 2026.</b> Written for Dunns Food &amp; Drinks as a Dream Menu hospitality intelligence briefing. Price grids and budgets are modelled, indicative figures, not a venue price survey. <a href="/case-studies">About case studies</a>'),
-    hero('Case study · Price and cost briefing', 'The cost of a <em>night out</em> in Glasgow, 2026',
-         'What food, drink and transport cost on a Glasgow night out, how to budget for one, and what it means for Dunns Food &amp; Drinks.',
-         [('£74', 'a typical night, per head'), ('£34', 'on drink'), ('£30', 'on food'), ('£10', 'getting there and back')]),
-    subnav('night-out'),
-    sec('summary', 'Summary',
-        '<div class="prose"><p>A typical night out in Glasgow costs about £74 a head in October 2026: around £30 on food, £34 on drink and £10 getting there and back. Plan £40 for a low-key pub night and £150 or more for a celebration, and add 20% because most people overspend.</p></div>'
-        + cards([
-            ('Drink is the biggest and most elastic line', 'A city-centre pint is £5.20 to £6.20 and a cocktail £10.50 to £13.50, so the number of cocktails decides the bill. Glasgow drink prices run about 10% below Edinburgh.'),
-            ('Food is the most controllable line', 'Two courses in a mid-range Glasgow restaurant cost £30 to £40 a head; a set or pre-theatre menu saves £10 or more.'),
-            ('Transport has got cheaper', "Scotland's £2 bus cap and night buses make getting home as cheap as £2, while a solo taxi is £10 to £30. The real constraint is timing, not cost."),
-            ('Diners are trading down, not staying in', "Dream Menu's 2026 data shows 72% of operators with flat or falling spend per head, as guests skip dessert and the extra drink. Classics such as steak, seafood, margaritas and martinis still win the spend that remains."),
-            ('For Dunns', 'The commercial prize is helping venues protect spend per head: dessert, cocktail and premium soft drink ranges, costed set-menu kits, and a quarterly Glasgow Night Out Index co-published with Dream Menu.'),
-        ])),
-    sec('market', 'Market context',
-        '<div class="prose"><p>A night out costs around a third more than it did in 2022, and the pressure on Scottish venues is still building. Glasgow remains one of the better-value big cities in the UK, which matters for anyone pitching to, or marketing for, the city\'s hospitality trade.</p></div>'
-        + ul([
-            f'<b>Hospitality prices are up about 30% in four years.</b> Compound food and drink inflation for the sector has topped 30% since mid-2022, and average restaurant spend per head has risen from £25.35 to £30.08 ({S(NIQ, "NielsenIQ, 2026")}).',
-            f'<b>Scottish pubs face a rates shock.</b> UKHospitality Scotland forecasts the average Scottish pub\'s business rates rising 77% in 2026/27, to £26,385 ({S("https://cater.affino.com/news/scottish-pubs-to-be-hit-with-staggering-increases-to-business-rates", "UKHospitality Scotland via Cater")}). Expect some of this to reach menu and bar prices over the next 12 months.',
-            f'<b>Consumers are price-aware.</b> UK adults spend an average of £3,776 a year on nights out in pubs, bars and clubs ({S("https://www.thedrinksbusiness.com/2025/10/brits-spend-nearly-4k-per-year-on-nights-out-study-reveals/", "Aqua via The Drinks Business, Oct 2025")}), yet price is the top worry for 44% of people planning a night out ({S("https://www.thespiritsbusiness.com/2023/12/young-adults-avoid-booze-on-nights-out/", "Rekom via The Spirits Business")}).',
-            '<b>Public policy is cutting the cost of getting home.</b> Scotland has capped bus singles at £2 across the SPT area from 7 September 2026 and permanently scrapped ScotRail peak fares in September 2025. Transport is the one line of the budget that has got cheaper.',
-        ])
-        + card('A pint of Guinness, 2026', bars([('Glasgow', 4.93), ('UK average', 5.41), ('London', 6.87)], dec=2).replace('<span class="bv">', '<span class="bv">£'))
-        + source(f'Guinness prices from {S("https://www.thedrinksbusiness.com/2026/03/guinness-prices-rise-across-the-uk/", "The Drinks Business, March 2026")}. Drink in Glasgow runs roughly 10% below Edinburgh and 20% below London; food and taxis are broadly in line with the UK average outside London.')
-        + '<div class="prose"><p>Glasgow\'s price advantage is a selling point for the city\'s venues, but it also caps how much of the cost stack they can pass on before losing their value reputation.</p></div>'),
-    sec('food', 'Food',
-        '<div class="prose"><p>Dinner on a Glasgow night out costs £18 to £45 a head for most people, with a late-night bite adding £8 to £12. Food is the most controllable line: it can be skipped, swapped for a set menu, or upgraded for a special occasion.</p></div>'
-        + ul([
-            f'A meal at an inexpensive Glasgow restaurant averages £17.20, and a three-course meal for two at a mid-range place £60.71 ({S("https://www.expatica.com/uk/cost-of-living/glasgow/", "Numbeo via Expatica, June 2026")}).',
-            f'A dinner for two at an Italian restaurant with wine and dessert comes in around £59 ({S("https://expatistan.com/cost-of-living/comparison/sofia/glasgow", "Expatistan, Oct 2026")}).',
-            f'Across the UK, the average restaurant main has risen from about £11 in 2022 to just under £12.50 ({S(NIQ, "NielsenIQ, 2026")}).',
-        ])
-        + table(['Food', 'Modelled cost per person (indicative)'], [
-            ['Late-night bite (chippy, pizza slice, kebab)', '£8 to £12'],
-            ['Casual meal (inexpensive restaurant)', '£15 to £20'],
-            ['Two courses, mid-range restaurant', '£30 to £40'],
-            ['Set or pre-theatre menu', '£20 to £30'],
-            ['Special occasion, three courses with service', '£45 and up'],
-        ])
-        + source('Modelled from the Glasgow benchmarks above.')
-        + '<div class="prose"><p>Glasgow\'s value strength is the middle of the market: independent bistros, small-plates spots and curry houses where two courses still come in under £35. Fine dining is priced closer to Edinburgh.</p></div>'),
-    sec('drink', 'Drink',
-        '<div class="prose"><p>A city-centre pint in Glasgow now sits at roughly £5.20 to £6.20, still below Edinburgh (about £6) and London (about £6.75). Drink is the single biggest and most variable line in any night-out budget, typically 40% to 65% of total spend.</p></div>'
-        + ul([
-            f'UK average pint: £5.34 in April 2026, up 3.3% year on year, with premium lager at £5.94 and stout at £5.74 ({S("https://www.morningadvertiser.co.uk/Article/2026/05/21/average-pint-price-rises-33-to-534-the-morning-advertiser-finds/", "Morning Advertiser, May 2026")}).',
-            f'Glasgow is the second-cheapest UK city for Guinness at £4.93 a pint, against a UK average of £5.41 and £6.87 in London ({S("https://www.thedrinksbusiness.com/2026/03/guinness-prices-rise-across-the-uk/", "The Drinks Business, March 2026")}).',
-            f'Edinburgh averages around £6 a pint, level with Bath and Bristol ({S("https://www.finder.com/uk/drinking-statistics", "Finder, 2026")}).',
-            f'Upward pressure continues: Heineken raised wholesale prices 2.7% from February 2026 and Diageo raised draught Guinness 5.2% from April 2026 ({S("https://www.thinkmoney.co.uk/blog/pints-up-33percent-to-pound534-as-pound10-pints-arrive-in-london-what-it-means-fo/", "thinkmoney")}).',
-        ])
-        + '<h3>Modelled Glasgow price grid, October 2026 (indicative)</h3>'
-        + table(['Drink', 'Local or suburban pub', 'City-centre bar', 'Cocktail or hotel bar', 'Club or live venue'], [
-            ['Pint of standard lager', '£4.60', '£5.40', '£6.50', '£6.80'],
-            ['Pint of premium lager or craft', '£5.30', '£6.20', '£7.20', '£7.50'],
-            ['Pint of Guinness', '£4.90', '£5.60', '£6.60', '£6.80'],
-            ['Glass of house wine (175ml)', '£6.00', '£7.50', '£9.50', '£8.50'],
-            ['Spirit and mixer (single)', '£4.80', '£6.00', '£8.00', '£7.00'],
-            ['Cocktail', 'n/a', '£10.50', '£13.50', '£11.00'],
-            ['Soft drink or alcohol-free pint', '£2.80', '£3.80', '£4.50', '£4.50'],
-        ])
-        + source('City-centre bar means Merchant City and the West End. Grid built from the national and Glasgow benchmarks above, with venue-tier mark-ups typical of Scottish licensed trade pricing. Treat it as a planning model, not a price list.')
-        + callout('Scottish factor: minimum unit pricing.', 'Scotland sets a floor of 65p per unit of alcohol in shops. It mostly lifts the cost of pre-drinks at home rather than bar prices, so the gap between drinking at home and drinking out is narrower in Scotland than in England.')),
-    sec('transport', 'Transport',
-        '<div class="prose"><p>Getting out and home costs £4 to £25 a head in Glasgow, and the choice of how to get home is the biggest swing factor. A £2 night bus and a solo £20 taxi can sit either side of the same evening.</p></div>'
-        + table(['Mode', 'Cost per trip (Oct 2026)', 'Night-out notes'], [
-            ['First Glasgow or Stagecoach bus, including night buses', '£2 single, capped', f'Scottish Government £2 cap across the SPT area from 7 Sept 2026 ({S("https://www.firstbus.co.uk/greater-glasgow/tickets/ps2-fare-cap", "First Bus")}). Night routes such as N2, N18, N240 and N267 run on Friday and Saturday ({S("https://www.firstbus.co.uk/greater-glasgow/plan-journey/timetables?day=sa&service=128", "First Bus")})'],
-            ['First 6pm Plus ticket', '£4.75 (city, app)', f'Unlimited travel after 6pm, including night buses ({S("https://www.firstbus.co.uk/greater-glasgow/plan-journey/forthcoming-fare-changes", "First Bus fare changes")})'],
-            ['Glasgow Subway', '£1.80 smartcard, £1.85 paper single', f'Last trains around 23:40 Monday to Saturday and about 18:12 on Sundays, so useful for getting in, rarely for getting home ({S("https://www.scottishdailyexpress.co.uk/news/scottish-news/blow-rangers-fans-spt-confirms-36429818", "Scottish Daily Express")}, {S("https://appsavvytraveller.com/glasgow-public-transport/", "App Savvy Traveller")})'],
-            ['Black cab, city centre to West End or Southside', 'Modelled £10 to £18 at night', f'Flag fall rose to £4.50 after the 2025 review; night tariff applies from 11pm ({S("https://prod.news.stv.tv/west-central/glasgow-taxi-fares-increase-proposed-as-drivers-call-for-higher-night-charges", "STV")})'],
-            ['Black cab, city centre to outer suburbs', 'Modelled £20 to £30 at night', 'Long queues at Gordon Street and Hope Street ranks after 2am'],
-            ['Uber or private hire', 'Modelled £12 to £35', 'Surge pricing at closing time can add 50% to 100%'],
-            ['ScotRail late train (commuter belt, Edinburgh)', 'Glasgow to Edinburgh anytime day return about £16.80', f'Peak fares permanently scrapped from 1 Sept 2025 ({S("https://www.timeout.com/uk/news/the-major-british-rail-operator-that-has-axed-all-peak-time-fares-090225", "Time Out")}). Last departures are around midnight, which cuts nights short for visitors'],
-        ])
-        + callout('The insight for operators:', 'the cheapest way home in Glasgow is now cheaper than one soft drink. The real constraint is not cost but timing: the Subway closes early and the last trains leave around midnight, so venues that want late spend from suburban and Edinburgh visitors are competing with the train timetable.')),
-    sec('budgets', 'Modelled budgets',
-        '<div class="prose"><p>A typical Saturday night out in Glasgow costs about £75 a head, a low-key night about £40, and a celebration £150 or more. The three personas below are built from the price grids above.</p></div>'
-        + grid(card('Per head, by type of night', bars([('The catch-up', 40), ('The classic Saturday', 75), ('The big night', 150)]).replace('<span class="bv">', '<span class="bv">£')),
-               card('How the typical night splits', bars([('Drink', 34), ('Food', 30), ('Transport', 10)]).replace('<span class="bv">', '<span class="bv">£')
-                    + '<p style="font-size:13px">Drink 46%, food 41%, transport 13%. The biggest swing factors are the number of cocktails and whether the taxi home is shared.</p>'))
-        + ul([
-            '<b>The catch-up:</b> two cans at home, four pints at about £5.20, a chippy, bus in and night bus home',
-            '<b>The classic Saturday:</b> two courses with service, five drinks mixing pints, wine and a cocktail, bus in and half a £16 to £20 taxi home',
-            '<b>The big night:</b> a pre-dinner cocktail, mid-range dinner with shared wine, four drinks across a cocktail bar and club, £10 entry, a late bite and a solo taxi',
-        ])
-        + f'<div class="prose"><p><b>Benchmarks:</b> UK survey work has put the average night out at £45 to £73 a head over recent years, depending on the definition and who was asked ({S("https://thinkmoney.co.uk/blog/a-night-in-numbers-how-to-budget-on-nights-out", "thinkmoney")}, {S("https://www.thespiritsbusiness.com/2023/12/young-adults-avoid-booze-on-nights-out/", "Rekom via The Spirits Business")}). Allowing for roughly 30% hospitality inflation since 2022, the £74 Glasgow model sits in the middle of that range.</p></div>'),
-    sec('budget', 'How to budget for a night out',
-        f'<div class="prose"><p>Budget £75 a head for a standard Glasgow night out, then add a 20% buffer: most people overspend once the night gets going. In one UK survey, 78% of 18 to 35 year olds said they routinely go over their planned budget ({S("https://confidentials.com/body/boozy-brits-spend-6500-a-year-on-nights-out", "Confidentials")}).</p></div>'
-        + table(['Type of night', 'Plan for', 'With 20% buffer'], [['Low-key pub night', '£40', '£48'], ['Dinner and drinks', '£75', '£90'], ['Celebration or club night', '£150', '£180']])
-        + grid(card('Costs people forget', ul(['Service charge of 10% to 12.5% on restaurant bills', 'Club entry of £5 to £15 and cloakroom of £2 to £3', 'Rounds: in a group of five, buying a round of cocktails costs £50 to £65 in one go', 'Surge pricing on Uber and private hire after 2am, often 1.5 to 2 times the normal fare', 'The Sunday trap: the Subway stops around 6pm, so Sunday nights default to taxis'])),
-               card('Ways to spend less without missing out', ul(['Use the £2 bus cap both ways, or the £4.75 First 6pm Plus ticket for unlimited travel after 6pm', 'Eat early: pre-theatre and set menus save £10 to £15 a head against à la carte', 'Swap one cocktail for a pint or a premium soft drink and save £5 to £8', 'Split the taxi home; a shared £18 fare is £6 each between three', 'Drink in the Southside or a local pub rather than a city-centre cocktail bar, saving up to £2 a drink'])))),
-    sec('dream-menu', 'What Dream Menu data adds',
-        '<div class="prose"><p>Glasgow\'s food-literate diners still go out, but they are trading down inside the bill: 72% of operators in the Dream Menu 2026 survey report spend per head flat or falling, while 87% report supplier prices rising. The interview data shows where the money still goes, and it lines up with the most expensive lines in this budget. Two datasets sit behind this section: 962 community interviews with chefs, hospitality staff, food writers and diners, and a 55-operator field survey from April 2026 (Dream Menu Hospitality Intelligence Report 2026). All mentions are unprompted.</p></div>'
-        + grid(card('Dream-drink mentions, 962 interviews', bars([('Soft and diet drinks', 143), ('Beer', 116), ('Margarita', 66), ('Martini', 64)])),
-               card('What pushes prices up: share of operators naming each pressure', bars([('Food input costs', 63), ('Energy and utilities', 61), ('Labour costs', 57), ('Rent, rates and property', 52), ('Consumer demand and footfall', 44), ('Debt and cashflow', 33), ('Drink input costs', 26)], unit='%')))
-        + ul([
-            '<b>Classic cocktails carry the premium end of the bill.</b> Margaritas (66) and martinis (64) together outrank beer (116), and these are the £10 to £13.50 drinks in the price grid. A night built on two cocktails costs roughly double a night built on two pints.',
-            '<b>Soft drinks are a real part of the round.</b> Soft and diet drinks are the single most-named dream drink (143). Irn Bru beats Coca-Cola 435 to 307, and 21% chose neither. At £3.80 a time in town, no and low choices are no longer the cheap option.',
-            '<b>Diners spend on classics, not gimmicks.</b> Steak is the most-named main (251), seafood leads starters (303, with scallops alone at 99) and chips lead sides (240). Dubai chocolate (124 mentions) and matcha (90) top the list of trends people want gone, so premium pricing on novelty items is resisted.',
-            '<b>The extras are what get cut.</b> 42% of operators see lower spend per head locally, and operators describe guests skipping the starter, the second cocktail or the dessert. That is why the modelled budgets treat dessert and a final drink as optional lines.',
-            "<b>Value price points work.</b> One operator's £30 three-course lunch has taken off, and lunch vouchers kept another fully booked through January and February. A clear, honest set price is what converts a cautious diner.",
-            "<b>The late-night end is comfort food.</b> Pizza (141), kebab (36) and the chippy (23) dominate guilty pleasures, which is the £8 to £12 late-night bite line. A late-night dessert offer is one of the report's documented concept gaps.",
-            '<b>Where the night happens is shifting.</b> The Barras draws 50 mentions, more than any single venue, and the Southside has the widest gap between community advocacy and press attention, with rents well below Finnieston.',
-        ])
-        + '<div class="prose"><p>Food input costs top the stack, and drink input costs are named by only 26%. That gap is why menu prices are rising faster than bar prices, and it is the line a food distributor can most directly help with.</p></div>'
-        + source('Figures in this section are from the Dream Menu Hospitality Intelligence Report 2026 (962 interviews and the April 2026 operator survey). The live site now holds ' + f0(N_ALL) + ' interviews; the report counts are kept as published.')),
-    sec('dunns', 'What this means for Dunns',
-        '<div class="prose"><p>The opportunity for Dunns is to help venues protect spend per head, because that is the line customers are cutting while volume holds. Each idea below links a cost-of-night-out finding to a product, a sales conversation or a piece of joint content.</p></div>'
-        + table(['Finding', 'Evidence', 'Idea for Dunns'], [
-            ['Guests skip dessert and the last drink', '72% of operators report flat or falling spend per head; dessert and second cocktail are the first cuts', 'Lead sales calls with a "save the last spend" range: ready-to-plate desserts in the most-named formats (ice cream 221, sticky toffee pudding 122, tiramisu 120) and batch-friendly cocktail serves'],
-            ['Classic cocktails outrank beer', 'Margarita 66 and martini 64 vs beer 116', 'Bundle tequila, gin, vermouth, citrus and premium mixers as a "Glasgow classics" bar pack, with a costed menu showing a £10 to £11 sell price at healthy margin'],
-            ['Soft drinks and no/low are a large share of the round', 'Soft drinks most-named drink (143); Irn Bru 435 vs Coke 307', 'Push premium soft drinks, Scottish mixers and alcohol-free pints as margin lines, not afterthoughts; supply a menu template that prices them at £3.50 to £4.50'],
-            ['Set price points convert cautious diners', '£30 three-course lunch and January vouchers cited as operator wins', 'Build costed "£22 / £30 set menu" kits from Dunns lines around the most-named dishes (steak 251, seafood starters 303, chips 240)'],
-            ['Supplier prices are the top cost worry', '87% report supplier prices rising; 46% have changed or renegotiated suppliers in six months', 'A retention risk and an opening: offer price-holds on core night-out lines for one quarter, and target operators actively shopping around'],
-            ['Growth is in emerging districts', 'The Barras 50 mentions; Southside has the widest advocacy-to-press gap', 'Use the Dream Menu venue map to prioritise new-account visits in the Southside, the Barras and the East End'],
-            ['Late-night food is comfort food', 'Pizza 141, kebab 36, chippy 23; late-night dessert is a documented concept gap', 'Target late-opening takeaways and venues with frozen and ambient lines for the 11pm to 3am trade'],
-            ['Getting home is cheaper than ever', '£2 bus cap, night buses, ScotRail peak fares scrapped', 'Help venues sell early-evening and weeknight occasions to customers who no longer need a taxi budget'],
-        ])
-        + callout('Suggested sequence:', 'launch the four quick wins in the first quarter, since they use existing Dunns ranges and the existing quarterly report. Build the set-menu kits and price-hold offer in the second quarter, once the Night Out Index shows which price points matter most.')
-        + callout('Joint content idea: the Glasgow Night Out Index.', 'A quarterly price check of a fixed basket (pint, glass of wine, cocktail, soft drink, casual main, late-night bite, taxi home), published in the Dunns-sponsored quarterly report alongside Dream Menu demand data. It fits the existing quarterly summary and sales-team presentation, gives the press a repeatable headline number, and positions Dunns as the distributor that understands what a night out costs the customer, not only the venue.')),
-    sec('sources', 'Methodology and sources',
-        '<div class="prose"><p>Glasgow price grids and personas are modelled, indicative figures, not a venue price survey. They start from published national and city benchmarks below and apply typical Scottish venue-tier mark-ups. Dream Menu figures are exact counts from the 2026 report; the community sample skews food-literate and the operator survey is directional.</p></div>'
-        + grid(card('Drink', ul([S("https://www.morningadvertiser.co.uk/Article/2026/05/21/average-pint-price-rises-33-to-534-the-morning-advertiser-finds/", "Morning Advertiser: average pint price rises 3.3% to £5.34"), S("https://www.thedrinksbusiness.com/2026/03/guinness-prices-rise-across-the-uk/", "The Drinks Business: Guinness prices rise across the UK"), S("https://www.finder.com/uk/drinking-statistics", "Finder: UK drinking statistics"), S("https://www.thinkmoney.co.uk/blog/pints-up-33percent-to-pound534-as-pound10-pints-arrive-in-london-what-it-means-fo/", "thinkmoney: pint prices up 3.3%")])),
-               card('Food and market', ul([S(NIQ, "NielsenIQ: why value matters more than ever for restaurants"), S("https://www.expatica.com/uk/cost-of-living/glasgow/", "Expatica: cost of living in Glasgow (Numbeo data)"), S("https://expatistan.com/cost-of-living/comparison/sofia/glasgow", "Expatistan: Glasgow prices"), S("https://cater.affino.com/news/scottish-pubs-to-be-hit-with-staggering-increases-to-business-rates", "UKHospitality Scotland via Cater: Scottish pub business rates"), S("https://www.thedrinksbusiness.com/2025/10/brits-spend-nearly-4k-per-year-on-nights-out-study-reveals/", "The Drinks Business: Brits spend nearly £4k a year on nights out"), S("https://www.thespiritsbusiness.com/2023/12/young-adults-avoid-booze-on-nights-out/", "The Spirits Business: Rekom night-out spend"), S("https://thinkmoney.co.uk/blog/a-night-in-numbers-how-to-budget-on-nights-out", "thinkmoney: how to budget on nights out"), S("https://confidentials.com/body/boozy-brits-spend-6500-a-year-on-nights-out", "Confidentials: 18 to 35s and night-out budgets")])),
-               card('Transport', ul([S("https://www.firstbus.co.uk/greater-glasgow/tickets/ps2-fare-cap", "First Bus: £2 fare cap"), S("https://www.firstbus.co.uk/greater-glasgow/plan-journey/forthcoming-fare-changes", "First Bus: fare changes and 6pm Plus"), S("https://www.firstbus.co.uk/greater-glasgow/plan-journey/timetables?day=sa&service=128", "First Bus: night services"), S("https://www.scottishdailyexpress.co.uk/news/scottish-news/blow-rangers-fans-spt-confirms-36429818", "Scottish Daily Express: Subway fares 2026"), S("https://appsavvytraveller.com/glasgow-public-transport/", "App Savvy Traveller: Glasgow public transport"), S("https://prod.news.stv.tv/west-central/glasgow-taxi-fares-increase-proposed-as-drivers-call-for-higher-night-charges", "STV: Glasgow taxi fare review"), S("https://www.timeout.com/uk/news/the-major-british-rail-operator-that-has-axed-all-peak-time-fares-090225", "Time Out: ScotRail scraps peak fares")])))),
-])
-written.append(write('/case-studies/night-out', 'The cost of a night out in Glasgow, 2026',
-                     'What food, drink and transport cost on a Glasgow night out in 2026, how to budget for one, and what it means for a food and drink distributor.', no_body))
+def render(r):
+    strip_txt = {
+        'draft': '<b>Draft briefing.</b> Written by Dream Menu for a named partner. Market figures are published benchmarks; venue prices are modelled. <a href="/case-studies">All reports</a>',
+        'sample': f'<b>Provisional sample.</b> Real figures from live Dream Menu data to {LAST_H}, written to an illustrative brief to show the work Dream Menu does on request. Not yet reviewed with a client. <a href="/case-studies">All reports</a>',
+    }[r['status']]
+    status_lbl = 'Draft briefing' if r['status'] == 'draft' else 'Provisional sample'
+    kp = ''.join(f'<div class="cs-kpi"><b>{esc(v)}</b><span>{esc(l)}</span></div>' for v, l in r['kpis'])
+    subj = ('Commission%20a%20report%20like%20' + esc(r['plain']).replace(' ', '%20'))
+    cover = f'''<div class="cs-strip"><div class="wrap">{strip_txt}</div></div>
+<section class="cs-cover"><div class="wrap">
+  <div class="cs-series"><span class="no">No. {r["no"]:02d}</span><span>Dream Menu Insight Series · {esc(r["kind"])}</span></div>
+  <h1>{r["title"]}</h1>
+  <p class="cs-stand">{r["stand"]}</p>
+  <dl class="cs-meta"><div><dt>Written for</dt><dd>{esc(r["client"])}</dd></div><div><dt>The question</dt><dd>{esc(r["question"])}</dd></div>
+  <div><dt>Status</dt><dd>{status_lbl}, {esc(r.get("dated", TODAY_H))}</dd></div><div><dt>Evidence</dt><dd>{esc(r["evidence"])}</dd></div></dl>
+  <div class="cs-kpis">{kp}</div>
+  <div class="cs-actions"><button class="cs-btn" type="button" data-print>Save as PDF</button><a class="cs-btn" href="mailto:{CONTACT}?subject={subj}">Commission a report like this</a></div>
+</div></section>'''
+    secs = [('summary', 'Executive summary')] + [(c[0], c[1]) for c in r['chapters']] + [('recommendations', 'What to do'), ('watch', 'What to watch'), ('method', 'Method and sources')]
+    toc = '<nav class="cs-toc" aria-label="Contents"><b>Contents</b><ol>' + ''.join(f'<li><a href="#{i}"><span>{n + 1:02d}</span>{esc(t)}</a></li>' for n, (i, t) in enumerate(secs)) + '</ol></nav>'
+    msgs = ''.join(f'<li><span class="n">{esc(n)}<small>{esc(u)}</small></span><h3>{h}</h3><p>{t}</p></li>' for n, u, h, t in r['msgs'])
+    todo = ''.join(f'<li data-n="{i + 1}">{esc(rc[0])}</li>' for i, rc in enumerate(r['recs']))
+    summ = f'''<section id="summary"><p class="cs-kicker">01 · Executive summary</p><h2>The answer</h2>
+<div class="cs-answer"><small>In one sentence</small><p>{r["answer"]}</p></div>
+<ul class="cs-msgs">{msgs}</ul>
+<h3 style="margin:26px 0 4px;font-size:17px">What we recommend</h3><ol class="cs-todo">{todo}</ol></section>'''
+    chap = ''
+    for k, (cid, kick, h2, lede, body) in enumerate(r['chapters']):
+        chap += f'<section id="{cid}"><p class="cs-kicker">{k + 2:02d} · {esc(kick)}</p><h2>{h2}</h2><p class="cs-lede">{lede}</p>{body}</section>'
+    n0 = len(r['chapters']) + 2
+    imp = {'High': .85, 'Medium': .55, 'Low': .25}
+    eff = {'Low': .14, 'Medium': .56, 'High': .9}
+    short = lambda t: t
+    mx = matrix([(i + 1, short(rc[0]), imp[rc[2]], eff[rc[3]]) for i, rc in enumerate(r['recs'])])
+    mx_fig = r['ex']('Where to start: impact against effort', 'Each recommendation placed by expected impact for the client and the effort to deliver it.', mx, 'Dream Menu assessment of the recommendations in this report')
+    recl = ''.join(f'<li><span class="rn">{i + 1:02d}</span><div><h3>{esc(rc[0])}</h3><p>{rc[1]}</p><div class="tags"><span class="tg{" hi" if rc[2] == "High" else ""}">Impact: {rc[2]}</span><span class="tg">Effort: {rc[3]}</span><span class="tg">{esc(rc[4])}</span></div></div></li>' for i, rc in enumerate(r['recs']))
+    recs = f'<section id="recommendations"><p class="cs-kicker">{n0:02d} · Recommendations</p><h2>What to do</h2><p class="cs-lede">{r.get("recs_lede", "Ranked by impact. The matrix shows where to start; the list says why.")}</p>{mx_fig}<ol class="recs">{recl}</ol></section>'
+    watch = ''.join(f'<div><h4>{esc(h)}</h4><p>{t}</p></div>' for h, t in r['watch'])
+    watch = f'<section id="watch"><p class="cs-kicker">{n0 + 1:02d} · Risks and signals</p><h2>What would change our view</h2><p class="cs-lede">The signals to track over the next two quarters, and what each would mean for the recommendations.</p><div class="watch">{watch}</div></section>'
+    ms = ''.join(f'<div><b>{esc(v)}</b><span>{esc(l)}</span></div>' for v, l in r['method_stats'])
+    method = f'''<section id="method"><p class="cs-kicker">{n0 + 2:02d} · Appendix</p><h2>Method and sources</h2><div class="method-grid">{ms}</div>
+<div class="prose">{r["method"]}<p>Dish categories were made more specific on 24 October 2026; each answer is coded to the dish itself with a parent group. A <b>clear move</b> means a two-proportion test between July to December 2025 and April 2026 onward came out at p &lt; 0.05. Dream Menu is qualitative fieldwork with food-literate guests, chefs and hospitality staff, not a statistically representative survey of the population. <a href="/how-it-works">How Dream Menu works</a>.</p>{r.get("sources", "")}</div></section>'''
+    k = ORDER.index(r['slug'])
+    pick = [ORDER[(k + j) % len(ORDER)] for j in (1, 2, 3)]
+    more = ''.join(f'<a href="/case-studies/{s}"><small>No. {META[s]["no"]:02d} · {esc(META[s]["kind"])}</small><b>{esc(META[s]["plain"])}</b></a>' for s in pick)
+    nxt = f'''<section id="next"><div class="cs-next"><h2>Want this for your business?</h2><p>Every report in the series can be commissioned for your category, market or venue, with fresh fieldwork on top of the archive and quarterly tracking after.</p><a class="cs-btn" href="mailto:{CONTACT}?subject=Commissioned%20report">Talk to Dream Menu</a></div>
+<h3 style="margin:26px 0 0;font-size:17px">More from the Insight Series</h3><div class="cs-more">{more}</div></section>'''
+    body = cover + f'<div class="wrap cs-body">{toc}<article class="cs-art">{summ}{chap}{recs}{watch}{method}{nxt}</article></div>'
+    REPORTS.append(r)
+    return write(f'/case-studies/{r["slug"]}', r['plain'], r['desc'], body)
 
-# ================================================================== 2. Glasgow and Edinburgh
+
+# ================================================================== shared figures
+s_t, m_t, d_t, p_t, a_t, k_t = (trend(c) for c in 'smdpak')
+Q = [qlab(q) for q in s_t['q']]
 CM = AN['cities']
-gi, ei = CM['markets'].index('Glasgow'), CM['markets'].index('Edinburgh')
-G, E = MK['Glasgow'], MK['Edinburgh']
-rows = [r for r in CM['rows'] if not r['cells'][gi]['thin'] and not r['cells'][ei]['thin']]
-g_hi = sorted(rows, key=lambda r: -r['cells'][gi]['idx'])
-e_hi = sorted(rows, key=lambda r: -r['cells'][ei]['idx'])
-top10 = lambda m: sum(VEN[i]['m'] for i in m['top'][:10])
-g_top, e_top = top10(G), top10(E)
-neg, mar = city_row('Negroni'), city_row('Martini')
-scal, stp, tira = city_row('Scallops'), city_row('Sticky toffee pudding'), city_row('Tiramisu')
-marg = city_row('Margarita')
-ge_body = '\n'.join([
-    banner(PROVISIONAL),
-    hero('Case study · Market-entry read', 'Two cities, <em>two appetites</em>',
-         f'Written for a restaurant group with a Glasgow site, weighing a first opening in Edinburgh (or the reverse). The question: how differently do the two cities eat and drink, and what would a second site need to change?',
-         [(f'{neg["cells"][ei]["idx"]}', 'Edinburgh negroni index'), (f'{marg["cells"][gi]["idx"]}', 'Glasgow margarita index'),
-          (f'{pct(e_top, E["mn"])}%', 'Edinburgh mentions in its top 10 venues'), (f'{pct(g_top, G["mn"])}%', 'same for Glasgow')]),
-    subnav('glasgow-edinburgh'),
-    sec('brief', 'The brief', '<div class="prose"><p>A group running a successful Glasgow venue wants to know whether the format travels 45 miles east. Menus, drinks lists and launch marketing all depend on how far Edinburgh guests differ, so the report compares what guests in each city name, which venues set the bar, and how concentrated each market is.</p></div>'),
-    sec('findings', 'What we found', cards([
-        ('Edinburgh drinks stirred, Glasgow drinks shaken',
-         f'Edinburgh guests name the negroni at {neg["cells"][ei]["idx"]} and the martini at {mar["cells"][ei]["idx"]} on the index (100 = the all-market average). In Glasgow they index at {neg["cells"][gi]["idx"]} and {mar["cells"][gi]["idx"]}, while the margarita indexes at {marg["cells"][gi]["idx"]}. A Glasgow bar list built on margaritas would need a stirred, spirit-forward section in Edinburgh.'),
-        ('Glasgow is the scallop city',
-         f'Scallops are {f1(scal["cells"][gi]["share"])}% of Glasgow dish mentions (index {scal["cells"][gi]["idx"]}) against {f1(scal["cells"][ei]["share"])}% in Edinburgh (index {scal["cells"][ei]["idx"]}). Edinburgh still loves seafood ({f1(dict((c[0], c[2]) for c in E["cat"]).get("Seafood", 0))}% of its venue mentions against {f1(dict((c[0], c[2]) for c in G["cat"]).get("Seafood", 0))}% in Glasgow), but it is led by Leith fish venues rather than one shellfish dish.'),
-        ('Pudding beats tiramisu in Edinburgh',
-         f'Sticky toffee pudding indexes at {stp["cells"][ei]["idx"]} in Edinburgh and {stp["cells"][gi]["idx"]} in Glasgow; tiramisu runs the other way ({tira["cells"][gi]["idx"]} in Glasgow, {tira["cells"][ei]["idx"]} in Edinburgh). The dessert that sells in one city is not the safe bet in the other.'),
-        ('Edinburgh is more concentrated',
-         f'Edinburgh\'s ten most-named venues take {pct(e_top, E["mn"])}% of the city\'s {f0(E["mn"])} venue mentions; Glasgow\'s top ten take {pct(g_top, G["mn"])}% of {f0(G["mn"])}. A newcomer in Edinburgh is competing with a shorter list of strong favourites, led by {esc(VEN[E["top"][0]]["n"])}.'),
-    ])),
-    sec('index', 'Dish by dish', table(['Dish', 'Glasgow share', 'Glasgow index', 'Edinburgh share', 'Edinburgh index'],
-        [[esc(r['l']), f'{f1(r["cells"][gi]["share"])}%', str(r['cells'][gi]['idx']), f'{f1(r["cells"][ei]["share"])}%', str(r['cells'][ei]['idx'])] for r in sorted(rows, key=lambda r: -(r['cells'][ei]['idx'] - r['cells'][gi]['idx']))])
-        + source(f'Share of dish mentions tied to a venue in each market ({f0(CM["totals"][gi])} in Glasgow, {f0(CM["totals"][ei])} in Edinburgh). Index: the market\'s share against the all-market share, where 100 is average. Dishes are shown where both cities have enough mentions to read; sorted from most Edinburgh-leaning to most Glasgow-leaning.') + fresh('interviews venues'),
-        'Index above 100 means the city names the dish more than guests everywhere else do.'),
-    sec('venues', 'Who sets the bar', grid(
-        card('Glasgow: most-named venues', bars([(VEN[i]['n'], VEN[i]['m']) for i in G['top'][:8]])),
-        card('Edinburgh: most-named venues', bars([(VEN[i]['n'], VEN[i]['m']) for i in E['top'][:8]])))
-        + source('Times each venue is named by guests, across every course and the hidden-gem question.')),
-    sec('means', 'What it means for a second site', table(['Area', 'Glasgow format', 'Edinburgh adjustment'], [
-        ['Bar list', 'Margaritas and house cocktails lead', 'Add a stirred section: negroni, martini and a freezer martini serve'],
-        ['Starters', 'Scallops and shellfish carry the menu', 'Lean on white fish and named Scottish fish; keep one shellfish signature'],
-        ['Dessert', 'Tiramisu is the safe choice', 'Sticky toffee pudding earns its place'],
-        ['Launch', 'Many favourites, spread thin', 'Fewer, stronger favourites: aim to be talked about next to them, not instead of them'],
-    ])),
-    full_commission(['Neighbourhood-level reads for shortlisted sites, from Leith to Stockbridge or Finnieston to the Southside', 'Guest interviews in the target city about your existing venue and format']),
-    method(f'Built from venue mentions in {f0(N_ALL)} Dream Menu interviews to {LAST_H}. Edinburgh has far fewer mentions than Glasgow ({f0(CM["totals"][ei])} against {f0(CM["totals"][gi])} dish mentions), so single-dish figures there rest on 5 to 10 mentions each and are directional.'),
-])
-written.append(write('/case-studies/glasgow-edinburgh', 'Two cities, two appetites: Glasgow and Edinburgh',
-                     'A provisional Dream Menu case study: how Glasgow and Edinburgh guests differ on drinks, seafood and dessert, and what a second site needs to change.', ge_body))
+GI, EI = CM['markets'].index('Glasgow'), CM['markets'].index('Edinburgh')
+GL, ED = MK['Glasgow'], MK['Edinburgh']
+BIN, GUILTY = P['extra']['bin'], P['extra']['guilty']
+DEB = SC['debates']
+CONC = {c['course']: c for c in AN['conc']}
+GROUPS = {g['g']: g for g in P['groups']}
 
-# ================================================================== 3. Seafood
-s_t, m_t = trend('s'), trend('m')
-s_sea, m_sea = item('s', 'Seafood', 'groups'), item('m', 'Seafood', 'groups')
-sea_cats = [it for it in s_t['cats'] if it.get('g') == 'Seafood'][:7]
-cod = item('m', 'Cod, hake and white fish')
-sc_s = item('s', 'Scallops')
-grp = {g['g']: dict(g['top_groups']).get('Seafood') for g in P['groups']}
-sea_v = sorted(DM['venues'], key=lambda v: -dict(v.get('k', [])).get('Seafood', 0))[:8]
-rs = CM['markets'].index('Rest of Scotland')
-sea_body = '\n'.join([
-    banner(PROVISIONAL),
-    hero('Case study · Category deep-dive', "Scotland's <em>seafood</em> appetite",
-         'Written for a Scottish seafood supplier planning its foodservice range. The question: where does seafood sit on the dream menu, which dishes lead, what is rising and who owns it?',
-         [(f'{f1(s_sea["pct"])}%', 'of dream starters are seafood'), (f'{f1(sc_s["pct"])}%', 'name scallops, the top starter'),
-          (f'{f1(m_sea["pct"])}%', 'of dream mains are seafood'), (f'+{f1(cod["move"])} pts', 'white fish mains, a clear rise')]),
-    subnav('seafood'),
-    sec('brief', 'The brief', '<div class="prose"><p>A supplier of Scottish fish and shellfish wants to know which products to push to restaurants next year and where to find the venues that will take them. The report reads seafood across starters and mains, tracks it quarter by quarter, and names the venues guests associate with it.</p></div>'),
-    sec('findings', 'What we found', cards([
-        ('Seafood owns the starter',
-         f'{f0(s_sea["n"])} of {f0(s_t["n"])} dream starters ({f1(s_sea["pct"])}%) are seafood, more than the next four groups combined. Scallops alone are {f1(sc_s["pct"])}%, the single most-named starter in the archive.'),
-        ('White fish is the riser',
-         f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}% of dream mains, a clear move. Seafood mains overall rose from {f1(m_sea["early"])}% to {f1(m_sea["late"])}%, not yet a clear move but heading the same way.'),
-        ('The trade names it most',
-         f'Seafood is {f1(grp.get("Industry", 0))}% of everything hospitality professionals name, against {f1(grp.get("Enthusiasts", 0))}% for food enthusiasts and {f1(grp.get("Creators", 0))}% for content creators. Chefs and front of house are the strongest advocates.'),
-        ('A few venues carry it',
-         f'{esc(sea_v[0]["n"])} alone gathers {dict(sea_v[0]["k"]).get("Seafood")} seafood mentions. Outside it, demand is spread across Leith, the West End and the coast, which leaves room for more venues to own a seafood dish.'),
-    ])),
-    sec('dishes', 'Which seafood leads', grid(
-        card('Seafood starters, mentions', bars([(it['l'], it['n']) for it in sea_cats])),
-        card('Scallops, share of dream starters by quarter', bars([(q.replace('-', ' '), v or 0) for q, v in zip(s_t['q'], sc_s['share'])], unit='%', dec=1)
-             + '<p style="font-size:13px">The latest quarter is part-way through and has fewer answers, so it is shown for completeness only.</p>'))
-        + fresh('interviews')),
-    sec('where', 'Where guests eat it', grid(
-        card('Venues with the most seafood mentions', bars([(v['n'], dict(v['k']).get('Seafood', 0)) for v in sea_v])),
-        card('Scallops by market (index, 100 = average)', bars([(m, scal['cells'][i]['idx']) for i, m in enumerate(CM['markets']) if not scal['cells'][i]['thin']])))
-        + quote('Hand dived Orkney scallops with chipotle, mussel, squash and pata negra from Heron in Leith.', 'Dream Menu guest')
-        + quote('Scallops in anchovy butter, Crabshakk. The butter has to be soaked up with a side of skinny fries and a basket of bread!', 'Dream Menu guest')),
-    sec('means', 'What it means for a seafood supplier', table(['Finding', 'Action'], [
-        ['Scallops lead the starter course', 'Make hand-dived and named-origin scallops the hero line; guests repeat the provenance back word for word'],
-        ['White fish mains are a clear riser', 'Build a hake and cod range for mains, portioned and sold with a simple sauce idea'],
-        ['The trade is the strongest advocate', 'Lead with chef sampling and kitchen visits rather than consumer marketing'],
-        ['Demand outside the top venue is spread thin', 'Target venues that guests already name for one seafood dish and help them make it a signature'],
-    ])),
-    full_commission(['Price and margin checks on the hero lines with operators who already list them', 'A seafood-specific question set added to the interview series for two quarters']),
-    method(f'Built from {f0(N_ALL)} Dream Menu interviews to {LAST_H}. Starter and main shares use the interviews with a codable answer for that course ({f0(s_t["n"])} starters, {f0(m_t["n"])} mains). Venue figures use the mentions tied to a named venue.'),
-])
-written.append(write('/case-studies/seafood', "Scotland's seafood appetite",
-                     'A provisional Dream Menu case study: where seafood sits on the dream menu, which dishes lead, what is rising and which venues own it.', sea_body))
 
-# ================================================================== 4. Dessert
-p_t = trend('p')
-conc = {c['course']: c for c in AN['conc']}
-tir, stp_i, chs = item('p', 'Tiramisu'), item('p', 'Sticky toffee pudding'), item('p', 'Baked cheesecake')
-frm, ice = item('p', 'Fruit and meringue', 'groups'), item('p', 'Ice cream and frozen', 'groups')
-choc = item('p', 'Chocolate desserts', 'groups')
-binx = dict(P['extra']['bin'])
-look = P['look']
-lower = dict(look['signals']).get('Lower spend per head', 0)
-des_v = sorted(DM['venues'], key=lambda v: -v.get('cs', {}).get('p', 0))[:8]
-moves = [(it['c'] + ' (group)', it['move']) for it in p_t['groups']] + [(it['l'], it['move']) for it in p_t['cats'][:12]]
-moves = sorted([m for m in moves if abs(m[1]) >= 1.5], key=lambda x: -x[1])
-des_body = '\n'.join([
-    banner(PROVISIONAL),
-    hero('Case study · Category deep-dive', 'The last spend: <em>dessert</em>',
-         'Written for a dessert maker or foodservice supplier. The question: dessert is the course guests cut first when money is tight, so which desserts still earn their place, and what should a range look like?',
-         [(f'{f1(tir["pct"])}%', 'name tiramisu, the top dessert'), (f'{f1(stp_i["pct"])}%', 'sticky toffee pudding'),
-          (f'{f1(conc["p"]["top1v"])}%', 'top dessert group share, the lowest of any course'), (f'{lower} of {look["n"]}', 'operators see lower spend per head')]),
-    subnav('dessert'),
-    sec('brief', 'The brief', f'<div class="prose"><p>Operators tell Dream Menu that guests are skipping the extras: {lower} of {look["n"]} in the operator survey see lower spend per head locally. A supplier wants to know which desserts guests still want enough to order, what is moving, and what to stop making.</p></div>'),
-    sec('findings', 'What we found', cards([
-        ('Two desserts cover almost a quarter of answers',
-         f'Tiramisu ({f1(tir["pct"])}%) and sticky toffee pudding ({f1(stp_i["pct"])}%) together are {f1(tir["pct"] + stp_i["pct"])}% of {f0(p_t["n"])} dream desserts. Both are steady, with no clear move up or down.'),
-        ('The most open course',
-         f'The leading dessert group takes only {f1(conc["p"]["top1v"])}% of answers, against {f1(conc["s"]["top1v"])}% for seafood starters and {f1(conc["d"]["top1v"])}% for potato sides. Beyond the two favourites, there is no default dessert, which leaves room for a venue to make one its own.'),
-        ('Fruit is up, baked cheesecake is down',
-         f'Fruit and meringue desserts rose from {f1(frm["early"])}% to {f1(frm["late"])}%, a clear move. Baked cheesecake fell from {f1(chs["early"])}% to {f1(chs["late"])}%, also clear. Chocolate desserts are drifting down ({f1(choc["early"])}% to {f1(choc["late"])}%), not yet a clear move.'),
-        ('Novelty chocolate is on the way out',
-         f'Dubai chocolate is the second most-named trend guests want gone ({binx.get("Dubai chocolate", 0)} mentions) and pistachio-everything appears {binx.get("Pistachio (everything)", 0)} times. A range built on the last viral flavour is a risk.'),
-    ])),
-    sec('moves', 'What is moving', grid(
-        card('Top dream desserts, share of answers', bars([(it['l'], it['pct']) for it in p_t['cats'][:10]], unit='%', dec=1)),
-        card('Change in share, early against recent (points)', diverge(moves)))
-        + source('Early: July to December 2025. Recent: April 2026 onward. Clear moves are fruit and meringue (up) and baked cheesecake (down); the rest are within normal variation.') + fresh('interviews')),
-    sec('venues', 'Where guests go for dessert', card('Venues named most for dessert', bars([(v['n'], v['cs'].get('p', 0)) for v in des_v]))
-        + quote('Dream dessert is the whiskey and amaro cherry ice cream from Loop and Scoop, in a tub cause cones are icky', 'Dream Menu guest')
-        + source('Gelato and scoop shops appear next to restaurants: guests will walk on for dessert, which is spend a restaurant loses if its own dessert is forgettable.')),
-    sec('means', 'What it means for a dessert range', table(['Finding', 'Action'], [
-        ['Tiramisu and sticky toffee pudding cover almost a quarter of answers', 'Make both ready-to-plate at a quality guests notice; these are the volume lines'],
-        ['Fruit and meringue is a clear riser', 'Add a seasonal fruit and meringue line (pavlova, Eton mess) that changes each quarter'],
-        ['Baked cheesecake is falling', 'Hold or reduce baked cheesecake; test a lighter or Basque style instead'],
-        ['Novelty flavours are fatigued', 'Avoid committing a range to Dubai chocolate or pistachio-everything'],
-        ['Guests skip dessert to save money', 'Offer a smaller-format dessert at a lower price point so the course stays on the bill'],
-    ])),
-    full_commission(['Menu price and attachment-rate checks with operators who stock your lines', 'Late-night dessert: a concept test in Glasgow, where it is a documented gap']),
-    method(f'Built from {f0(p_t["n"])} codable dessert answers in {f0(N_ALL)} Dream Menu interviews to {LAST_H}, plus the 2026 Look Ahead operator survey ({look["n"]} operators, April to May 2026) and the "bin it" question on trends guests want gone.'),
-])
-written.append(write('/case-studies/dessert', 'The last spend: dessert',
-                     'A provisional Dream Menu case study: which desserts guests still choose, what is rising and falling, and what a dessert range should look like.', des_body))
+# ================================================================== 01 night out (Gordon's draft)
+def r_night_out():
+    ex = Ex()
+    NIQ = 'https://nielseniq.com/global/en/insights/analysis/2026/why-value-matters-more-than-ever-for-restaurants/'
+    L = link
+    grid_rows = [('Pint of standard lager', [4.60, 5.40, 6.50, 6.80]), ('Pint of premium lager or craft', [5.30, 6.20, 7.20, 7.50]),
+                 ('Pint of Guinness', [4.90, 5.60, 6.60, 6.80]), ('Glass of house wine (175ml)', [6.00, 7.50, 9.50, 8.50]),
+                 ('Spirit and mixer (single)', [4.80, 6.00, 8.00, 7.00]), ('Cocktail', [None, 10.50, 13.50, 11.00]),
+                 ('Soft drink or alcohol-free pint', [2.80, 3.80, 4.50, 4.50])]
+    tiers = ['Local or suburban pub', 'City-centre bar', 'Cocktail or hotel bar', 'Club or live venue']
+    gbp = lambda v: f'£{v:.2f}'
+    pressures = [('Food input costs', 63), ('Energy and utilities', 61), ('Labour costs', 57), ('Rent, rates and property', 52), ('Consumer demand and footfall', 44), ('Debt and cashflow', 33), ('Drink input costs', 26)]
+    ch1 = (ex('A typical Glasgow night costs £74 a head, and drink is the biggest line', 'Modelled per-head spend on a typical Saturday, October 2026.',
+              waterfall([('Food', 30), ('Drink', 34), ('Transport', 10)], 'Typical night'),
+              'Dream Menu model built from the Glasgow price grids in this report', (['Line', 'Per head', 'Share'], [['Food', '£30', '41%'], ['Drink', '£34', '46%'], ['Transport', '£10', '13%'], ['Total', '£74', '100%']]))
+           + ex('A celebration costs nearly four times a catch-up, and most people should add a fifth', 'Modelled per-head budget by type of night, with the 20% overspend buffer.',
+                hbar([('The catch-up', 40, 'Plan £48 with the buffer'), ('The classic Saturday', 75, 'Plan £90 with the buffer'), ('The big night', 150, 'Plan £180 with the buffer')], on={'The classic Saturday'}, pre='£'),
+                f'Dream Menu model; overspend from {L("https://confidentials.com/body/boozy-brits-spend-6500-a-year-on-nights-out", "Confidentials")} (78% of 18 to 35s go over budget)',
+                (['Night', 'Plan for', 'With 20% buffer'], [['The catch-up', '£40', '£48'], ['The classic Saturday', '£75', '£90'], ['The big night', '£150', '£180']]))
+           + '<div class="prose"><p><b>What each night includes.</b> The catch-up: two cans at home, four pints at about £5.20, a chippy, bus in and night bus home. The classic Saturday: two courses with service, five drinks mixing pints, wine and a cocktail, bus in and half a £16 to £20 taxi. The big night: a pre-dinner cocktail, dinner with shared wine, four drinks across a cocktail bar and club, £10 entry, a late bite and a solo taxi.</p></div>'
+           + sowhat('Dunns', 'Drink and the optional extras decide the bill. That is where venues are losing spend, and where a supplier can help them keep it.'))
+    ch2 = ('<div class="prose"><p>A night out costs around a third more than it did in 2022. Glasgow remains one of the better-value big cities in the UK, which is a selling point for its venues but also caps how much of the cost stack they can pass on before losing their value reputation.</p></div>'
+           + ex('Glasgow pours one of the cheapest pints of Guinness in the UK', 'Average price of a pint of Guinness, March 2026.',
+                hbar([('Glasgow', 4.93), ('UK average', 5.41), ('London', 6.87)], on={'Glasgow'}, dec=2, pre='£'),
+                L('https://www.thedrinksbusiness.com/2026/03/guinness-prices-rise-across-the-uk/', 'The Drinks Business, March 2026'), (['City', 'Pint of Guinness'], [['Glasgow', '£4.93'], ['UK average', '£5.41'], ['London', '£6.87']]))
+           + table(['Signal', 'What it means'], [
+               ['<b>Hospitality prices are up about 30% in four years</b>', f'Average restaurant spend per head has risen from £25.35 to £30.08 ({L(NIQ, "NielsenIQ, 2026")}).'],
+               ['<b>Scottish pubs face a rates shock</b>', f'Average pub business rates forecast to rise 77% in 2026/27, to £26,385 ({L("https://cater.affino.com/news/scottish-pubs-to-be-hit-with-staggering-increases-to-business-rates", "UKHospitality Scotland via Cater")}). Expect some of it in menu and bar prices within a year.'],
+               ['<b>Consumers are price-aware</b>', f'UK adults spend £3,776 a year on nights out ({L("https://www.thedrinksbusiness.com/2025/10/brits-spend-nearly-4k-per-year-on-nights-out-study-reveals/", "Aqua via The Drinks Business")}), yet price is the top worry for 44% planning one ({L("https://www.thespiritsbusiness.com/2023/12/young-adults-avoid-booze-on-nights-out/", "Rekom via The Spirits Business")}).'],
+               ['<b>Getting home has got cheaper</b>', 'Bus singles capped at £2 across the SPT area from 7 September 2026; ScotRail peak fares scrapped permanently in September 2025.'],
+           ]))
+    ch3 = (ex('The venue tier moves a drink by up to £3, and the cocktail decides the bill', 'Modelled Glasgow prices by drink and venue tier, October 2026 (indicative).',
+              heat(['Drink'] + tiers, grid_rows, fmt=gbp, key=('Cheaper', 'Dearer')),
+              f'Dream Menu model from national and Glasgow benchmarks ({L("https://www.morningadvertiser.co.uk/Article/2026/05/21/average-pint-price-rises-33-to-534-the-morning-advertiser-finds/", "Morning Advertiser")}, {L("https://www.finder.com/uk/drinking-statistics", "Finder")}), with Scottish venue-tier mark-ups. A planning model, not a price list.',
+              (['Drink'] + tiers, [[d] + [gbp(v) if v else 'n/a' for v in vs] for d, vs in grid_rows]))
+           + '<div class="prose"><p>A city-centre pint sits at £5.20 to £6.20, below Edinburgh (about £6) and London (about £6.75). The UK average pint was £5.34 in April 2026, up 3.3% on the year, and brewers raised wholesale prices again in 2026. Food is the most controllable line: dinner runs £18 to £45 a head, a meal at an inexpensive Glasgow restaurant averages £17.20, and a set or pre-theatre menu saves £10 or more.</p></div>'
+           + '<div class="sowhat" style="background:var(--panel)"><b>Scottish factor</b><p>Minimum unit pricing (65p a unit in shops) lifts the cost of drinking at home, so the gap between pre-drinks and drinking out is narrower in Scotland than in England.</p></div>')
+    ch4 = (table(['Mode', 'Cost per trip, Oct 2026', 'Night-out notes'], [
+        ['First Glasgow or Stagecoach bus, including night buses', '£2 single, capped', f'£2 cap across the SPT area from 7 Sept 2026 ({L("https://www.firstbus.co.uk/greater-glasgow/tickets/ps2-fare-cap", "First Bus")}). Night routes such as N2, N18, N240 and N267 run Friday and Saturday.'],
+        ['First 6pm Plus ticket', '£4.75 (city, app)', f'Unlimited travel after 6pm, including night buses ({L("https://www.firstbus.co.uk/greater-glasgow/plan-journey/forthcoming-fare-changes", "First Bus")})'],
+        ['Glasgow Subway', '£1.80 smartcard', f'Last trains around 23:40 Monday to Saturday and about 18:12 on Sundays ({L("https://www.scottishdailyexpress.co.uk/news/scottish-news/blow-rangers-fans-spt-confirms-36429818", "Scottish Daily Express")})'],
+        ['Black cab, centre to West End or Southside', 'Modelled £10 to £18', f'Flag fall £4.50 after the 2025 review; night tariff from 11pm ({L("https://prod.news.stv.tv/west-central/glasgow-taxi-fares-increase-proposed-as-drivers-call-for-higher-night-charges", "STV")})'],
+        ['Black cab, centre to outer suburbs', 'Modelled £20 to £30', 'Long queues at Gordon Street and Hope Street ranks after 2am'],
+        ['Uber or private hire', 'Modelled £12 to £35', 'Surge pricing at closing time can add 50% to 100%'],
+        ['ScotRail late train', 'About £16.80 Glasgow to Edinburgh return', f'Peak fares scrapped from 1 Sept 2025 ({L("https://www.timeout.com/uk/news/the-major-british-rail-operator-that-has-axed-all-peak-time-fares-090225", "Time Out")}); last departures around midnight'],
+    ]) + sowhat('venues', 'The cheapest way home is now cheaper than one soft drink. The constraint is timing: the Subway closes early and the last trains leave around midnight, so late spend from suburban and Edinburgh visitors competes with the timetable.'))
+    ch5 = ('<div class="prose"><p>Two datasets sit behind this section: 962 community interviews and the operator survey from April 2026, as published in the Dream Menu Hospitality Intelligence Report 2026. All mentions are unprompted.</p></div>'
+           + '<div class="ex-pair"><div>' + ex('Soft drinks are the most-named dream drink, and classic cocktails rival beer', 'Dream-drink mentions in 962 interviews.',
+                hbar([('Soft and diet drinks', 143), ('Beer', 116), ('Margarita', 66), ('Martini', 64)], on={'Soft and diet drinks'}),
+                'Dream Menu Hospitality Intelligence Report 2026', (['Drink', 'Mentions'], [['Soft and diet drinks', 143], ['Beer', 116], ['Margarita', 66], ['Martini', 64]])) + '</div><div>'
+           + ex('Food costs top the pressures; drink costs trail', 'Share of operators naming each pressure, April 2026.',
+                hbar(pressures, on={'Food input costs'}, alt={'Drink input costs'}, unit='%'),
+                'Dream Menu 2026 operator survey, as published in the 2026 report', (['Pressure', 'Share'], [[a, f'{b}%'] for a, b in pressures])) + '</div></div>'
+           + '<ul class="prose">' + ''.join(f'<li style="margin-bottom:8px">{x}</li>' for x in [
+               '<b>Classic cocktails carry the premium end of the bill.</b> Margaritas (66) and martinis (64) together outrank beer (116), and these are the £10 to £13.50 drinks in the price grid.',
+               '<b>No and low is no longer the cheap option.</b> Irn Bru beats Coca-Cola 435 to 307, and at £3.80 a time in town a soft round costs real money.',
+               '<b>Diners spend on classics, not gimmicks.</b> Steak (251), seafood starters (303, scallops alone 99) and chips (240) lead; Dubai chocolate (124) and matcha (90) top the trends people want gone.',
+               '<b>The extras are what get cut.</b> 72% of operators report spend per head flat or falling; guests skip the starter, the second cocktail or the dessert.',
+               '<b>The late-night end is comfort food.</b> Pizza (141), kebab (36) and the chippy (23) dominate guilty pleasures; late-night dessert is a documented concept gap.',
+           ]) + '</ul>')
+    recs = [
+        ('Lead sales calls with a "save the last spend" range', 'Ready-to-plate desserts in the most-named formats (ice cream 221, sticky toffee pudding 122, tiramisu 120) and batch-friendly cocktail serves: the two lines guests cut first.', 'High', 'Low', 'Quarter 1'),
+        ('Launch a "Glasgow classics" bar pack', 'Tequila, gin, vermouth, citrus and premium mixers with a costed menu at a £10 to £11 sell price. Margarita 66 and martini 64 against beer 116.', 'High', 'Low', 'Quarter 1'),
+        ('Co-publish a quarterly Glasgow Night Out Index', 'A fixed basket (pint, wine, cocktail, soft drink, casual main, late bite, taxi home) in the Dunns-sponsored quarterly report: a repeatable headline for the press and the sales team.', 'High', 'Medium', 'Quarter 1'),
+        ('Price soft drinks and no/low as margin lines', 'Premium soft drinks, Scottish mixers and alcohol-free pints with a menu template at £3.50 to £4.50. Soft drinks are the most-named dream drink.', 'Medium', 'Low', 'Quarter 1'),
+        ('Build costed £22 and £30 set-menu kits', 'Around the most-named dishes (steak 251, seafood starters 303, chips 240). Set price points are what operators say convert cautious diners.', 'High', 'Medium', 'Quarter 2'),
+        ('Offer one-quarter price holds on core lines', '87% of operators report supplier prices rising and 46% have changed or renegotiated suppliers in six months: a retention risk and an opening.', 'Medium', 'High', 'Quarter 2'),
+        ('Target new accounts in emerging districts', 'The Barras draws 50 mentions and the Southside has the widest gap between guest advocacy and press attention (see No. 07).', 'Medium', 'Medium', 'Quarter 2'),
+    ]
+    return render(dict(slug='night-out', ex=ex, status='draft', dated='28 October 2026', aud='supplier venue public', **META['night-out'],
+        title='The cost of a <em>night out</em> in Glasgow',
+        desc='What food, drink and transport cost on a Glasgow night out in 2026, how to budget for one, and what it means for a food and drink distributor.',
+        stand='What food, drink and transport cost on a Glasgow night out in 2026, how to budget for one, and where a food and drink distributor can help venues keep the spend that guests are cutting.',
+        client='Dunns Food & Drinks', question='What does a night out cost, and where is the spend being lost?', evidence='Published price benchmarks, Dream Menu 2026 report, operator survey',
+        kpis=[('£74', 'a typical night out, per head'), ('£34', 'of it on drink, the most elastic line'), ('£2', 'the cheapest way home, under one soft drink'), ('72%', 'of operators see spend per head flat or falling')],
+        answer='Glasgow is still good value at about £74 a head, but guests are trading down inside the bill, so the prize for a distributor is helping venues keep the dessert, the last drink and the soft round.',
+        msgs=[('£74', 'a head', 'A typical night, split three ways', 'About £30 food, £34 drink and £10 transport. A low-key night is £40 and a celebration £150 or more; add 20% because most people overspend.'),
+              ('10%', 'cheaper', 'Good value caps pricing', 'Drink runs about 10% below Edinburgh and 20% below London. The price advantage sells the city but limits what venues can pass on.'),
+              ('72%', 'of operators', 'The extras are what get cut', 'Spend per head is flat or falling as guests skip dessert and the extra drink. Classics still win the spend that remains.')],
+        chapters=[('budget', 'The bill', 'A typical night costs £74 a head, and the extras decide it', 'Three modelled nights out, built from Glasgow prices: the catch-up, the classic Saturday and the big night.', ch1),
+                  ('market', 'Market context', 'A night out costs a third more than in 2022', 'Prices, rates and consumer worry are rising together; transport is the one line that has got cheaper.', ch2),
+                  ('drink', 'Food and drink', 'Drink is the biggest and most elastic line', 'Where the money goes behind the bar and on the plate.', ch3),
+                  ('transport', 'Transport', 'Getting home is cheap; getting home late is hard', 'A £2 night bus and a £20 solo taxi can sit either side of the same evening.', ch4),
+                  ('dream-menu', 'What Dream Menu adds', 'Guests are trading down inside the bill, not staying in', 'What 962 interviews and the operator survey say about where the money still goes.', ch5)],
+        recs=recs, recs_lede='Seven ideas for Dunns, each linking a cost-of-night-out finding to a product, a sales conversation or joint content. Start with the four quick wins in the first quarter.',
+        watch=[('Rates and wage costs', 'If the 2026/27 rates rise reaches bar prices faster than expected, the night-out total moves above £80 and the set-menu kits become more urgent.'),
+               ('The £2 bus cap', 'The cap is why transport got cheaper. If it ends or narrows, the taxi line grows again and late spend suffers.'),
+               ('Spend per head', 'A second operator survey showing spend per head recovering would shift the focus from protecting spend to growing it.'),
+               ('Cocktail share', 'Cocktails are losing share of dream drinks (see No. 05). If that continues, weight the bar pack towards whisky and lager.')],
+        method_stats=[('962', 'interviews in the 2026 report'), ('54', 'operators in the 2026 report'), ('20+', 'published price sources'), ('3', 'modelled nights out')],
+        method='<p>Glasgow price grids and personas are modelled, indicative figures, not a venue price survey. They start from published national and city benchmarks and apply typical Scottish venue-tier mark-ups. Dream Menu figures are exact counts from the 2026 report; the live archive now holds ' + f0(N_ALL) + ' interviews, which the other reports in the series use.</p>',
+        sources='<p><b>Sources:</b> ' + ', '.join([L(NIQ, 'NielsenIQ'), L('https://www.morningadvertiser.co.uk/Article/2026/05/21/average-pint-price-rises-33-to-534-the-morning-advertiser-finds/', 'Morning Advertiser'), L('https://www.thedrinksbusiness.com/2026/03/guinness-prices-rise-across-the-uk/', 'The Drinks Business'), L('https://www.finder.com/uk/drinking-statistics', 'Finder'), L('https://www.thinkmoney.co.uk/blog/pints-up-33percent-to-pound534-as-pound10-pints-arrive-in-london-what-it-means-fo/', 'thinkmoney'), L('https://www.expatica.com/uk/cost-of-living/glasgow/', 'Expatica (Numbeo)'), L('https://expatistan.com/cost-of-living/comparison/sofia/glasgow', 'Expatistan'), L('https://cater.affino.com/news/scottish-pubs-to-be-hit-with-staggering-increases-to-business-rates', 'UKHospitality Scotland via Cater'), L('https://www.thespiritsbusiness.com/2023/12/young-adults-avoid-booze-on-nights-out/', 'The Spirits Business'), L('https://thinkmoney.co.uk/blog/a-night-in-numbers-how-to-budget-on-nights-out', 'thinkmoney budgeting'), L('https://confidentials.com/body/boozy-brits-spend-6500-a-year-on-nights-out', 'Confidentials'), L('https://www.firstbus.co.uk/greater-glasgow/tickets/ps2-fare-cap', 'First Bus'), L('https://prod.news.stv.tv/west-central/glasgow-taxi-fares-increase-proposed-as-drivers-call-for-higher-night-charges', 'STV'), L('https://www.timeout.com/uk/news/the-major-british-rail-operator-that-has-axed-all-peak-time-fares-090225', 'Time Out')]) + '.</p>',
+        card=('£74', 'a typical Glasgow night out, per head'),
+        blurb='What food, drink and transport cost on a Glasgow night out, how to budget for one, and where a distributor can help venues keep the spend.'))
 
-# ================================================================== 5. Drinks
-a_t, k_t = trend('a'), trend('k')
-ck, sp, bc = item('a', 'Cocktails', 'groups'), item('a', 'Spirits', 'groups'), item('a', 'Beer and cider', 'groups')
-wh, lg = item('a', 'Whisky'), item('a', 'Lager')
-deb = SC['debates']
-coke, tea, water = deb['coke'], deb['tea'], deb['water']
-nolo = item('k', 'No and low alcohol', 'groups')
-dmoves = sorted([(it['c'] + ' (group)', it['move']) for it in a_t['groups']] + [(it['l'], it['move']) for it in a_t['cats'][:14] if abs(it['move']) >= 1.5], key=lambda x: -x[1])
-drk_body = '\n'.join([
-    banner(PROVISIONAL),
-    hero('Case study · Category deep-dive', 'What Scotland <em>drinks</em> with dinner',
-         'Written for a drinks brand or wholesaler planning its on-trade range. The question: is the cocktail boom over, what is replacing it, and what goes in the soft-drink round?',
-         [(f'{f1(ck["move"])} pts', 'cocktails, share of dream drinks'), (f'+{f1(wh["move"])} pts', 'whisky, a clear rise'),
-          (f'{pct(coke["c"]["Irn Bru"], coke["n"])}%', 'choose Irn Bru over Coke'), (f'{pct(tea["c"]["Coffee"], tea["n"])}%', 'choose coffee over tea')]),
-    subnav('drinks'),
-    sec('brief', 'The brief', '<div class="prose"><p>A drinks business wants to know where the on-trade is heading in Scotland. The report reads the dream alcoholic drink over time, the soft drinks guests choose, and the debates that every interview ends with.</p></div>'),
-    sec('findings', 'What we found', cards([
-        ('Cocktails are losing share',
-         f'Cocktails fell from {f1(ck["early"])}% to {f1(ck["late"])}% of dream alcoholic drinks, the largest clear move in the archive. They are still the biggest group, but the gap is closing.'),
-        ('Whisky, lager and spirits are taking it',
-         f'Spirits rose from {f1(sp["early"])}% to {f1(sp["late"])}%, led by whisky ({f1(wh["early"])}% to {f1(wh["late"])}%). Beer and cider rose from {f1(bc["early"])}% to {f1(bc["late"])}%, with lager clearly up. All three are clear moves.'),
-        ('Irn Bru wins the round',
-         f'{f0(coke["c"]["Irn Bru"])} guests choose Irn Bru, {f0(coke["c"]["Coca Cola"])} Coca-Cola and {f0(coke["c"]["Neither"])} neither ({f0(coke["n"])} answering). In Scotland, a soft-drinks list without Irn Bru is missing the favourite.'),
-        ('No and low is a list, not a line',
-         f'{f1(nolo["pct"])}% of dream soft drinks are mocktails or alcohol-free, and mocktails sit in the top five dream drinks overall. Guests who choose them name a specific drink and venue, so one token option undersells it.'),
-    ])),
-    sec('moves', 'What is moving', grid(
-        card('Change in share of dream alcoholic drinks, early against recent (points)', diverge(dmoves)),
-        card('Top dream alcoholic drinks, share', bars([(it['l'], it['pct']) for it in a_t['cats'][:10]], unit='%', dec=1)))
-        + source('Trend tests use answers to the original single drink question, before it was split into soft and alcoholic on 23 August 2026. Early: July to December 2025. Recent: April 2026 onward.') + fresh('interviews')),
-    sec('round', 'The soft-drink round and the debates', grid(
-        card(f'Irn Bru or Coca-Cola? ({f0(coke["n"])} answering)', bars(sorted(coke['c'].items(), key=lambda x: -x[1]))),
-        card(f'Coffee or tea? ({f0(tea["n"])} answering)', bars(sorted(tea['c'].items(), key=lambda x: -x[1]))),
-        card(f'Still, sparkling or tap? ({f0(water["n"])} answering)', bars(sorted(water['c'].items(), key=lambda x: -x[1]))),
-        card('Dream soft drinks by group, share', bars([(it['c'], it['pct']) for it in k_t['groups']], unit='%', dec=1))) + fresh('interviews')),
-    sec('means', 'What it means for a drinks range', table(['Finding', 'Action'], [
-        ['Cocktails are losing share', 'Keep the classics that still lead (spicy margarita, martini) and cut the long house list'],
-        ['Whisky is a clear riser', 'Sell whisky by the dram and in highballs, with a short Scottish list staff can talk about'],
-        ['Lager is up', 'A premium or local lager on draught earns its tap'],
-        ['Irn Bru leads the soft round', 'List it, and price premium soft drinks as a margin line'],
-        ['No and low is specific', 'Build three or four named alcohol-free serves rather than one mocktail'],
-    ])),
-    full_commission(['A drinks-only question set for two quarters to firm up the whisky and lager trend', 'Bartender interviews in Glasgow and Edinburgh on what guests order versus what they dream of']),
-    method(f'Built from {f0(a_t["n"])} codable alcoholic drink answers and {f0(k_t["n"])} soft drink answers in {f0(N_ALL)} Dream Menu interviews to {LAST_H}, plus the debate questions every interview ends with.'),
-])
-written.append(write('/case-studies/drinks', 'What Scotland drinks with dinner',
-                     'A provisional Dream Menu case study: cocktails losing share to whisky and lager, Irn Bru against Coke, and the no and low list.', drk_body))
 
-# ================================================================== 6. Trend fatigue
-d_t = trend('d')
-pot, veg, med, bfr = (item('d', n, 'groups') for n in ('Potatoes and fries', 'Vegetables and salad', 'Mediterranean and Middle Eastern', 'Burgers and fried food'))
-lf, sk, mc, gr = item('d', 'Loaded fries'), item('d', 'Skinny fries'), item('d', 'Mac and cheese'), item('d', 'Greens and creamed spinach')
-bin_l, guilty = P['extra']['bin'], P['extra']['guilty']
-side_moves = sorted([(it['c'] + ' (group)', it['move']) for it in d_t['groups'][:8]] + [(it['l'], it['move']) for it in d_t['cats'][:12] if abs(it['move']) >= 1.8], key=lambda x: -x[1])
-tf_body = '\n'.join([
-    banner(PROVISIONAL),
-    hero('Case study · Trend and fatigue tracker', 'Trend <em>fatigue</em>',
-         'Written for a menu development team or a food editor. The question: what are guests tired of, and is the fatigue about the food or about the hype?',
-         [(f'{bin_l[0][1]}', f'want {bin_l[0][0].lower()} gone'), (f'{bin_l[1][1]}', f'want {bin_l[1][0].lower()} gone'),
-          (f'{f1(pot["move"])} pts', 'potato sides on dream menus'), (f'+{f1(veg["move"])} pts', 'vegetable and salad sides')]),
-    subnav('trend-fatigue'),
-    sec('brief', 'The brief', '<div class="prose"><p>Every Dream Menu interview asks: do you have a food trend you wish would quietly disappear? The answers are unprompted. Set against what guests actually choose for their dream menu, they show which trends are tiring and what is replacing them.</p></div>'),
-    sec('findings', 'What we found', cards([
-        ('The fatigue is with the hype',
-         f'The top answers are {bin_l[0][0].lower()} ({bin_l[0][1]}), {bin_l[1][0].lower()} ({bin_l[1][1]}), filming food ({dict(bin_l).get("Filming food and mukbang", 0)}) and viral TikTok food ({dict(bin_l).get("Viral TikTok food", 0)}). Guests are tired of food made to be posted, more than of any one ingredient.'),
-        ('Loaded food is tiring on the plate too',
-         f'Loaded and dirty food draws {dict(bin_l).get("Loaded and dirty food", 0)} "bin it" mentions, and loaded fries fell from {f1(lf["early"])}% to {f1(lf["late"])}% of dream sides, a clear move. Burgers and fried sides fell from {f1(bfr["early"])}% to {f1(bfr["late"])}%.'),
-        ('The side order is changing',
-         f'Potato and fries sides fell from {f1(pot["early"])}% to {f1(pot["late"])}% of dream sides. Vegetables and salad rose from {f1(veg["early"])}% to {f1(veg["late"])}%, and Mediterranean and Middle Eastern sides from {f1(med["early"])}% to {f1(med["late"])}%. All clear moves.'),
-        ('Comfort food is not going anywhere',
-         f'Guilty pleasures are as loved as ever: {guilty[0][0].lower()} ({guilty[0][1]}), {guilty[1][0].lower()} ({guilty[1][1]}) and {guilty[2][0].lower()} ({guilty[2][1]}). Guests want honest comfort, not comfort dressed up for the camera.'),
-    ])),
-    sec('bin', 'What guests want gone', grid(
-        card('"Bin it": trends guests want to disappear, mentions', bars([(n, v) for n, v in bin_l[:10]])),
-        card('Guilty pleasures, mentions', bars([(n, v) for n, v in guilty[:8]]))) + fresh('interviews')),
-    sec('sides', 'What replaces it', card('Change in share of dream sides, early against recent (points)', diverge(side_moves))
-        + source('Early: July to December 2025. Recent: April 2026 onward. Clear moves include potatoes and fries, skinny fries, loaded fries and mac and cheese (down) and vegetables and salad, Mediterranean sides and greens (up).') + fresh('interviews')),
-    sec('means', 'What it means for a menu', table(['Finding', 'Action'], [
-        ['Guests are tired of food made for the camera', 'Drop the viral special; put the effort into a dish people come back for'],
-        ['Loaded food is fading on dream menus', 'Keep one loaded item at most, and make it good enough to justify itself'],
-        ['Vegetable and Mediterranean sides are rising', 'Make greens, salads and a mezze-style side as considered as the chips'],
-        ['Comfort food is safe', 'A well-made classic (pizza, pasta, fried chicken) does not need a twist'],
-        [f'Small plates appear in the "bin it" list ({dict(bin_l).get("Small plates", 0)})', 'If the format is small plates, explain portions and pricing clearly'],
-    ])),
-    full_commission(['A quarterly fatigue tracker, so you see a trend tiring before it shows in sales', 'Chef and food writer interviews on what they expect to tire next']),
-    method(f'Built from unprompted answers to the "bin it" question and {f0(d_t["n"])} codable side answers in {f0(N_ALL)} Dream Menu interviews to {LAST_H}. "Bin it" answers are grouped into published labels; one answer can name more than one trend.'),
-])
-written.append(write('/case-studies/trend-fatigue', 'Trend fatigue: what guests want gone',
-                     'A provisional Dream Menu case study: the trends guests want gone, the sides they are leaving behind and what replaces them.', tf_body))
+# ================================================================== 02 Glasgow and Edinburgh
+def r_two_cities():
+    ex = Ex()
+    rows = [r for r in CM['rows'] if not r['cells'][GI]['thin'] and not r['cells'][EI]['thin']]
+    gap = sorted(rows, key=lambda r: r['cells'][EI]['idx'] - r['cells'][GI]['idx'], reverse=True)
+    neg, mar, marg, scal, stp, tira = (city_row(x) for x in ('Negroni', 'Martini', 'Margarita', 'Scallops', 'Sticky toffee pudding', 'Tiramisu'))
+    top10 = lambda m: sum(VEN[i]['m'] for i in m['top'][:10])
+    gt, et = top10(GL), top10(ED)
+    gsea, esea = dict((c[0], c[2]) for c in GL['cat']).get('Seafood', 0), dict((c[0], c[2]) for c in ED['cat']).get('Seafood', 0)
+    ch1 = (ex('Edinburgh leans to stirred drinks and pudding; Glasgow to shellfish, tiramisu and margaritas', 'Edinburgh index minus Glasgow index for each dish (index: 100 = the all-market average). Right of the line: Edinburgh names it more.',
+              diverge([(r['l'], r['cells'][EI]['idx'] - r['cells'][GI]['idx']) for r in gap], left='Glasgow leans', right='Edinburgh leans', show=lambda v: f'{v:+.0f}'),
+              f'{DM_SRC}; dish mentions tied to a venue ({f0(CM["totals"][GI])} Glasgow, {f0(CM["totals"][EI])} Edinburgh)',
+              (['Dish', 'Glasgow share', 'Glasgow index', 'Edinburgh share', 'Edinburgh index'], [[r['l'], f'{r["cells"][GI]["share"]}%', r['cells'][GI]['idx'], f'{r["cells"][EI]["share"]}%', r['cells'][EI]['idx']] for r in gap]))
+           + sowhat('a second site', f'The bar list is the biggest change: Edinburgh names the negroni at {neg["cells"][EI]["idx"]} and the martini at {mar["cells"][EI]["idx"]} on the index; Glasgow at {neg["cells"][GI]["idx"]} and {mar["cells"][GI]["idx"]}. A margarita-led list needs a stirred section to travel east.'))
+    ch2 = ('<div class="ex-pair"><div>' + ex('Glasgow\'s favourites are spread across many venues', f'Times each venue is named, Glasgow top 10 ({f0(GL["mn"])} mentions in all).',
+              hbar([(vname(i), VEN[i]['m']) for i in GL['top'][:10]], on={vname(GL['top'][0])}), DM_SRC, (['Venue', 'Mentions'], [[vname(i), VEN[i]['m']] for i in GL['top'][:10]])) + '</div><div>'
+           + ex('Edinburgh\'s sit with fewer names', f'Times each venue is named, Edinburgh top 10 ({f0(ED["mn"])} mentions in all).',
+              hbar([(vname(i), VEN[i]['m']) for i in ED['top'][:10]], on={vname(ED['top'][0])}), DM_SRC, (['Venue', 'Mentions'], [[vname(i), VEN[i]['m']] for i in ED['top'][:10]])) + '</div></div>'
+           + ex(f'The top ten take {pc(et, ED["mn"])}% of Edinburgh\'s attention and {pc(gt, GL["mn"])}% of Glasgow\'s', 'Share of each city\'s venue mentions going to its ten most-named venues.',
+                stack([('Edinburgh', f'{f0(ED["mn"])} mentions', [('Top 10 venues', et, 'k1'), ('Every other venue', ED['mn'] - et, 'k0')]),
+                       ('Glasgow', f'{f0(GL["mn"])} mentions', [('Top 10 venues', gt, 'k1'), ('Every other venue', GL['mn'] - gt, 'k0')])],
+                      [('Top 10 venues', 'k1'), ('Every other venue', 'k0')]), DM_SRC,
+                (['City', 'Top 10 mentions', 'All mentions', 'Share'], [['Edinburgh', et, ED['mn'], f'{pc(et, ED["mn"])}%'], ['Glasgow', gt, GL['mn'], f'{pc(gt, GL["mn"])}%']]))
+           + sowhat('a newcomer', f'In Edinburgh you are competing with a short list of strong favourites led by {vname(ED["top"][0])}. Aim to be talked about alongside them, not instead of them.'))
+    three = ('Scallops', 'Tiramisu', 'Sticky toffee pudding', 'Cod, hake and white fish')
+    ch3 = (ex('The dessert that sells in one city is second choice in the other', 'Index by city for four signature dishes (100 = the all-market average).',
+              '<div class="ex-pair">' + ''.join(f'<div><h4>{esc(lbl)}</h4>' + hbar([(m, city_row(lbl)['cells'][i]['idx']) for i, m in ((GI, 'Glasgow'), (EI, 'Edinburgh'))], on={'Glasgow' if city_row(lbl)['cells'][GI]['idx'] > city_row(lbl)['cells'][EI]['idx'] else 'Edinburgh'}, mx=200) + '</div>' for lbl in three) + '</div>',
+              DM_SRC, (['Dish', 'Glasgow index', 'Edinburgh index'], [[lbl, city_row(lbl)['cells'][GI]['idx'], city_row(lbl)['cells'][EI]['idx']] for lbl in three]))
+           + f'<div class="prose"><p>Edinburgh still loves seafood: it is {f1(esea)}% of the city\'s venue mentions against {f1(gsea)}% in Glasgow. But where Glasgow names scallops ({scal["cells"][GI]["share"]}% of dish mentions, index {scal["cells"][GI]["idx"]}), Edinburgh names white fish and Leith\'s fish specialists. On dessert the cities swap: sticky toffee pudding indexes {stp["cells"][EI]["idx"]} in Edinburgh, tiramisu {tira["cells"][GI]["idx"]} in Glasgow.</p></div>')
+    recs = [('Rewrite the bar list for Edinburgh', f'Keep two margaritas and add a stirred section (negroni, martini, a freezer martini). Negroni index {neg["cells"][EI]["idx"]} in Edinburgh against {neg["cells"][GI]["idx"]} in Glasgow.', 'High', 'Low', 'Before opening'),
+            ('Plan launch PR around the favourites', f'Ten venues take {pc(et, ED["mn"])}% of Edinburgh mentions. Collaborations or guest nights with them earn word of mouth faster than paid launch media.', 'High', 'Medium', 'Launch quarter'),
+            ('Test the format before signing', 'Twenty interviews with Edinburgh guests on your format and dishes before committing to a site: cheap insurance on a six-figure fit-out.', 'High', 'Medium', 'Site search'),
+            ('Swap the dessert anchor', f'Sticky toffee pudding indexes {stp["cells"][EI]["idx"]} in Edinburgh; tiramisu {tira["cells"][GI]["idx"]} in Glasgow. Lead with the local favourite.', 'Medium', 'Low', 'Before opening'),
+            ('Lead starters with named Scottish fish', 'Keep one shellfish signature, but Edinburgh guests reward white fish and Leith-style fish cookery more than scallops.', 'Medium', 'Medium', 'Menu build')]
+    return render(dict(slug='glasgow-edinburgh', ex=ex, status='sample', aud='investor venue', **META['glasgow-edinburgh'],
+        title='Two cities, <em>two appetites</em>', desc='How Glasgow and Edinburgh guests differ on drinks, seafood and dessert, and what a restaurant group needs to change to open a second site.',
+        stand='A Glasgow format that works is not guaranteed to work 45 miles east. This read compares what guests in each city name, which venues set the bar, and how concentrated each market is.',
+        client='A restaurant group with a Glasgow venue, weighing an Edinburgh opening', question='What would a second site need to change?', evidence=f'{f0(CM["totals"][GI] + CM["totals"][EI])} dish mentions, {f0(GL["mn"] + ED["mn"])} venue mentions',
+        kpis=[(str(neg['cells'][EI]['idx']), 'Edinburgh negroni index (100 = average)'), (str(marg['cells'][GI]['idx']), 'Glasgow margarita index'), (f'{pc(et, ED["mn"])}%', 'of Edinburgh mentions go to its top 10 venues'), (f'{pc(gt, GL["mn"])}%', 'the same figure for Glasgow')],
+        answer='The format can travel, but the bar list, the dessert and the launch plan should not: Edinburgh drinks stirred, prefers pudding and concentrates its loyalty on fewer venues.',
+        msgs=[(str(neg['cells'][EI]['idx']), 'index', 'Edinburgh drinks stirred, Glasgow shaken', f'Negroni {neg["cells"][EI]["idx"]} and martini {mar["cells"][EI]["idx"]} in Edinburgh; the margarita indexes {marg["cells"][GI]["idx"]} in Glasgow.'),
+              (str(scal['cells'][GI]['idx']), 'index', 'Glasgow is the scallop city', f'Scallops index {scal["cells"][GI]["idx"]} in Glasgow and {scal["cells"][EI]["idx"]} in Edinburgh, where white fish leads instead.'),
+              (f'{pc(et, ED["mn"])}%', 'top-10 share', 'Edinburgh is more concentrated', f'Its ten favourites take {pc(et, ED["mn"])}% of mentions against {pc(gt, GL["mn"])}% in Glasgow.')],
+        chapters=[('dishes', 'Dish by dish', 'Edinburgh drinks stirred; Glasgow shakes and orders shellfish', 'Each city\'s share of dish mentions against the all-market average, and where the two differ most.', ch1),
+                  ('venues', 'Who sets the bar', 'Edinburgh\'s loyalty sits with fewer venues', 'The venues each city names most, and how much of the conversation they hold.', ch2),
+                  ('signatures', 'Signature dishes', 'The dessert that sells in one city is second choice in the other', 'Four dishes that change between the cities.', ch3)],
+        recs=recs,
+        watch=[('Edinburgh sample size', f'Edinburgh has {f0(CM["totals"][EI])} dish mentions against {f0(CM["totals"][GI])} in Glasgow. A commission would add targeted Edinburgh interviews to firm up single-dish reads.'),
+               ('Festival distortion', 'August interviews include Fringe visitors. Excluding August would show whether the stirred-drinks lean is local or visitor-led.'),
+               ('Cocktail fatigue', 'Cocktails are losing share across the archive (No. 05). Stirred classics are holding up better than house cocktails.'),
+               ('New favourites', 'A new Edinburgh opening entering the top ten would show the market is less closed than it looks.')],
+        method_stats=[(f0(CM['totals'][GI]), 'Glasgow dish mentions'), (f0(CM['totals'][EI]), 'Edinburgh dish mentions'), (f0(GL['v']), 'Glasgow venues named'), (f0(ED['v']), 'Edinburgh venues named')],
+        method=f'<p>Built from venue mentions in {f0(N_ALL)} interviews to {LAST_H}. The index compares a city\'s share of dish mentions with the share across all markets (100 = average). Only dishes with enough mentions in both cities are shown; single-dish figures for Edinburgh rest on 5 to 10 mentions each and are directional.</p>',
+        card=(str(neg['cells'][EI]['idx']), f'Edinburgh negroni index, against {neg["cells"][GI]["idx"]} in Glasgow'),
+        blurb='What Glasgow and Edinburgh guests name more than everyone else, and what a restaurant group would change for a second site.'))
 
-print('wrote', ', '.join(written))
+
+# ================================================================== 03 seafood
+def r_seafood():
+    ex = Ex()
+    s_sea, m_sea = item('s', 'Seafood', 'groups'), item('m', 'Seafood', 'groups')
+    cats = [it for it in s_t['cats'] if it.get('g') == 'Seafood'][:7]
+    cod, scal_i = item('m', 'Cod, hake and white fish'), item('s', 'Scallops')
+    others = [g for g in s_t['groups'] if g['c'] != 'Seafood'][:4]
+    sea_v = sorted(DM['venues'], key=lambda v: -cat_count(v, 'Seafood'))[:10]
+    grp = {g: dict(GROUPS[g]['top_groups']).get('Seafood', 0) for g in GROUPS}
+    top3 = sum(it['pct'] for it in cats[:3])
+    db_rows = [('Seafood mains (group)', m_sea['early'], m_sea['late']), ('Cod, hake and white fish (main)', cod['early'], cod['late']), ('Seafood starters (group)', s_sea['early'], s_sea['late'])] + [(it['l'], it['early'], it['late']) for it in cats[:5]]
+    ch1 = (ex('Seafood takes over a third of all dream starters, more than the next four groups combined', 'Share of dream starters by food group.',
+              hbar([(s_sea['c'], s_sea['pct'])] + [(g['c'], g['pct']) for g in others], on={'Seafood'}, unit='%', dec=1),
+              f'{DM_SRC}; {f0(s_t["n"])} starters', (['Group', 'Share', 'Answers'], [[g['c'], f'{g["pct"]}%', g['n']] for g in [s_sea] + others]))
+           + ex(f'Scallops lead, and the shellfish top three cover {top3:.0f}% of all starters', 'Dream seafood starters, number of mentions.',
+                hbar([(it['l'], it['n']) for it in cats], on={it['l'] for it in cats[:3]}),
+                DM_SRC, (['Dish', 'Mentions', 'Share of starters'], [[it['l'], it['n'], f'{it["pct"]}%'] for it in cats])))
+    ch2 = (ex('White fish is the clear riser on the main course', 'Share of dream mains and starters, early against recent.',
+              dumbbell(db_rows, sig={'Cod, hake and white fish (main)'}),
+              f'{DM_SRC}. Clear move: two-proportion test, p < 0.05', (['Item', EARLY, RECENT, 'Change'], [[a, f'{b}%', f'{c}%', pts(c - b)] for a, b, c in db_rows]))
+           + ex('Seafood mains, white fish and scallops by quarter', 'Share of answers each quarter, on one scale. Faded points have fewer than 100 answers.',
+                small_multiples([('Seafood mains', m_sea['share'], 'k1'), ('White fish mains', cod['share'], 'k1'), ('Scallop starters', scal_i['share'], 'k0'), ('Seafood starters', s_sea['share'], 'k0')], Q, faded=faded('m')),
+                DM_SRC, (['Quarter'] + Q, [[n] + [f'{v}%' for v in it['share']] for n, it in (('Seafood mains', m_sea), ('White fish mains', cod), ('Scallop starters', scal_i), ('Seafood starters', s_sea))]))
+           + sowhat('a seafood supplier', f'The volume is in starters; the growth is in mains. White fish rose from {f1(cod["early"])}% to {f1(cod["late"])}% of dream mains, a clear move, while starters hold steady around a third.'))
+    ch3 = ('<div class="ex-pair"><div>' + ex('One venue owns seafood; Leith and the coast share the rest', 'Seafood mentions by venue.',
+              hbar([(v['n'], cat_count(v, 'Seafood'), vloc(v)) for v in sea_v], on={sea_v[0]['n']}), DM_SRC, (['Venue', 'Place', 'Seafood mentions'], [[v['n'], vloc(v), cat_count(v, 'Seafood')] for v in sea_v])) + '</div><div>'
+           + ex('The trade names seafood most', 'Seafood as a share of everything each group names.',
+                hbar([(g, grp[g]) for g in ('Industry', 'Enthusiasts', 'Creators')], on={'Industry'}, unit='%', dec=1), DM_SRC,
+                (['Group', 'Seafood share'], [[g, f'{grp[g]}%'] for g in grp])) + '</div></div>'
+           + quotes([('Hand dived Orkney scallops with chipotle, mussel, squash and pata negra from Heron in Leith.', 'Dream Menu guest'),
+                     ('Scallops in anchovy butter, Crabshakk. The butter has to be soaked up with a side of skinny fries and a basket of bread!', 'Dream Menu guest'),
+                     ('Fish pastrami from Barry Fish in Leith. It\'s sensational.', 'Dream Menu guest')])
+           + sowhat('a supplier', f'Guests repeat provenance back word for word: hand-dived, Orkney, Leith. Named origin is the selling point, and outside {sea_v[0]["n"]} no venue has yet claimed a seafood dish as its own.'))
+    recs = [('Make named-origin scallops the hero line', f'Scallops are {f1(scal_i["pct"])}% of all starters, the single most-named starter. Sell hand-dived and named-harbour scallops with the story attached.', 'High', 'Low', 'Next quarter'),
+            ('Build a white fish range for mains', f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}%: the clearest seafood riser. Portioned, with one sauce idea per cut.', 'High', 'Medium', 'Next two quarters'),
+            ('Sell to chefs first', f'The trade names seafood at {f1(grp["Industry"])}% of everything it names, ahead of enthusiasts ({f1(grp["Enthusiasts"])}%). Sampling and kitchen visits beat consumer marketing.', 'Medium', 'Low', 'Ongoing'),
+            ('Help one venue per district own a seafood dish', 'Demand outside the top venue is thin and spread. Co-develop a signature with venues guests already name for one seafood dish.', 'Medium', 'Medium', 'Six months'),
+            ('Track the starter share quarterly', 'Seafood starters are steady around a third. A fall below 30% would be the first sign of fatigue.', 'Low', 'Low', 'Quarterly')]
+    return render(dict(slug='seafood', ex=ex, status='sample', aud='supplier venue', **META['seafood'],
+        title="Scotland's <em>seafood</em> appetite", desc='Where seafood sits on the dream menu, which dishes lead, what is rising and which venues own it.',
+        stand='Seafood is the single biggest idea on Scotland\'s dream menu. This report reads it across starters and mains, tracks it quarter by quarter, and names the venues guests associate with it.',
+        client='A Scottish seafood supplier planning its foodservice range', question='Which seafood products should we push next year, and to whom?', evidence=f'{f0(s_t["n"])} starters, {f0(m_t["n"])} mains, venue mentions',
+        kpis=[(f'{f1(s_sea["pct"])}%', 'of dream starters are seafood'), (f'{f1(scal_i["pct"])}%', 'name scallops, the top starter'), (f'{f1(m_sea["pct"])}%', 'of dream mains are seafood'), (f'{pts(cod["move"])} pts', 'white fish mains, a clear rise')],
+        answer='Seafood owns the starter and is growing on the main course, so the range should pair a named-origin scallop hero with a white fish line for mains, sold to chefs first.',
+        msgs=[(f'{f1(s_sea["pct"])}%', 'of starters', 'Seafood owns the starter', f'{f0(s_t["n"])} dream starters; seafood takes {f1(s_sea["pct"])}%, and scallops alone {f1(scal_i["pct"])}%.'),
+              (pts(cod['move']), 'pts', 'White fish is the riser', f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}%, a clear move.'),
+              (f'{f1(grp["Industry"])}%', 'of trade picks', 'Chefs are the advocates', 'Hospitality professionals name seafood more than any other group.')],
+        chapters=[('starter', 'The starter', 'Seafood takes a third of all dream starters', 'Where seafood sits against every other food group, and which dishes lead.', ch1),
+                  ('trend', 'The trend', 'The growth is moving to the main course', 'Early against recent, and quarter by quarter.', ch2),
+                  ('where', 'Where and who', 'One venue owns it; the trade champions it', 'The venues guests name for seafood, and which guests name it most.', ch3)],
+        recs=recs,
+        watch=[('Scallop prices', 'Hand-dived scallop supply is weather and season dependent. A price spike would test how far the hero line can carry a menu price.'),
+               ('Prawns and langoustines', 'Prawns started high in the first quarter of fieldwork and have settled. A further fall would suggest fatigue with prawn starters.'),
+               ('White fish confirmation', 'Two more quarters at or above the recent share would turn the white fish move from clear to established.'),
+               ('Seafood outside Glasgow', 'The rest of Scotland indexes highly for scallops on few mentions. Targeted fieldwork on the coast would show whether that is real.')],
+        method_stats=[(f0(s_t['n']), 'dream starters'), (f0(m_t['n']), 'dream mains'), (f0(sum(cat_count(v, 'Seafood') for v in DM['venues'])), 'seafood venue mentions'), ('6', 'quarters tracked')],
+        method='<p>Starter and main shares use interviews with a codable answer for that course. Venue figures use mentions tied to a named venue. Quarters with fewer than 100 answers are shown faded.</p>',
+        card=(f'{f1(s_sea["pct"])}%', 'of dream starters are seafood'),
+        blurb='Where seafood sits on the dream menu, which dishes lead, what is rising and which venues own it.'))
+
+
+# ================================================================== 04 dessert
+def r_dessert():
+    ex = Ex()
+    tir, stp_i, chs = item('p', 'Tiramisu'), item('p', 'Sticky toffee pudding'), item('p', 'Baked cheesecake')
+    frm, choc = item('p', 'Fruit and meringue', 'groups'), item('p', 'Chocolate desserts', 'groups')
+    look = P['look']
+    spend = Counter(r['spend'] for r in LOOK if r['spend'])
+    lower = spend['Down']
+    des_v = sorted(DM['venues'], key=lambda v: -v.get('cs', {}).get('p', 0))[:10]
+    binx = dict(BIN)
+    conc_lbl = lambda c: f'{CONC[c]["cl"]}: {CONC[c]["top1"].lower()}'
+    ch1 = (ex('Two desserts take almost a quarter of answers; after that, nobody owns the course', 'Share of dream desserts, top 12 dishes.',
+              hbar([(it['l'], it['pct']) for it in p_t['cats'][:12]], on={'Tiramisu', 'Sticky toffee pudding'}, unit='%', dec=1),
+              f'{DM_SRC}; {f0(p_t["n"])} desserts', (['Dessert', 'Share', 'Answers'], [[it['l'], f'{it["pct"]}%', it['n']] for it in p_t['cats'][:12]]))
+           + ex('Dessert is the most open course on the menu', 'Share taken by the leading food group in each course.',
+                hbar([(conc_lbl(c), CONC[c]['top1v']) for c in ('d', 's', 'm', 'p')], on={conc_lbl('p')}, unit='%', dec=1),
+                DM_SRC, (['Course', 'Leading group', 'Share'], [[CONC[c]['cl'], CONC[c]['top1'], f'{CONC[c]["top1v"]}%'] for c in 'smdp']))
+           + sowhat('a dessert range', f'The volume is in two classics; the opportunity is the open space after them. No other dessert has more than {max(it["pct"] for it in p_t["cats"][2:]):.0f}% of answers, so a venue can still make one its own.'))
+    gl = [(g['c'], g['early'], g['late']) for g in p_t['groups'][:8]] + [('Baked cheesecake (dish)', chs['early'], chs['late'])]
+    ch2 = (ex('Fruit is clearly up and baked cheesecake clearly down', 'Share of dream desserts by group and dish, early against recent.',
+              dumbbell(gl, sig={'Fruit and meringue', 'Baked cheesecake (dish)'}),
+              f'{DM_SRC}. Clear move: p < 0.05', (['Group', EARLY, RECENT, 'Change'], [[a, f'{b}%', f'{c}%', pts(c - b)] for a, b, c in gl]))
+           + ex('Guests want the novelty chocolate gone', 'Unprompted "bin it" mentions: trends guests would happily see disappear.',
+                hbar([(n, v) for n, v in BIN[:10]], on={'Dubai chocolate', 'Pistachio (everything)'}),
+                f'{DM_SRC}; "bin it" question', (['Trend', 'Mentions'], [[n, v] for n, v in BIN[:10]])))
+    ch3 = (ex('Operators say guests are holding back on spend', 'Average spend per head over the last four weeks, operator survey.',
+              stack([('Spend per head', f'{sum(spend.values())} operators', [('Up', spend['Up'], 'k1'), ('Flat', spend['Flat'], 'k0'), ('Down', spend['Down'], 'k2'), ('Unsure', spend['Unsure'], 'k0')])],
+                    [('Up', 'k1'), ('Down', 'k2'), ('Flat or unsure', 'k0')]),
+              f'2026 Look Ahead operator survey, {len(LOOK)} operators, April to May 2026', (['Answer', 'Operators'], [[k, v] for k, v in spend.most_common()]))
+           + ex('Guests walk on for dessert: gelato shops sit beside restaurants', 'Venues named most for dessert.',
+                hbar([(v['n'], v['cs'].get('p', 0), vloc(v)) for v in des_v], on={v['n'] for v in des_v if 'Gela' in v['n'] or 'Scoop' in v['n']}),
+                DM_SRC, (['Venue', 'Place', 'Dessert mentions'], [[v['n'], vloc(v), v['cs'].get('p', 0)] for v in des_v]))
+           + sowhat('restaurants', f'Only {spend["Up"]} of {sum(spend.values())} operators see spend per head rising. When a venue\'s own dessert is forgettable, guests take the last spend to the gelato shop next door.'))
+    recs = [('Make tiramisu and sticky toffee pudding the volume lines', f'Together {f1(tir["pct"] + stp_i["pct"])}% of {f0(p_t["n"])} dream desserts, both steady. Ready-to-plate at a quality guests notice.', 'High', 'Low', 'Next quarter'),
+            ('Offer a smaller dessert at a lower price', 'Guests skip dessert to save money. A smaller format keeps the course on the bill and the spend in the venue.', 'High', 'Low', 'Next quarter'),
+            ('Add a seasonal fruit and meringue line', f'Fruit and meringue rose from {f1(frm["early"])}% to {f1(frm["late"])}%, a clear move. Pavlova and Eton mess that change each quarter.', 'High', 'Medium', 'Next quarter'),
+            ('Reduce baked cheesecake; test a Basque style', f'Baked cheesecake fell from {f1(chs["early"])}% to {f1(chs["late"])}%, a clear move.', 'Medium', 'Low', 'Six months'),
+            ('Do not build a range on viral flavours', f'Dubai chocolate draws {binx.get("Dubai chocolate", 0)} "bin it" mentions and pistachio-everything {binx.get("Pistachio (everything)", 0)}.', 'Medium', 'Low', 'Now')]
+    return render(dict(slug='dessert', ex=ex, status='sample', aud='supplier venue', **META['dessert'],
+        title='The last spend: <em>dessert</em>', desc='Which desserts guests still choose, what is rising and falling, and what a dessert range should look like.',
+        stand='Dessert is the course guests cut first when money is tight. This report asks which desserts still earn their place, what is moving, and what to stop making.',
+        client='A dessert maker or foodservice supplier', question='Which desserts still earn their place on the bill?', evidence=f'{f0(p_t["n"])} dream desserts, operator survey, "bin it" answers',
+        kpis=[(f'{f1(tir["pct"])}%', 'name tiramisu, the top dessert'), (f'{f1(stp_i["pct"])}%', 'name sticky toffee pudding'), (f'{f1(CONC["p"]["top1v"])}%', 'leading group share, the lowest of any course'), (f'{spend["Up"]} of {sum(spend.values())}', 'operators see spend per head rising')],
+        answer='Two classics carry the volume and fruit is the clear riser, so a dessert range should lead with tiramisu and sticky toffee pudding, add a seasonal fruit line, and offer a smaller format so the course stays on the bill.',
+        msgs=[(f'{f1(tir["pct"] + stp_i["pct"])}%', 'of desserts', 'Two classics carry the course', 'Tiramisu and sticky toffee pudding, both steady over six quarters.'),
+              (pts(frm['move']), 'pts', 'Fruit is the clear riser', f'Fruit and meringue rose from {f1(frm["early"])}% to {f1(frm["late"])}%; baked cheesecake fell {abs(chs["move"]):.1f} points.'),
+              (str(binx.get('Dubai chocolate', 0)), 'mentions', 'Novelty chocolate is tired', 'Dubai chocolate is the second most-named trend guests want gone.')],
+        chapters=[('course', 'The course', 'Two classics, then an open field', 'What guests choose for dessert, and how fragmented the course is against the others.', ch1),
+                  ('moves', 'What is moving', 'Fruit is up, cheesecake down, novelty chocolate tired', 'Early against recent, and what guests want gone.', ch2),
+                  ('spend', 'The spend', 'The last spend walks next door', 'What operators see, and where guests go instead.', ch3)],
+        recs=recs,
+        watch=[('Spend per head', 'If the next operator survey shows spend per head recovering, the smaller-format dessert matters less and premium lines matter more.'),
+               ('Fruit and meringue', 'Fruit is seasonal. Two more quarters including winter will show whether the rise holds outside summer.'),
+               ('Chocolate desserts', f'Chocolate desserts are drifting down ({f1(choc["early"])}% to {f1(choc["late"])}%) without a clear move yet.'),
+               ('Late-night dessert', 'A documented concept gap in Glasgow. A late-night dessert venue gaining mentions would confirm demand.')],
+        method_stats=[(f0(p_t['n']), 'dream desserts'), (str(len(LOOK)), 'operators surveyed'), (f0(sum(v for _, v in BIN)), '"bin it" mentions (top 10)'), ('6', 'quarters tracked')],
+        method='<p>Dessert shares use interviews with a codable dessert answer. The operator survey ran 2 April to 3 May 2026. "Bin it" answers are unprompted and grouped into published labels.</p>',
+        card=(f'{f1(tir["pct"])}%', 'of dream desserts are tiramisu'),
+        blurb='The most open course on the menu: what guests choose, what is moving and where a supplier can protect the last spend.'))
+
+
+# ================================================================== 05 drinks
+def r_drinks():
+    ex = Ex()
+    ck, sp, bc = (item('a', n, 'groups') for n in ('Cocktails', 'Spirits', 'Beer and cider'))
+    wh, lg_ = item('a', 'Whisky'), item('a', 'Lager')
+    sig = sig_set('a')
+    coke, tea, water, pine = DEB['coke'], DEB['tea'], DEB['water'], DEB['pineapple']
+    db_rows = [(g['c'], g['early'], g['late']) for g in a_t['groups']] + [(it['l'], it['early'], it['late']) for it in a_t['cats'][:12] if abs(it['move']) >= 1.5]
+    q5 = Q[:5]
+    deb = lambda d, order: [(k.replace('Coca Cola', 'Coca-Cola'), d['c'][k], kk) for k, kk in order if k in d['c']]
+    ch1 = (ex(f'Cocktails have lost {abs(ck["move"]):.0f} points of share; spirits, beer and whisky took it', 'Share of dream alcoholic drinks, early against recent.',
+              dumbbell(db_rows, sig=sig),
+              f'{DM_SRC}. Trend tests use the original single drink question, before it split on 23 August 2026', (['Drink', EARLY, RECENT, 'Change', 'Clear?'], [[a, f'{b}%', f'{c}%', pts(c - b), 'Yes' if a in sig else 'No'] for a, b, c in db_rows]))
+           + ex('Cocktails, spirits, beer and whisky by quarter', 'Share of dream alcoholic drinks each quarter, on one scale. Faded points have fewer than 100 answers.',
+                small_multiples([('Cocktails', ck['share'][:5], 'k2'), ('Spirits', sp['share'][:5], 'k1'), ('Beer and cider', bc['share'][:5], 'k1'), ('Whisky', wh['share'][:5], 'k1')], q5, faded={i for i in faded('a') if i < 5}),
+                DM_SRC, (['Quarter'] + q5, [[n] + [f'{v}%' for v in it['share'][:5]] for n, it in (('Cocktails', ck), ('Spirits', sp), ('Beer and cider', bc), ('Whisky', wh))]))
+           + sowhat('a drinks range', f'Cocktails are still the biggest group ({f1(ck["late"])}% recently) but the long house list is the casualty. Whisky ({f1(wh["early"])}% to {f1(wh["late"])}%) and lager ({f1(lg_["early"])}% to {f1(lg_["late"])}%) are the clear gainers.'))
+    ch2 = (ex('Irn Bru wins the round; coffee beats tea more than two to one', 'The debates every interview ends with. Hover a segment for the count.',
+              stack([('Irn Bru or Coca-Cola?', f'{f0(coke["n"])} answering', deb(coke, [('Irn Bru', 'k1'), ('Coca Cola', 'k2'), ('Neither', 'k0')])),
+                     ('Coffee or tea?', f'{f0(tea["n"])} answering', deb(tea, [('Coffee', 'k1'), ('Tea', 'k2'), ('Neither', 'k0')])),
+                     ('Still, sparkling or tap?', f'{f0(water["n"])} answering', deb(water, [('Still', 'k1'), ('Sparkling', 'k2'), ('Tap', 'k3'), ('Scottish tap water', 'k0')])),
+                     ('Pineapple on pizza?', f'{f0(pine["n"])} answering', deb(pine, [('Yes', 'k1'), ('No', 'k2')]))],
+                    [], named=True),
+              DM_SRC, (['Question', 'Answer', 'Count'], [[q, k, v] for q, d in (('Irn Bru or Coke', coke), ('Coffee or tea', tea), ('Water', water), ('Pineapple', pine)) for k, v in d['c'].items()]))
+           + ex('Soft drinks lead the soft round; no and low is an eighth of it', 'Dream soft drinks by group, share.',
+                hbar([(g['c'], g['pct']) for g in k_t['groups']], on={'No and low alcohol'}, unit='%', dec=1), f'{DM_SRC}; {f0(k_t["n"])} soft drink answers',
+                (['Group', 'Share'], [[g['c'], f'{g["pct"]}%'] for g in k_t['groups']])))
+    recs = [('Cut the house cocktail list; keep the classics', f'Cocktails fell from {f1(ck["early"])}% to {f1(ck["late"])}%, the largest clear move in the archive. Spicy margarita and martini still lead.', 'High', 'Low', 'Next menu change'),
+            ('Sell whisky by the dram and the highball', f'Whisky rose from {f1(wh["early"])}% to {f1(wh["late"])}%, a clear move. A short Scottish list staff can talk about.', 'High', 'Low', 'Next quarter'),
+            ('Put a premium or local lager on draught', f'Lager rose from {f1(lg_["early"])}% to {f1(lg_["late"])}%, clear. Beer and cider overall up {pts(bc["move"])} points.', 'Medium', 'Medium', 'Next quarter'),
+            ('List Irn Bru and price soft drinks as margin', f'{pc(coke["c"]["Irn Bru"], coke["n"])}% choose Irn Bru over Coca-Cola. The soft round is real spend.', 'Medium', 'Low', 'Now'),
+            ('Build three named alcohol-free serves', 'Guests who choose no and low name a specific drink and venue. One token mocktail undersells it.', 'Medium', 'Medium', 'Six months')]
+    return render(dict(slug='drinks', ex=ex, status='sample', aud='supplier venue', **META['drinks'],
+        title='What Scotland <em>drinks</em> with dinner', desc='Cocktails losing share to whisky and lager, Irn Bru against Coke, and the no and low list.',
+        stand='Is the cocktail boom over? This report reads the dream alcoholic drink over time, the soft drinks guests choose, and the debates every interview ends with.',
+        client='A drinks brand or wholesaler planning its on-trade range', question='Where is the on-trade drink heading in Scotland?', evidence=f'{f0(a_t["n"])} alcoholic and {f0(k_t["n"])} soft drink answers, four debates',
+        kpis=[(f'{pts(ck["move"])} pts', 'cocktails, share of dream drinks'), (f'{pts(wh["move"])} pts', 'whisky, a clear rise'), (f'{pc(coke["c"]["Irn Bru"], coke["n"])}%', 'choose Irn Bru over Coca-Cola'), (f'{pc(tea["c"]["Coffee"], tea["n"])}%', 'choose coffee over tea')],
+        answer='The cocktail boom is cooling, not over: guests are trading the long house list for whisky, lager and the classics, and the soft round in Scotland starts with Irn Bru.',
+        msgs=[(pts(ck['move']), 'pts', 'Cocktails are losing share', f'From {f1(ck["early"])}% to {f1(ck["late"])}% of dream alcoholic drinks: the biggest clear move in the archive.'),
+              (pts(sp['move']), 'pts', 'Spirits and beer are taking it', f'Spirits {f1(sp["early"])}% to {f1(sp["late"])}%, led by whisky; lager clearly up too.'),
+              (f'{pc(coke["c"]["Irn Bru"], coke["n"])}%', 'Irn Bru', 'Irn Bru wins the round', f'{f0(coke["c"]["Irn Bru"])} choose Irn Bru, {f0(coke["c"]["Coca Cola"])} Coca-Cola, {f0(coke["c"]["Neither"])} neither.')],
+        chapters=[('alcohol', 'The alcoholic drink', 'Cocktails are giving ground to whisky and lager', 'Early against recent, and quarter by quarter.', ch1),
+                  ('round', 'The soft round', 'Irn Bru, coffee and still water win the debates', 'What guests choose when the drink is not alcoholic.', ch2)],
+        recs=recs,
+        watch=[('Drink question split', 'Since 23 August 2026 soft and alcoholic drinks are asked separately. Two quarters on the new questions will confirm the trend on a cleaner base.'),
+               ('Negroni and martini', 'Stirred classics are rising without a clear move yet (see No. 02 for the Edinburgh lean).'),
+               ('Guinness', 'Guinness and stout drifted down. A recovery in winter quarters would be seasonal, not structural.'),
+               ('No and low', 'No and low fell as a share of soft drinks. Watch whether that is fatigue or an effect of the new question.')],
+        method_stats=[(f0(a_t['n']), 'alcoholic drink answers'), (f0(k_t['n']), 'soft drink answers'), (f0(coke['n']), 'Irn Bru or Coke answers'), ('5', 'quarters tested')],
+        method='<p>Alcoholic and soft drink shares pool the original single drink question and the two questions that replaced it on 23 August 2026; trend tests use the original question only, so the latest quarter is left out of the trend charts.</p>',
+        card=(f'{pts(ck["move"])} pts', 'cocktails, share of dream alcoholic drinks'),
+        blurb='The shift from cocktails to whisky and lager, the soft-drink round and the no and low question.'))
+
+
+# ================================================================== 06 trend fatigue
+def r_fatigue():
+    ex = Ex()
+    pot, veg, med = (item('d', n, 'groups') for n in ('Potatoes and fries', 'Vegetables and salad', 'Mediterranean and Middle Eastern'))
+    lf, sk, mc, gr = (item('d', n) for n in ('Loaded fries', 'Skinny fries', 'Mac and cheese', 'Greens and creamed spinach'))
+    sig = sig_set('d')
+    hype = {'Matcha', 'Dubai chocolate', 'Filming food and mukbang', 'Viral TikTok food', 'Hot honey', 'Pistachio (everything)', 'Deconstructed and gimmick plating'}
+    hype_n = sum(v for n, v in BIN if n in hype); all_n = sum(v for _, v in BIN)
+    ch1 = (ex('Guests are tired of food made for the camera', 'Unprompted "bin it" mentions: the trends guests would happily see disappear. Highlighted: hype-led trends.',
+              hbar([(n, v) for n, v in BIN[:10]], on=hype), f'{DM_SRC}; "bin it" question', (['Trend', 'Mentions', 'Hype-led?'], [[n, v, 'Yes' if n in hype else 'No'] for n, v in BIN[:10]]))
+           + sowhat('a menu team', f'{pc(hype_n, all_n)}% of the top ten "bin it" mentions are about hype: viral flavours, filming food and gimmick plating. The fatigue is with the performance, not with any one ingredient.'))
+    sides = [(g['c'], g['early'], g['late']) for g in d_t['groups'][:8]] + [(it['l'], it['early'], it['late']) for it in (sk, lf, mc, gr)]
+    ch2 = (ex('The side order is moving from chips to greens', 'Share of dream sides, early against recent.',
+              dumbbell(sides, sig=sig), f'{DM_SRC}. Clear move: p < 0.05', (['Side', EARLY, RECENT, 'Change', 'Clear?'], [[a, f'{b}%', f'{c}%', pts(c - b), 'Yes' if a in sig else 'No'] for a, b, c in sides]))
+           + ex('Potato sides by quarter, against vegetables and Mediterranean sides', 'Share of dream sides each quarter, on one scale. Faded points have fewer than 100 answers.',
+                small_multiples([('Potatoes and fries', pot['share'], 'k2'), ('Vegetables and salad', veg['share'], 'k1'), ('Mediterranean sides', med['share'], 'k1')], Q, faded=faded('d')),
+                DM_SRC, (['Quarter'] + Q, [[n] + [f'{v}%' for v in it['share']] for n, it in (('Potatoes and fries', pot), ('Vegetables and salad', veg), ('Mediterranean sides', med))]))
+           + sowhat('a menu team', f'Loaded fries fell from {f1(lf["early"])}% to {f1(lf["late"])}% and potato sides lost {abs(pot["move"]):.1f} points overall. Greens, salads and mezze-style sides took the space.'))
+    ch3 = (ex('Comfort food is not going anywhere', 'Guilty pleasures guests admit to, mentions.',
+              hbar([(n, v) for n, v in GUILTY[:10]], on={GUILTY[0][0]}), f'{DM_SRC}; guilty pleasure question', (['Guilty pleasure', 'Mentions'], [[n, v] for n, v in GUILTY[:10]]))
+           + pull('Loaded fries are stupid unless you\'ve made them yourself at 3am.', 'Dream Menu guest, October 2026')
+           + sowhat('venues', 'Guests want honest comfort, not comfort dressed up for the camera. A well-made classic does not need a twist.'))
+    recs = [('Drop the viral special', 'Put the effort into a dish people come back for. Hype-led trends dominate the "bin it" list.', 'High', 'Low', 'Next menu change'),
+            ('Make greens and salads as considered as the chips', f'Vegetable and salad sides rose from {f1(veg["early"])}% to {f1(veg["late"])}%; greens and creamed spinach clearly up.', 'High', 'Low', 'Next menu change'),
+            ('Add a Mediterranean or mezze-style side', f'From {f1(med["early"])}% to {f1(med["late"])}% of dream sides, a clear move.', 'Medium', 'Low', 'Next quarter'),
+            ('Keep one loaded item at most', f'Loaded fries fell from {f1(lf["early"])}% to {f1(lf["late"])}%; loaded and dirty food draws {dict(BIN).get("Loaded and dirty food", 0)} "bin it" mentions.', 'Medium', 'Low', 'Now'),
+            ('Explain small plates clearly', f'Small plates appear in the "bin it" list ({dict(BIN).get("Small plates", 0)}). If that is the format, be clear on portions and price.', 'Low', 'Low', 'Now')]
+    return render(dict(slug='trend-fatigue', ex=ex, status='sample', aud='venue public supplier', **META['trend-fatigue'],
+        title='Trend <em>fatigue</em>', desc='The trends guests want gone, the sides they are leaving behind and what replaces them.',
+        stand='Every interview asks which food trend should quietly disappear. Set against what guests actually choose, the answers show which trends are tiring and what is replacing them.',
+        client='A menu development team or food editor', question='What are guests tired of, and what replaces it?', evidence=f'"Bin it" answers, {f0(d_t["n"])} dream sides, guilty pleasures',
+        kpis=[(str(BIN[0][1]), f'want {BIN[0][0].lower()} gone'), (str(BIN[1][1]), f'want {BIN[1][0].lower()} gone'), (f'{pts(pot["move"])} pts', 'potato sides on dream menus'), (f'{pts(veg["move"])} pts', 'vegetable and salad sides')],
+        answer='Guests are tired of food made to be posted, not of comfort: hype-led trends top the "bin it" list while chips give way to greens and mezze, and the honest classics hold.',
+        msgs=[(f'{pc(hype_n, all_n)}%', 'of top-10 "bin it"', 'The fatigue is with the hype', 'Matcha, Dubai chocolate and filming food lead, with viral TikTok food close behind.'),
+              (pts(pot['move']), 'pts', 'Chips are giving way', f'Potato sides fell from {f1(pot["early"])}% to {f1(pot["late"])}% of dream sides, a clear move.'),
+              (str(GUILTY[0][1]), 'mentions', 'Comfort holds', f'{GUILTY[0][0]} tops the guilty pleasures, with pasta and noodles close behind.')],
+        chapters=[('bin', 'What guests want gone', 'Guests are tired of food made for the camera', 'Unprompted answers to "Do you have a food trend you wish would quietly disappear?"', ch1),
+                  ('sides', 'What replaces it', 'The side order is moving from chips to greens', 'What guests actually choose, early against recent.', ch2),
+                  ('comfort', 'What stays', 'Comfort food is not going anywhere', 'The guilty pleasures guests admit to.', ch3)],
+        recs=recs,
+        watch=[('The next viral flavour', 'Hype cycles are short. A new entry climbing the "bin it" list within two quarters of peaking would confirm the pattern.'),
+               ('Chips recovery', 'Potato sides fell sharply. A winter rebound would suggest seasonality rather than fatigue.'),
+               ('Small plates', 'If small plates keep rising in the "bin it" list, it becomes a format risk, not just a pricing one.'),
+               ('Matcha', 'Matcha leads the list. Watch whether it fades from menus or settles as a drink rather than a flavour.')],
+        method_stats=[(f0(sum(v for _, v in BIN)), '"bin it" mentions (top 10)'), (f0(d_t['n']), 'dream sides'), (f0(sum(v for _, v in GUILTY)), 'guilty pleasure mentions (top 10)'), ('6', 'quarters tracked')],
+        method='<p>"Bin it" and guilty pleasure answers are unprompted and grouped into published labels; one answer can name more than one trend. Side shares use interviews with a codable side answer.</p>',
+        card=(str(BIN[0][1]), f'guests want {BIN[0][0].lower()} gone'),
+        blurb='The trends guests want gone, the sides they are leaving behind and what replaces them.'))
+
+
+# ================================================================== 07 neighbourhoods
+def r_neighbourhoods():
+    ex = Ex()
+    AREAS = [('City centre', 55.8615, -4.2560), ('Merchant City', 55.8590, -4.2440), ('Finnieston', 55.8650, -4.2860), ('West End', 55.8750, -4.2930),
+             ('Partick', 55.8700, -4.3090), ('Woodlands', 55.8680, -4.2700), ('Southside', 55.8370, -4.2680), ('Shawlands', 55.8300, -4.2830),
+             ('East End', 55.8550, -4.2330), ('Dennistoun', 55.8610, -4.2130), ('Kinning Park and Govan', 55.8530, -4.3020)]
+    MERGE = {'Shawlands': 'Southside', 'Dennistoun': 'East End', 'Kinning Park and Govan': 'Elsewhere in the city'}
+    kmd = lambda a, b: math.hypot((a[0] - b[0]) * 111, (a[1] - b[1]) * 111 * math.cos(math.radians(55.86)))
+    g = [v for v in DM['venues'] if v.get('c') == 'Glasgow' and not v.get('tw') and v['p'] in ('exact', 'street', 'neighbourhood') and v.get('la') and 55.80 < v['la'] < 55.90 and -4.37 < v['lo'] < -4.17]
+    gid = {v['i'] for v in g}
+    unplaced = [v for v in DM['venues'] if v.get('c') == 'Glasgow' and not v.get('tw') and v['i'] not in gid]
+    agg = defaultdict(lambda: dict(v=0, m=0, h=0, names=[], k=Counter()))
+    pts_ = []
+    for v in g:
+        d, n = min((kmd((v['la'], v['lo']), (la, lo)), n) for n, la, lo in AREAS)
+        n = MERGE.get(n, n) if d < 1.6 else 'Elsewhere in the city'
+        a = agg[n]; a['v'] += 1; a['m'] += v['m']; a['h'] += v.get('cs', {}).get('h', 0); a['names'].append((v['m'], v['n']))
+        for kk, c in v.get('k', []):
+            a['k'][kk] += c
+        pts_.append((v['la'], v['lo'], v['m'], v['n'], n, n in ('Finnieston', 'Southside')))
+    tot_m, tot_v = sum(a['m'] for a in agg.values()), sum(a['v'] for a in agg.values())
+    areas = [n for n in sorted(agg, key=lambda n: -agg[n]['m']) if n != 'Elsewhere in the city']
+    ppv = {n: agg[n]['m'] / agg[n]['v'] for n in areas}
+    top3 = sum(agg[n]['m'] for n in areas[:3])
+    anchor = {n: sorted(agg[n]['names'], reverse=True)[0] for n in areas}
+    # label each district at the mention-weighted centre of its venues, nudged above the cluster
+    cen = {}
+    for la, lo, mm, nm, ar, on in pts_:
+        c = cen.setdefault(ar, [0, 0, 0]); c[0] += la * (mm + 1); c[1] += lo * (mm + 1); c[2] += mm + 1
+    nudge = {'City centre': (0.0040, -0.004), 'Merchant City': (-0.0045, 0.006), 'Finnieston': (0.0042, 0.0), 'West End': (0.0042, 0.0), 'Partick': (0.0035, -0.004),
+             'Woodlands': (0.0040, 0.006), 'Southside': (-0.0062, 0.0), 'East End': (-0.0042, 0.008)}
+    zones = [(n, cen[n][0] / cen[n][2] + nudge.get(n, (0.004, 0))[0], cen[n][1] / cen[n][2] + nudge.get(n, (0.004, 0))[1]) for n in areas]
+    hid = {n: 100 * agg[n]['h'] / agg[n]['m'] for n in areas if agg[n]['m'] >= 40}
+    big = [n for n in areas if agg[n]['v'] >= 15]
+    ch1 = (ex('Glasgow\'s food conversation runs along one line, from the Merchant City to Finnieston', f'Every Glasgow venue guests have named with a known address ({f0(tot_v)}), sized by mentions. Highlighted: Finnieston and the Southside. Hover for names.',
+              glasgow_map(pts_, zones), f'{DM_SRC}; venue locations from guest answers and address research. River line approximate; a few outlying venues fall outside the frame.',
+              (['Neighbourhood', 'Venues', 'Mentions'], [[n, agg[n]['v'], agg[n]['m']] for n in areas]))
+           + ex(f'Three districts hold {pc(top3, tot_m)}% of mentions', 'Share of venue mentions by neighbourhood; the note shows its share of venues.',
+                hbar([(n, 100 * agg[n]['m'] / tot_m, f'{agg[n]["v"]} venues, {pc(agg[n]["v"], tot_v)}% of all') for n in areas], on=set(areas[:3]), unit='%', dec=1),
+                DM_SRC, (['Neighbourhood', 'Share of mentions', 'Share of venues'], [[n, f'{100 * agg[n]["m"] / tot_m:.1f}%', f'{100 * agg[n]["v"] / tot_v:.1f}%'] for n in areas])))
+    ch2 = (ex('Finnieston and the Southside draw the most mentions per venue', 'Average guest mentions per named venue, by neighbourhood (15 or more venues).',
+              hbar([(n, ppv[n]) for n in sorted(big, key=lambda n: -ppv[n])], on={'Finnieston', 'Southside'}, dec=1),
+              DM_SRC, (['Neighbourhood', 'Mentions per venue', 'Venues'], [[n, f'{ppv[n]:.1f}', agg[n]['v']] for n in sorted(areas, key=lambda n: -ppv[n])]))
+           + ex('Destination venues make districts', 'Share of each neighbourhood\'s mentions held by its most-named venue.',
+                hbar([(n, 100 * anchor[n][0] / agg[n]['m'], anchor[n][1]) for n in sorted(big, key=lambda n: -anchor[n][0] / agg[n]['m'])], on={'Southside', 'West End'}, unit='%', dec=0),
+                DM_SRC, (['Neighbourhood', 'Anchor venue', 'Anchor mentions', 'Share'], [[n, anchor[n][1], anchor[n][0], f'{pc(anchor[n][0], agg[n]["m"])}%'] for n in areas]))
+           + sowhat('a landlord or developer', f'High mentions per venue with a single strong anchor is the signature of a district on the way up. The Southside has both: {ppv["Southside"]:.1f} mentions per venue and {anchor["Southside"][1]} holding {pc(anchor["Southside"][0], agg["Southside"]["m"])}% of them.'))
+    ch3 = (ex('The insider districts: where guests name their hidden gems', 'Hidden-gem and next-stop answers as a share of each area\'s mentions (40 or more mentions).',
+              hbar(sorted(hid.items(), key=lambda x: -x[1]), on={n for n, v in hid.items() if v >= 30}, unit='%', dec=0),
+              f'{DM_SRC}; "favourite hidden gem" and "next stop" questions', (['Neighbourhood', 'Hidden-gem share'], [[n, f'{v:.0f}%'] for n, v in sorted(hid.items(), key=lambda x: -x[1])]))
+           + table(['Neighbourhood', 'Venues', 'Mentions', 'Most-named venues', 'What guests name there'],
+                   [[f'<b>{esc(n)}</b>', agg[n]['v'], agg[n]['m'], esc(', '.join(x[1] for x in sorted(agg[n]['names'], reverse=True)[:3])), esc(', '.join(k for k, _ in agg[n]['k'].most_common(3)))] for n in areas], num_cols=(1, 2)))
+    recs = [('Prioritise Southside units for food-led tenants', f'{ppv["Southside"]:.1f} mentions per venue, one of the two highest in the city, with a high hidden-gem share: demand ahead of supply.', 'High', 'Medium', 'Next 12 months'),
+            ('Lead with one destination tenant per street', f'Anchors carry a large share of their districts ({anchor["Southside"][1]}, {anchor["West End"][1]}). A destination venue lifts the units around it.', 'High', 'High', 'Leasing strategy'),
+            ('Take early positions in the East End', 'The Barras area has a high share of hidden-gem answers. Pair units with the market and events while rents allow.', 'Medium', 'Medium', '12 to 24 months'),
+            ('Use the city centre for brand-led concepts', f'The centre has the most venues and mentions but fewer per venue ({ppv["City centre"]:.1f}): volume, diluted. It suits known brands.', 'Medium', 'Low', 'Ongoing'),
+            ('Track district momentum quarterly', 'Mentions per venue and hidden-gem share by area, every quarter, so the next district shows before rents move.', 'Medium', 'Low', 'Quarterly')]
+    return render(dict(slug='neighbourhoods', ex=ex, status='sample', aud='investor venue public', **META['neighbourhoods'],
+        title='Where <em>Glasgow</em> eats', desc='A neighbourhood read of Glasgow\'s food scene: where guest attention sits, which districts punch above their weight and where the next one is.',
+        stand='Which Glasgow districts do guests talk about, which punch above their weight, and where is the next Finnieston? A location read built from every venue guests have named.',
+        client='A property developer or landlord with food and drink units', question='Which neighbourhoods should we lease to food and drink operators next?', evidence=f'{f0(tot_v)} mapped Glasgow venues, {f0(tot_m)} mentions',
+        kpis=[(f'{pc(top3, tot_m)}%', 'of mentions in three districts'), (f'{ppv["Finnieston"]:.1f}', 'mentions per venue in Finnieston'), (f'{ppv["Southside"]:.1f}', 'mentions per venue in the Southside'), (f'{ppv["City centre"]:.1f}', 'in the city centre, for comparison')],
+        answer='Guest attention is concentrated between the Merchant City and Finnieston, but the Southside matches Finnieston on mentions per venue and has more of the hidden-gem answers: it is the district to lease into next.',
+        msgs=[(f'{pc(top3, tot_m)}%', 'of mentions', 'One line holds the conversation', f'{areas[0]}, {areas[1]} and {areas[2]} hold {pc(top3, tot_m)}% of mentions of mapped Glasgow venues.'),
+              (f'{ppv["Southside"]:.1f}', 'per venue', 'The Southside punches above its weight', f'Against {ppv["City centre"]:.1f} in the city centre; only Finnieston is comparable.'),
+              (f'{pc(anchor["Southside"][0], agg["Southside"]["m"])}%', 'anchor share', 'Destinations make districts', f'{anchor["Southside"][1]} alone holds {pc(anchor["Southside"][0], agg["Southside"]["m"])}% of Southside mentions.')],
+        chapters=[('map', 'The map', 'Glasgow\'s food conversation runs along one line', 'Where every named venue sits, and how attention splits by district.', ch1),
+                  ('value', 'Value per venue', 'Finnieston and the Southside punch above their weight', 'Mentions per venue, and how much each district depends on one destination.', ch2),
+                  ('districts', 'District profiles', 'The insider districts are where the next Finnieston comes from', 'Where guests name their hidden gems, and what each area is known for.', ch3)],
+        recs=recs,
+        watch=[('Rents and vacancy', 'Dream Menu measures demand, not rent. A commission would pair this read with agent data on rents and vacant units by street.'),
+               ('Anchor risk', 'Districts that depend on one venue are exposed if it closes or moves. Watch anchor share alongside mentions.'),
+               ('New openings', 'A new venue entering an area\'s top three within two quarters is the earliest sign of momentum.'),
+               (f'{len(unplaced)} venues without an address', f'Some guests name a venue without enough detail to place it ({f0(sum(v["m"] for v in unplaced))} mentions). Address research would sharpen the read.')],
+        method_stats=[(f0(tot_v), 'Glasgow venues mapped'), (f0(tot_m), 'mentions'), (str(len(areas)), 'districts'), (f0(len(unplaced)), 'venues not placed')],
+        method='<p>Venues are those guests named in Glasgow with an exact address or a named street or neighbourhood, inside the city. Each is assigned to the nearest of eleven district centre points within 1.6 km (the Southside includes Govanhill, Strathbungo and Shawlands; the East End includes the Barras and Dennistoun; Woodlands includes Charing Cross); the rest are "elsewhere". Boundaries are indicative. Hidden-gem share counts mentions from the "favourite hidden gem" and "next stop" questions.</p>',
+        card=(f'{ppv["Southside"]:.1f}', 'mentions per venue in the Southside'),
+        blurb='Where guest attention sits in Glasgow, which districts punch above their weight, and where the next Finnieston is.'))
+
+
+# ================================================================== 08 guests and critics
+def r_critics():
+    ex = Ex()
+    c = AN['critics']; T = c['tops']
+    allk = str(c['venues'])
+    bands = [('Top 10', T['10']), ('Top 25', T['25']), ('Top 50', T['50']), ('Top 100', T['100']), ('All named venues', T[allk])]
+
+    def tier_of(p):
+        if p['tier'] in ('AA Rosettes', 'Other guides'):
+            return 'Other guides'
+        return {'One star': 'MICHELIN Star'}.get(p['tier'], p['tier'])
+    tiers = [('MICHELIN Star', 'k1'), ('Bib Gourmand', 'k1'), ('MICHELIN selected', 'k3'), ('Other guides', 'k3'), ('No guide award', 'k2')]
+    rows = [(lbl, k, [(p['m'], f'<b>{esc(p["n"])}</b><br>{esc(p["c"])}<br>{p["m"]} mentions, rank {p["rank"]}<br>{esc(", ".join(p["aw"]) or "No guide award")}') for p in c['points'] if tier_of(p) == lbl]) for lbl, k in tiers]
+    un = [p for p in c['points'] if not p['aw']][:12]
+    stars = [p for p in c['points'] if any('Star' in a for a in p['aw'])]
+    bib_top = [p for p in c['points'][:25] if p['tier'] == 'Bib Gourmand']
+    scot_star = sum(1 for p in AW['places'] if p[6] == 'Scotland' and any(AW['groups'][a[0]] == 'star' for a in p[10]))
+    aw_named = sum(1 for p in AW['places'] if p[15])
+    allshare = 100 * T[allk]['award'] / T[allk]['n']
+    ch1 = (ex(f'Guest favourites are far likelier to hold a guide award, yet most do not', 'Share of venues holding any guide award (MICHELIN, 50 Best, AA, Good Food Guide), by guest popularity.',
+              hbar([(b, 100 * v['award'] / v['n'], f'{v["award"]} of {v["n"]}') for b, v in bands], on={'Top 25'}, unit='%', dec=0),
+              f'{DM_SRC}; awards from the Dream Menu awards list', (['Band', 'With an award', 'Venues', 'Share'], [[b, v['award'], v['n'], f'{100 * v["award"] / v["n"]:.0f}%'] for b, v in bands]))
+           + sowhat('a tourism body', f'The guides and the guests agree more than chance would suggest ({pc(T["25"]["award"], 25)}% of the top 25 against {allshare:.0f}% overall), but {100 - T["100"]["award"]} of the hundred venues guests name most hold no guide award at all. A visitor following only the guides misses most of what locals love.'))
+    ch2 = (ex('Bib Gourmand is where guests and inspectors meet; stars sit further down the list', f'The {len(c["points"])} venues guests name most, by guide status. Across: guest mentions (square-root scale). Hover for each venue.',
+              strip(rows, max(p['m'] for p in c['points']), 'Guest mentions'),
+              DM_SRC, (['Status', 'Venues in the top ' + str(len(c['points'])), 'Highest-ranked'], [[lbl, len(px), next((p['n'] for p in c['points'] if tier_of(p) == lbl), '')] for lbl, _, px in rows]))
+           + f'<div class="prose"><p>{len(bib_top)} of the 25 most-named venues hold a Bib Gourmand ({esc(", ".join(p["n"] for p in bib_top))}). The starred venues guests name ({esc(", ".join(p["n"] for p in stars))}) sit between ranks {min(p["rank"] for p in stars)} and {max(p["rank"] for p in stars)}: admired, but named less often than the city\'s casual favourites.</p></div>')
+    ch3 = (ex('The unrecognised favourites', 'The most-named venues with no guide award.',
+              hbar([(p['n'], p['m'], p['c']) for p in un], on={un[0]['n']}), DM_SRC, (['Venue', 'City', 'Mentions', 'Rank'], [[p['n'], p['c'], p['m'], p['rank']] for p in un]))
+           + sowhat('press and city marketing', f'{un[0]["n"]} is the most-named venue in the archive and holds no guide award. A guest favourites list alongside the guides gives visitors and press the local view.'))
+    recs = [('Publish a guest favourites trail beside the guides', f'{100 - T["100"]["award"]} of the top 100 named venues hold no guide award. A trail built from guest mentions fills the gap the guides leave.', 'High', 'Medium', 'Next season'),
+            ('Use Bib Gourmand as the bridge', f'{len(bib_top)} of the top 25 hold a Bib Gourmand: the award guests and inspectors agree on most. Lead visitor food campaigns with it.', 'High', 'Low', 'Now'),
+            ('Pitch the unrecognised favourites to press', f'Start with {", ".join(p["n"] for p in un[:3])}: high guest advocacy, no guide coverage.', 'Medium', 'Low', 'Now'),
+            ('Tell venues awards are not the only route', 'Most guest favourites built their reputation without a guide award. Operator support should value word of mouth as much as inspection.', 'Medium', 'Low', 'Ongoing'),
+            ('Re-run the overlap each year', 'When the 2027 guides publish, measure it again: a rising share means the guides are catching up with guests.', 'Low', 'Low', 'Annually')]
+    return render(dict(slug='guests-and-critics', ex=ex, status='sample', aud='public venue investor', **META['guests-and-critics'],
+        title='Guests and <em>critics</em>', desc='How far guest favourites and guide award winners overlap, where they meet and the favourites the guides miss.',
+        stand='Do the guides and the guests agree? This study sets the venues Dream Menu guests name most against MICHELIN, 50 Best, AA and Good Food Guide awards.',
+        client='A city marketing or tourism body', question='Should we promote guide winners, guest favourites, or both?', evidence=f'{f0(c["venues"])} named venues, {f0(AW["meta"]["places"])} award winners',
+        kpis=[(f'{pc(T["25"]["award"], 25)}%', 'of the top 25 named venues hold a guide award'), (f'{allshare:.0f}%', 'of all named venues do'), (str(100 - T['100']['award']), 'of the top 100 have no award at all'), (str(scot_star), 'MICHELIN-starred venues in Scotland')],
+        answer='Guests and critics agree more than chance would suggest, especially on Bib Gourmand, but most guest favourites hold no guide award, so a visitor offer built only on the guides misses most of what locals love.',
+        msgs=[(f'{pc(T["25"]["award"], 25)}%', 'of top 25', 'Favourites are likelier to be recognised', f'Against {allshare:.0f}% of all named venues.'),
+              (str(len(bib_top)), 'of top 25', 'Bib Gourmand is the bridge', 'Casual, good-value cooking is where inspectors and guests agree.'),
+              (str(100 - T['100']['award']), 'of top 100', 'Most favourites are unrecognised', f'Led by {un[0]["n"]}, the most-named venue in the archive.')],
+        chapters=[('overlap', 'The overlap', 'Favourites are likelier to be recognised, but most are not', 'Guide awards by guest popularity band.', ch1),
+                  ('tiers', 'Where they meet', 'Bib Gourmand is where guests and inspectors agree', 'The most-named venues, laid out by guide status.', ch2),
+                  ('unrecognised', 'The gap', 'The favourites the guides miss', 'High guest advocacy, no guide award.', ch3)],
+        recs=recs,
+        watch=[('2027 guide editions', 'MICHELIN Great Britain and Ireland 2027 publishes early in 2027. New Scottish stars or Bibs among guest favourites would narrow the gap.'),
+               ('Visit frequency', 'Guests name places they go often; tasting-menu venues are visited less. A commission could weight by visit frequency.'),
+               ('Beyond Glasgow', 'Most named venues are in Glasgow. Targeted fieldwork elsewhere would test whether the pattern holds.'),
+               ('Award inflation', 'If guide selections expand, overlap rises without guests changing their minds. Track awards and mentions together.')],
+        method_stats=[(f0(c['venues']), 'named venues compared'), (f0(AW['meta']['places']), 'award winners on the list'), (str(aw_named), 'award venues guests name'), (str(len(c['points'])), 'top venues plotted')],
+        method='<p>Each venue guests name is matched to the Dream Menu awards list (MICHELIN 2026 editions, the 50 Best lists, AA Rosettes, the Good Food Guide and others; see the <a href="/awards">award winners</a> page). "Any guide award" includes MICHELIN selected. Bands are by number of guest mentions.</p>',
+        card=(str(100 - T['100']['award']), 'of the top 100 guest favourites have no guide award'),
+        blurb='How far guest favourites and guide award winners overlap, where they meet and the favourites the guides miss.'))
+
+
+# ================================================================== 09 steak
+def r_steak():
+    ex = Ex()
+    sb = item('m', 'Steak and beef', 'groups')
+    cuts = [it for it in m_t['cats'] if it.get('g') == 'Steak and beef']
+    sr, rb, fl, pie = item('m', 'Short rib and braised beef'), item('m', 'Ribeye steak'), item('m', 'Fillet steak'), item('m', 'Steak pie')
+    tart = item('s', 'Steak tartare and carpaccio')
+    gr, tc, sk, tf = item('d', 'Greens and creamed spinach'), item('d', 'Triple-cooked chips'), item('d', 'Skinny fries'), item('d', 'Truffle fries')
+    sig = sig_set('m') | sig_set('d')
+    others = [g for g in m_t['groups'] if g['c'] != 'Steak and beef'][:4]
+    sv = sorted(DM['venues'], key=lambda v: -cat_count(v, 'Steak / beef'))[:10]
+    db_rows = [(sb['c'] + ' (group)', sb['early'], sb['late'])] + [(it['l'], it['early'], it['late']) for it in cuts]
+    sides = [(it['l'], it['early'], it['late']) for it in (gr, tc, sk, tf)]
+    ch1 = (ex('A quarter of all dream mains are steak or beef, the largest main course group', 'Share of dream mains by food group.',
+              hbar([(sb['c'], sb['pct'])] + [(g['c'], g['pct']) for g in others], on={'Steak and beef'}, unit='%', dec=1),
+              f'{DM_SRC}; {f0(m_t["n"])} mains', (['Group', 'Share', 'Answers'], [[g['c'], f'{g["pct"]}%', g['n']] for g in [sb] + others]))
+           + ex('Guests name the cut, and the braise is catching the fillet', 'Dream beef mains by cut, mentions. Highlighted: the risers.',
+                hbar([(it['l'], it['n']) for it in cuts], on={'Short rib and braised beef', 'Ribeye steak', 'Steak pie'}),
+                DM_SRC, (['Cut', 'Mentions', 'Share of mains'], [[it['l'], it['n'], f'{it["pct"]}%'] for it in cuts])))
+    ch2 = (ex('Flavour cuts and the steak pie are rising; fillet is slipping', 'Share of dream mains, early against recent.',
+              dumbbell(db_rows, sig=sig),
+              f'{DM_SRC}. Clear move: p < 0.05', (['Cut', EARLY, RECENT, 'Change', 'Clear?'], [[a, f'{b}%', f'{c}%', pts(c - b), 'Yes' if a in sig else 'No'] for a, b, c in db_rows]))
+           + ex('Beef mains by quarter: the group, short rib, ribeye and steak pie', 'Share of dream mains each quarter, on one scale. Faded points have fewer than 100 answers.',
+                small_multiples([('Steak and beef', sb['share'], 'k1'), ('Short rib', sr['share'], 'k1'), ('Ribeye', rb['share'], 'k1'), ('Steak pie', pie['share'], 'k1')], Q, faded=faded('m')),
+                DM_SRC, (['Quarter'] + Q, [[n] + [f'{v}%' for v in it['share']] for n, it in (('Steak and beef', sb), ('Short rib', sr), ('Ribeye', rb), ('Steak pie', pie))]))
+           + sowhat('a beef supplier', f'Guests are trading towards flavour: short rib ({f1(sr["early"])}% to {f1(sr["late"])}%), ribeye ({f1(rb["early"])}% to {f1(rb["late"])}%) and steak pie ({f1(pie["early"])}% to {f1(pie["late"])}%, a clear move) are rising while fillet slips ({f1(fl["early"])}% to {f1(fl["late"])}%). Those are typically the cuts with the better margin per plate.'))
+    ch3 = ('<div class="ex-pair"><div>' + ex('The steakhouse venues guests name', 'Beef and steak mentions by venue.',
+              hbar([(v['n'], cat_count(v, 'Steak / beef'), vloc(v)) for v in sv], on={sv[0]['n'], sv[1]['n']}), DM_SRC,
+              (['Venue', 'Place', 'Beef mentions'], [[v['n'], vloc(v), cat_count(v, 'Steak / beef')] for v in sv])) + '</div><div>'
+           + ex('Greens are rising as the steak side; chips hold', 'Share of dream sides, early against recent.',
+                dumbbell(sides, sig=sig), DM_SRC, (['Side', EARLY, RECENT], [[a, f'{b}%', f'{c}%'] for a, b, c in sides])) + '</div></div>'
+           + sowhat('venues', f'The steak plate is changing around the meat: greens and creamed spinach rose from {f1(gr["early"])}% to {f1(gr["late"])}% of dream sides, a clear move. Steak tartare and carpaccio hold {f1(tart["pct"])}% of starters.'))
+    recs = [('Lead the range with flavour cuts', 'Short rib and ribeye are rising; fillet is slipping. Flavour cuts deliver the experience guests name at a better cost per plate.', 'High', 'Low', 'Next quarter'),
+            ('Supply a premium steak pie', f'Steak pie rose from {f1(pie["early"])}% to {f1(pie["late"])}% of dream mains, a clear move. A named-beef pie for pubs and bistros.', 'High', 'Medium', 'Next quarter'),
+            ('Package braises for small kitchens', 'Short rib is a braise: pre-cooked, portioned short rib lets small kitchens put it on without the labour.', 'Medium', 'Medium', 'Six months'),
+            ('Sell the plate, not just the cut', 'Pair beef with greens and creamed spinach, the clear riser among sides. A costed steak-plate card for chefs.', 'Medium', 'Low', 'Next quarter'),
+            ('Target the venues guests already name', f'Start with {sv[0]["n"]}, {sv[1]["n"]} and {sv[2]["n"]}, and the steakhouses that follow them.', 'Medium', 'Low', 'Now')]
+    return render(dict(slug='steak', ex=ex, status='sample', aud='supplier venue', **META['steak'],
+        title='The <em>steak</em> economy', desc='Steak and beef on the dream menu: the cuts guests name, what is rising, the sides that go with them and the venues that own them.',
+        stand='Steak is the largest single idea on the main course. This report reads the cuts guests name, the quiet shift from fillet to flavour, and the plate around the meat.',
+        client='A beef supplier or butcher selling to restaurants', question='Which cuts and products should we push to restaurants next?', evidence=f'{f0(m_t["n"])} mains, {f0(d_t["n"])} sides, venue mentions',
+        kpis=[(f'{f1(sb["pct"])}%', 'of dream mains are steak or beef'), (f'{pts(sb["move"])} pts', 'beef mains, early against recent'), (f'{pts(pie["move"])} pts', 'steak pie, a clear rise'), (f'{pts(fl["move"])} pts', 'fillet, slipping')],
+        answer='Steak is the biggest main course idea and still growing, but guests are moving from fillet to flavour cuts, braises and the steak pie, so the range should follow the flavour.',
+        msgs=[(f'{f1(sb["pct"])}%', 'of mains', 'Beef leads the main course', f'{f0(sb["n"])} of {f0(m_t["n"])} dream mains, rising from {f1(sb["early"])}% to {f1(sb["late"])}% (not yet a clear move).'),
+              (pts(pie['move']), 'pts', 'The steak pie is back', f'From {f1(pie["early"])}% to {f1(pie["late"])}% of mains: a clear move.'),
+              (pts(fl['move']), 'pts', 'Fillet is slipping', 'Short rib and ribeye rise as fillet falls: guests are trading to flavour.')],
+        chapters=[('main', 'The main course', 'A quarter of dream mains are steak or beef', 'Where beef sits against every other main course group, and the cuts guests name.', ch1),
+                  ('cuts', 'The cuts', 'Guests are trading from fillet to flavour', 'Early against recent, and quarter by quarter.', ch2),
+                  ('plate', 'The plate and the venues', 'Greens are the new steak side', 'The venues guests name for beef, and what goes beside it.', ch3)],
+        recs=recs,
+        watch=[('Beef prices', 'If wholesale beef prices rise, the shift to braises and pies may speed up; a commission would pair this read with price data.'),
+               ('The beef group', f'Beef mains are up {pts(sb["move"])} points without a clear move yet (p = {sb["p"]}). One more strong quarter would confirm it.'),
+               ('Fillet', 'A continued fall would make fillet a special-occasion cut rather than a menu staple.'),
+               ('Plant-based mains', 'Vegetable sides are rising. Watch whether that reaches the main course and takes share from beef.')],
+        method_stats=[(f0(m_t['n']), 'dream mains'), (f0(sb['n']), 'beef and steak mains'), (f0(sum(cat_count(v, 'Steak / beef') for v in DM['venues'])), 'beef venue mentions'), ('6', 'quarters tracked')],
+        method='<p>Main and side shares use interviews with a codable answer for that course. "Steak (cut not named)" covers answers naming steak without a cut.</p>',
+        card=(f'{f1(sb["pct"])}%', 'of dream mains are steak or beef'),
+        blurb='The cuts guests name, the shift from fillet to flavour, the steak plate and the venues that own it.'))
+
+
+# ================================================================== 10 Italian
+def r_italian():
+    ex = Ex()
+    si, mi = item('s', 'Pasta and Italian', 'groups'), item('m', 'Pasta and Italian', 'groups')
+    tir = item('p', 'Tiramisu'); br = item('s', 'Bruschetta')
+    it_cats = [it for it in s_t['cats'] + m_t['cats'] if it.get('g') in ('Pasta and Italian', 'Pizza')]
+    tg = city_row('Tiramisu')
+    G = dict(GUILTY)
+    ital = ['Sugo Pasta', 'Margo', 'Malocchio', "Celino's Partick", 'Santa Lucia Merchant City Glasgow', 'Paesano Pizza West End', 'Eleven Fifty Five', 'Grosso', 'La Lanterna', "Celentano's", 'Casa Italian Kitchen', 'Sannio Italian Restaurant & Bar']
+    byn = {v['n']: v for v in DM['venues']}
+    iv = sorted([byn[n] for n in ital if n in byn], key=lambda v: -v['m'])
+    top30 = AN['critics']['points'][:30]
+    it_top = [p for p in top30 if p['n'] in ital]
+    touch = [('Dream starters: pasta and Italian', si['pct']), ('Dream mains: pasta and Italian', mi['pct']), ('Dream desserts: tiramisu alone', tir['pct'])]
+    db_rows = [(it['l'], it['early'], it['late']) for it in it_cats] + [('Pasta and Italian starters (group)', si['early'], si['late']), ('Pasta and Italian mains (group)', mi['early'], mi['late'])]
+    ch1 = (ex('Italian appears on every course, and wins dessert outright', 'Share of each course that is Italian.',
+              hbar(touch, on={'Dream desserts: tiramisu alone'}, unit='%', dec=1), DM_SRC, (['Course', 'Share'], [[a, f'{b}%'] for a, b in touch]))
+           + ex('Italian is also Scotland\'s comfort food', 'Guilty pleasures guests admit to. Highlighted: Italian.',
+                hbar([(n, v) for n, v in GUILTY[:8]], on={'Takeaway pizza', 'Spag bol and tomato pasta', "Domino's"}), f'{DM_SRC}; guilty pleasure question',
+                (['Guilty pleasure', 'Mentions'], [[n, v] for n, v in GUILTY[:8]])))
+    ch2 = (ex(f'{len(it_top)} of the 30 most-named venues in the archive are Italian', 'Guest mentions of Italian venues.',
+              hbar([(v['n'].replace(' Merchant City Glasgow', ''), v['m'], vloc(v)) for v in iv[:10]], on={iv[0]['n'], iv[1]['n']}), DM_SRC,
+              (['Venue', 'Place', 'Mentions'], [[v['n'], vloc(v), v['m']] for v in iv]))
+           + ex('Tiramisu is a Glasgow habit', 'Tiramisu index by market (100 = average), markets with enough mentions to read.',
+                hbar([(m, tg['cells'][i]['idx']) for i, m in enumerate(CM['markets']) if not tg['cells'][i]['thin']], on={'Glasgow'}),
+                DM_SRC, (['Market', 'Share', 'Index'], [[m, f'{tg["cells"][i]["share"]}%', tg['cells'][i]['idx']] for i, m in enumerate(CM['markets'])]))
+           + quotes([('Tiramisu from Celino\'s in Partick. Honourable mention goes to the chocolate cheesecake my fiancée made.', 'Dream Menu guest'), ('Classic Tiramisu from Celino\'s in Partick!', 'Dream Menu guest'), ('Tiramisu from Paesano.', 'Dream Menu guest')]))
+    ch3 = (ex('Inside Italian: pasta leads, pizza is comfort, bruschetta is rising', 'Italian and pizza dishes on dream starters and mains, early against recent.',
+              dumbbell(db_rows, sig=sig_set('s') | sig_set('m')),
+              DM_SRC, (['Dish', EARLY, RECENT, 'Change'], [[a, f'{b}%', f'{c}%', pts(c - b)] for a, b, c in db_rows]))
+           + sowhat('an Italian operator', f'The Italian share is steady rather than growing ({f1(mi["early"])}% to {f1(mi["late"])}% of mains), so growth comes from taking share within it. The venues that win are specialists: fresh pasta (Sugo), one great tiramisu (Celino\'s), a clear point of view (Margo).'))
+    recs = [('Specialise: one thing done best', f'The Italian winners are specialists. {iv[0]["n"]} ({iv[0]["m"]} mentions) does fresh pasta; Celino\'s is named for tiramisu.', 'High', 'Medium', 'Concept stage'),
+            ('Make the tiramisu famous', f'Tiramisu is {f1(tir["pct"])}% of all dream desserts and indexes {tg["cells"][GI]["idx"]} in Glasgow. A named signature tiramisu is the cheapest reputation an Italian venue can buy.', 'High', 'Low', 'Now'),
+            ('Lift the cheque with small Italian starters', f'Bruschetta rose from {f1(br["early"])}% to {f1(br["late"])}% of starters.', 'Medium', 'Low', 'Next menu change'),
+            ('Treat pizza as comfort, priced as such', f'Takeaway pizza is the top guilty pleasure ({G.get("Takeaway pizza", 0)}). Pizza wins on comfort and value, not on gourmet pricing.', 'Medium', 'Low', 'Now'),
+            ('For importers: sell to the specialists', 'Supply named-origin pasta flour, guanciale and mascarpone to the venues guests already name for Italian.', 'Medium', 'Medium', 'Next quarter')]
+    return render(dict(slug='italian', ex=ex, status='sample', aud='venue supplier investor', **META['italian'],
+        title="Glasgow's <em>Italian</em> table", desc='Italian food on the dream menu: every course, the comfort end, the venues guests name and how specialists win.',
+        stand='Glasgow has loved Italian food for a century. This report shows where it sits on the dream menu today, from the tiramisu to the takeaway pizza, and how the venues that win are doing it.',
+        client='An Italian restaurant group or Italian food importer', question='How does an Italian venue win in Glasgow now?', evidence=f'{f0(s_t["n"])} starters, {f0(m_t["n"])} mains, {f0(p_t["n"])} desserts, venue mentions',
+        kpis=[(f'{f1(tir["pct"])}%', 'of dream desserts are tiramisu'), (str(tg['cells'][GI]['idx']), 'Glasgow tiramisu index'), (f'{len(it_top)} of 30', 'most-named venues are Italian'), (str(G.get('Takeaway pizza', 0)), 'name takeaway pizza as a guilty pleasure')],
+        answer='Italian is on every course and owns dessert, but the share is steady, not growing, so the venues that win are specialists with one thing done better than anyone: fresh pasta, a famous tiramisu, a clear point of view.',
+        msgs=[(f'{f1(tir["pct"])}%', 'of desserts', 'Tiramisu owns dessert', f'The top dessert in the archive, indexing {tg["cells"][GI]["idx"]} in Glasgow.'),
+              (f'{len(it_top)} of 30', 'top venues', 'Specialists lead', f'{iv[0]["n"]}, {iv[1]["n"]} and {iv[2]["n"]} are among the most-named venues in the city.'),
+              (str(G.get('Takeaway pizza', 0)), 'mentions', 'Italian is comfort too', 'Takeaway pizza and spag bol are two of the top three guilty pleasures.')],
+        chapters=[('courses', 'Every course', 'Italian appears on every course, and wins dessert', 'Italian share by course, and its place in comfort food.', ch1),
+                  ('venues', 'The venues', 'Specialists are among the city\'s most-named venues', 'Who guests name for Italian, and how Glasgow\'s tiramisu habit compares.', ch2),
+                  ('inside', 'Inside Italian', 'Pasta leads, pizza is comfort, bruschetta is rising', 'The dishes within Italian, early against recent.', ch3)],
+        recs=recs,
+        watch=[('Pasta share', f'Pasta and Italian mains are steady at {f1(mi["pct"])}%. A fall would suggest saturation in the city centre.'),
+               ('Tiramisu fatigue', 'Tiramisu is so dominant it could tire. Watch the "bin it" list for it.'),
+               ('Pizza', 'Pizza on dream mains is small and steady; its strength is comfort and takeaway.'),
+               ('Edinburgh', 'Tiramisu indexes lower in Edinburgh, where sticky toffee pudding leads (see No. 02).')],
+        method_stats=[(f0(si['n'] + mi['n']), 'Italian starters and mains'), (f0(tir['n']), 'tiramisu answers'), (str(len(iv)), 'Italian venues profiled'), ('6', 'quarters tracked')],
+        method='<p>Italian dishes are those in the "Pasta and Italian" and "Pizza" groups, plus tiramisu. Italian venues are a hand-picked list of venues guests name whose offer is Italian.</p>',
+        card=(f'{f1(tir["pct"])}%', 'of dream desserts are tiramisu'),
+        blurb='Italian on every course, the comfort end, the venues guests name and how the specialists win.'))
+
+
+# ================================================================== 11 operator confidence
+def r_confidence():
+    ex = Ex()
+    L = LOOK; n = len(L)
+    f = lambda k: [r[k] for r in L if r[k] is not None]
+    tr, pr, c3, c12 = f('trading'), f('predictable'), f('conf3'), f('conf12')
+    call = Counter(f('call')); sup = Counter(f('supplier')); staff = Counter(f('staffing')); spend = Counter(f('spend')); foot = Counter(f('footfall'))
+    look = P['look']
+    acts = []
+    for a, v in look['actions']:
+        if a == 'rota changes)':
+            continue
+        acts.append(('Staffing model changes' if a.startswith('Staffing model') else nice(a), v))
+    sizes = ['Micro (1–10 staff)', 'Small (11–50)']
+    bysize = {s: [r for r in L if r['size'] == s] for s in sizes}
+    m = lambda rs, k: mean([r[k] for r in rs if r[k] is not None])
+    down12 = sum(1 for r in L if r['conf3'] is not None and r['conf12'] < r['conf3'])
+    neg_call = call['Mixed'] + call['Deteriorating']
+    hist = lambda vals, lo, hi: [(str(i), vals.count(i)) for i in range(lo, hi + 1)]
+    ch1 = ('<div class="ex-pair"><div>' + ex(f'Trading scores cluster below the midpoint: average {mean(tr):.1f} of 10', 'How would you rate the current trading environment? (1 to 10), number of operators.',
+              cols(hist(tr, 1, 10), on={'1', '2', '3', '4'}, note=f'{sum(1 for v in tr if v <= 4)} of {len(tr)} score 4 or below.'),
+              f'2026 Look Ahead survey, {n} operators', (['Score', 'Operators'], hist(tr, 1, 10))) + '</div><div>'
+           + ex(f'Nobody can see beyond a quarter: predictability averages {mean(pr):.1f}', 'How predictable are your next three months? (1 to 10), number of operators.',
+                cols(hist(pr, 1, 10), on={'1', '2', '3'}, note=f'{sum(1 for v in pr if v <= 3)} of {len(pr)} score 3 or below; nobody scores above {max(pr)}.'),
+                f'2026 Look Ahead survey, {n} operators', (['Score', 'Operators'], hist(pr, 1, 10))) + '</div></div>'
+           + ex(f'{pc(sum(1 for v in c3 if v >= 6), len(c3))}% back their own next quarter; {pc(call["Improving"] + call["Stable"], sum(call.values()))}% say the same of the sector', 'Confidence in your own business (6 or above of 10 counts as positive) against the call on the sector in your area.',
+                stack([('Your business, next 3 months', f'average {mean(c3):.1f} of 10', [('6 or above', sum(1 for v in c3 if v >= 6), 'k1'), ('5', c3.count(5), 'k0'), ('4 or below', sum(1 for v in c3 if v <= 4), 'k2')]),
+                       ('Your business, next 12 months', f'average {mean(c12):.1f} of 10', [('6 or above', sum(1 for v in c12 if v >= 6), 'k1'), ('5', c12.count(5), 'k0'), ('4 or below', sum(1 for v in c12 if v <= 4), 'k2')]),
+                       ('The sector in your area', f'{sum(call.values())} answering', [('Improving or stable', call['Improving'] + call['Stable'], 'k1'), ('Mixed', call['Mixed'], 'k0'), ('Deteriorating', call['Deteriorating'], 'k2')])],
+                      [('Positive', 'k1'), ('Middle', 'k0'), ('Negative', 'k2')]),
+                f'2026 Look Ahead survey, {n} operators, 2 April to 3 May 2026', (['Question', 'Positive', 'Middle', 'Negative'], [['Your business, 3 months', sum(1 for v in c3 if v >= 6), c3.count(5), sum(1 for v in c3 if v <= 4)], ['Your business, 12 months', sum(1 for v in c12 if v >= 6), c12.count(5), sum(1 for v in c12 if v <= 4)], ['Sector in your area', call['Improving'] + call['Stable'], call['Mixed'], call['Deteriorating']]]))
+           + sowhat('a lender or council', f'This is the confidence gap: operators average {mean(c3):.1f} for their own next quarter, yet {neg_call} of {sum(call.values())} call their local sector mixed or deteriorating, and {down12} of {len(c3)} are less confident about the year than the quarter.'))
+    press = [(nice(a), v) for a, v in look['pressures'][:9]]
+    ch2 = (ex('Costs, not demand, are the pressure: energy, food and labour lead', 'Which pressures are most significant today? Number of operators naming each.',
+              hbar(press, on={press[0][0], press[1][0], press[2][0]}), f'2026 Look Ahead survey, {n} operators', (['Pressure', 'Operators'], press))
+           + ex('Supplier prices are rising for almost everyone; spend per head is flat at best', 'Four-week trends reported by operators.',
+                stack([('Supplier pricing', f'{sum(sup.values())} answering; {sup["Rising fast"]} say rising fast', [('Stable', sup['Stable'], 'k1'), ('Unsure', sup['Unsure'], 'k0'), (f'Rising ({sup["Rising fast"]} fast, {sup["Rising slowly"]} slowly)', sup['Rising fast'] + sup['Rising slowly'], 'k2')]),
+                       ('Spend per head', f'{sum(spend.values())} answering', [('Up', spend['Up'], 'k1'), ('Flat', spend['Flat'], 'k0'), ('Down', spend['Down'], 'k2'), ('Unsure', spend['Unsure'], 'k0')]),
+                       ('Bookings and footfall', f'{sum(foot.values())} answering', [('Up', foot['Up'], 'k1'), ('Flat', foot['Flat'], 'k0'), ('Down', foot['Down'], 'k2'), ('Not applicable', foot['N/A'], 'k0')]),
+                       ('Staffing pressure', f'{sum(staff.values())} answering', [('No issue', staff['No issue'], 'k1'), ('Issue', staff['Issue'], 'k0'), ('Major issue', staff['Major issue'], 'k2')])],
+                      [('Good for the business', 'k1'), ('Neutral or unsure', 'k0'), ('Bad for the business', 'k2')]),
+                f'2026 Look Ahead survey, {n} operators', (['Trend', 'Answer', 'Operators'], [[t, k, v] for t, cc in (('Supplier pricing', sup), ('Spend per head', spend), ('Footfall', foot), ('Staffing', staff)) for k, v in cc.most_common()])))
+    sup_ = [(nice(a), v) for a, v in look['support'] if v > 2]
+    ch3 = ('<div class="ex-pair"><div>' + ex('Operators are acting: price changes lead', 'Actions taken in the last three to six months.',
+              hbar(acts[:9], on={acts[0][0]}), f'2026 Look Ahead survey, {n} operators', (['Action', 'Operators'], acts[:9])) + '</div><div>'
+           + ex('Rates relief is the one ask that unites them', 'Support that would make the biggest difference.',
+                hbar(sup_, on={sup_[0][0]}), f'2026 Look Ahead survey, {n} operators', (['Support', 'Operators'], sup_)) + '</div></div>'
+           + ex('Small businesses are feeling it more than micro ones', 'Average scores by business size (1 to 10).',
+                heat(['Business size', 'Trading', 'Predictability', 'Confidence, 3 months', 'Confidence, 12 months'],
+                     [(f'{s.split(" (")[0]} ({len(bysize[s])})', [round(m(bysize[s], k), 1) for k in ('trading', 'predictable', 'conf3', 'conf12')]) for s in sizes],
+                     fmt=lambda v: f'{v:.1f}', key=('Lower', 'Higher')),
+                '2026 Look Ahead survey; medium and large businesses (7) too few to show', (['Size', 'Trading', 'Predictability', '3 months', '12 months'], [[s] + [f'{m(bysize[s], k):.1f}' for k in ('trading', 'predictable', 'conf3', 'conf12')] for s in sizes]))
+           + sowhat('policy makers', f'Small businesses (11 to 50 staff) rate trading at {m(bysize[sizes[1]], "trading"):.1f} against {m(bysize[sizes[0]], "trading"):.1f} for micro businesses: big enough to carry a full wage bill and rates, too small to absorb shocks. {look["support"][0][1]} of {n} name rates relief as the support that would help most.'))
+    recs = [('Target support at small businesses (11 to 50 staff)', f'Their trading score ({m(bysize[sizes[1]], "trading"):.1f}) is the lowest of any size band with enough answers.', 'High', 'Medium', 'Next budget round'),
+            ('Offer bridging, not growth, finance', f'Predictability averages {mean(pr):.1f} of 10. Products that smooth a bad quarter fit better than expansion loans.', 'High', 'Medium', 'Next quarter'),
+            ('Make rates relief the headline ask', f'{look["support"][0][1]} of {n} operators name it: the one measure that unites the sector.', 'High', 'High', 'Next budget round'),
+            ('Fund footfall initiatives with events', 'Tourism and footfall initiatives are among the top three asks; events are named as a performance factor.', 'Medium', 'Medium', 'Six months'),
+            ('Run the pulse every quarter', 'One survey is a snapshot. A quarterly pulse turns it into an early-warning system for lenders and councils.', 'Medium', 'Low', 'Quarterly')]
+    return render(dict(slug='operator-confidence', ex=ex, status='sample', aud='public investor supplier', **META['operator-confidence'],
+        title='The confidence <em>gap</em>', desc='A pulse of Scottish hospitality operators: trading, predictability, confidence, the pressures they face and the support they want.',
+        stand='Scottish operators back their own businesses but not the sector around them, and almost none can see beyond the next quarter. A sector pulse from the 2026 Look Ahead survey.',
+        client='A lender, local authority or trade body', question='How are operators really doing, and what support would help most?', evidence=f'{n} Scottish operators, 2 April to 3 May 2026',
+        kpis=[(f'{mean(c3):.1f}', 'confidence in own business, next 3 months (of 10)'), (f'{neg_call} of {sum(call.values())}', 'call the local sector mixed or deteriorating'), (f'{mean(pr):.1f}', 'predictability of the next 3 months (of 10)'), (f'{look["support"][0][1]} of {n}', 'want rates relief')],
+        answer='Operators are confident in themselves but not in the sector, and almost none can see beyond a quarter, so the most useful support smooths a bad quarter: rates relief, bridging finance and footfall, aimed first at small businesses.',
+        msgs=[(f'{mean(c3):.1f}', 'of 10', 'They back themselves', f'Average confidence in their own next three months; {sum(1 for v in c3 if v >= 6)} of {len(c3)} score 6 or more.'),
+              (f'{neg_call}', f'of {sum(call.values())}', 'They doubt the sector', f'Call their local sector mixed or deteriorating; only {call["Improving"]} say improving.'),
+              (f'{mean(pr):.1f}', 'of 10', 'Nobody can see ahead', f'Predictability of the next quarter; nobody scores above {max(pr)}.')],
+        chapters=[('gap', 'The confidence gap', 'Operators back their own business but not the sector', 'Trading, predictability and confidence, in full distribution.', ch1),
+                  ('pressure', 'The pressure', 'Costs, not demand, are what hurts', 'The pressures operators name and the four-week trends they see.', ch2),
+                  ('response', 'The response', 'Operators are acting; rates relief is the shared ask', 'What they have done, what would help, and who is feeling it most.', ch3)],
+        recs=recs,
+        watch=[('A second survey', 'A second pulse would show whether the gap is closing or widening. One survey is a snapshot.'),
+               ('Energy prices', 'Energy and food costs lead the pressures. A fall in energy prices would ease the biggest single cost line.'),
+               ('Closures', f'"More closures nearby" is the most-seen warning signal ({dict(look["signals"]).get("More closures nearby", 0)} of {n}). Track closures by area.'),
+               ('Sample mix', f'Micro and small businesses are {len(bysize[sizes[0]]) + len(bysize[sizes[1]])} of {n} answers: a fair picture of Scottish hospitality, thin for larger operators.')],
+        method_stats=[(str(n), 'operators'), (str(len(bysize[sizes[0]])), 'micro businesses'), (str(len(bysize[sizes[1]])), 'small businesses'), ('5', 'weeks of fieldwork')],
+        method='<p>The 2026 Look Ahead survey ran 2 April to 3 May 2026. Respondents were owners, chefs, managers and suppliers across cafés, restaurants, hotels, bars, street food and catering. Scores are 1 to 10. Several questions allowed more than one answer. Figures here are recomputed from the anonymised scores, so they can differ by one or two from the 2026 report, which used an earlier extract.</p>',
+        card=(f'{neg_call} of {sum(call.values())}', 'operators call their local sector mixed or deteriorating'),
+        blurb='Trading, predictability and confidence from Scottish operators, the pressures they face and the support they want.'))
+
+
+written = [fn() for fn in (r_night_out, r_two_cities, r_seafood, r_dessert, r_drinks, r_fatigue, r_neighbourhoods, r_critics, r_steak, r_italian, r_confidence)]
+
+# ================================================================== library index
+by = {r['slug']: r for r in REPORTS}
+cards = ''
+for s in ORDER:
+    r = by[s]
+    st = 'Draft briefing' if r['status'] == 'draft' else 'Provisional sample'
+    who = r['client'] if r['client'].startswith('Dunns') else r['client'][0].lower() + r['client'][1:]
+    cards += (f'<a href="/case-studies/{s}" data-for="{r["aud"]}"><div class="lc"><small>No. {r["no"]:02d} · {esc(r["kind"])}</small><h3>{esc(r["plain"])}</h3></div>'
+              f'<div class="lb"><p>{esc(r["blurb"])}</p><span class="who">For {esc(who)} · {st}</span>'
+              f'<div class="big"><b>{esc(r["card"][0])}</b><span>{esc(r["card"][1])}</span></div></div></a>')
+filt = '<div class="lib-filter" role="group" aria-label="Filter reports"><button type="button" data-f="all" aria-pressed="true">All reports</button>' + ''.join(f'<button type="button" data-f="{k}" aria-pressed="false">{esc(v)}</button>' for k, v in AUD.items()) + '</div>'
+idx = f'''<div class="cs-strip"><div class="wrap"><b>Dream Menu Insight Series.</b> Eleven example reports: one draft briefing for a partner and ten provisional samples built from live data to {LAST_H}.</div></div>
+<section class="cs-cover"><div class="wrap">
+  <div class="cs-series"><span class="no">{len(ORDER)} reports</span><span>Dream Menu Insight Series</span></div>
+  <h1>Reports on <em>request</em></h1>
+  <p class="cs-stand">Dream Menu turns {f0(N_ALL)} interviews, {f0(DM["meta"]["venues"])} named venues, {f0(AW["meta"]["places"])} award winners and a Scottish operator survey into reports that answer one commercial question, with the evidence on the page. These eleven show the range.</p>
+  <div class="cs-kpis"><div class="cs-kpi"><b>{f0(N_ALL)}</b><span>interviews with chefs, staff and food lovers</span></div><div class="cs-kpi"><b>{f0(DM["meta"]["venues"])}</b><span>venues named, in {DM["meta"]["countries"]} countries</span></div><div class="cs-kpi"><b>{len(LOOK)}</b><span>operators in the 2026 pulse</span></div><div class="cs-kpi"><b>6</b><span>quarters of tracked demand</span></div></div>
+  <div class="cs-actions"><a class="cs-btn" href="mailto:{CONTACT}?subject=Commissioned%20report">Commission a report</a></div>
+</div></section>
+<div class="wrap" style="padding-top:34px;padding-bottom:20px">
+  <p class="cs-kicker">The library</p><h2 style="font:800 clamp(24px,3.2vw,34px)/1.1 var(--display);margin:0 0 16px">Choose a report</h2>
+  {filt}<div class="lib">{cards}</div>
+</div>
+<div class="wrap" style="padding-top:28px;padding-bottom:40px">
+  <p class="cs-kicker">How it works</p><h2 style="font:800 clamp(24px,3.2vw,34px)/1.1 var(--display);margin:0 0 16px">What every report includes</h2>
+  <ul class="cs-msgs">
+    <li><span class="n">01</span><h3>The answer first</h3><p>A one-sentence answer to the client's question, three findings with the number behind each, and a ranked list of what to do.</p></li>
+    <li><span class="n">02</span><h3>Evidence you can check</h3><p>Numbered exhibits with the data table under each, named venues and dishes, and the method in an appendix.</p></li>
+    <li><span class="n">03</span><h3>Recommendations by impact</h3><p>Each action placed by impact and effort, with timing, and the signals that would change the view.</p></li>
+    <li><span class="n">04</span><h3>Quarterly follow-up</h3><p>Optional tracking each quarter, so the next report shows what moved and whether it was a clear move.</p></li>
+  </ul>
+  <div class="cs-next" style="margin-top:26px"><h2>Commission a report</h2><p>Category deep-dives, market-entry reads, price briefings, location reads and sector pulses, with fresh fieldwork on top of the archive where needed.</p><a class="cs-btn" href="mailto:{CONTACT}?subject=Commissioned%20report">Talk to Dream Menu</a></div>
+</div>'''
+written.insert(0, write('/case-studies', 'Insight Series: reports on request',
+                        'Eleven Dream Menu reports on request: night-out costs, Glasgow against Edinburgh, seafood, dessert, drinks, trend fatigue, neighbourhoods, guests and critics, steak, Italian food and operator confidence.', idx))
+print('wrote', len(written), 'pages')

@@ -20,7 +20,7 @@ The header menus (including the "I'm a..." audience menu), the footer links, sea
 
 ## Case studies
 
-`/case-studies` and its six report pages are public and built by `tools/build_case_studies.py` (shell copied from `restaurant-mot.html`). The night-out report is Gordon's draft set as a page; the other five are provisional samples whose figures are read from the live data files, so rerun the script after each data refresh, then `tools/build_nav.py`.
+`/case-studies` is the Dream Menu Insight Series: a library page and eleven public reports, built by `tools/build_case_studies.py` with the chart kit in `tools/cs_kit.py` and the styles and behaviour in `case.css` and `case.js` (shell copied from `restaurant-mot.html`). No. 01 is Gordon's night-out briefing set as a page; Nos. 02 to 11 are provisional samples whose figures are read from the live data files (`partner-data.js`, `analysis-data.js`, `dm-data.js`, `awards.js`, `tools/data/static-counts.json`, `tools/data/look-ahead-2026-scores.json`), so rerun the script after each data refresh, then `tools/build_nav.py`. Chart colours (indigo, amber, teal) were checked with the dataviz palette validator in light and dark mode.
 
 ## Awards between full rebuilds
 

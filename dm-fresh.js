@@ -75,6 +75,11 @@
     '/case-studies/dessert': { def: null, chip: ['interviews', 'look'] },
     '/case-studies/drinks': { def: null, chip: ['interviews'] },
     '/case-studies/trend-fatigue': { def: null, chip: ['interviews'] },
+    '/case-studies/neighbourhoods': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/guests-and-critics': { def: null, chip: ['venues', 'awards'] },
+    '/case-studies/steak': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/italian': { def: null, chip: ['interviews', 'venues'] },
+    '/case-studies/operator-confidence': { def: null, chip: ['look'] },
     '/analysis': { def: null, chip: ['analysis', 'interviews', 'venues', 'awards'] },
     '/intelligence': { def: null, chip: ['analysis', 'interviews', 'look'] }
   };
@@ -97,7 +102,7 @@
     var main = document.querySelector('main') || document.body;
     // status chip under the page title
     if (cfg.chip) {
-      var hero = main.querySelector('.iv-hero .iv-wrap, .hero .wrap, .navyband .wrap, .h-hero .wrap, .ex-hero .wrap');
+      var hero = main.querySelector('.iv-hero .iv-wrap, .hero .wrap, .navyband .wrap, .h-hero .wrap, .ex-hero .wrap, .cs-cover .wrap');
       var host = hero || main.querySelector('h1') && main.querySelector('h1').parentNode;
       if (host && !host.querySelector('.dm-chip')) {
         var c = document.createElement('p');
