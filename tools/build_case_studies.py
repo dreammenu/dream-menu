@@ -156,7 +156,7 @@ REPORTS = []
 def render(r):
     strip_txt = {
         'draft': '<b>Draft briefing.</b> Written by Dream Menu for a named partner. Market figures are published benchmarks; venue prices are modelled. <a href="/case-studies">All reports</a>',
-        'sample': f'<b>Provisional sample.</b> Real figures from live Dream Menu data to {LAST_H}, written to an illustrative brief to show the work Dream Menu does on request. Not yet reviewed with a client. <a href="/case-studies">All reports</a>',
+        'sample': f'<b>Provisional sample.</b> Real figures from live Dream Menu data to {LAST_H}, written to an illustrative brief to show the work Dream Menu does on request. Not yet reviewed with a client. Partner access only. <a href="/case-studies">All reports</a>',
     }[r['status']]
     status_lbl = 'Draft briefing' if r['status'] == 'draft' else 'Provisional sample'
     kp = ''.join(f'<div class="cs-kpi"><b>{esc(v)}</b><span>{esc(l)}</span></div>' for v, l in r['kpis'])

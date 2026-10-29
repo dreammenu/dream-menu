@@ -19,7 +19,7 @@ def _load(fn):
 _P, _M = _load('partner-data.js'), _load('dm-data.js')['meta']
 N_ALL, N_PINNED, N_COUNTRIES = f"{_P['n_all']:,}", f"{_M['pinned']:,}", _M['countries']
 
-LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence')
+LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence', '/case-studies')
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
  ('food', 'Food lover', 'food lovers', 'What Scotland wants to eat, where to go, and the debates that never end.', ['f4', 'f6', 'f5', 'f8', 'f9', 'f14']),
@@ -120,7 +120,7 @@ ITEMS = [
 
  ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with Scotland\'s food people', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
- ('b9', 'Insight Series', '/case-studies', 'Eleven reports on request: costs, cities, categories, neighbourhoods, critics and operator confidence', 'biz', 'supplier investor venue new press chef', 1, None),
+ ('b9', 'Insight Series', '/case-studies', 'Fifteen reports on request: costs, cities, categories, neighbourhoods, critics, confidence and forecasts to 2031', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
  ('b11', 'Two cities, two appetites', '/case-studies/glasgow-edinburgh', 'How Glasgow and Edinburgh guests differ, for a group opening a second site', 'biz', 'new investor venue', 0, 'b9'),
  ('b12', "Scotland's seafood appetite", '/case-studies/seafood', 'Where seafood sits on the dream menu and what is rising', 'biz', 'supplier chef', 0, 'b9'),
