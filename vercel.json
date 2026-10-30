@@ -15,7 +15,7 @@
   ],
   "headers": [
     {
-      "source": "/(dm|awards|world-topo)\\.js",
+      "source": "/(dm|awards|world-topo|rank-data)\\.js",
       "headers": [
         {
           "key": "Cache-Control",

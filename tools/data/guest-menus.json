@@ -1,0 +1,4 @@
+{
+  "note": "Published guest menus. Only guests who ticked the consent question on the interview form go here (decision 30 Oct 2026: names only from new opt-ins). One object per guest: name, role, city, handle (optional, without @), date (YYYY-MM-DD), and menu: a list of [course, dish, venue] with course one of Starter, Main, Side, Dessert, Drink, Hidden gem.",
+  "menus": []
+}

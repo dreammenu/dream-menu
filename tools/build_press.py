@@ -97,6 +97,7 @@ body = f'''<section class="navyband"><div class="wrap">
   <h2 id="contact">Contact</h2>
   <p>Gordon Best, founder. <a href="mailto:{CONTACT}?subject=Press%20enquiry">{CONTACT}</a> · <a href="https://www.instagram.com/dream.menu/" rel="noopener" target="_blank">@dream.menu</a>. Interviews, custom cuts of the data and comment on Scottish hospitality on request.</p>
 </div></section>
+<!--signup--><!--/signup-->
 <script>document.querySelectorAll('.pr-copy').forEach(function(b){{b.addEventListener('click',function(){{var t=b.getAttribute('data-q');
 (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){{b.textContent='Copied'}},function(){{prompt('Copy this line',t)}});setTimeout(function(){{b.textContent='Copy with source'}},2000)}})}})</script>'''
 

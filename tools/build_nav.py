@@ -23,7 +23,7 @@ PUBLIC = ('/case-studies/guests-and-critics',)   # the free sample report
 LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence', '/case-studies')
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
- ('food', 'Food lover', 'food lovers', 'What Scotland wants to eat, where to go, and the debates that never end.', ['f4', 'f6', 'f5', 'f8', 'f9', 'f14']),
+ ('food', 'Food lover', 'food lovers', 'What people want to eat, where to go, and the debates that never end.', ['f4', 'f6', 'f5', 'f8', 'f9', 'f14']),
  ('venue', 'Running a venue', 'people running a venue', 'Tools, benchmarks and tested ideas to lift every cover.', ['o3', 'o8', 'r9', 'r14', 'o6', 'o12']),
  ('new', 'Opening a venue', 'people opening a venue', 'Gaps in the market, neighbourhoods and the numbers to model before you sign.', ['r16', 'r8', 'r3', 'o3', 'r10', 'o12']),
  ('chef', 'Chef or kitchen lead', 'chefs and kitchen leads', 'What guests order, what is moving and what they are tired of.', ['r14', 'o4', 'r13', 'f5', 'f14', 'r10']),
@@ -35,6 +35,8 @@ AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', '
 # extra search words, so people find things by the words they use
 KEYWORDS = {
  'f1': 'dishes trends starters mains desserts drinks sides course', 'f4': 'irn-bru coke coffee tea pineapple pizza water', 'f5': 'comfort food matcha dubai chocolate tired',
+ 'f20': 'quarterly edition newsletter email state of the menu headlines', 'o13': 'badge sticker website embed named venue',
+ 'f19': 'dish trends tiramisu scallops steak negroni margarita dessert starter page',
  'f16': 'analysis index city glasgow edinburgh critics michelin awards concentration data', 'b8': 'dashboard analysis momentum matrix opportunity score confidence segments consultant',
  'f6': 'map restaurants bars cafes venues near me city country', 'f7': 'best restaurants top venues most named', 'f8': 'michelin stars 50 best bib gourmand guides',
  'f9': 'fringe cocktail sandwich edinburgh festival', 'f11': 'cocktails drinks bar bartender', 'f15': 'interview submit share my menu',
@@ -76,6 +78,8 @@ ITEMS = [
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
  ('f5', 'Guilty pleasures and Bin it', '/#mood', 'The comfort food guests admit to, and the trends they want gone', 'food', 'food chef venue', 1, 'f1'),
  ('f6', 'Venue map', '/map', f'{N_PINNED} venues guests have named in {N_COUNTRIES} countries, with award winners', 'food', 'food investor new supplier', 1, None),
+ ('f20', 'State of the Menu', '/quarterly', 'The quarter in food: the public headlines, every quarter, with an email edition', 'food', 'food press supplier chef', 1, None),
+ ('f19', 'Dish trends', '/trends', 'Every dish and drink we track, with a page for each: share of guests, where to get it, which markets name it', 'food', 'food chef supplier press', 1, None),
  ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
  ('f8', 'Award winners', '/awards', '21,017 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),
@@ -117,9 +121,10 @@ ITEMS = [
  ('o9', 'The evidence map', '/tested-ideas#matrix', 'Every idea placed by impact and strength of evidence', 'ops', 'venue press', 0, 'o8'),
  ('o10', 'Myths busted', '/tested-ideas#myths', "Five things operators are told that don't stand up", 'ops', 'venue press', 0, 'o8'),
  ('o11', 'Trial planner', '/tested-ideas#trial', 'How long a test needs, and why pooling venues helps', 'ops', 'venue supplier', 0, 'o8'),
+ ('o13', 'Named on Dream Menu badge', '/badge', 'A free badge for venues guests have named, linking to the venue page', 'ops', 'venue', 0, None),
  ('o12', 'Restaurant MOT', '/restaurant-mot', 'An independent four-week diagnostic of one venue', 'ops', 'venue new', 0, None),
 
- ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with Scotland\'s food people', 'biz', 'supplier investor venue', 0, None),
+ ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with the UK\'s food people', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
  ('b9', 'Insight Series', '/case-studies', 'Fifteen reports on request, one free to read: costs, cities, categories, neighbourhoods, critics, confidence and forecasts to 2031', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
@@ -274,7 +279,7 @@ def main():
         f.write('/* Generated by tools/build_nav.py: edit the list there, not this file. */\nwindow.DM_NAV=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n')
     foot = footer_links()
     changed = 0
-    for fn in sorted(glob.glob('*.html') + glob.glob('report/*.html') + glob.glob('case-studies/*.html')):
+    for fn in sorted(glob.glob('*.html') + glob.glob('report/*.html') + glob.glob('case-studies/*.html') + glob.glob('venue/*.html') + glob.glob('trends/*.html') + glob.glob('quarterly/*.html')):
         s = open(fn).read()
         o = s
         path = '/' + fn[:-5]

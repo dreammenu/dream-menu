@@ -34,7 +34,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 2. From the repository root:
    `python3 tools/add_interviews.py tools/data/<interviews>.json`
    `python3 tools/add_venues.py tools/data/<venues>.json tools/data/<interviews>.json <path to ukpostcodes.csv>`
-   `python3 tools/refresh_static.py && python3 tools/build_intel.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_nav.py`
+   `python3 tools/refresh_static.py && python3 tools/build_intel.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
    Run each step once per batch: the first two add to the existing counts. `add_venues.py` needs the dwyl UK postcode file (github.com/dwyl/uk-postcodes-latitude-longitude-complete-csv) to place exact UK addresses.
 
 `add_interviews.py` recovers each quarter's counts exactly from the published shares, adds the new answers, and reruns the two-proportion test, so movers and clear flags stay correct. `refresh_static.py` rewrites every figure that is written into the static pages (home, insights, for business, how it works, partner pages, footer dates and `dm-fresh.js`); the 2026 report pages keep their edition figures on purpose. Counts that the data files do not hold (debates, home course cards) live in `tools/data/static-counts.json`.
@@ -49,3 +49,13 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 - **Sign-in preview**: `/login?next=...` shows what the locked page holds, from `nav-data.js` and `case-previews.js` (report titles, questions and chapter names only, no figures).
 - **Press kit**: `/press`, built by `tools/build_press.py` from the live data.
 - **Partner briefing**: `tools/build_briefing_extras.py` writes `partner/briefing-extra.js` (locked) for three new sections: what changed since the last briefing (against the newest snapshot in `tools/data/briefing-snapshots/`; it saves a new one each run), the trend scorecard (score out of 10) and By Dunns range (indicative grouping, to be matched to Dunns' own category list). `/intelligence` now shows scores out of 10.
+
+## Added 30 October 2026, later: UK-wide
+
+- **Positioning**: the site is UK-wide. The home page has a Coverage section (venue mentions by nation, each marked Deep or Early signal: deep = 30+ guests and 300+ venue mentions) and five market tabs: Glasgow, Edinburgh, Rest of Scotland, Rest of UK, Outside the UK.
+- **Venue pages** `/venue/<slug>` (every venue named at least twice) and **dish pages** `/trends/<slug>` plus the `/trends` index: `tools/build_venue_pages.py`. Quotes appear on a venue page only if they name the venue. The same script writes `badge.svg`, the `/badge` page and `rank-data.js` (the slim data file `/rankings` now loads), and updates the sitemap.
+- **State of the Menu** `/quarterly` (and `quarterly/<yyyy-qn>.html`), the opt-in **guest menus** page `/menus` (built only once `tools/data/guest-menus.json` has entries) and the **email sign-up** boxes (`<!--signup-->` markers): `tools/build_quarterly.py`. Set the Google Form in `tools/data/signup.json`; until then the box opens an email.
+- **Take part** embeds the Dream Menu Google Form.
+- **Partner alert**: `tools/build_alert.py` writes `tools/data/alerts/<date>.txt/.html`; Claude drafts it in Gmail for Gordon to send.
+- **Testimonials** on /for-business come from `tools/data/testimonials.json` (hidden while empty; real quotes with permission only).
+- Structured data: Organization and WebSite on the home page, Dataset on how-it-works, Restaurant on venue pages, Article on dish pages.

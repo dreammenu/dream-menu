@@ -1,0 +1,5 @@
+{
+  "note": "Quarterly email sign-up. Create a one-question Google Form (Email, short answer, required) in the Dream Menu Google account, open it with Get pre-filled link to find the entry id, and fill in form_id (the id in the form's /d/e/<id>/viewform address) and email_entry (for example entry.123456789). Until both are set, the sign-up box opens an email to contact.dreammenu@gmail.com instead.",
+  "form_id": "",
+  "email_entry": ""
+}

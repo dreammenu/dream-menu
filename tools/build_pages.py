@@ -55,7 +55,7 @@ intel_main = f'''<main class="iv-page">
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">Partner intelligence</span>
 <h1>The market read, in ten minutes</h1>
-<p class="lede">Eight views of what Scotland’s food people want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
+<p class="lede">Eight views of what the UK’s food people want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
 </div></section>
 {sec(1, 'Executive read', 't1', 'The three things to take into this quarter’s planning, then the numbers behind them.', '<div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><div class="iv-callout"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><b>Data to ' + LAST_H + '.</b> Every chart includes all ' + N_ALL + ' interviews received to that date. Quarters with fewer than ' + str(P['min_n']) + ' answers, including the fourth quarter so far, are shown faded: read them as an early signal.</span></div><div data-fresh="interviews look"></div>', 'read')}
 {sec(2, 'Momentum matrix', 't2', 'Each dish placed by how big it is (across) and how fast its share is moving (up or down). Pick a course. Top right is where volume and momentum meet; top left is where the next staples come from.', '<div id="c-matrix"></div>', 'matrix-sec')}
@@ -88,7 +88,7 @@ open('intelligence.html', 'w', encoding='utf-8').write(intel)
 an_main = f'''<main class="iv-page">
 <section class="iv-hero"><div class="iv-wrap">
 <span class="iv-kick">The analysis</span>
-<h1>Scotland’s appetite, analysed</h1>
+<h1>Every market’s appetite, analysed</h1>
 <p class="lede">Three questions the raw counts can’t answer on their own: does each city eat differently, do guests agree with the critics, and how settled is each course? Built from {'{'}interviews{'}'} interviews and the venues guests name.</p>
 </div></section>
 <section class="iv-sec" id="cities"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">A</span>Every city’s appetite</p><h2 class="iv-title" id="ta" data-short="Every city’s appetite">&nbsp;</h2><p class="iv-sub">An index strips out size, so a city with fewer interviews is compared fairly with Glasgow. Above 100 means a market names the dish more than everyone else does.</p><div class="kpis" id="city-sig"></div><div id="c-cities"></div></div></section>
@@ -99,7 +99,7 @@ an_main = f'''<main class="iv-page">
 </main>
 '''
 an_main = an_main.replace('{interviews}', N_ALL)
-an = (head('The analysis: Scotland’s appetite | Dream Menu', 'How each city eats differently, where guests and critics agree, and how settled each course is: analysis from ' + N_ALL + ' Dream Menu interviews.', '/analysis')
+an = (head('The analysis: every market’s appetite | Dream Menu', 'How each city eats differently, where guests and critics agree, and how settled each course is: analysis from ' + N_ALL + ' Dream Menu interviews.', '/analysis')
       + HEADER + an_main + FOOTER
       + '<script src="/dmviz.js"></script>\n<script src="/analysis-data.js"></script>\n<script src="/analysis.js"></script>\n</body>\n</html>\n')
 open('analysis.html', 'w', encoding='utf-8').write(an)

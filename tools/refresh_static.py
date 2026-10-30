@@ -158,16 +158,18 @@ def drink_card():
 
 
 # Market tabs on the home page. Glasgow holds most of the evidence, so the tabs are Glasgow, Edinburgh,
-# the rest of Scotland and beyond Scotland: no tab repeats another. Each dish shows its share of the dish
+# the rest of Scotland, the rest of the UK and outside the UK: no tab repeats another. Each dish shows its share of the dish
 # mentions at that market's venues and how far that is above or below the all-market share (the index).
 GLA, EDI = ('Glasgow', 'United Kingdom'), ('Edinburgh', 'United Kingdom')
 MARKET_SETS = [
     ('Glasgow', lambda v: (v['c'], v['co']) == GLA, '/map#city-glasgow-united-kingdom', 'See Glasgow on the map →', 'city:Glasgow|United Kingdom'),
     ('Edinburgh', lambda v: (v['c'], v['co']) == EDI, '/map#city-edinburgh-united-kingdom', 'See Edinburgh on the map →', 'city:Edinburgh|United Kingdom'),
     ('the rest of Scotland', lambda v: v['na'] == 'Scotland' and (v['c'], v['co']) not in (GLA, EDI), '/map#nation-scotland', 'See Scotland on the map →', None),
-    ('beyond Scotland', lambda v: bool(v['c'] and v['co']) and v['na'] != 'Scotland', '/map#world', 'See the world on the map →', None),
+    ('the rest of the UK', lambda v: bool(v['c']) and v['co'] == 'United Kingdom' and v['na'] in ('England', 'Wales', 'Northern Ireland'), '/map#nation-england', 'See England on the map →', None),
+    ('outside the UK', lambda v: bool(v['c'] and v['co']) and v['co'] != 'United Kingdom', '/map#world', 'See the world on the map →', None),
 ]
-TAB_NAMES = ['Glasgow', 'Edinburgh', 'Rest of Scotland', 'Beyond Scotland']
+DEEP_MENTIONS = 300   # a market is deep with 30+ guests (the site-wide rule) and 300+ venue mentions
+TAB_NAMES = ['Glasgow', 'Edinburgh', 'Rest of Scotland', 'Rest of UK', 'Outside the UK']
 
 
 def cat_counts(pred):
@@ -191,7 +193,7 @@ WORLD_T = sum(WORLD_CNT.values())
 def market_pane(i, title, pred, more_href, more_text, mid, hidden):
     cnt, spread, mentions, venues = cat_counts(pred)
     tot = sum(cnt.values()) or 1
-    deep = MK[mid].get('so') if mid else mentions >= 300
+    deep = (bool(MK[mid].get('so')) if mid else True) and mentions >= DEEP_MENTIONS
     floor = 5 if deep else 8
     solid = lambda ci: cnt[ci] >= floor and spread[ci] >= 3   # an index needs 5 mentions (8 in a thin market) at 3+ venues
     idx = lambda ci: 100 * (cnt[ci] / tot) / (WORLD_CNT[ci] / WORLD_T)
@@ -245,7 +247,7 @@ tabs = ('<div class="mtabs" role="tablist" aria-label="Market">' + ''.join(
     f'<button type="button" role="tab" id="t{i}" aria-controls="p{i}" aria-selected="{"true" if i == 0 else "false"}">{n}</button>'
     for i, n in enumerate(TAB_NAMES)) + '</div>')
 edit('index.html', [
-    (r'(food trends and insights from )[\d,]+( Dream Menu interviews)', rf'\g<1>{N_ALL}\g<2>'),
+    (r'(really want to eat: trends from )[\d,]+( Dream Menu interviews)', rf'\g<1>{N_ALL}\g<2>'),
     (r'from places you actually go\. [\d,]+ interviews later', f'from places you actually go. {N_ALL} interviews later'),
     (r'(<div class="ms">as voted by )[\d,]+( guests</div>)', rf'\g<1>{N_ALL}\g<2>'),
     (r'(<div class="ms">as voted by [\d,]+ guests</div>\s*)<ol>.*?</ol>', lambda m: m.group(1) + menu_html),
@@ -261,7 +263,7 @@ edit('index.html', [
     (r'<div class="mtabs" role="tablist" aria-label="Market">.*?</div>', lambda m: tabs),
     (r'<p class="lede">What guests name in each market[^<]*</p>',
      '<p class="lede">What guests name in each market, the dishes each one names more than the rest, and the venues behind it. '
-     'Glasgow, where most guests are based, is kept apart so it does not drown out everywhere else.</p>'),
+     'Glasgow, where the series started and most guests are based, is kept apart so it does not drown out everywhere else.</p>'),
     (r'<div class="dgrid">.*?</article></div>', lambda m: debates_home()),
     (r'(<h3>Guilty pleasures</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['guilty'])),
     (r'(<h3>Bin it</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['bin'])),
@@ -287,18 +289,27 @@ def fb_cards():
     tot = M['mentions']
     mk_rows = ''.join(f'<li><span class="dish">{n}</span><span class="dots"></span><span class="price">{fmt(c)} ({pc0(100 * c / tot)})</span></li>' for n, c in by_mk)
     guest_award = sum(1 for p in _PL if p[15])
-    guest_star_sc = sum(1 for p in _PL if p[15] and _star(p) and p[6] == 'Scotland')
+    guest_star_uk = sum(1 for p in _PL if p[15] and _star(p) and p[5] == 'GB')
     return (
         '<!--fb-cards--><section><div class="wrap">\n  <h2 id="evidence">The evidence, in brief</h2>\n  <div class="grid">\n'
-        f'    <div class="card"><div class="eyebrow">Scotland&rsquo;s dream menu</div><h3 style="margin-top:6px">The top dish on every course</h3><ol class="menu">{rows}</ol>'
+        f'    <div class="card"><div class="eyebrow">The dream menu</div><h3 style="margin-top:6px">The top dish on every course</h3><ol class="menu">{rows}</ol>'
         f'<p class="note" style="margin-top:8px">Share of each course&rsquo;s answers, {N_ALL} interviews to {LAST_H}. <a href="/#courses">Every course in full</a></p></div>\n'
         f'    <div class="card"><div class="eyebrow">Where the evidence comes from</div><h3 style="margin-top:6px">Venue mentions by market</h3><ol class="menu">{mk_rows}</ol>'
-        f'<p class="note" style="margin-top:8px">Glasgow is the deepest market, so every other market is also read on its own. <a href="/#places">Compare the markets</a></p></div>\n'
+        f'<p class="note" style="margin-top:8px">Glasgow, where the series started, is the deepest market, so every other market is also read on its own. <a href="/#places">Compare the markets</a></p></div>\n'
         f'    <div class="card stat"><div class="eyebrow">What is moving</div><h3 style="margin-top:6px">{KPI["sig"]} clear movers</h3><p>Of {KPI["tests"]} dishes and groups tested, {KPI["sig"]} moved clearly between 2025 and 2026: {KPI["up"]} up and {KPI["down"]} down. '
         f'Partners see which ones, by course, market and guest type, with a score out of 10 for every trend.</p><a class="go" href="/login?next=/briefing">Partner briefing</a></div>\n'
-        f'    <div class="card stat"><div class="eyebrow">Recognition</div><h3 style="margin-top:6px">Guests and guides</h3><p>{guest_award} venues guests name also hold a guide award; {guest_star_sc} of them are MICHELIN Starred venues in Scotland. '
+        f'    <div class="card stat"><div class="eyebrow">Recognition</div><h3 style="margin-top:6px">Guests and guides</h3><p>{guest_award} venues guests name also hold a guide award; {guest_star_uk} of them are MICHELIN Starred venues in the UK. '
         f'The rest is the part of the market the guides do not see.</p><a class="go" href="{SAMPLE}">Read the free sample report</a></div>\n'
         '  </div>\n</div></section><!--/fb-cards-->')
+
+
+def fb_proof():
+    q = json.load(open('tools/data/testimonials.json', encoding='utf-8'))['quotes']
+    if not q:
+        return '<!--fb-proof--><!--/fb-proof-->'
+    return ('<!--fb-proof--><section><div class="wrap"><h2 id="proof">What people say</h2><div class="grid">' + ''.join(
+        f'<div class="card quote"><p>&ldquo;{html.escape(x["quote"])}&rdquo;</p><p class="note" style="margin-top:8px"><b>{html.escape(x["name"])}</b>, '
+        f'{html.escape(x["role"])}, {html.escape(x["organisation"])}</p></div>' for x in q) + '</div></div></section><!--/fb-proof-->')
 
 
 def fb_contact():
@@ -323,6 +334,42 @@ def fb_contact():
         f'var sub="Dream Menu enquiry: "+g("topic")+(g("organisation")?" ("+g("organisation")+")":"");var body=g("message")+"\\n\\n"+g("name")+(g("organisation")?"\\n"+g("organisation"):"")+"\\n"+g("email");'
         f'location.href="mailto:{CONTACT}?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(body)}})}})();</script>\n'
         '</div></section><!--/fb-contact-->')
+
+
+
+# ---------------------------------------------------------------- home: where the evidence comes from (UK-wide, honest depth)
+def coverage_html():
+    rows = [('Scotland', 'nation:Scotland'), ('England', 'nation:England'), ('Northern Ireland', 'nation:Northern Ireland'), ('Wales', 'nation:Wales')]
+    out = []
+    for name, mid in rows:
+        m = MK.get(mid)
+        if m:
+            out.append((name, m['mn'], m['g'], bool(m.get('so')) and m['mn'] >= DEEP_MENTIONS))
+    intl = sum(m['mn'] for m in D['markets'] if m['k'] == 'country' and m['n'] != 'United Kingdom')
+    intl_g = max([m['g'] for m in D['markets'] if m['k'] == 'country' and m['n'] != 'United Kingdom'] or [0])
+    out.append(('Outside the UK', intl, None, False))
+    top = max(r[1] for r in out)
+    li = ''.join(
+        f'<li><span class="cv-l">{n}</span><span class="cv-t"><i style="width:{max(1.5, 100 * mn / top):.1f}%"></i></span>'
+        f'<span class="cv-v">{fmt(mn)}</span><span class="mk-tag{"" if deep else " early"}">{"Deep" if deep else "Early signal"}</span></li>'
+        for n, mn, g, deep in out)
+    return ('<section class="h-cover" id="coverage"><div class="wrap"><div class="cv-head"><div><div class="eyebrow">Coverage</div>'
+            '<h2>Where the evidence <em>comes from</em></h2>'
+            '<p class="lede">Dream Menu started in Glasgow and is growing across the UK. Every figure on this site says which market it covers. '
+            'A market is <b>deep</b> once 30 or more guests have made 300 or more venue mentions there; until then it is an <b>early signal</b>, worth reading with care.</p></div>'
+            '<a class="btn gold" href="/take-part">Add your market</a></div>'
+            f'<ol class="cv">{li}</ol><p class="note">Venue mentions by where the venue is, {N_ALL} interviews to {LAST_H}. '
+            'Interviews from England, Wales, Northern Ireland and abroad are the fastest way to widen the picture.</p></div></section>')
+
+
+_ix = open('index.html', encoding='utf-8').read()
+if 'class="h-cover"' in _ix:
+    _ix2 = re.sub(r'<section class="h-cover".*?</section>', lambda m: coverage_html(), _ix, count=1, flags=re.S)
+else:
+    _ix2 = _ix.replace('<section class="audband"', coverage_html() + '\n<section class="audband"', 1)
+if _ix2 != _ix:
+    open('index.html', 'w', encoding='utf-8').write(_ix2)
+    changed.append('index.html')
 
 # ---------------------------------------------------------------- insights.html
 iq = P['extra']['interviews_q']
@@ -349,7 +396,11 @@ if '<!--fb-cards-->' not in _fb:      # first run: swap the old hand-made sectio
     _fb = re.sub(r'<section><div class="wrap">\s*<div class="grid">\s*<div class="card"><div class="eyebrow">Scotland, dish categories</div>.*?</div></section>', '<!--fb-cards--><!--/fb-cards-->', _fb, count=1, flags=re.S)
     _fb = re.sub(r'<section><div class="wrap prose">\s*<h2 id="work">Work with us</h2>.*?</div></section>', '<!--fb-contact--><!--/fb-contact-->', _fb, count=1, flags=re.S)
     open('for-business.html', 'w', encoding='utf-8').write(_fb)
-edit('for-business.html', [(r'<!--fb-cards-->.*?<!--/fb-cards-->', lambda m: fb_cards()),
+if '<!--fb-proof-->' not in _fb:
+    _fb = _fb.replace('<!--fb-contact-->', '<!--fb-proof--><!--/fb-proof-->\n<!--fb-contact-->', 1)
+    open('for-business.html', 'w', encoding='utf-8').write(_fb)
+edit('for-business.html', [(r'<!--fb-proof-->.*?<!--/fb-proof-->', lambda m: fb_proof()),
+                           (r'<!--fb-cards-->.*?<!--/fb-cards-->', lambda m: fb_cards()),
                            (r'<!--fb-contact-->.*?<!--/fb-contact-->', lambda m: fb_contact())])
 edit('how-it-works.html', [
     (r'[\d,]+ interviews are included, up to [^.]+\. Venues on the map come from (?:the same [\d,]+ interviews\.|the [\d,]+ interviews up to [^;]+; newer answers join the map at the next update\.) The dish figures on the Insights page use the [\d,]+ interviews',
