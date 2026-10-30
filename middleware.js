@@ -11,6 +11,7 @@ export const config = { matcher: [
   '/login', '/logout'] };
 
 const COOKIE = 'dm_partner';
+const PUBLIC = new Set(['/case-studies/guests-and-critics', '/case-studies/guests-and-critics.html']);
 async function token(pw) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(pw).trim().toLowerCase() + '|dream-menu-v2'));
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
@@ -42,6 +43,7 @@ export default async function middleware(request) {
     }
     return next();
   }
+  if (PUBLIC.has(path)) return next();       // free sample report, open to everyone
   const have = (request.headers.get('cookie') || '').split(/;\s*/).find(c => c.startsWith(COOKIE + '='));
   if (want && have && have.slice(COOKIE.length + 1) === want) return next();
   if (path.endsWith('.js') || path.endsWith('.csv')) return new Response('Sign in required', { status: 401, headers: { 'Cache-Control': 'no-store' } });

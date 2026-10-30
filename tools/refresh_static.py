@@ -30,12 +30,43 @@ def load(fn, var):
 
 P = load('partner-data.js', 'DM_PARTNER')
 D = load('dm-data.js', 'DM')
+
+
+def fix_place_labels():
+    """The reverse geocoder labels some Leith and Portobello venues 'Seafield'. Relabel them from the
+    postcode district in the address, and write dm-data.js back only if something changed."""
+    DISTRICT = {'EH6': 'Leith', 'EH15': 'Portobello'}
+    n = 0
+    for v in D['venues']:
+        if v.get('tw') in ('Seafield',):
+            pc = re.search(r'\b(EH\d+)\s*\d[A-Z]{2}\b', v.get('ad') or '')
+            new = DISTRICT.get(pc.group(1) if pc else '', v['c'])
+            if new != v['tw']:
+                v['tw'] = new
+                n += 1
+    if n:
+        src = open('dm-data.js', encoding='utf-8').read()
+        m = re.search(r'window\.DM\s*=\s*', src)
+        obj, used = json.JSONDecoder().raw_decode(src[m.end():])
+        src = src[:m.end()] + json.dumps(D, ensure_ascii=False, separators=(',', ':')) + src[m.end() + used:]
+        open('dm-data.js', 'w', encoding='utf-8').write(src)
+        changed.append('dm-data.js')
+
+
+changed = []
+fix_place_labels()
 C = load('dm-cat.js', 'DMC')
 L = load('dm-labels.js', 'DML')
 SC = json.load(open('tools/data/static-counts.json', encoding='utf-8'))
 M = D['meta']
 V = {v['i']: v for v in D['venues']}
 MK = {m['id']: m for m in D['markets']}
+# awards (from awards.js meta)
+_s = open('awards.js', encoding='utf-8').read()
+_m = re.search(r'window\.DM_AWARDS\s*=\s*', _s)
+AWD = json.JSONDecoder().raw_decode(_s[_m.end():])[0]
+AWM, _G, _PL = AWD['meta'], AWD['groups'], AWD['places']
+_star = lambda p: any(_G[a[0]] == 'star' for a in p[10])
 LAST = dt.date.fromisoformat(P['last'])
 LAST_H = LAST.strftime('%-d %B %Y')          # 27 October 2026
 LAST_S = LAST.strftime('%-d %b')              # 27 Oct
@@ -44,7 +75,6 @@ lab = lambda c: (L.get(c) or [c])[0]
 fmt = lambda n: f'{n:,}'
 pc0 = lambda x: f'{round(x):d}%'
 w1 = lambda a, b: f'{100 * a / b:.1f}%' if b else '0%'
-changed = []
 
 
 def edit(fn, pairs, required=True):
@@ -61,16 +91,21 @@ def edit(fn, pairs, required=True):
 
 
 # ---------------------------------------------------------------- shared pieces
+def dcount(d, o):
+    """Debate count; 'Scottish tap water' answers are tap water, so they count as Tap."""
+    return d['c'].get(o, 0) + (d['c'].get('Scottish tap water', 0) if o == 'Tap' else 0)
+
+
 def debates_home():
     out = []
     spec = [('coke', 'Irn-Bru or Coca-Cola?', ['Irn Bru', 'Coca Cola', 'Neither']),
             ('tea', 'Coffee or tea?', ['Coffee', 'Tea', 'Neither']),
             ('pineapple', 'Pineapple on pizza?', ['Yes', 'No']),
-            ('water', 'Still, sparkling or tap?', ['Still', 'Tap', 'Sparkling', 'Scottish tap water'])]
+            ('water', 'Still, sparkling or tap?', ['Still', 'Tap', 'Sparkling'])]
     for key, title, opts in spec:
         d = SC['debates'][key]
         n = d['n']
-        sh = [(o, 100 * d['c'][o] / n) for o in opts]
+        sh = [(o, 100 * dcount(d, o) / n) for o in opts]
         win = max(sh, key=lambda x: x[1])
         label = ', '.join(f'{o} {pc0(p)}' for o, p in sh)
         bars = ''.join(f'<i class="s{i}" style="width:{p:.1f}%" title="{o} {pc0(p)}"></i>' for i, (o, p) in enumerate(sh))
@@ -86,11 +121,11 @@ def debates_insights():
     spec = [('coke', 'Irn Bru or Coke?', ['Irn Bru', 'Coca Cola', 'Neither']),
             ('tea', 'Tea or coffee?', ['Coffee', 'Tea', 'Neither']),
             ('pineapple', 'Pineapple on pizza?', ['Yes', 'No']),
-            ('water', 'Still, tap or sparkling?', ['Still', 'Tap', 'Sparkling', 'Scottish tap water'])]
+            ('water', 'Still, tap or sparkling?', ['Still', 'Tap', 'Sparkling'])]
     for key, title, opts in spec:
         d = SC['debates'][key]
         n = d['n']
-        sh = [(o, 100 * d['c'][o] / n) for o in opts]
+        sh = [(o, 100 * dcount(d, o) / n) for o in opts]
         label = ', '.join(f'{o} {p:.1f}%' for o, p in sh)
         bars = ''.join(f'<i class="s{i + 1}" style="width:{p:.2f}%" title="{o}: {p:.1f}%"></i>' for i, (o, p) in enumerate(sh))
         keys = ''.join(f'<span><b class="s{i + 1}"></b>{o} <em>{p:.1f}%</em></span>' for i, (o, p) in enumerate(sh))
@@ -122,16 +157,72 @@ def drink_card():
             + hb(items) + '</article>')
 
 
-def market_pane(i, mid, title, more_href, more_text, hidden):
-    m = MK[mid]
-    cats = [(lab(C['c'][ci]), n, sh) for ci, n, sh in C['m'][mid][:8]]
+# Market tabs on the home page. Glasgow holds most of the evidence, so the tabs are Glasgow, Edinburgh,
+# the rest of Scotland and beyond Scotland: no tab repeats another. Each dish shows its share of the dish
+# mentions at that market's venues and how far that is above or below the all-market share (the index).
+GLA, EDI = ('Glasgow', 'United Kingdom'), ('Edinburgh', 'United Kingdom')
+MARKET_SETS = [
+    ('Glasgow', lambda v: (v['c'], v['co']) == GLA, '/map#city-glasgow-united-kingdom', 'See Glasgow on the map →', 'city:Glasgow|United Kingdom'),
+    ('Edinburgh', lambda v: (v['c'], v['co']) == EDI, '/map#city-edinburgh-united-kingdom', 'See Edinburgh on the map →', 'city:Edinburgh|United Kingdom'),
+    ('the rest of Scotland', lambda v: v['na'] == 'Scotland' and (v['c'], v['co']) not in (GLA, EDI), '/map#nation-scotland', 'See Scotland on the map →', None),
+    ('beyond Scotland', lambda v: bool(v['c'] and v['co']) and v['na'] != 'Scotland', '/map#world', 'See the world on the map →', None),
+]
+TAB_NAMES = ['Glasgow', 'Edinburgh', 'Rest of Scotland', 'Beyond Scotland']
+
+
+def cat_counts(pred):
+    """Dish counts, the number of venues each dish is named at, venue mentions and the venues, for one market."""
+    cnt, spread, mentions, venues = {}, {}, 0, []
+    for i, v in enumerate(D['venues']):
+        if not pred(v) or not v.get('m'):
+            continue
+        mentions += v['m']
+        venues.append(v)
+        for ci, n in C['v'].get(str(i)) or []:
+            cnt[ci] = cnt.get(ci, 0) + n
+            spread[ci] = spread.get(ci, 0) + 1
+    return cnt, spread, mentions, venues
+
+
+WORLD_CNT, _, _, _ = cat_counts(lambda v: True)
+WORLD_T = sum(WORLD_CNT.values())
+
+
+def market_pane(i, title, pred, more_href, more_text, mid, hidden):
+    cnt, spread, mentions, venues = cat_counts(pred)
+    tot = sum(cnt.values()) or 1
+    deep = MK[mid].get('so') if mid else mentions >= 300
+    floor = 5 if deep else 8
+    solid = lambda ci: cnt[ci] >= floor and spread[ci] >= 3   # an index needs 5 mentions (8 in a thin market) at 3+ venues
+    idx = lambda ci: 100 * (cnt[ci] / tot) / (WORLD_CNT[ci] / WORLD_T)
+    top = sorted(cnt, key=lambda ci: (-cnt[ci], C['c'][ci]))[:8]
+    hi = top and cnt[top[0]] or 1
+    rows = ''
+    for ci in top:
+        x = idx(ci)
+        chip = (f'<span class="hb-x up" title="Named {x / 100:.1f} times as often as across all markets">×{x / 100:.1f}</span>' if x >= 125 and solid(ci) else
+                f'<span class="hb-x dn" title="Named less often than across all markets">×{x / 100:.1f}</span>' if x <= 75 and solid(ci) else '')
+        rows += (f'<li><span class="hb-l">{html.escape(lab(C["c"][ci]))}{chip}</span><span class="hb-t"><i style="width:{100 * cnt[ci] / hi:.1f}%"></i></span>'
+                 f'<span class="hb-v">{100 * cnt[ci] / tot:.1f}%</span></li>')
+    sig = sorted((ci for ci in cnt if solid(ci) and idx(ci) >= 125), key=lambda ci: -idx(ci))[:3]
+    sig_html = ('<p class="sig"><b>Named more here than across all markets:</b> ' + ', '.join(
+        f'{html.escape(lab(C["c"][ci]))} (×{idx(ci) / 100:.1f})' for ci in sig) + '</p>') if sig else ''
+    if mid:
+        m = MK[mid]
+        base = f'{fmt(m["mn"])} venue mentions from {fmt(m["g"])} guests'
+    else:
+        base = f'{fmt(mentions)} venue mentions at {fmt(len(venues))} venues'
+    tag = 'Deep market' if deep else 'Early signal'
+    tag_html = f'<span class="mk-tag{"" if tag == "Deep market" else " early"}" title="{"30 or more guests" if tag == "Deep market" else "Fewer answers: read with care"}">{tag}</span>'
+    vs = sorted((v for v in venues if v.get('y') != 'area'), key=lambda v: (-(v.get('m') or 0), v['n']))[:6]
     vl = ''.join(
         f'<li><a href="/map#venue-{v["i"]}"><span class="r">{r}</span><span class="vn">{html.escape(v["n"])}'
-        f'<small>{html.escape(v["tw"] or v["c"])}</small></span><span class="vm">{v["m"]}</span></a></li>'
-        for r, v in enumerate((V[x] for x in m['top'][:6]), 1))
+        f'<small>{html.escape(v["tw"] or v["c"])}{", " + html.escape(v["co"]) if v["co"] != "United Kingdom" else ""}</small></span><span class="vm">{v["m"]}</span></a></li>'
+        for r, v in enumerate(vs, 1))
     return (f'<div class="mpane" role="tabpanel" id="p{i}" aria-labelledby="t{i}"{" hidden" if hidden else ""}>\n'
-            f'  <div class="mcol"><h3>What guests name in {title}</h3><p class="sub">Share of dishes named, all courses · '
-            f'{fmt(m["mn"])} mentions from {fmt(m["g"])} guests</p>\n  {hb(cats)}</div>\n'
+            f'  <div class="mcol"><h3>What guests name in {title} {tag_html}</h3><p class="sub">Share of the {fmt(tot)} dishes named at venues here · {base}. '
+            f'×1.5 means named one and a half times as often as across all markets (shown where a dish is named at least {floor} times at three or more venues).</p>\n'
+            f'  <ol class="hb">{rows}</ol>{sig_html}</div>\n'
             f'  <div class="mcol"><h3>Most-named venues</h3><p class="sub">Times named by guests</p><ol class="vlist">{vl}</ol>\n'
             f'  <a class="more" href="{more_href}">{more_text}</a></div>\n</div>')
 
@@ -149,11 +240,10 @@ for k, c in (('s', 'Starter'), ('m', 'Main'), ('d', 'Side'), ('p', 'Dessert')):
 dl, dn = SC['drink_card']['c'][0]
 menu.append(('Drink', dl, 100 * dn / SC['drink_card']['n']))
 menu_html = '<ol>' + ''.join(f'<li><span class="c">{c}</span><span class="d">{html.escape(d)}</span><span class="dots"></span><span class="p">{pc0(p)}</span></li>' for c, d, p in menu) + '</ol>'
-panes = '\n'.join([
-    market_pane(0, 'city:Glasgow|United Kingdom', 'Glasgow', '/map#city-glasgow-united-kingdom', 'See Glasgow on the map →', False),
-    market_pane(1, 'city:Edinburgh|United Kingdom', 'Edinburgh', '/map#city-edinburgh-united-kingdom', 'See Edinburgh on the map →', True),
-    market_pane(2, 'nation:Scotland', 'Scotland', '/map#nation-scotland', 'See Scotland on the map →', True),
-    market_pane(3, 'world:World', 'every market', '/map#world', 'See the world on the map →', True)])
+panes = '\n'.join(market_pane(i, t, pr, h, ht, mid, i > 0) for i, (t, pr, h, ht, mid) in enumerate(MARKET_SETS))
+tabs = ('<div class="mtabs" role="tablist" aria-label="Market">' + ''.join(
+    f'<button type="button" role="tab" id="t{i}" aria-controls="p{i}" aria-selected="{"true" if i == 0 else "false"}">{n}</button>'
+    for i, n in enumerate(TAB_NAMES)) + '</div>')
 edit('index.html', [
     (r'(food trends and insights from )[\d,]+( Dream Menu interviews)', rf'\g<1>{N_ALL}\g<2>'),
     (r'from places you actually go\. [\d,]+ interviews later', f'from places you actually go. {N_ALL} interviews later'),
@@ -168,12 +258,71 @@ edit('index.html', [
      lambda m: '<div class="cgrid">' + course_card('s', 'Starter') + course_card('m', 'Main') + course_card('d', 'Side')
      + course_card('p', 'Dessert') + drink_card() + '</div>\n'),
     (r'<div class="mpane" role="tabpanel" id="p0".*?See the world on the map →</a></div>\n</div>', lambda m: panes),
+    (r'<div class="mtabs" role="tablist" aria-label="Market">.*?</div>', lambda m: tabs),
+    (r'<p class="lede">What guests name in each market[^<]*</p>',
+     '<p class="lede">What guests name in each market, the dishes each one names more than the rest, and the venues behind it. '
+     'Glasgow, where most guests are based, is kept apart so it does not drown out everywhere else.</p>'),
     (r'<div class="dgrid">.*?</article></div>', lambda m: debates_home()),
     (r'(<h3>Guilty pleasures</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['guilty'])),
     (r'(<h3>Bin it</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['bin'])),
     (r'<h2>[\d,]+ venues, <em>pinned</em></h2>', f'<h2>{fmt(M["pinned"])} venues, <em>pinned</em></h2>'),
     (r'Source: [\d,]+ Dream Menu interviews, 1 September 2025 to [^.]+\.', f'Source: {N_ALL} Dream Menu interviews, 1 September 2025 to {LAST_H}.'),
 ])
+
+# ---------------------------------------------------------------- for-business.html: evidence cards and contact
+CONTACT = 'contact.dreammenu@gmail.com'
+INSTAGRAM = 'https://www.instagram.com/dream.menu/'
+SAMPLE = '/case-studies/guests-and-critics'
+_si = open('partner/intel-data.js', encoding='utf-8').read()
+_mi = re.search(r'window\.DM_INTEL\s*=\s*', _si)
+KPI = json.JSONDecoder().raw_decode(_si[_mi.end():])[0]['kpi']
+
+
+def fb_cards():
+    rows = ''.join(f'<li><span class="dish">{c}: {html.escape(d)}</span><span class="dots"></span><span class="price">{pc0(p)}</span></li>' for c, d, p in menu)
+    by_mk = []
+    for (t, pr, *_), name in zip(MARKET_SETS, TAB_NAMES):
+        by_mk.append((name, cat_counts(pr)[2]))
+    by_mk.append(('Chains and unplaced venues', M['mentions'] - sum(n for _, n in by_mk)))
+    tot = M['mentions']
+    mk_rows = ''.join(f'<li><span class="dish">{n}</span><span class="dots"></span><span class="price">{fmt(c)} ({pc0(100 * c / tot)})</span></li>' for n, c in by_mk)
+    guest_award = sum(1 for p in _PL if p[15])
+    guest_star_sc = sum(1 for p in _PL if p[15] and _star(p) and p[6] == 'Scotland')
+    return (
+        '<!--fb-cards--><section><div class="wrap">\n  <h2 id="evidence">The evidence, in brief</h2>\n  <div class="grid">\n'
+        f'    <div class="card"><div class="eyebrow">Scotland&rsquo;s dream menu</div><h3 style="margin-top:6px">The top dish on every course</h3><ol class="menu">{rows}</ol>'
+        f'<p class="note" style="margin-top:8px">Share of each course&rsquo;s answers, {N_ALL} interviews to {LAST_H}. <a href="/#courses">Every course in full</a></p></div>\n'
+        f'    <div class="card"><div class="eyebrow">Where the evidence comes from</div><h3 style="margin-top:6px">Venue mentions by market</h3><ol class="menu">{mk_rows}</ol>'
+        f'<p class="note" style="margin-top:8px">Glasgow is the deepest market, so every other market is also read on its own. <a href="/#places">Compare the markets</a></p></div>\n'
+        f'    <div class="card stat"><div class="eyebrow">What is moving</div><h3 style="margin-top:6px">{KPI["sig"]} clear movers</h3><p>Of {KPI["tests"]} dishes and groups tested, {KPI["sig"]} moved clearly between 2025 and 2026: {KPI["up"]} up and {KPI["down"]} down. '
+        f'Partners see which ones, by course, market and guest type, with a score out of 10 for every trend.</p><a class="go" href="/login?next=/briefing">Partner briefing</a></div>\n'
+        f'    <div class="card stat"><div class="eyebrow">Recognition</div><h3 style="margin-top:6px">Guests and guides</h3><p>{guest_award} venues guests name also hold a guide award; {guest_star_sc} of them are MICHELIN Starred venues in Scotland. '
+        f'The rest is the part of the market the guides do not see.</p><a class="go" href="{SAMPLE}">Read the free sample report</a></div>\n'
+        '  </div>\n</div></section><!--/fb-cards-->')
+
+
+def fb_contact():
+    return (
+        '<!--fb-contact--><section><div class="wrap">\n  <h2 id="work">Work with us</h2>\n'
+        '  <div class="grid fb-contact">\n'
+        '    <div class="card"><h3>Start with the free sample</h3><p>No. 08 in the Insight Series, <b>Guests and critics</b>, is open to everyone: how far the venues guests love overlap with the guide award winners, with the data under every exhibit.</p>'
+        f'<a class="go" href="{SAMPLE}">Read the sample report</a></div>\n'
+        f'    <div class="card"><h3>Talk to us</h3><p>Partnerships, commissioned reports, the Restaurant MOT, data licences and press enquiries.</p>'
+        f'<p style="margin-top:10px"><a href="mailto:{CONTACT}">{CONTACT}</a><br><a href="{INSTAGRAM}" rel="noopener" target="_blank">@dream.menu on Instagram</a></p></div>\n'
+        '  </div>\n'
+        f'  <form class="fb-form" id="enquiry" action="mailto:{CONTACT}" method="post" enctype="text/plain">\n'
+        '    <h3>Send an enquiry</h3>\n'
+        '    <div class="fb-row"><label>Your name<input name="name" autocomplete="name" required></label><label>Organisation<input name="organisation" autocomplete="organization"></label></div>\n'
+        '    <div class="fb-row"><label>Email<input name="email" type="email" autocomplete="email" required></label>'
+        '<label>Interested in<select name="topic"><option>A partnership</option><option>A commissioned report</option><option>The Restaurant MOT</option><option>A data licence</option><option>Press or research</option><option>Something else</option></select></label></div>\n'
+        '    <label>What would you like to know?<textarea name="message" rows="4"></textarea></label>\n'
+        '    <p><button class="cta" type="submit">Write the email</button></p>\n'
+        f'    <p class="note">This opens an email to {CONTACT} in your own mail app, ready to send. Nothing is stored on this site. See the <a href="/privacy">privacy notice</a>.</p>\n'
+        '  </form>\n'
+        '<script>(function(){var f=document.getElementById("enquiry");if(!f)return;f.addEventListener("submit",function(e){e.preventDefault();var d=new FormData(f),g=function(k){return (d.get(k)||"").toString().trim()};'
+        f'var sub="Dream Menu enquiry: "+g("topic")+(g("organisation")?" ("+g("organisation")+")":"");var body=g("message")+"\\n\\n"+g("name")+(g("organisation")?"\\n"+g("organisation"):"")+"\\n"+g("email");'
+        f'location.href="mailto:{CONTACT}?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(body)}})}})();</script>\n'
+        '</div></section><!--/fb-contact-->')
 
 # ---------------------------------------------------------------- insights.html
 iq = P['extra']['interviews_q']
@@ -195,6 +344,13 @@ edit('for-business.html', [
     (r'<div class="facts"><div><b>[\d,]+</b> <span>interviews</span></div><div><b>[\d,]+</b> <span>venues named</span></div><div><b>[\d,]+</b> <span>venue mentions</span></div><div><b>\d+</b> <span>countries</span></div></div>',
      f'<div class="facts"><div><b>{N_ALL}</b> <span>interviews</span></div><div><b>{fmt(M["venues"])}</b> <span>venues named</span></div><div><b>{fmt(M["mentions"])}</b> <span>venue mentions</span></div><div><b>{M["countries"]}</b> <span>countries</span></div></div>'),
 ])
+_fb = open('for-business.html', encoding='utf-8').read()
+if '<!--fb-cards-->' not in _fb:      # first run: swap the old hand-made sections for generated ones
+    _fb = re.sub(r'<section><div class="wrap">\s*<div class="grid">\s*<div class="card"><div class="eyebrow">Scotland, dish categories</div>.*?</div></section>', '<!--fb-cards--><!--/fb-cards-->', _fb, count=1, flags=re.S)
+    _fb = re.sub(r'<section><div class="wrap prose">\s*<h2 id="work">Work with us</h2>.*?</div></section>', '<!--fb-contact--><!--/fb-contact-->', _fb, count=1, flags=re.S)
+    open('for-business.html', 'w', encoding='utf-8').write(_fb)
+edit('for-business.html', [(r'<!--fb-cards-->.*?<!--/fb-cards-->', lambda m: fb_cards()),
+                           (r'<!--fb-contact-->.*?<!--/fb-contact-->', lambda m: fb_contact())])
 edit('how-it-works.html', [
     (r'[\d,]+ interviews are included, up to [^.]+\. Venues on the map come from (?:the same [\d,]+ interviews\.|the [\d,]+ interviews up to [^;]+; newer answers join the map at the next update\.) The dish figures on the Insights page use the [\d,]+ interviews',
      f'{N_ALL} interviews are included, up to {LAST_H}. Venues on the map come from the same {fmt(M["interviews_mapped"])} interviews. The dish figures on the Insights page use the {fmt(P["n"])} interviews'),
@@ -237,11 +393,6 @@ edit('dm-fresh.js', [
      rf"analysis: {{ label: 'Dream Menu analysis', size: '\1', to: '{P['last']}', updated: '{TODAY}' }}"),
 ])
 # ---------------------------------------------------------------- awards (from awards.js meta)
-_s = open('awards.js', encoding='utf-8').read()
-_m = re.search(r'window\.DM_AWARDS\s*=\s*', _s)
-AWD = json.JSONDecoder().raw_decode(_s[_m.end():])[0]
-AWM, _G, _PL = AWD['meta'], AWD['groups'], AWD['places']
-_star = lambda p: any(_G[a[0]] == 'star' for a in p[10])
 AW_FACTS = (f'<div class="facts"><div><b>{fmt(sum(1 for p in _PL if _star(p)))}</b> <span>MICHELIN Starred</span></div>'
             f'<div><b>{fmt(sum(1 for p in _PL if any(_G[a[0]] == "fifty" for a in p[10])))}</b> <span>on a 50 Best list</span></div>'
             f'<div><b>{fmt(sum(1 for p in _PL if p[15]))}</b> <span>also named by guests</span></div>'

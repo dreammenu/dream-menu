@@ -166,3 +166,12 @@
 @media (prefers-reduced-motion:reduce){.btn,.mcard{transition:none}.btn:hover,.mcard:hover{transform:none}}
 
 .h-hero .eyebrow,.h-partner .eyebrow{color:var(--gold)!important}
+/* market tabs: index chips, market depth tag, signature line (30 Oct 2026) */
+.hb li{grid-template-columns:minmax(0,1fr) 30% 52px}
+.hb-x{display:inline-block;margin-left:8px;font:700 11px/1 var(--body);padding:3px 6px;border-radius:99px;vertical-align:1px;font-variant-numeric:tabular-nums}
+.hb-x.up{background:var(--navy);color:#fff}
+.hb-x.dn{background:var(--rule);color:var(--muted)}
+.mk-tag{display:inline-block;margin-left:8px;font:700 11px/1 var(--body);letter-spacing:.04em;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:var(--gold);color:#0b0b0b;vertical-align:3px}
+.mk-tag.early{background:var(--rule);color:var(--muted)}
+.mcol .sig{margin:16px 0 0;font-size:14px;line-height:1.45}
+@media (max-width:480px){.mtabs button{padding:10px 11px;font-size:13px}}

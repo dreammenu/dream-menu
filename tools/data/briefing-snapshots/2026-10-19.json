@@ -1,0 +1,155 @@
+{
+ "last": "2026-10-19",
+ "built": "2026-10-24",
+ "n": 1215,
+ "source": "partner-data.js at commit 1bb2aa9 (site build of 24 Oct 2026, interviews to 19 Oct)",
+ "movers": [
+  {
+   "course": "Alcoholic drink",
+   "level": "Group",
+   "l": "Spirits",
+   "move": 8.8,
+   "p": 0.001
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Dish",
+   "l": "Whisky",
+   "move": 6.6,
+   "p": 0.003
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Vegetables and salad",
+   "move": 6.0,
+   "p": 0.031
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Mediterranean and Middle Eastern",
+   "move": 5.7,
+   "p": 0.003
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Group",
+   "l": "Beer and cider",
+   "move": 5.4,
+   "p": 0.047
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Dish",
+   "l": "Lager",
+   "move": 4.1,
+   "p": 0.024
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Greens and creamed spinach",
+   "move": 3.5,
+   "p": 0.031
+  },
+  {
+   "course": "Dessert",
+   "level": "Group",
+   "l": "Fruit and meringue",
+   "move": 3.5,
+   "p": 0.024
+  },
+  {
+   "course": "Main",
+   "level": "Dish",
+   "l": "Cod, hake and white fish",
+   "move": 3.3,
+   "p": 0.025
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Asian",
+   "move": 2.9,
+   "p": 0.048
+  },
+  {
+   "course": "Main",
+   "level": "Dish",
+   "l": "Steak pie",
+   "move": 2.3,
+   "p": 0.025
+  },
+  {
+   "course": "Main",
+   "level": "Dish",
+   "l": "Sunday roast",
+   "move": -2.6,
+   "p": 0.047
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Mexican and Latin",
+   "move": -2.6,
+   "p": 0.044
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Loaded fries",
+   "move": -3.1,
+   "p": 0.016
+  },
+  {
+   "course": "Main",
+   "level": "Group",
+   "l": "Scottish and British classics",
+   "move": -3.3,
+   "p": 0.028
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Burgers and fried food",
+   "move": -3.7,
+   "p": 0.011
+  },
+  {
+   "course": "Dessert",
+   "level": "Dish",
+   "l": "Baked cheesecake",
+   "move": -3.9,
+   "p": 0.018
+  },
+  {
+   "course": "Starter",
+   "level": "Group",
+   "l": "Chicken",
+   "move": -4.5,
+   "p": 0.007
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Skinny fries",
+   "move": -4.7,
+   "p": 0.011
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Potatoes and fries",
+   "move": -12.7,
+   "p": 0.0
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Group",
+   "l": "Cocktails",
+   "move": -18.2,
+   "p": 0.0
+  }
+ ]
+}

@@ -50,3 +50,39 @@ if($('op-rising'))$('op-rising').innerHTML=mv(P.movers.filter(function(m){return
 if($('op-falling'))$('op-falling').innerHTML=mv(P.movers.filter(function(m){return m.move<0}).sort(function(a,b){return a.move-b.move}).slice(0,5));
 if($('op-scot'))$('op-scot').innerHTML=bars(P.scotland,pct);
 })();
+
+/* briefing additions (30 Oct 2026): changes since the last briefing, trend scorecard, by Dunns range. Data: partner/briefing-extra.js */
+(function(){
+var X=window.DM_BRIEF_X;if(!X)return;
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function $(id){return document.getElementById(id)}
+function sg(v){return (v>0?'+':'')+(Math.round(v*10)/10).toFixed(1)}
+function dmy(d){return new Date(d+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
+var C=X.changes;
+if($('bf-changes')){
+  if(!C){$('bf-changes').innerHTML='<p class="note">This is the first briefing with a saved snapshot. The next one will list what changed.</p>'}
+  else{
+    var li=function(r,v){return '<li><b>'+esc(r.l)+'</b> <span class="bf-c">'+esc(r.course.toLowerCase())+(r.level==='Group'?', group':'')+'</span> '+v+'</li>'};
+    var col=function(t,cls,items,f,empty){return '<div class="card bf-ch '+cls+'"><h3>'+t+' <span class="bf-n">'+items.length+'</span></h3>'+(items.length?'<ul class="plain">'+items.map(f).join('')+'</ul>':'<p>'+empty+'</p>')+'</div>'};
+    $('bf-changes').innerHTML='<p class="lede" style="margin-bottom:14px">Against the last briefing (data to '+dmy(C.since)+', '+C.n_then.toLocaleString('en-GB')+' interviews with dish answers; now '+C.n_now.toLocaleString('en-GB')+').</p><div class="grid">'+
+      col('Newly clear','new',C['new'],function(r){return li(r,'<b class="'+(r.move>0?'up':'down')+'">'+sg(r.move)+' pts</b>')},'No new clear movers.')+
+      col('No longer clear','gone',C.gone,function(r){return li(r,'<span class="bf-c">was '+sg(r.was)+' pts</span>')},'Every earlier mover is still clear.')+
+      col('Still clear','kept',C.kept,function(r){var d=r.move-r.was;return li(r,'<b class="'+(r.move>0?'up':'down')+'">'+sg(r.move)+'</b>'+(Math.abs(d)>=0.05?' <span class="bf-c">('+sg(d)+' since)</span>':''))},'None.')+'</div>';
+  }
+}
+if($('bf-score')){
+  var filt='all',all=false;
+  var draw=function(){var F=X.score.filter(function(o){return filt==='all'||o.tier===filt}),R=all?F:F.slice(0,20);
+    $('bf-score').innerHTML='<div class="tablewrap"><table class="bf-score"><thead><tr><th>Dish or drink</th><th class="num">Score</th><th>Verdict</th><th>Signal</th><th class="num">Share</th><th class="num">Change (pts)</th><th>Where guests go for it</th></tr></thead><tbody>'+
+      R.map(function(o){return '<tr><td><b>'+esc(o.l)+'</b><small>'+esc(o.cl)+(o.bin?' · also in Bin it':'')+'</small></td><td class="num"><span class="s10" style="--w:'+(o.s10*10)+'%">'+o.s10.toFixed(1)+'</span></td><td><span class="tier t-'+o.tier.toLowerCase()+'">'+esc(o.tier)+'</span></td><td>'+esc(o.sig)+'</td><td class="num">'+o.pct.toFixed(1)+'%</td><td class="num '+(/clear/.test(o.sig)?(o.move>0?'up':'down'):'')+'">'+sg(o.move)+'</td><td>'+esc(o.where)+'</td></tr>'}).join('')+'</tbody></table></div>'+
+      (F.length>R.length?'<p><button type="button" class="pr-copy" id="bf-all">Show all '+F.length+'</button></p>':'')+'<p class="note">'+R.length+' of '+X.score.length+' scored shown. Share = share of that course&rsquo;s answers; change compares '+X.late.join(', ')+' with '+X.early.join(', ')+'. Soft drinks are left out (too few answers per quarter). Weights are Dream Menu&rsquo;s and open to agreement with Dunns.</p>';
+    var b=$('bf-all');if(b)b.onclick=function(){all=true;draw()}};
+  document.querySelectorAll('.bf-filter button').forEach(function(b){b.onclick=function(){filt=b.dataset.t;all=false;document.querySelectorAll('.bf-filter button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});draw()}});
+  draw();
+}
+if($('bf-ranges')){
+  $('bf-ranges').innerHTML='<div class="tablewrap"><table><thead><tr><th>Range</th><th>Course</th><th class="num">Recent share</th><th class="num">Change (pts)</th><th>Clear movers inside</th></tr></thead><tbody>'+
+    X.ranges.map(function(r){return r.cells.map(function(c,i){return '<tr'+(i===0?' class="bf-rfirst"':'')+'>'+(i===0?'<td rowspan="'+r.cells.length+'"><b>'+esc(r.r)+'</b></td>':'')+'<td>'+esc(c.course)+'<small>'+esc(c.groups.join(', '))+'</small></td><td class="num">'+c.late.toFixed(1)+'%</td><td class="num">'+sg(c.move)+'</td><td>'+(c.clear.length?esc(c.clear.join('; ')):'<span class="bf-c">none</span>')+'</td></tr>'}).join('')}).join('')+'</tbody></table></div>'+
+    '<p class="note">A range&rsquo;s change is the sum of its groups&rsquo; changes on that course; only the groups listed under Clear movers inside passed the test on their own.</p>';
+}
+})();

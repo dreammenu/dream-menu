@@ -19,6 +19,7 @@ def _load(fn):
 _P, _M = _load('partner-data.js'), _load('dm-data.js')['meta']
 N_ALL, N_PINNED, N_COUNTRIES = f"{_P['n_all']:,}", f"{_M['pinned']:,}", _M['countries']
 
+PUBLIC = ('/case-studies/guests-and-critics',)   # the free sample report
 LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence', '/case-studies')
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
@@ -28,7 +29,7 @@ AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best firs
  ('chef', 'Chef or kitchen lead', 'chefs and kitchen leads', 'What guests order, what is moving and what they are tired of.', ['r14', 'o4', 'r13', 'f5', 'f14', 'r10']),
  ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['b8', 'b3', 'r13', 'r2', 'b5', 'f16']),
  ('investor', 'Investor or developer', 'investors and developers', 'Where the evidence points for capital, concepts and sites.', ['r18', 'r16', 'f16', 'r2', 'r8', 'f6']),
- ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['r2', 'f16', 'f4', 'o10', 'f8', 'r6']),
+ ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['a3', 'r2', 'f16', 'f4', 'f8', 'b17']),
 ]
 AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', 'chef': 'chefs', 'supplier': 'suppliers', 'investor': 'investors', 'press': 'press'}
 # extra search words, so people find things by the words they use
@@ -44,7 +45,7 @@ KEYWORDS = {
  'o5': 'behavioural psychology nudges bread decoy wait', 'o6': 'checklist bathroom sunday festive christmas january quiet season price rise supplier solo diners celebration',
  'o7': 'instagram tiktok reviews google tripadvisor reply', 'o8': 'research evidence studies nudges menu psychology pricing no-shows reminder texts loyalty cards buffet plates music cutlery wine glass', 'o10': 'myths choice overload mints wansink',
  'o11': 'test trial experiment a/b sample size', 'o12': 'audit review consultancy diagnostic mystery', 'b3': 'quarterly briefing sales team movers', 'b5': 'csv download data export spreadsheet',
- 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies',
+ 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies', 'a3': 'press media journalist quote statistics logo credit',
 }
 AUD_ICON = {
  'food': '<path d="M7 3v7a2 2 0 0 0 4 0V3M9 3v18M17 3c-2 2-2.5 4-2.5 7H17v11"/>',
@@ -120,7 +121,7 @@ ITEMS = [
 
  ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with Scotland\'s food people', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
- ('b9', 'Insight Series', '/case-studies', 'Fifteen reports on request: costs, cities, categories, neighbourhoods, critics, confidence and forecasts to 2031', 'biz', 'supplier investor venue new press chef', 1, None),
+ ('b9', 'Insight Series', '/case-studies', 'Fifteen reports on request, one free to read: costs, cities, categories, neighbourhoods, critics, confidence and forecasts to 2031', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
  ('b11', 'Two cities, two appetites', '/case-studies/glasgow-edinburgh', 'How Glasgow and Edinburgh guests differ, for a group opening a second site', 'biz', 'new investor venue', 0, 'b9'),
  ('b12', "Scotland's seafood appetite", '/case-studies/seafood', 'Where seafood sits on the dream menu and what is rising', 'biz', 'supplier chef', 0, 'b9'),
@@ -128,7 +129,7 @@ ITEMS = [
  ('b14', 'What Scotland drinks with dinner', '/case-studies/drinks', 'Cocktails losing share to whisky and lager, and the soft-drink round', 'biz', 'supplier venue', 0, 'b9'),
  ('b15', 'Trend fatigue', '/case-studies/trend-fatigue', 'The trends guests want gone and what replaces them', 'biz', 'chef venue press', 0, 'b9'),
  ('b16', 'Where Glasgow eats', '/case-studies/neighbourhoods', 'Which districts punch above their weight, and where the next Finnieston is', 'biz', 'investor new venue', 0, 'b9'),
- ('b17', 'Guests and critics', '/case-studies/guests-and-critics', 'How far guest favourites and guide award winners overlap', 'biz', 'press investor food', 0, 'b9'),
+ ('b17', 'Guests and critics', '/case-studies/guests-and-critics', 'Free sample report: how far guest favourites and guide award winners overlap', 'biz', 'press investor food', 0, 'b9'),
  ('b18', 'The steak economy', '/case-studies/steak', 'The cuts guests name and the shift from fillet to flavour', 'biz', 'supplier chef venue', 0, 'b9'),
  ('b19', "Glasgow's Italian table", '/case-studies/italian', 'Italian on every course and how the specialists win', 'biz', 'venue supplier new', 0, 'b9'),
  ('b20', 'The confidence gap', '/case-studies/operator-confidence', 'Scottish operators back themselves but not the sector', 'biz', 'investor press supplier', 0, 'b9'),
@@ -144,13 +145,14 @@ ITEMS = [
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
 
  ('a1', 'How it works', '/how-it-works', 'Where the data comes from, how venues are placed and which guides count', 'about', 'press', 0, None),
+ ('a3', 'Press kit', '/press', 'Figures worth quoting, how to credit them, logos and the press contact', 'about', 'press', 0, None),
  ('a2', 'Privacy', '/privacy', 'How interview answers and site visits are used', 'about', 'press', 0, None),
 ]
 
 IT = {}
 for row in ITEMS:
     i, t, u, d, g, a, s, p = row
-    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=u.startswith(LOCKED), k=KEYWORDS.get(i, ''))
+    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=u.startswith(LOCKED) and u not in PUBLIC, k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
 LOCK = '<svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'

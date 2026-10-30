@@ -11,5 +11,6 @@ Disallow: /tested-ideas
 Disallow: /insights
 Disallow: /partner
 Disallow: /intelligence
+Allow: /case-studies/guests-and-critics
 Disallow: /case-studies
 Sitemap: https://www.dream-menu.com/sitemap.xml

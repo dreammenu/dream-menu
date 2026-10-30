@@ -1,0 +1,155 @@
+{
+ "last": "2026-10-29",
+ "built": "2026-10-29",
+ "n": 1232,
+ "source": "tools/build_briefing_extras.py",
+ "movers": [
+  {
+   "course": "Alcoholic drink",
+   "level": "Group",
+   "l": "Spirits",
+   "move": 8.8,
+   "p": 0.001
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Dish",
+   "l": "Whisky",
+   "move": 6.6,
+   "p": 0.003
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Vegetables and salad",
+   "move": 5.8,
+   "p": 0.036
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Mediterranean and Middle Eastern",
+   "move": 5.4,
+   "p": 0.005
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Group",
+   "l": "Beer and cider",
+   "move": 5.4,
+   "p": 0.047
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Dish",
+   "l": "Lager",
+   "move": 4.1,
+   "p": 0.024
+  },
+  {
+   "course": "Dessert",
+   "level": "Group",
+   "l": "Fruit and meringue",
+   "move": 3.6,
+   "p": 0.023
+  },
+  {
+   "course": "Main",
+   "level": "Dish",
+   "l": "Cod, hake and white fish",
+   "move": 3.3,
+   "p": 0.024
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Greens and creamed spinach",
+   "move": 3.3,
+   "p": 0.038
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Asian",
+   "move": 2.9,
+   "p": 0.046
+  },
+  {
+   "course": "Main",
+   "level": "Dish",
+   "l": "Steak pie",
+   "move": 2.4,
+   "p": 0.021
+  },
+  {
+   "course": "Main",
+   "level": "Dish",
+   "l": "Sunday roast",
+   "move": -2.7,
+   "p": 0.038
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Mac and cheese",
+   "move": -3.0,
+   "p": 0.047
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Loaded fries",
+   "move": -3.2,
+   "p": 0.012
+  },
+  {
+   "course": "Main",
+   "level": "Group",
+   "l": "Scottish and British classics",
+   "move": -3.5,
+   "p": 0.022
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Burgers and fried food",
+   "move": -3.6,
+   "p": 0.013
+  },
+  {
+   "course": "Dessert",
+   "level": "Dish",
+   "l": "Baked cheesecake",
+   "move": -4.0,
+   "p": 0.013
+  },
+  {
+   "course": "Starter",
+   "level": "Group",
+   "l": "Chicken",
+   "move": -4.6,
+   "p": 0.005
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Skinny fries",
+   "move": -4.8,
+   "p": 0.008
+  },
+  {
+   "course": "Side",
+   "level": "Group",
+   "l": "Potatoes and fries",
+   "move": -12.3,
+   "p": 0.0
+  },
+  {
+   "course": "Alcoholic drink",
+   "level": "Group",
+   "l": "Cocktails",
+   "move": -18.2,
+   "p": 0.0
+  }
+ ]
+}

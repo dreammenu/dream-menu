@@ -251,7 +251,7 @@
     var host = $('#c-opp'); if (!host) return;
     var filt = 'all', course = 'all';
     var PARTS = [['demand', 'Demand', '--v-brand'], ['momentum', 'Momentum', '--v-s1'], ['evidence', 'Evidence', '--v-d2'], ['room', 'Room to enter', '--v-gold']];
-    var c = V.card(host, { id: 'opportunity', title: 'Opportunity score for every tracked dish and drink, out of 100', sub: 'Demand 30, momentum 35, evidence 15, room to enter 20, minus 10 if guests also want it binned. Soft drinks are left out (too few answers per quarter).', src: SRC + ' Room to enter = how much of the dish’s venue mentions go to one venue.', fresh: ['interviews', 'venues'], csv: 'dream-menu-opportunity-scores',
+    var c = V.card(host, { id: 'opportunity', title: 'Trend score for every tracked dish and drink, out of 10', sub: 'Out of 10 (the 100-point score divided by 10): demand 30, momentum 35, evidence 15, room to enter 20, minus 10 if guests also want it binned. Soft drinks are left out (too few answers per quarter).', src: SRC + ' Room to enter = how much of the dish’s venue mentions go to one venue.', fresh: ['interviews', 'venues'], csv: 'dream-menu-opportunity-scores',
       legend: PARTS.map(function (p) { return [p[1], p[2], 'sq']; }) });
     var crs = [['all', 'All courses']].concat(COURSES.filter(function (x) { return x[0] !== 'k'; }));
     var f1 = h('div', 'dmv-filters'), f2 = c.filters;
@@ -265,14 +265,14 @@
       show.forEach(function (r, i) {
         var tot = PARTS.reduce(function (a, p) { return a + r.parts[p[0]]; }, 0);
         o += '<tr data-i="' + i + '"><td class="n">' + (I.opp.indexOf(r) + 1) + '</td><td class="dish"><b>' + esc(r.l) + '</b><span>' + esc(r.cl) + (r.fatigue ? ' · also in “Bin it”' : '') + '</span></td><td>' + V.tier(r.tier) + '</td>' +
-          '<td><div style="display:flex;gap:10px;align-items:center"><div class="stack" style="max-width:' + Math.max(40, tot / 100 * 240) + 'px">' + PARTS.map(function (p) { return '<i style="flex:' + r.parts[p[0]] + ';background:var(' + p[2] + ')"></i>'; }).join('') + '</div><b class="n" style="font-variant-numeric:tabular-nums">' + r.score + '</b></div></td>' +
+          '<td><div style="display:flex;gap:10px;align-items:center"><div class="stack" style="max-width:' + Math.max(40, tot / 100 * 240) + 'px">' + PARTS.map(function (p) { return '<i style="flex:' + r.parts[p[0]] + ';background:var(' + p[2] + ')"></i>'; }).join('') + '</div><b class="n" style="font-variant-numeric:tabular-nums">' + (r.score / 10).toFixed(1) + '</b></div></td>' +
           '<td class="n hide-s">' + r.pct.toFixed(1) + '%</td><td class="n" style="color:' + (r.sig ? (r.move > 0 ? 'var(--v-good-ink)' : 'var(--v-crit)') : 'var(--v-ink2)') + '">' + pp(r.move) + '</td><td class="hide-s">' + (r.venues ? r.venues + ' venues; ' + esc(r.topv) + ' ' + r.top + '%' : '–') + '</td></tr>';
       });
       o += '</tbody></table></div>' + (R.length > 20 ? '<p class="dmv-src" style="margin-top:8px">Showing 20 of ' + R.length + '. The table view and CSV hold every row.</p>' : '');
       c.plot.innerHTML = o;
       c.plot.querySelectorAll('tbody tr').forEach(function (tr) {
         var r = show[+tr.getAttribute('data-i')];
-        V.tip.bind(tr.querySelector('.stack'), '<b>' + esc(r.l) + ': ' + r.score + '/100</b>' + PARTS.map(function (p) { return '<div class="row"><span class="k">' + p[1] + '</span><span>' + r.parts[p[0]].toFixed(1) + '</span></div>'; }).join('') + (r.fat ? '<div class="row"><span class="k">Bin it penalty</span><span>−' + r.fat + '</span></div>' : '') + '<div class="row"><span class="k">Test</span><span>' + pv(r.p) + '</span></div>');
+        V.tip.bind(tr.querySelector('.stack'), '<b>' + esc(r.l) + ': ' + (r.score / 10).toFixed(1) + '/10 (' + r.score + '/100)</b>' + PARTS.map(function (p) { return '<div class="row"><span class="k">' + p[1] + '</span><span>' + r.parts[p[0]].toFixed(1) + '</span></div>'; }).join('') + (r.fat ? '<div class="row"><span class="k">Bin it penalty</span><span>−' + r.fat + '</span></div>' : '') + '<div class="row"><span class="k">Test</span><span>' + pv(r.p) + '</span></div>');
       });
       c.setTable([{ l: 'Dish', k: 'l' }, { l: 'Course', k: 'cl' }, { l: 'Verdict', k: 'tier' }, { l: 'Score', k: 'score', n: 1 }, { l: 'Demand', f: function (r) { return r.parts.demand; }, n: 1 }, { l: 'Momentum', f: function (r) { return r.parts.momentum; }, n: 1 }, { l: 'Evidence', f: function (r) { return r.parts.evidence; }, n: 1 }, { l: 'Room to enter', f: function (r) { return r.parts.room; }, n: 1 }, { l: 'Share %', k: 'pct', n: 1 }, { l: 'Change, pts', k: 'move', n: 1 }, { l: 'p', k: 'p', n: 1 }, { l: 'Venues named', k: 'venues', n: 1 }, { l: 'Top venue', k: 'topv' }, { l: 'Top venue share %', k: 'top', n: 1 }], R);
     }

@@ -430,3 +430,34 @@ html:not(.js) .mburger,html:not(.js) .msearch,html:not(.js) .chev{display:none}
 .ex-q,.ex-who{min-width:0}
 .ex-who select{min-width:0;max-width:100%;flex:1 1 auto}
 .linkbtn{border:0;background:none;padding:0;color:var(--navy);text-decoration:underline;cursor:pointer;font:inherit;font-weight:700}
+/* for business: contact cards and enquiry form (30 Oct 2026) */
+.fb-contact{margin-bottom:18px}
+.fb-form{border:1.5px solid var(--ink);border-radius:14px;background:var(--card);padding:20px 22px;max-width:760px}
+.fb-form h3{margin:0 0 12px}
+.fb-form label{display:block;font-size:14px;font-weight:600;margin:0 0 12px}
+.fb-form input,.fb-form select,.fb-form textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;font:400 16px/1.4 var(--body);padding:10px 12px;border:1px solid var(--rule-strong);border-radius:6px;background:var(--paper);color:var(--ink)}
+.fb-row{display:grid;gap:0 14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+/* sign-in preview of locked pages (30 Oct 2026) */
+.lp-prev{padding-bottom:0}
+.lp-card{border:1.5px solid var(--ink);border-radius:14px;background:var(--card);padding:20px 22px;max-width:760px}
+.lp-card h2{margin:4px 0 8px}.lp-card h3{margin:16px 0 6px;font-size:16px}
+.lp-card p{margin:0 0 8px}.lp-who{color:var(--muted);font-size:14px}
+.lp-list{margin:0;padding-left:20px;line-height:1.5}
+.lp-cta{margin-top:16px!important;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.lp-alt{font-weight:600}
+/* press kit (30 Oct 2026) */
+.pr-grid .card.stat{display:flex;flex-direction:column;gap:6px}
+.pr-copy{align-self:flex-start;margin-top:auto;border:1px solid var(--rule-strong);background:none;border-radius:99px;padding:5px 12px;font:600 12px/1 var(--body);cursor:pointer}
+.pr-copy:hover{border-color:var(--ink)}
+/* partner briefing additions (30 Oct 2026) */
+.bf-ch h3{display:flex;align-items:center;gap:8px}.bf-n{font:700 12px/1 var(--body);background:var(--ink);color:var(--paper);border-radius:99px;padding:4px 8px}
+.bf-ch.new{border-top:4px solid var(--gold)}.bf-ch.gone{border-top:4px solid var(--rule-strong)}
+.bf-ch ul.plain{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px}.bf-c{color:var(--muted);font-size:13px}
+.bf-ch b.up{color:var(--good)}.bf-ch b.down{color:var(--warn)}
+.bf-filter{display:inline-flex;gap:4px;border:1px solid var(--rule);border-radius:99px;padding:4px;margin-bottom:12px;background:var(--card)}
+.bf-filter button{border:0;background:none;border-radius:99px;padding:8px 14px;font:700 13px/1 var(--body);cursor:pointer;color:var(--muted)}
+.bf-filter button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.bf-score .s10{display:inline-block;min-width:44px;font-weight:800;background:linear-gradient(90deg,var(--gold) var(--w),var(--rule) var(--w));border-radius:4px;padding:3px 6px;text-align:center;color:#0b0b0b}
+.tier{display:inline-block;font:700 11px/1 var(--body);text-transform:uppercase;letter-spacing:.04em;padding:4px 8px;border-radius:99px}
+.tier.t-back{background:var(--navy);color:#fff}.tier.t-watch{background:var(--gold);color:#0b0b0b}.tier.t-review{background:var(--rule);color:var(--muted)}
+tr.bf-rfirst td{border-top:2px solid var(--ink)}
