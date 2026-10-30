@@ -55,7 +55,7 @@ intel_main = f'''<main class="iv-page">
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">Partner intelligence</span>
 <h1>The market read, in ten minutes</h1>
-<p class="lede">Eight views of what the UK’s food people want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
+<p class="lede">Eight views of what the UK’s foodies want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
 </div></section>
 {sec(1, 'Executive read', 't1', 'The three things to take into this quarter’s planning, then the numbers behind them.', '<div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><div class="iv-callout"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><b>Data to ' + LAST_H + '.</b> Every chart includes all ' + N_ALL + ' interviews received to that date. Quarters with fewer than ' + str(P['min_n']) + ' answers, including the fourth quarter so far, are shown faded: read them as an early signal.</span></div><div data-fresh="interviews look"></div>', 'read')}
 {sec(2, 'Momentum matrix', 't2', 'Each dish placed by how big it is (across) and how fast its share is moving (up or down). Pick a course. Top right is where volume and momentum meet; top left is where the next staples come from.', '<div id="c-matrix"></div>', 'matrix-sec')}

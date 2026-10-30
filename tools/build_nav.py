@@ -124,7 +124,7 @@ ITEMS = [
  ('o13', 'Named on Dream Menu badge', '/badge', 'A free badge for venues guests have named, linking to the venue page', 'ops', 'venue', 0, None),
  ('o12', 'Restaurant MOT', '/restaurant-mot', 'An independent four-week diagnostic of one venue', 'ops', 'venue new', 0, None),
 
- ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with the UK\'s food people', 'biz', 'supplier investor venue', 0, None),
+ ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with the UK\'s foodies', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
  ('b9', 'Insight Series', '/case-studies', 'Fifteen reports on request, one free to read: costs, cities, categories, neighbourhoods, critics, confidence and forecasts to 2031', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
