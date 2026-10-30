@@ -285,6 +285,8 @@ def main():
             s = s.replace('<script src="/nav.js" defer></script>', '<script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>', 1)
         if 'src="/nav.js"' not in s:
             s = s.replace('<link rel="stylesheet" href="/brand.css">', HEAD_TAGS + '\n<link rel="stylesheet" href="/brand.css">', 1)
+        if '/_vercel/insights/script.js' not in s:   # Vercel Web Analytics (cookie-free); switch it on in the Vercel dashboard
+            s = s.replace('</head>', '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1)
         if fn == 'index.html' and 'class="audband"' not in s:
             m = re.search(r'(<section class="h-stats".*?</section>)', s, re.S)
             s = s[:m.end()] + '\n' + aud_band() + s[m.end():]
