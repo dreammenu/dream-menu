@@ -373,9 +373,10 @@ def critics():
     pts = []
     for rank, v in enumerate(vs[:150], 1):
         a = aw.get(v['i'])
-        pts.append(dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], rank=rank, tier=tier_of(a['a']) if a else 'No guide award',
+        pts.append(dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], rank=rank, tier=tier_of(a['a']) if a else 'Outside the guides we track',
                         aw=(a['a'][:2] if a else [])))
-    champions = [dict(n=v['n'], c=v['c'], m=v['m'], g=v['g']) for v in vs if v['i'] not in aw][:10]
+    orec = json.load(open('tools/data/other-recognition.json', encoding='utf-8'))['venues']   # checked by hand, examples only
+    champions = [dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], o='; '.join(orec.get(v['n'], []))) for v in vs if v['i'] not in aw][:10]
     starred = [dict(n=v['n'], c=v['c'], m=v['m'], tier=tier_of(aw[v['i']]['a']), aw=aw[v['i']]['a'][0]) for v in vs if v['i'] in aw][:10]
     # Pareto: cumulative share of mentions held by the top x% of venues
     tot = sum(v['m'] for v in vs)

@@ -370,6 +370,7 @@ for v in PUBLIC_V:
 for lst in by_city.values():
     lst.sort(key=lambda v: (-(v.get('m') or 0), v['n']))
 AW = D.get('aw') or {}
+OREC = json.load(open('tools/data/other-recognition.json', encoding='utf-8'))['venues']   # examples checked by hand
 STOP = {'the', 'restaurant', 'kitchen', 'house', 'cafe', 'glasgow', 'edinburgh', 'london', 'grill', 'and', 'with', 'street', 'road'}
 for v in PUBLIC_V:
     s = vslug(v)
@@ -385,8 +386,10 @@ for v in PUBLIC_V:
     own = [(c, t) for c, t in (v.get('q') or []) if keys and any(k in slugify(t).replace('-', ' ') for k in keys)]
     quotes = ''.join(f'<blockquote class="quote">{E(t)}<small>Guest answer, {E(COURSE.get(c, c).lower())}</small></blockquote>' for c, t in own[:4])
     aw = AW.get(v['i'])
-    aw_html = ('<div class="card"><h2>Awards and guides</h2><ul class="pg-list">' + ''.join(f'<li>{E(a)}</li>' for a in aw['a']) +
-               '</ul><p class="pg-mut"><a href="/awards">All award winners</a></p></div>') if aw else ''
+    other = OREC.get(v['n'], [])
+    items = (aw['a'] if aw else []) + other
+    aw_html = ('<div class="card"><h2>Awards and guides</h2><ul class="pg-list">' + ''.join(f'<li>{E(a)}</li>' for a in items) +
+               '</ul><p class="pg-mut"><a href="/awards">All award winners</a>' + (' · Includes recognition checked by hand outside our awards list.' if other else '') + '</p></div>') if items else ''
     near = [x for x in city if x is not v][:6]
     near_html = ''.join(f'<li>{vlink(x)} <b>{x["m"]}</b></li>' for x in near)
     addr = E(v['ad']) if v.get('ad') and v.get('p') == 'exact' else E(place(v))

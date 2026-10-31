@@ -1,0 +1,79 @@
+{
+ "note": "Recognition outside the guides in awards.js, checked by hand on 31 Oct 2026 for venues the Guests and critics report names. Examples only, not a complete record. Shown as 'Also recognised' so no venue reads as unrecognised.",
+ "venues": {
+  "Porter & Rye": [
+   "World's 101 Best Steak Restaurants (#85, 2025)"
+  ],
+  "Corner Shop": [
+   "The Good Food Guide (rated Good)",
+   "Condé Nast Traveller best new UK restaurants (2026)"
+  ],
+  "Big Counter": [
+   "The Good Food Guide (2025)"
+  ],
+  "The Gannet": [
+   "Three AA Rosettes for over a decade",
+   "AA Scottish Restaurant of the Year 2015/16"
+  ],
+  "Celentano's": [
+   "MICHELIN Bib Gourmand (from 2022; relocating to Arthouse Glasgow)"
+  ],
+  "Bramble": [
+   "World's 50 Best Bars, several editions (highest #7, 2009)"
+  ],
+  "Gleneagles": [
+   "Home of Restaurant Andrew Fairlie (Two MICHELIN Stars) and The Strathearn (Two AA Rosettes)",
+   "World's 50 Best Hotels Art of Hospitality Award (2023)"
+  ],
+  "Smokey Trotters Kitchen": [
+   "Scottish Restaurant Awards, Kitchen of the Year (2024)"
+  ],
+  "Kelp": [
+   "AA Rosette (2023 list)"
+  ],
+  "Ubiquitous Chip": [
+   "AA Rosettes (2023 list)",
+   "In The Good Food Guide for over 45 years"
+  ],
+  "Partick Duck Club": [
+   "AA Rosette (2023 list)"
+  ],
+  "Chaophraya": [
+   "Scottish Restaurant Awards, Thai Restaurant highly commended (2024)"
+  ],
+  "Damasqino Restaurant & Cafe": [
+   "Scottish Restaurant Awards, Middle Eastern Restaurant of the Year (2024)"
+  ],
+  "Meze Meze": [
+   "Scottish Restaurant Awards, Turkish Restaurant highly commended (2024)"
+  ],
+  "GaGa kitchen + bar": [
+   "Scottish Bar & Pub Awards, best restaurant in Scotland (2022)"
+  ],
+  "FIN & GRAPE": [
+   "Good Food Guide: Britain's 100 Best Local Restaurants (2025)"
+  ],
+  "L'Escargot Bleu": [
+   "Good Food Guide best local restaurants, Scotland winners (2024)"
+  ]
+ },
+ "sources": {
+  "Porter & Rye": "https://brguide.com/restaurants/porter-and-rye",
+  "Corner Shop": "https://www.thegoodfoodguide.co.uk/restaurant/corner-shop/id/90886",
+  "Big Counter": "https://joinpearl.co/restaurants/glasgow-united-kingdom/big-counter",
+  "The Gannet": "https://foodanddrink.scotsman.com/food/glasgow-restaurant-the-gannet-wins-the-coveted-aa-scottish-restaurant-of-the-year-award/",
+  "Celentano's": "https://www.thecaterer.com/news/michelin-bib-gourmand-restaurant-celentanos-in-glasgow-to-relocate",
+  "Bramble": "https://www.enprimeurclub.com/bars/bramble-edinburgh-bar",
+  "Gleneagles": "https://theaa.com/hospitality-awards/hospitality-awards-winners/aa-hotel-of-the-year-scotland",
+  "Smokey Trotters Kitchen": "https://www.eveningtimes.co.uk/news/scottish-news/24196942.nine-glasgow-restaurants-won-scottish-restaurant-awards/",
+  "Kelp": "https://foodanddrink.scotsman.com/food/aa-rosettes-in-scotland-full-list-of-fine-dining-restaurants-with-rosettes-in-2023/",
+  "Ubiquitous Chip": "https://foodanddrink.scotsman.com/food/aa-rosettes-in-scotland-full-list-of-fine-dining-restaurants-with-rosettes-in-2023/",
+  "Partick Duck Club": "https://foodanddrink.scotsman.com/food/aa-rosettes-in-scotland-full-list-of-fine-dining-restaurants-with-rosettes-in-2023/",
+  "Chaophraya": "https://www.scottishdailyexpress.co.uk/lifestyle/glasgow-restaurants-won-big-scottish-32401160",
+  "Damasqino Restaurant & Cafe": "https://www.eveningtimes.co.uk/news/scottish-news/24196942.nine-glasgow-restaurants-won-scottish-restaurant-awards/",
+  "Meze Meze": "https://www.scottishdailyexpress.co.uk/lifestyle/glasgow-restaurants-won-big-scottish-32401160",
+  "GaGa kitchen + bar": "https://foodanddrink.scotsman.com/?p=71283",
+  "FIN & GRAPE": "https://www.scotsman.com/lifestyle/food-and-drink/good-food-guide-2025-top-restaurants-5225763",
+  "L'Escargot Bleu": "https://www.stirlingnews.co.uk/news/trendingacrossscotland/24469426.scotlands-best-restaurants-named-good-food-guide"
+ }
+}

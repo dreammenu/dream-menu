@@ -1,0 +1,208 @@
+{
+ "note": "Guest venues matched by hand to award places already in awards.js (31 Oct 2026). Same venue, different spelling.",
+ "links": [
+  {
+   "venue": "number-one-the-balmoral-x",
+   "venue_name": "Number One, The Balmoral",
+   "place": "number-one-edinburgh",
+   "place_name": "Number One",
+   "town": "Edinburgh"
+  },
+  {
+   "venue": "the-free-company-gb",
+   "venue_name": "The Free Company",
+   "place": "the-free-company-balerno",
+   "place_name": "The Free Company",
+   "town": "Balerno"
+  },
+  {
+   "venue": "free-company-balerno",
+   "venue_name": "Free Company",
+   "place": "the-free-company-balerno",
+   "place_name": "The Free Company",
+   "town": "Balerno"
+  },
+  {
+   "venue": "brat-x",
+   "venue_name": "Brat",
+   "place": "brat-london",
+   "place_name": "Brat",
+   "town": "London"
+  },
+  {
+   "venue": "amuse-by-kevin-dalgleish-edinburgh",
+   "venue_name": "Amuse by Kevin Dalgleish",
+   "place": "amuse-by-kevin-dalgleish-aberdeen",
+   "place_name": "Amuse by Kevin Dalgleish",
+   "town": "Aberdeen"
+  },
+  {
+   "venue": "andrew-fairlies-glasgow",
+   "venue_name": "Andrew Fairlies",
+   "place": "restaurant-andrew-fairlie-auchterarder",
+   "place_name": "Restaurant Andrew Fairlie",
+   "town": "Auchterarder"
+  },
+  {
+   "venue": "benares-x",
+   "venue_name": "Benares",
+   "place": "benares-london",
+   "place_name": "Benares",
+   "town": "London"
+  },
+  {
+   "venue": "cafe-boheme-edinburgh",
+   "venue_name": "Cafe Boheme",
+   "place": "cafe-boheme-aberdeen",
+   "place_name": "Café Bohème",
+   "town": "Aberdeen"
+  },
+  {
+   "venue": "craig-millar-glasgow",
+   "venue_name": "Craig Millar",
+   "place": "craig-millar-16-west-end-st-monans",
+   "place_name": "Craig Millar @ 16 West End",
+   "town": "St Monans"
+  },
+  {
+   "venue": "darjeeling-express-crieff",
+   "venue_name": "Darjeeling Express",
+   "place": "darjeeling-express-london",
+   "place_name": "Darjeeling Express",
+   "town": "London"
+  },
+  {
+   "venue": "dorian-edinburgh",
+   "venue_name": "Dorian",
+   "place": "dorian-london",
+   "place_name": "Dorian",
+   "town": "London"
+  },
+  {
+   "venue": "dory-bistro-gallery-glasgow",
+   "venue_name": "Dory Bistro & Gallery",
+   "place": "the-dory-bistro-gallery-pittenweem",
+   "place_name": "The Dory Bistro & Gallery",
+   "town": "Pittenweem"
+  },
+  {
+   "venue": "forge-x",
+   "venue_name": "FORGE",
+   "place": "forge-middleton-tyas",
+   "place_name": "Forge",
+   "town": "Middleton Tyas"
+  },
+  {
+   "venue": "fischer-s-at-baslow-hall-leeds",
+   "venue_name": "Fischer's at Baslow Hall",
+   "place": "fischer-s-baslow-hall-baslow",
+   "place_name": "Fischer's Baslow Hall",
+   "town": "Baslow"
+  },
+  {
+   "venue": "hinds-x",
+   "venue_name": "Hinds",
+   "place": "hinds-head-bray",
+   "place_name": "Hinds Head",
+   "town": "Bray"
+  },
+  {
+   "venue": "kildrummy-inn-x",
+   "venue_name": "Kildrummy Inn",
+   "place": "kildrummy-inn-kildrummy",
+   "place_name": "Kildrummy Inn",
+   "town": "Kildrummy"
+  },
+  {
+   "venue": "knockinaam-x",
+   "venue_name": "Knockinaam",
+   "place": "knockinaam-lodge-portpatrick",
+   "place_name": "Knockinaam Lodge",
+   "town": "Portpatrick"
+  },
+  {
+   "venue": "mountain-glasgow",
+   "venue_name": "Mountain",
+   "place": "mountain-london",
+   "place_name": "Mountain",
+   "town": "London"
+  },
+  {
+   "venue": "number-sixteen-glasgow",
+   "venue_name": "Number Sixteen",
+   "place": "number-16-glasgow",
+   "place_name": "Number 16",
+   "town": "Glasgow"
+  },
+  {
+   "venue": "panda-and-sons-x",
+   "venue_name": "Panda and Sons",
+   "place": "panda-sons-edinburgh",
+   "place_name": "Panda & Sons",
+   "town": "Edinburgh"
+  },
+  {
+   "venue": "pipe-and-glass-edinburgh",
+   "venue_name": "Pipe and Glass",
+   "place": "pipe-and-glass-south-dalton",
+   "place_name": "Pipe and Glass",
+   "town": "South Dalton"
+  },
+  {
+   "venue": "restaurant-pine-gb",
+   "venue_name": "Restaurant Pine",
+   "place": "pine-east-wallhouses",
+   "place_name": "Pine",
+   "town": "East Wallhouses"
+  },
+  {
+   "venue": "sargasso-whitstable",
+   "venue_name": "Sargasso",
+   "place": "sargasso-margate",
+   "place_name": "Sargasso",
+   "town": "Margate"
+  },
+  {
+   "venue": "the-sparrows-x",
+   "venue_name": "The Spärrows",
+   "place": "the-sparrows-manchester",
+   "place_name": "The Spärrows",
+   "town": "Manchester"
+  },
+  {
+   "venue": "ynyshir-x",
+   "venue_name": "Ynyshir",
+   "place": "ynyshir-machynlleth",
+   "place_name": "Ynyshir",
+   "town": "Machynlleth"
+  },
+  {
+   "venue": "mara-gb",
+   "venue_name": "Mara",
+   "place": "mara-aberdeen",
+   "place_name": "Mara",
+   "town": "Aberdeen"
+  },
+  {
+   "venue": "mara-aberdeen",
+   "venue_name": "Mara",
+   "place": "mara-aberdeen",
+   "place_name": "Mara",
+   "town": "Aberdeen"
+  },
+  {
+   "venue": "the-gordon-arms-yarrow",
+   "venue_name": "The Gordon Arms",
+   "place": "the-gordon-arms-selkirk",
+   "place_name": "The Gordon Arms",
+   "town": "Selkirk"
+  },
+  {
+   "venue": "loch-and-tyne-old-windsor",
+   "venue_name": "Loch & Tyne",
+   "place": "the-loch-the-tyne-old-windsor",
+   "place_name": "The Loch & The Tyne",
+   "town": "Old Windsor"
+  }
+ ]
+}
