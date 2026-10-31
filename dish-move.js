@@ -121,7 +121,7 @@
       td += '<td class="num"' + faint + '>' + (r.share && r.share[i] != null ? r.share[i].toFixed(1) + '%' : '–') + '</td>';
       tn += '<td class="num"' + faint + '>' + (r.n_q ? r.n_q[i] : '') + '</td>';
     });
-    var table = '<div class="tablewrap" style="border:0"><table class="mv-tab"><thead><tr><th></th>' + th + '</tr></thead><tbody><tr><td>Share</td>' + td + '</tr><tr><td class="pg-mut">Answers</td>' + tn + '</tr></tbody></table></div>';
+    var table = '<div class="mv-tabwrap"><table class="mv-tab"><colgroup><col class="lab"></colgroup><thead><tr><th>Quarter</th>' + th + '</tr></thead><tbody><tr><td>Share</td>' + td + '</tr><tr><td>Answers</td>' + tn + '</tr></tbody></table></div>';
     return '<div class="mv-row">' + head + spark(r, f) + line + note + theories(r, LABEL) + scoreBar(r) + table + (r.note ? '<p class="pg-mut">' + esc(r.note) + '</p>' : '') + '</div>';
   }
 

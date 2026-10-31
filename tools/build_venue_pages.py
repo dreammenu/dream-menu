@@ -221,14 +221,27 @@ I = load('partner/intel-data.js', 'DM_INTEL')
 CIX = {(c['course'], c['l']): c for c in I['ci'] if c.get('level') == 'Dish'}
 OPP = {(o['course'], o['l']): o for o in I['opp']}
 MOVES = {}
+
+
+def split_parts(o):
+    """Score parts on the 0-10 scale, rounded so they add up exactly to the published score (+ any Bin it penalty)."""
+    parts = o.get('parts') or {}
+    total = round(o['score'] + (o.get('fat') or 0))          # in tenths of a point on the 0-10 scale
+    raw = {k: v for k, v in parts.items()}
+    scale = total / sum(raw.values()) if sum(raw.values()) else 0
+    exact = {k: v * scale for k, v in raw.items()}
+    fl = {k: int(v) for k, v in exact.items()}
+    for k in sorted(exact, key=lambda k: -(exact[k] - fl[k]))[:total - sum(fl.values())]:
+        fl[k] += 1
+    return {k: fl[k] / 10 for k in parts}
+
 for s, d in DISHES.items():
     rows = []
     for m in d['mv']:
         c, o = CIX.get((m['k'], d['l'])) or {}, OPP.get((m['k'], d['l']))
         m = dict(m, lo=c.get('lo'), hi=c.get('hi'))
         if o:
-            m.update(score=round(o['score'] / 10, 1), tier=o['tier'], parts={k: round(v / 10, 1) for k, v in (o.get('parts') or {}).items()},
-                     fat=round((o.get('fat') or 0) / 10, 1))
+            m.update(score=round(o['score'] / 10, 1), tier=o['tier'], parts=split_parts(o), fat=round((o.get('fat') or 0) / 10, 1))
         it = next((x for x in P['trends'][m['k']]['cats'] if (x.get('l') or lab(x['c'])) == d['l']), None)
         if it is not None:
             m['shift'] = shifts(m['k'], it)

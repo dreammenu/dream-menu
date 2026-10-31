@@ -206,13 +206,14 @@ def opportunity():
         room = min(100, sp['top'] * 2) if sp['mentions'] >= 5 else 30
         fat = 10 if r['c'] in FATIGUE else 0
         score = 0.30 * demand + 0.35 * mom + 0.15 * evid + 0.20 * room - fat
+        shown = round(score)  # tiers use the published (rounded) score so the label always matches the number
         if r['sig'] and r['move'] > 0:
             tier = 'Back'
         elif r['sig'] and r['move'] < 0:
             tier = 'Review'
-        elif score >= 60:
+        elif shown >= 60:
             tier = 'Back'
-        elif score >= 45:
+        elif shown >= 45:
             tier = 'Watch'
         else:
             tier = 'Review' if r['move'] < 0 else 'Watch'
