@@ -175,6 +175,47 @@ for s, d in DISHES.items():
     written.append(page(f'/trends/{s}', f'{d["l"]}: dish trend | Dream Menu',
                         f'{d["l"]} on the dream menu: {best["pct"]:.1f}% of {best["course"].lower()} answers from {fmt(P["n_all"])} Dream Menu interviews, where guests go for it and which markets name it most.', body, ld))
 
+# share-shift theories: which dishes in the same course moved the other way (likely substitutes)
+def _corr(a, b, low):
+    pr = [(x, y) for x, y, l in zip(a or [], b or [], low or [False] * 9) if x is not None and y is not None and not l]
+    if len(pr) < 3:
+        return 0.0
+    mx, my = sum(x for x, _ in pr) / len(pr), sum(y for _, y in pr) / len(pr)
+    sxy = sum((x - mx) * (y - my) for x, y in pr)
+    sx = sum((x - mx) ** 2 for x, _ in pr) ** .5
+    sy = sum((y - my) ** 2 for _, y in pr) ** .5
+    return sxy / (sx * sy) if sx and sy else 0.0
+
+
+def shifts(k, it):
+    T = P['trends'][k]
+    m = it.get('move') or 0
+    out = []
+    for o in T['cats']:
+        if o is it or o.get('move') is None:
+            continue
+        om = o['move']
+        if abs(m) >= 0.5 and (om * m >= 0 or abs(om) < 0.5):
+            continue                      # need an opposite move
+        if abs(m) < 0.5 and abs(om) < 1.0:
+            continue                      # steady dish: show only real movers it competes with
+        same = (o.get('g') or grp(o['c'])) == (it.get('g') or grp(it['c']))
+        r = _corr(it.get('share'), o.get('share'), T['low'])
+        w = abs(om) * (1.6 if same else 1.0) * (1 + max(0.0, -r)) * (1.3 if o.get('sig') else 1.0)
+        out.append(dict(l=o.get('l') or lab(o['c']), s=slugify(o.get('l') or lab(o['c'])), move=om, sig=bool(o.get('sig')),
+                        same=same, r=round(r, 2), w=w))
+    out.sort(key=lambda x: -x['w'])
+    for x in out:
+        x.pop('w')
+    g = it.get('g') or grp(it['c'])
+    G = {x['c']: x for x in T.get('groups') or []}
+    grp_row = G.get(g)
+    other = sorted((x for x in T.get('groups') or [] if x['c'] != g and x.get('move') is not None
+                    and (abs(m) < 0.5 or x['move'] * m < 0)), key=lambda x: -abs(x['move']))[:2]
+    return dict(sub=out[:3], grp=dict(l=g, move=grp_row['move'], sig=bool(grp_row.get('sig'))) if grp_row and g else None,
+                og=[dict(l=x['c'], move=x['move'], sig=bool(x.get('sig'))) for x in other])
+
+
 # partner-only movement data for the dish pages (served behind sign-in by middleware.js: /partner/:path*)
 I = load('partner/intel-data.js', 'DM_INTEL')
 CIX = {(c['course'], c['l']): c for c in I['ci'] if c.get('level') == 'Dish'}
@@ -186,7 +227,11 @@ for s, d in DISHES.items():
         c, o = CIX.get((m['k'], d['l'])) or {}, OPP.get((m['k'], d['l']))
         m = dict(m, lo=c.get('lo'), hi=c.get('hi'))
         if o:
-            m.update(score=round(o['score'] / 10, 1), tier=o['tier'])
+            m.update(score=round(o['score'] / 10, 1), tier=o['tier'], parts={k: round(v / 10, 1) for k, v in (o.get('parts') or {}).items()},
+                     fat=round((o.get('fat') or 0) / 10, 1))
+        it = next((x for x in P['trends'][m['k']]['cats'] if (x.get('l') or lab(x['c'])) == d['l']), None)
+        if it is not None:
+            m['shift'] = shifts(m['k'], it)
         rows.append({k: v for k, v in m.items() if v is not None and k != 'k'})
     MOVES[s] = rows
 MOVE_META = dict(last=P['last'], early=P['method']['early'], late=P['method']['late'], test=P['method']['test'], min_n=P.get('min_n') or 100)
