@@ -134,6 +134,68 @@ def vlink(v):
     return f'<a href="/venue/{vslug(v)}">{E(v["n"])}</a>' if v['i'] in HAS_PAGE else f'<a href="/map#venue-{v["i"]}">{E(v["n"])}</a>'
 
 
+# ---------------------------------------------------------------- "Worth knowing" side box
+# Public insights: only headline facts (shares, ranks, markets, venues, awards). No movement (Heads of Terms 3.3/3.4).
+# Each rule fires only when the pattern is strong enough to be worth saying.
+BIN_N = dict(P['extra']['bin'])
+FATIGUE_MAP = {'Loaded / dirty fries': 'Loaded and dirty food', 'Truffle fries': 'Loaded and dirty food'}   # as tools/build_intel.py
+AWD = D.get('aw') or {}
+ORD = {1: 'most-chosen', 2: 'second most-chosen', 3: 'third most-chosen'}
+
+
+def public_insights(d):
+    out = []
+    ci = CI.get(d['c'])
+    best = max(d['rows'], key=lambda r: r['pct'])
+    c = best['course'].lower()
+    T = P['trends'][best['k']]
+    me = next(x for x in T['cats'] if (x.get('l') or lab(x['c'])) == d['l'])
+    fam = d['g']
+    G = next((g for g in T.get('groups') or [] if g['c'] == fam), None)
+    sibs = [x for x in T['cats'] if (x.get('g') or grp(x['c'])) == fam]
+    if G and len(sibs) >= 2 and G['n'] >= 30:
+        sh = 100 * me['n'] / G['n']
+        if sh >= 40:
+            out.append(('family', f'Takes <b>{round(sh)}%</b> of all {E(fam.lower())} picks in the {E(c)} course ({me["n"]} of {G["n"]}).'))
+    if len(d['rows']) > 1:
+        cs = ' and '.join(E(r['course'].lower()) for r in d['rows'])
+        out.append(('courses', f'Guests put it on the menu as both a {cs}: {fmt(sum(r["n"] for r in d["rows"]))} picks in all.'))
+    if ci is not None and W_TOT:
+        wsh = W_CNT.get(ci, 0) / W_TOT
+        best_mk = None
+        for name, _ in MARKETS:
+            n = MK_CNT[name].get(ci, 0)
+            if wsh and MK_TOT[name] >= 50 and n >= 5:
+                x = (n / MK_TOT[name]) / wsh
+                if x >= 1.5 and (not best_mk or x > best_mk[1]):
+                    best_mk = (name, x, n)
+        if best_mk:
+            out.append(('market', f'{E(best_mk[0])} names it <b>{best_mk[1]:.1f}×</b> as often as all markets do ({best_mk[2]} venue mentions).'))
+    allv = venues_for(d['c'], 10 ** 6)
+    tot = sum(k for k, _ in allv)
+    if tot >= 6 and allv:
+        k, v = allv[0]
+        if k / tot >= 0.25 and k >= 3:
+            out.append(('venue', f'One address leads: <b>{E(v["n"])}</b> gets {k} of the {tot} venue mentions for it ({round(100 * k / tot)}%).'))
+    if tot >= 10 and allv and allv[0][0] / tot < 0.15 and len(allv) >= 10:
+        out.append(('spread', f'No single home: guests tie it to <b>{len(allv)}</b> different venues, none with more than {allv[0][0]} mentions.'))
+    if len(allv) >= 5:
+        aw = [v for _, v in allv if v['i'] in AWD]
+        if len(aw) / len(allv) >= 0.4:
+            out.append(('awards', f'Critics agree: {len(aw)} of the {len(allv)} venues guests name for it hold a guide award.'))
+    b = FATIGUE_MAP.get(d['c'])
+    if b and BIN_N.get(b):
+        out.append(('bin', f'Divisive: {BIN_N[b]} guests named &ldquo;{E(b.lower())}&rdquo; as a trend they want to bin.'))
+    return out[:4]
+
+
+def insight_box(d):
+    items = public_insights(d)
+    lis = ''.join(f'<li data-k="{k}">{t}</li>' for k, t in items)
+    return (f'<aside class="dm-ins" id="dm-ins"{"" if items else " hidden"}><h2>Worth knowing</h2>'
+            f'<ul class="ins-list">{lis}</ul></aside>')
+
+
 written = []
 for s, d in DISHES.items():
     ci = CI.get(d['c'])
@@ -154,12 +216,13 @@ for s, d in DISHES.items():
     rel = ''.join(f'<a class="pg-chip" href="/trends/{slugify(x["l"])}">{E(x["l"])}</a>' for x in same)
     lede = (f'{best["pct"]:.1f}% of guests who answered the {best["course"].lower()} question chose {E(d["l"])}, '
             f'number {best["rank"]} of the {best["of"]} {best["course"].lower()} dishes we track.')
-    body = f'''<section class="pg-hero"><div class="wrap">
+    ibox = insight_box(d)
+    body = f'''<section class="pg-hero"><div class="wrap pg-hero-ins{" has-ins" if "hidden" not in ibox.split(">")[0] else ""}"><div class="pg-hero-main">
   <p class="eyebrow"><a href="/trends">Dish trends</a>{(" · " + E(d["g"])) if d["g"] else ""}</p>
   <h1>{E(d["l"])}</h1>
   <p class="lede">{lede}</p>
   <div class="pg-facts"><div><b>{best["pct"]:.1f}%</b><span>of {E(best["course"].lower())} answers</span></div><div><b>#{best["rank"]}</b><span>{E(best["course"].lower())} dish</span></div><div><b>{fmt(sum(r["n"] for r in d["rows"]))}</b><span>guests chose it</span></div><div><b>{len(vs) and fmt(sum(k for k, _ in venues_for(d["c"], 10**6)))}</b><span>venue mentions for it</span></div></div>
-</div></section>
+</div>{ibox}</div></section>
 <section><div class="wrap pg-grid">
   <div class="card"><h2>On the dream menu</h2><div class="tablewrap" style="border:0"><table><thead><tr><th>Course</th><th class="num">Share</th><th class="num">Guests</th><th class="num">Rank</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p class="pg-mut">Share of the guests who answered that course, all interviews.</p></div>
@@ -221,6 +284,40 @@ I = load('partner/intel-data.js', 'DM_INTEL')
 CIX = {(c['course'], c['l']): c for c in I['ci'] if c.get('level') == 'Dish'}
 OPP = {(o['course'], o['l']): o for o in I['opp']}
 MOVES = {}
+SCORED = sorted(I['opp'], key=lambda o: -o['score'])
+
+
+def partner_insights(k, it, m):
+    """Movement insights for signed-in partners. Returned as plain text; each fires only when notable."""
+    T = P['trends'][k]
+    out = []
+    sh, low, q = it['share'], T['low'], T['q']
+    solid = [(i, v) for i, v in enumerate(sh) if v is not None and not low[i]]
+    ql = lambda x: x.split('-')[1] + ' ' + x.split('-')[0]
+    if len(solid) >= 3:
+        li, lv = solid[-1]
+        if lv == max(v for _, v in solid) and lv > solid[0][1]:
+            out.append(f'Its highest share in any quarter with {P["min_n"]}+ answers came in {ql(q[li])} ({lv:.1f}%), the latest such quarter.')
+        elif lv == min(v for _, v in solid) and lv < solid[0][1]:
+            out.append(f'Its lowest share in any quarter with {P["min_n"]}+ answers came in {ql(q[li])} ({lv:.1f}%), the latest such quarter.')
+    mv = sorted(T['cats'], key=lambda c: -c['move'])
+    if mv[0] is it and it['move'] >= 1:
+        out.append(f'The fastest-rising {T["label"].lower()} we track ({it["move"]:+.1f} pts{", a clear move" if it["sig"] else ""}).')
+    elif mv[-1] is it and it['move'] <= -1:
+        out.append(f'The fastest-falling {T["label"].lower()} we track ({it["move"]:+.1f} pts{", a clear move" if it["sig"] else ""}).'.replace('+-', '-'))
+    if it['early'] >= 1 and it['late'] >= 2 * it['early']:
+        out.append(f'More than doubled: {it["early"]:.1f}% earlier to {it["late"]:.1f}% recently.')
+    elif it['early'] >= 2 and it['late'] <= 0.5 * it['early']:
+        out.append(f'Share has halved or worse: {it["early"]:.1f}% earlier to {it["late"]:.1f}% recently.')
+    lab = it.get('l') or lab_(it['c'])
+    pos = next((n for n, o in enumerate(SCORED, 1) if o['course'] == k and o['l'] == lab), None)
+    if pos and pos <= 5:
+        out.append(f'Number {pos} of the {len(SCORED)} dishes and drinks with a trend score.')
+    rank = lambda x: 0 if x.startswith('Number') else 1 if 'fastest' in x else 2 if ('doubled' in x or 'halved' in x) else 3
+    return [x.replace('+-', '−').replace('(-', '(−') for x in sorted(out, key=rank)]
+
+
+lab_ = lab
 
 
 def split_parts(o):
@@ -245,6 +342,8 @@ for s, d in DISHES.items():
         it = next((x for x in P['trends'][m['k']]['cats'] if (x.get('l') or lab(x['c'])) == d['l']), None)
         if it is not None:
             m['shift'] = shifts(m['k'], it)
+        if it is not None:
+            m['ins'] = partner_insights(m['k'], it, m)
         rows.append({k: v for k, v in m.items() if v is not None and k != 'k'})
     MOVES[s] = rows
 MOVE_META = dict(last=P['last'], early=P['method']['early'], late=P['method']['late'], test=P['method']['test'], min_n=P.get('min_n') or 100)

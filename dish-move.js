@@ -149,6 +149,15 @@
       '<p class="pg-mut">A pointer for where to look, not proof one dish replaced another: guests choose one dish per course, so shares always trade off.</p></div>' +
     '</div></details>';
 
+  var ib = document.getElementById('dm-ins');
+  var pins = [];
+  rows.forEach(function (r) { (r.ins || []).forEach(function (t) { pins.push((rows.length > 1 ? r.course + ': ' : '') + t); }); });
+  if (ib && pins.length) {
+    var ul = ib.querySelector('.ins-list');
+    ul.insertAdjacentHTML('beforeend', pins.slice(0, 3).map(function (t) { return '<li class="ins-p"><span class="ins-tag">Partner</span>' + esc(t) + '</li>'; }).join(''));
+    ib.hidden = false;
+    if (ib.parentNode) ib.parentNode.classList.add('has-ins');
+  }
   box.classList.remove('pg-lock');
   box.classList.add('mv');
   box.innerHTML = '<h2>Is it rising? <span class="mv-badge">Partner</span></h2><div class="mv-rows">' + rows.map(block).join('') + '</div>' + key +
