@@ -1,0 +1,4391 @@
+{
+ "note": "Award lists outside awards.js, collected 31 Oct 2026 for matching to Dream Menu guest venues. Each entry: [venue, town, award text].",
+ "lists": [
+  {
+   "code": "aa-gla-2025",
+   "name": "AA Rosettes, Glasgow",
+   "year": 2025,
+   "url": "https://www.newsletter.co.uk/lifestyle/food-and-drink/glasgow-restaurants-aa-rosettes-5343950",
+   "entries": [
+    [
+     "The Restaurant at One Devonshire Gardens",
+     "Glasgow",
+     "Three AA Rosettes"
+    ],
+    [
+     "Cail Bruich",
+     "Glasgow",
+     "Three AA Rosettes"
+    ],
+    [
+     "The Gannet",
+     "Glasgow",
+     "Three AA Rosettes"
+    ],
+    [
+     "UNALOME by Graeme Cheevers",
+     "Glasgow",
+     "Three AA Rosettes"
+    ],
+    [
+     "Swadish by Ajay Kumar",
+     "Glasgow",
+     "Two AA Rosettes"
+    ],
+    [
+     "Number Sixteen",
+     "Glasgow",
+     "Two AA Rosettes"
+    ],
+    [
+     "Shish Mahal",
+     "Glasgow",
+     "Two AA Rosettes"
+    ],
+    [
+     "Ubiquitous Chip",
+     "Glasgow",
+     "Two AA Rosettes"
+    ],
+    [
+     "Kelp",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "Partick Duck Club",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "Eighty Eight",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "The Prancing Stag",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "iasg",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "La Bonne Auberge",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "Stravaigin",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "Chez Mal Brasserie",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "Opium",
+     "Glasgow",
+     "One AA Rosette"
+    ],
+    [
+     "Porter & Rye",
+     "Glasgow",
+     "One AA Rosette"
+    ]
+   ]
+  },
+  {
+   "code": "mich-sco-2025",
+   "name": "MICHELIN Guide Great Britain & Ireland (Scotland entries)",
+   "year": 2025,
+   "url": "https://foodanddrink.scotsman.com/food/every-scottish-restaurant-featured-in-the-michelin-guide-2025-from-cosy-country-pubs-to-townhouse-tasting-menus/",
+   "entries": [
+    [
+     "Restaurant Andrew Fairlie",
+     "Auchterarder",
+     "Two MICHELIN Stars"
+    ],
+    [
+     "The Glenturret Lalique",
+     "Crieff",
+     "Two MICHELIN Stars"
+    ],
+    [
+     "Cail Bruich",
+     "Glasgow",
+     "One MICHELIN Star"
+    ],
+    [
+     "Killiecrankie House",
+     "Killiecrankie",
+     "One MICHELIN Star"
+    ],
+    [
+     "1887 at The Torridon",
+     "Torridon",
+     "One MICHELIN Star"
+    ],
+    [
+     "Unalome by Graeme Cheevers",
+     "Glasgow",
+     "One MICHELIN Star"
+    ],
+    [
+     "Heron",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "Avery",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "Lyla",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "Condita",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "The Kitchin",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "Restaurant Martin Wishart",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "Timberyard",
+     "Edinburgh",
+     "One MICHELIN Star"
+    ],
+    [
+     "The Peat Inn",
+     "Cupar",
+     "One MICHELIN Star"
+    ],
+    [
+     "Loch Bay",
+     "Isle of Skye",
+     "One MICHELIN Star"
+    ],
+    [
+     "Inver",
+     "Strachur",
+     "MICHELIN Green Star"
+    ],
+    [
+     "The Free Company",
+     "Balerno",
+     "MICHELIN Green Star"
+    ],
+    [
+     "Gaga",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "Margo",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "Sebb's",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "The Clarence",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "Angeethi by Sagar Massey",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "Mara",
+     "Aberdeen",
+     "Bib Gourmand"
+    ],
+    [
+     "Kilberry Inn",
+     "Kilberry",
+     "Bib Gourmand"
+    ],
+    [
+     "Skua",
+     "Edinburgh",
+     "Bib Gourmand"
+    ],
+    [
+     "Ardfern",
+     "Edinburgh",
+     "Bib Gourmand"
+    ],
+    [
+     "The Fish Shop",
+     "Ballater",
+     "Bib Gourmand"
+    ],
+    [
+     "Ka Pao",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "Ox and Finch",
+     "Glasgow",
+     "Bib Gourmand"
+    ],
+    [
+     "Noto",
+     "Edinburgh",
+     "Bib Gourmand"
+    ],
+    [
+     "The Bonnie Badger",
+     "Gullane",
+     "Bib Gourmand"
+    ],
+    [
+     "The Scran and Scallie",
+     "Edinburgh",
+     "Bib Gourmand"
+    ],
+    [
+     "Number 16",
+     "Glasgow",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Fallachan Kitchen",
+     "Glasgow",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Coorie Inn",
+     "Crieff",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Loma by Graeme Cheevers",
+     "Balloch",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Stravaigin",
+     "Glasgow",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Brett",
+     "Glasgow",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Wee Restaurant",
+     "North Queensferry",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Little Capo",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Dùthchas",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Vinette",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Palmerston",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Dulse",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Sotto",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Dean Banks at the Pompadour",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Hendersons",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Leftfield",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Aizle",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Purslane",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Eorna",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Cardinal",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Argile",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Spence",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Number One",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Broughton",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Fhior",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Spry",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Eleanore",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Montrose",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Little Chartroom",
+     "Edinburgh",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "La Potinière",
+     "Gullane",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Shoregate",
+     "Crail",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Kinneuchar Inn",
+     "Kilconquhar",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Haar",
+     "St Andrews",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Seafood Ristorante",
+     "St Andrews",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "North Port",
+     "Perth",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Edinbane Lodge",
+     "Isle of Skye",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Hoebridge",
+     "Gattonside",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "1610 at the Globe Inn",
+     "Dumfries",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Kirkmichael Arms",
+     "Kirkmichael",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Provender",
+     "Melrose",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Pierhouse",
+     "Port Appin",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Mingary Castle",
+     "Kilchoan",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Scorrybreac",
+     "Isle of Skye",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Three Chimneys",
+     "Isle of Skye",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Dipping Lugger",
+     "Ullapool",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Rocpool",
+     "Inverness",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Kildrummy Inn",
+     "Kildrummy",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Clunie Dining Room",
+     "Braemar",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Station Road",
+     "Fort Augustus",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Amuse by Kevin Dalgleish",
+     "Aberdeen",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Cafe Boheme",
+     "Aberdeen",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Grandtully Hotel",
+     "Grandtully",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Gordon's",
+     "Inverkeilor",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "Collinsons",
+     "Broughty Ferry",
+     "MICHELIN Guide selected"
+    ],
+    [
+     "The Dory Bistro and Gallery",
+     "Pittenweem",
+     "MICHELIN Guide selected"
+    ]
+   ]
+  },
+  {
+   "code": "sbpa-2025",
+   "name": "Scottish Bar & Pub Awards",
+   "year": 2025,
+   "url": "https://dramscotland.co.uk/2025/08/28/the-scottish-bar-and-pub-awards-2025-crowns-its-stars",
+   "entries": [
+    [
+     "Athletic Arms",
+     "Edinburgh",
+     "Whisky Bar of the Year"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "Best Cocktail Bar"
+    ],
+    [
+     "The Original Rosslyn Inn",
+     "Roslin",
+     "Dog Friendly Pub of the Year"
+    ],
+    [
+     "The Anchorage",
+     "Dunure",
+     "Dog Friendly Pub, highly commended"
+    ],
+    [
+     "Draffens",
+     "Dundee",
+     "Cocktail Excellence in Neighbourhood Venues"
+    ],
+    [
+     "The Corner House",
+     "Kilwinning",
+     "Cocktail Excellence in Neighbourhood Venues, highly commended"
+    ],
+    [
+     "Freddy's",
+     "Edinburgh",
+     "Best Late Night Venue"
+    ],
+    [
+     "Black Ivy",
+     "Edinburgh",
+     "Hotel Bar of the Year"
+    ],
+    [
+     "The Criterion",
+     "St Andrews",
+     "Best Drinks Offering"
+    ],
+    [
+     "Hugo's Bar & Pavilion",
+     "Dalgety Bay",
+     "Best Beer Garden"
+    ],
+    [
+     "Kitty O'Shea's",
+     "Glasgow",
+     "Best Irish Bar"
+    ],
+    [
+     "The Birds & Bees",
+     "Stirling",
+     "Gastro Pub of the Year"
+    ],
+    [
+     "Crown & Anchor Inn",
+     "Findhorn",
+     "Gastro Pub of the Year, highly commended"
+    ],
+    [
+     "The Newton Bar",
+     "Millport",
+     "Community Pub of the Year"
+    ],
+    [
+     "Berlinkys",
+     "Glasgow",
+     "Best New Bar"
+    ],
+    [
+     "Lochy's",
+     "Barrhead",
+     "Sports Bar of the Year"
+    ],
+    [
+     "The Phoenix",
+     "Dundee",
+     "Award for Outstanding Quality"
+    ],
+    [
+     "MacSorleys",
+     "Glasgow",
+     "Sunday Mail Pub of the Year"
+    ]
+   ]
+  },
+  {
+   "code": "sbpa-2024",
+   "name": "Scottish Bar & Pub Awards",
+   "year": 2024,
+   "url": "https://foodanddrink.scotsman.com/in-the-news/all-the-winners-of-the-2024-scottish-bar-and-pub-awards-including-bar-of-the-year/",
+   "entries": [
+    [
+     "The Piper Whisky Bar",
+     "Glasgow",
+     "Whisky Bar of the Year"
+    ],
+    [
+     "The Absent Ear",
+     "Glasgow",
+     "Best Cocktail Bar"
+    ],
+    [
+     "Shilling Brewing Company",
+     "Glasgow",
+     "Craft Beer Bar of the Year"
+    ],
+    [
+     "Tempura",
+     "Ayr",
+     "Casual Dining Award"
+    ],
+    [
+     "Boteco Do Brasil",
+     "Glasgow",
+     "Latin American Venue of the Year"
+    ],
+    [
+     "The Ship",
+     "Irvine",
+     "Dog Friendly Pub of the Year"
+    ],
+    [
+     "Teuchters Landing",
+     "Edinburgh",
+     "Best Drinks Offering"
+    ],
+    [
+     "Malones",
+     "Aberdeen",
+     "Best Irish Bar"
+    ],
+    [
+     "The Stravaig",
+     "Ayr",
+     "New Bar of the Year"
+    ],
+    [
+     "Black Ivy",
+     "Edinburgh",
+     "Best Outdoor Area"
+    ],
+    [
+     "Lochrin Rooftop Bar",
+     "Edinburgh",
+     "Hotel Bar of the Year"
+    ],
+    [
+     "Fullbacks Sports & Pizza Bar",
+     "Milngavie",
+     "Sports Bar of the Year"
+    ],
+    [
+     "Hugo's Bar and Pavilion",
+     "Dalgety Bay",
+     "Award for Outstanding Quality"
+    ],
+    [
+     "The Craw's Nest",
+     "Carnoustie",
+     "Community Pub of the Year"
+    ],
+    [
+     "The Smokin' Fox",
+     "Glasgow",
+     "Sunday Mail Pub of the Year"
+    ]
+   ]
+  },
+  {
+   "code": "sra-2024",
+   "name": "Scottish Restaurant Awards",
+   "year": 2024,
+   "url": "https://www.scottishdailyexpress.co.uk/lifestyle/glasgow-restaurants-won-big-scottish-32401160",
+   "entries": [
+    [
+     "Chickaros",
+     "Glasgow",
+     "Burger Restaurant of the Year"
+    ],
+    [
+     "Tapa",
+     "Edinburgh",
+     "Spanish Restaurant of the Year"
+    ],
+    [
+     "Elena's Spanish Bar & Restaurant",
+     "Glasgow",
+     "Spanish Restaurant, highly commended"
+    ],
+    [
+     "Valvona & Crolla",
+     "Edinburgh",
+     "Italian Restaurant of the Year"
+    ],
+    [
+     "Piccolo Mondo",
+     "Glasgow",
+     "Italian Restaurant, highly commended"
+    ],
+    [
+     "Antioch Restaurant",
+     "Dunfermline",
+     "Turkish Restaurant of the Year"
+    ],
+    [
+     "Meze Meze",
+     "Glasgow",
+     "Turkish Restaurant, highly commended"
+    ],
+    [
+     "Damasqino Restaurant & Cafe",
+     "Glasgow",
+     "Middle Eastern Restaurant of the Year"
+    ],
+    [
+     "Rockvilla Pizza & Subs",
+     "Glasgow",
+     "Pizza Restaurant of the Year"
+    ],
+    [
+     "Eastern Touch",
+     "Anstruther",
+     "Indian Restaurant of the Year"
+    ],
+    [
+     "Asian Kitchen",
+     "Inverurie",
+     "Chinese Restaurant of the Year"
+    ],
+    [
+     "Chin Chin Restaurant & Bar",
+     "Glasgow",
+     "Chinese Restaurant, highly commended"
+    ],
+    [
+     "The Thai Bar & Restaurant",
+     "Glasgow",
+     "Thai Restaurant of the Year"
+    ],
+    [
+     "Chaophraya",
+     "Glasgow",
+     "Thai Restaurant, highly commended"
+    ],
+    [
+     "Booffi World Buffet",
+     "Clydebank",
+     "Buffet Restaurant of the Year"
+    ],
+    [
+     "Bombay Blues",
+     "Glasgow",
+     "Buffet Restaurant, highly commended"
+    ],
+    [
+     "Mountain Spice",
+     "Kilmarnock",
+     "Best World Cuisine"
+    ],
+    [
+     "Bantaba Afro Caribbean Restaurant",
+     "Glasgow",
+     "Best World Cuisine, highly commended"
+    ],
+    [
+     "Chawp Pet Noi",
+     "Glasgow",
+     "Street Food Restaurant of the Year"
+    ],
+    [
+     "Steak Inn",
+     "Glasgow",
+     "Family Restaurant of the Year"
+    ],
+    [
+     "Scotts Bar & Restaurant",
+     "Greenock",
+     "Family Restaurant, highly commended"
+    ],
+    [
+     "Sapporo Teppanyaki",
+     "Glasgow",
+     "Sushi Restaurant of the Year"
+    ],
+    [
+     "Smokey Trotters Kitchen",
+     "Glasgow",
+     "Kitchen of the Year"
+    ],
+    [
+     "Kitchen Glasgow",
+     "Glasgow",
+     "Kitchen of the Year, highly commended"
+    ],
+    [
+     "Malaga Tapas",
+     "Glasgow",
+     "Best of Glasgow"
+    ]
+   ]
+  },
+  {
+   "code": "nra-2025",
+   "name": "National Restaurant Awards UK Top 100",
+   "year": 2025,
+   "url": "https://www.thestaffcanteen.com/News/national-restaurant-awards-2025-the-ritz-named-best-uk-restaurant",
+   "entries": [
+    [
+     "The Ritz",
+     "London",
+     "#1 UK Top 100"
+    ],
+    [
+     "Moor Hall",
+     "Aughton",
+     "#2 UK Top 100"
+    ],
+    [
+     "The Ledbury",
+     "London",
+     "#3 UK Top 100"
+    ],
+    [
+     "Trinity",
+     "London",
+     "#4 UK Top 100"
+    ],
+    [
+     "Bouchon Racine",
+     "London",
+     "#5 UK Top 100"
+    ],
+    [
+     "OMA",
+     "London",
+     "#6 UK Top 100"
+    ],
+    [
+     "AngloThai",
+     "London",
+     "#7 UK Top 100"
+    ],
+    [
+     "Osip",
+     "Bruton",
+     "#8 UK Top 100"
+    ],
+    [
+     "Ynyshir",
+     "Machynlleth",
+     "#9 UK Top 100"
+    ],
+    [
+     "Dorian",
+     "London",
+     "#10 UK Top 100"
+    ],
+    [
+     "Mountain",
+     "London",
+     "#11 UK Top 100"
+    ],
+    [
+     "The Devonshire",
+     "London",
+     "#12 UK Top 100"
+    ],
+    [
+     "Kiln",
+     "London",
+     "#13 UK Top 100"
+    ],
+    [
+     "Restaurant Gordon Ramsay",
+     "London",
+     "#14 UK Top 100"
+    ],
+    [
+     "Woven by Adam Smith",
+     "Ascot",
+     "#15 UK Top 100"
+    ],
+    [
+     "Ikoyi",
+     "London",
+     "#16 UK Top 100"
+    ],
+    [
+     "Lyla",
+     "Edinburgh",
+     "#17 UK Top 100"
+    ],
+    [
+     "A Wong",
+     "London",
+     "#18 UK Top 100"
+    ],
+    [
+     "Da Terra",
+     "London",
+     "#19 UK Top 100"
+    ],
+    [
+     "Brooklands by Claude Bosi",
+     "London",
+     "#20 UK Top 100"
+    ],
+    [
+     "Lyle's",
+     "London",
+     "#21 UK Top 100"
+    ],
+    [
+     "Kitchen Table",
+     "London",
+     "#22 UK Top 100"
+    ],
+    [
+     "Josephine Bouchon",
+     "London",
+     "#23 UK Top 100"
+    ],
+    [
+     "Endo at the Rotunda",
+     "London",
+     "#24 UK Top 100"
+    ],
+    [
+     "Paul Ainsworth at No.6",
+     "Padstow",
+     "#25 UK Top 100"
+    ],
+    [
+     "Restaurant Pine",
+     "East Wallhouses",
+     "#26 UK Top 100"
+    ],
+    [
+     "Canteen",
+     "Bristol",
+     "#27 UK Top 100"
+    ],
+    [
+     "The Unruly Pig",
+     "Bromeswell",
+     "#28 UK Top 100"
+    ],
+    [
+     "Sabor",
+     "London",
+     "#29 UK Top 100"
+    ],
+    [
+     "Row on 5",
+     "London",
+     "#30 UK Top 100"
+    ],
+    [
+     "Restaurant Sat Bains",
+     "Nottingham",
+     "#31 UK Top 100"
+    ],
+    [
+     "BiBi",
+     "London",
+     "#32 UK Top 100"
+    ],
+    [
+     "Kolae",
+     "London",
+     "#33 UK Top 100"
+    ],
+    [
+     "The Sportsman",
+     "Seasalter",
+     "#34 UK Top 100"
+    ],
+    [
+     "L'Enclume",
+     "Cartmel",
+     "#35 UK Top 100"
+    ],
+    [
+     "Higher Ground",
+     "Manchester",
+     "#36 UK Top 100"
+    ],
+    [
+     "Camille",
+     "London",
+     "#37 UK Top 100"
+    ],
+    [
+     "Core by Clare Smyth",
+     "London",
+     "#38 UK Top 100"
+    ],
+    [
+     "Claude Bosi at Bibendum",
+     "London",
+     "#39 UK Top 100"
+    ],
+    [
+     "Chishuru",
+     "London",
+     "#40 UK Top 100"
+    ],
+    [
+     "The Glenturret Lalique",
+     "Crieff",
+     "#41 UK Top 100"
+    ],
+    [
+     "Frog by Adam Handling",
+     "London",
+     "#42 UK Top 100"
+    ],
+    [
+     "JÖRO",
+     "Sheffield",
+     "#43 UK Top 100"
+    ],
+    [
+     "Grace & Savour",
+     "Hampton-in-Arden",
+     "#44 UK Top 100"
+    ],
+    [
+     "Updown Farmhouse",
+     "Deal",
+     "#45 UK Top 100"
+    ],
+    [
+     "Dongnae",
+     "Bristol",
+     "#46 UK Top 100"
+    ],
+    [
+     "Le Manoir aux Quat'Saisons",
+     "Great Milton",
+     "#47 UK Top 100"
+    ],
+    [
+     "Opheem",
+     "Birmingham",
+     "#48 UK Top 100"
+    ],
+    [
+     "Restaurant Interlude",
+     "Horsham",
+     "#49 UK Top 100"
+    ],
+    [
+     "KOL",
+     "London",
+     "#50 UK Top 100"
+    ],
+    [
+     "AGORA",
+     "London",
+     "#51 UK Top 100"
+    ],
+    [
+     "Akoko",
+     "London",
+     "#52 UK Top 100"
+    ],
+    [
+     "Chez Bruce",
+     "London",
+     "#53 UK Top 100"
+    ],
+    [
+     "Brat",
+     "London",
+     "#54 UK Top 100"
+    ],
+    [
+     "The Forest Side",
+     "Grasmere",
+     "#55 UK Top 100"
+    ],
+    [
+     "Gorse",
+     "Cardiff",
+     "#56 UK Top 100"
+    ],
+    [
+     "Humble Chicken",
+     "London",
+     "#57 UK Top 100"
+    ],
+    [
+     "Cornus",
+     "London",
+     "#58 UK Top 100"
+    ],
+    [
+     "Morchella",
+     "London",
+     "#59 UK Top 100"
+    ],
+    [
+     "Skof",
+     "Manchester",
+     "#60 UK Top 100"
+    ],
+    [
+     "Sollip",
+     "London",
+     "#61 UK Top 100"
+    ],
+    [
+     "Cedar Tree by Hrishikesh Desai",
+     "Grasmere",
+     "#62 UK Top 100"
+    ],
+    [
+     "Starling",
+     "Esher",
+     "#63 UK Top 100"
+    ],
+    [
+     "Plates",
+     "London",
+     "#64 UK Top 100"
+    ],
+    [
+     "Wilson's",
+     "Bristol",
+     "#65 UK Top 100"
+    ],
+    [
+     "The Kinneuchar Inn",
+     "Kilconquhar",
+     "#66 UK Top 100"
+    ],
+    [
+     "Solstice",
+     "Newcastle upon Tyne",
+     "#67 UK Top 100"
+    ],
+    [
+     "Annwn",
+     "Narberth",
+     "#68 UK Top 100"
+    ],
+    [
+     "The Clove Club",
+     "London",
+     "#69 UK Top 100"
+    ],
+    [
+     "Wildflowers",
+     "London",
+     "#70 UK Top 100"
+    ],
+    [
+     "The French House",
+     "London",
+     "#71 UK Top 100"
+    ],
+    [
+     "Mýse",
+     "Hovingham",
+     "#72 UK Top 100"
+    ],
+    [
+     "Restaurant Hjem",
+     "Wall",
+     "#73 UK Top 100"
+    ],
+    [
+     "Sola",
+     "London",
+     "#74 UK Top 100"
+    ],
+    [
+     "The Angel at Hetton",
+     "Hetton",
+     "#75 UK Top 100"
+    ],
+    [
+     "The Muddlers Club",
+     "Belfast",
+     "#76 UK Top 100"
+    ],
+    [
+     "Heft",
+     "Newton-in-Cartmel",
+     "#77 UK Top 100"
+    ],
+    [
+     "Inver",
+     "Strachur",
+     "#78 UK Top 100"
+    ],
+    [
+     "The Little Chartroom",
+     "Edinburgh",
+     "#79 UK Top 100"
+    ],
+    [
+     "The Fordwich Arms",
+     "Fordwich",
+     "#80 UK Top 100"
+    ],
+    [
+     "The Black Swan at Oldstead",
+     "Oldstead",
+     "#81 UK Top 100"
+    ],
+    [
+     "Upstairs by Tom Shepherd",
+     "Lichfield",
+     "#82 UK Top 100"
+    ],
+    [
+     "The Grill by Tom Booton",
+     "London",
+     "#83 UK Top 100"
+    ],
+    [
+     "Hide",
+     "London",
+     "#84 UK Top 100"
+    ],
+    [
+     "The Parkers Arms",
+     "Newton-in-Bowland",
+     "#85 UK Top 100"
+    ],
+    [
+     "Solo",
+     "London",
+     "#86 UK Top 100"
+    ],
+    [
+     "Fallow",
+     "London",
+     "#87 UK Top 100"
+    ],
+    [
+     "Forge at Middleton Lodge",
+     "Middleton Tyas",
+     "#88 UK Top 100"
+    ],
+    [
+     "Lita",
+     "London",
+     "#89 UK Top 100"
+    ],
+    [
+     "The Quality Chop House",
+     "London",
+     "#90 UK Top 100"
+    ],
+    [
+     "Planque",
+     "London",
+     "#91 UK Top 100"
+    ],
+    [
+     "Gymkhana",
+     "London",
+     "#92 UK Top 100"
+    ],
+    [
+     "Lisboeta",
+     "London",
+     "#93 UK Top 100"
+    ],
+    [
+     "Crocadon",
+     "St Mellion",
+     "#94 UK Top 100"
+    ],
+    [
+     "Luca",
+     "London",
+     "#95 UK Top 100"
+    ],
+    [
+     "The Seahorse",
+     "Dartmouth",
+     "#96 UK Top 100"
+    ],
+    [
+     "The Palmerston",
+     "Edinburgh",
+     "#97 UK Top 100"
+    ],
+    [
+     "Trivet",
+     "London",
+     "#98 UK Top 100"
+    ],
+    [
+     "St. JOHN",
+     "London",
+     "#99 UK Top 100"
+    ],
+    [
+     "Maison Francois",
+     "London",
+     "#100 UK Top 100"
+    ]
+   ]
+  },
+  {
+   "code": "nra-2026",
+   "name": "National Restaurant Awards UK Top 100",
+   "year": 2026,
+   "url": "https://www.designmynight.com/london/blog/national-restaurant-awards-2025-revealed",
+   "entries": [
+    [
+     "Bouchon Racine",
+     "London",
+     "#1 UK Top 100"
+    ],
+    [
+     "The Ritz",
+     "London",
+     "#2 UK Top 100"
+    ],
+    [
+     "Osip",
+     "Bruton",
+     "#3 UK Top 100"
+    ],
+    [
+     "Dorian",
+     "London",
+     "#4 UK Top 100"
+    ],
+    [
+     "The Ledbury",
+     "London",
+     "#5 UK Top 100"
+    ],
+    [
+     "Moor Hall",
+     "Aughton",
+     "#6 UK Top 100"
+    ],
+    [
+     "Ynyshir",
+     "Machynlleth",
+     "#7 UK Top 100"
+    ],
+    [
+     "Mountain",
+     "London",
+     "#8 UK Top 100"
+    ],
+    [
+     "Trinity",
+     "London",
+     "#9 UK Top 100"
+    ],
+    [
+     "Woven by Adam Smith",
+     "Ascot",
+     "#10 UK Top 100"
+    ],
+    [
+     "Legado",
+     "London",
+     "#11 UK Top 100"
+    ],
+    [
+     "Planque",
+     "London",
+     "#12 UK Top 100"
+    ],
+    [
+     "Dongnae",
+     "Bristol",
+     "#13 UK Top 100"
+    ],
+    [
+     "JÖRO",
+     "Sheffield",
+     "#14 UK Top 100"
+    ],
+    [
+     "AngloThai",
+     "London",
+     "#15 UK Top 100"
+    ],
+    [
+     "Impala",
+     "London",
+     "#16 UK Top 100"
+    ],
+    [
+     "Opheem",
+     "Birmingham",
+     "#17 UK Top 100"
+    ],
+    [
+     "Row on 5",
+     "London",
+     "#18 UK Top 100"
+    ],
+    [
+     "The Devonshire",
+     "London",
+     "#19 UK Top 100"
+    ],
+    [
+     "Humble Chicken",
+     "London",
+     "#20 UK Top 100"
+    ],
+    [
+     "Camille",
+     "London",
+     "#21 UK Top 100"
+    ],
+    [
+     "Kiln",
+     "London",
+     "#22 UK Top 100"
+    ],
+    [
+     "Restaurant 22",
+     "Cambridge",
+     "#23 UK Top 100"
+    ],
+    [
+     "The Forest Side",
+     "Grasmere",
+     "#24 UK Top 100"
+    ],
+    [
+     "Ikoyi",
+     "London",
+     "#25 UK Top 100"
+    ],
+    [
+     "Timberyard",
+     "Edinburgh",
+     "#26 UK Top 100"
+    ],
+    [
+     "Mýse",
+     "Hovingham",
+     "#27 UK Top 100"
+    ],
+    [
+     "BiBi",
+     "London",
+     "#28 UK Top 100"
+    ],
+    [
+     "Grace & Savour",
+     "Hampton-in-Arden",
+     "#29 UK Top 100"
+    ],
+    [
+     "Skof",
+     "Manchester",
+     "#30 UK Top 100"
+    ],
+    [
+     "Wildflowers",
+     "London",
+     "#31 UK Top 100"
+    ],
+    [
+     "A Wong",
+     "London",
+     "#32 UK Top 100"
+    ],
+    [
+     "Wilson's",
+     "Bristol",
+     "#33 UK Top 100"
+    ],
+    [
+     "Lyla",
+     "Edinburgh",
+     "#34 UK Top 100"
+    ],
+    [
+     "L'Enclume",
+     "Cartmel",
+     "#35 UK Top 100"
+    ],
+    [
+     "The Kinneuchar Inn",
+     "Kilconquhar",
+     "#36 UK Top 100"
+    ],
+    [
+     "The Dover",
+     "London",
+     "#37 UK Top 100"
+    ],
+    [
+     "Erst",
+     "Manchester",
+     "#38 UK Top 100"
+    ],
+    [
+     "Restaurant Pine",
+     "East Wallhouses",
+     "#39 UK Top 100"
+    ],
+    [
+     "Higher Ground",
+     "Manchester",
+     "#40 UK Top 100"
+    ],
+    [
+     "Henrock",
+     "Windermere",
+     "#41 UK Top 100"
+    ],
+    [
+     "One Club Row",
+     "London",
+     "#42 UK Top 100"
+    ],
+    [
+     "Solstice",
+     "Newcastle upon Tyne",
+     "#43 UK Top 100"
+    ],
+    [
+     "Perilla",
+     "London",
+     "#44 UK Top 100"
+    ],
+    [
+     "The Glenturret Lalique",
+     "Crieff",
+     "#45 UK Top 100"
+    ],
+    [
+     "Vraic",
+     "Guernsey",
+     "#46 UK Top 100"
+    ],
+    [
+     "Da Terra",
+     "London",
+     "#47 UK Top 100"
+    ],
+    [
+     "The Angel at Hetton",
+     "Hetton",
+     "#48 UK Top 100"
+    ],
+    [
+     "Kitchen Table",
+     "London",
+     "#49 UK Top 100"
+    ],
+    [
+     "The Kitchin",
+     "Edinburgh",
+     "#50 UK Top 100"
+    ],
+    [
+     "Brat",
+     "London",
+     "#51 UK Top 100"
+    ],
+    [
+     "Dogstar",
+     "Edinburgh",
+     "#52 UK Top 100"
+    ],
+    [
+     "KOL",
+     "London",
+     "#53 UK Top 100"
+    ],
+    [
+     "Sabor",
+     "London",
+     "#54 UK Top 100"
+    ],
+    [
+     "Tollingtons",
+     "London",
+     "#55 UK Top 100"
+    ],
+    [
+     "Simpson's in the Strand",
+     "London",
+     "#56 UK Top 100"
+    ],
+    [
+     "Miga",
+     "London",
+     "#57 UK Top 100"
+    ],
+    [
+     "Lilibet's",
+     "London",
+     "#58 UK Top 100"
+    ],
+    [
+     "The Sportsman",
+     "Seasalter",
+     "#59 UK Top 100"
+    ],
+    [
+     "Frog by Adam Handling",
+     "London",
+     "#60 UK Top 100"
+    ],
+    [
+     "Maré by Rafael Cagali",
+     "Hove",
+     "#61 UK Top 100"
+    ],
+    [
+     "The French House",
+     "London",
+     "#62 UK Top 100"
+    ],
+    [
+     "The Cottage in the Wood",
+     "Braithwaite",
+     "#63 UK Top 100"
+    ],
+    [
+     "Brawn",
+     "London",
+     "#64 UK Top 100"
+    ],
+    [
+     "Kudu",
+     "London",
+     "#65 UK Top 100"
+    ],
+    [
+     "The Palmerston",
+     "Edinburgh",
+     "#66 UK Top 100"
+    ],
+    [
+     "Bonheur by Matt Abé",
+     "London",
+     "#67 UK Top 100"
+    ],
+    [
+     "Winsome",
+     "Manchester",
+     "#68 UK Top 100"
+    ],
+    [
+     "Briar",
+     "Somerset",
+     "#69 UK Top 100"
+    ],
+    [
+     "Osteria Vibrato",
+     "London",
+     "#70 UK Top 100"
+    ],
+    [
+     "DALLA",
+     "London",
+     "#71 UK Top 100"
+    ],
+    [
+     "The Black Swan at Oldstead",
+     "Oldstead",
+     "#72 UK Top 100"
+    ],
+    [
+     "40 Maltby Street",
+     "London",
+     "#73 UK Top 100"
+    ],
+    [
+     "OMA",
+     "London",
+     "#74 UK Top 100"
+    ],
+    [
+     "Updown Farmhouse",
+     "Deal",
+     "UK Top 100"
+    ],
+    [
+     "The Cocochine",
+     "London",
+     "#75 UK Top 100"
+    ],
+    [
+     "Paul Ainsworth at No.6",
+     "Padstow",
+     "#76 UK Top 100"
+    ],
+    [
+     "Chishuru",
+     "London",
+     "#77 UK Top 100"
+    ],
+    [
+     "The Star Inn",
+     "Harome",
+     "#78 UK Top 100"
+    ],
+    [
+     "Restaurant St Barts",
+     "London",
+     "#79 UK Top 100"
+    ],
+    [
+     "Interlude",
+     "Horsham",
+     "#80 UK Top 100"
+    ],
+    [
+     "The Kerfield Arms",
+     "London",
+     "#81 UK Top 100"
+    ],
+    [
+     "Restaurant Sat Bains",
+     "Nottingham",
+     "#82 UK Top 100"
+    ],
+    [
+     "Bavette",
+     "Leeds",
+     "#83 UK Top 100"
+    ],
+    [
+     "The Seahorse",
+     "Dartmouth",
+     "#84 UK Top 100"
+    ],
+    [
+     "The Quality Chop House",
+     "London",
+     "#85 UK Top 100"
+    ],
+    [
+     "Chez Bruce",
+     "London",
+     "#86 UK Top 100"
+    ],
+    [
+     "Core by Clare Smyth",
+     "London",
+     "#87 UK Top 100"
+    ],
+    [
+     "The Fat Badger",
+     "London",
+     "#88 UK Top 100"
+    ],
+    [
+     "Fallow",
+     "London",
+     "#89 UK Top 100"
+    ],
+    [
+     "The Muddlers Club",
+     "Belfast",
+     "#90 UK Top 100"
+    ],
+    [
+     "Shwen Shwen",
+     "Sevenoaks",
+     "#91 UK Top 100"
+    ],
+    [
+     "Trivet",
+     "London",
+     "#92 UK Top 100"
+    ],
+    [
+     "Ambassadors Clubhouse",
+     "London",
+     "#93 UK Top 100"
+    ],
+    [
+     "Teal by Sally Abé",
+     "London",
+     "#94 UK Top 100"
+    ],
+    [
+     "St. JOHN",
+     "London",
+     "#95 UK Top 100"
+    ],
+    [
+     "Luca",
+     "London",
+     "#96 UK Top 100"
+    ],
+    [
+     "Upstairs by Tom Shepherd",
+     "Lichfield",
+     "#97 UK Top 100"
+    ],
+    [
+     "Motorino",
+     "London",
+     "#98 UK Top 100"
+    ],
+    [
+     "Tiella by Dara Klein",
+     "London",
+     "#99 UK Top 100"
+    ]
+   ]
+  },
+  {
+   "code": "t50cb-2025",
+   "name": "Top 50 Cocktail Bars (UK)",
+   "year": 2025,
+   "url": "https://www.hot-dinners.com/2025021213935/Gastroblog/Latest-news/top-50-cocktail-bars-uk-satans-whiskers",
+   "entries": [
+    [
+     "Satan's Whiskers",
+     "London",
+     "#1 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Panda & Sons",
+     "Edinburgh",
+     "#2 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Schofield's Bar",
+     "Manchester",
+     "#3 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Couch",
+     "Birmingham",
+     "#4 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Tayer + Elementary",
+     "London",
+     "#5 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Swift",
+     "London",
+     "#6 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Passing Fancies",
+     "Birmingham",
+     "#7 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Dram",
+     "London",
+     "#8 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Hideout",
+     "Bath",
+     "#9 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Lyaness",
+     "London",
+     "#10 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Speak in Code",
+     "Manchester",
+     "#11 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Nauticus",
+     "Edinburgh",
+     "#12 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Three Sheets",
+     "London",
+     "#13 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Amaro Bar",
+     "London",
+     "#14 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Below Stairs",
+     "Leeds",
+     "#15 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "#16 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Viajante 87",
+     "London",
+     "#17 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Daddy Marmalades",
+     "Glasgow",
+     "#18 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Silverleaf",
+     "London",
+     "#19 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Connaught Bar",
+     "London",
+     "#20 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Bar Termini",
+     "London",
+     "#21 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Blinker",
+     "Manchester",
+     "#22 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Filthy XIII",
+     "Bristol",
+     "#23 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Murder Inc",
+     "London",
+     "#24 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Stray",
+     "Manchester",
+     "#25 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Lab 22",
+     "Cardiff",
+     "#26 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Tabula Rasa",
+     "Leeds",
+     "#27 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Soma",
+     "London",
+     "#28 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Little Mercies",
+     "London",
+     "#29 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Nipperkin at NIJŪ",
+     "London",
+     "#30 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Kwãnt",
+     "London",
+     "#31 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Scarfes Bar",
+     "London",
+     "#32 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Absent Ear",
+     "Glasgow",
+     "#33 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Side Hustle",
+     "London",
+     "#34 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Equal Parts",
+     "London",
+     "#35 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Bramble Bar & Lounge",
+     "Edinburgh",
+     "#36 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The American Bar at Gleneagles",
+     "Auchterarder",
+     "#37 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Bar Glue",
+     "Liverpool",
+     "#38 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Public",
+     "Sheffield",
+     "#39 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Red Light",
+     "Manchester",
+     "#40 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Twice Shy",
+     "London",
+     "#41 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Mother Mercy",
+     "Newcastle upon Tyne",
+     "#42 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Gate",
+     "Glasgow",
+     "#43 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Pearl at Park Hill",
+     "Sheffield",
+     "#44 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Sister Ray",
+     "Liverpool",
+     "#45 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Archive & Myth",
+     "London",
+     "#46 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Happiness Forgets",
+     "London",
+     "#47 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Callooh Callay",
+     "London",
+     "#48 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Kiki Lounge",
+     "Douglas",
+     "#49 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "69 Colebrook Row",
+     "London",
+     "#50 UK Top 50 Cocktail Bars"
+    ]
+   ]
+  },
+  {
+   "code": "gfg100-2025",
+   "name": "Good Food Guide: Britain's 100 Best Local Restaurants",
+   "year": 2025,
+   "url": "https://www.scotsman.com/lifestyle/food-and-drink/good-food-guide-2025-top-restaurants-5225763",
+   "entries": [
+    [
+     "Lucky Lychee",
+     "Winchester",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Mori Mori",
+     "Margate",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Pompette",
+     "Oxford",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Seasonality",
+     "Maidenhead",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Amari",
+     "Brighton",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Pulpo Negro",
+     "Alresford",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "John Dory Wine",
+     "Sandgate",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "JoJo's",
+     "Whitstable",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Fifteen Square Metres",
+     "Broadstairs",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Goods Shed",
+     "Canterbury",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Med",
+     "Brighton",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Lovitaly",
+     "Ringwood",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Clay's Kitchen & Bar",
+     "Caversham",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Ida",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Giulia",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Home SW15",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Les 2 Garçons",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Chuku's",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Lorne",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Miga",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Paulette",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Brutto",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Mambow",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Lacy Nook",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Slowburn",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Cinder",
+     "London",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Counter Culture",
+     "Newquay",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "New Wave Brasserie",
+     "Lechlade",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "St Eia",
+     "St Ives",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Edie's",
+     "St Austell",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Post",
+     "Newnham on Severn",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Seahorse",
+     "Dartmouth",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Wild Artichokes",
+     "Kingsbridge",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Brassica",
+     "Beaminster",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Root Wells",
+     "Wells",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Higher Farm",
+     "Castle Cary",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Lost Kitchen",
+     "Chettiscombe",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "North Street Kitchen",
+     "Fowey",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Bokman",
+     "Bristol",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Juliet",
+     "Stroud",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Little Hollows Pasta",
+     "Bristol",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Upstairs at Landrace",
+     "Bath",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Other",
+     "Bristol",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Fino",
+     "Cromer",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Fancett's Bistro",
+     "Cambridge",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Auction House",
+     "Louth",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Tropea",
+     "Birmingham",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Hitchen's Barn",
+     "Oakham",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Lark",
+     "Bury St Edmunds",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "L'Hexagone Bistro Français",
+     "Norwich",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Chater's",
+     "Saffron Walden",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Little Brickhouse",
+     "Nottingham",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "A Tavola Gastronomia Siciliana",
+     "High Peak",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Ebi Sushi",
+     "Derby",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Piccalilli",
+     "Nottingham",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Lupo",
+     "Prestwich",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Cibus",
+     "Manchester",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Stretford Canteen",
+     "Manchester",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Belzan",
+     "Liverpool",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Sé Anār",
+     "Blackpool",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Cantaloupe",
+     "Stockport",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Bar San Juan",
+     "Manchester",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Yan",
+     "Grasmere",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Spärrows",
+     "Manchester",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Long Friday",
+     "Newcastle upon Tyne",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Hearth",
+     "Hull",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Coin",
+     "Hebden Bridge",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Small Canteen",
+     "Newcastle upon Tyne",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Skosh",
+     "York",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Waterside",
+     "Ruswarp",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Bench",
+     "Sheffield",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Bavette",
+     "Leeds",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Isla",
+     "Durham",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Norman's Neighbourhood Kitchen",
+     "Kirkburton",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "North",
+     "Sunderland",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Black Wheat Club",
+     "York",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Nettle",
+     "Settle",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Swine Bistro",
+     "Leeds",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Redwood Wines",
+     "Dunkeld",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Tide & Thyme",
+     "Tighnabruaich",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Dory Bistro",
+     "Pittenweem",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Gordon Arms",
+     "Selkirk",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Fin & Grape",
+     "Edinburgh",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Mara",
+     "Aberdeen",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Barry Fish",
+     "Edinburgh",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Leftfield",
+     "Edinburgh",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Palmerston",
+     "Edinburgh",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Gloriosa",
+     "Glasgow",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Free Company",
+     "Balerno",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Whitehouse",
+     "Lochaline",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Pomelo",
+     "Edinburgh",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Paternoster Farm",
+     "Hundleton",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Y Marram",
+     "Newborough",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Warren",
+     "Carmarthen",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Mesen",
+     "Cardiff",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Shed",
+     "Swansea",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Black Bear Inn",
+     "Bettws Newydd",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "The Dining Room",
+     "Abersoch",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Casanova",
+     "Cardiff",
+     "Good Food Guide 100 Best Local Restaurants"
+    ],
+    [
+     "Y Polyn",
+     "Nantgaredig",
+     "Good Food Guide 100 Best Local Restaurants"
+    ]
+   ]
+  },
+  {
+   "code": "sqm-2025",
+   "name": "SquareMeal UK Top 100 Restaurants (Scottish entries)",
+   "year": 2025,
+   "url": "https://foodanddrink.scotsman.com/in-the-news/every-scottish-restaurant-in-top-100-uk-list-for-2025-including-a-new-michelin-star-contender/",
+   "entries": [
+    [
+     "Lyla",
+     "Edinburgh",
+     "#11 SquareMeal UK Top 100"
+    ],
+    [
+     "The Glenturret Lalique",
+     "Crieff",
+     "#16 SquareMeal UK Top 100"
+    ],
+    [
+     "The Kinneuchar Inn",
+     "Kilconquhar",
+     "#20 SquareMeal UK Top 100"
+    ],
+    [
+     "The Little Chartroom",
+     "Edinburgh",
+     "#29 SquareMeal UK Top 100"
+    ],
+    [
+     "Montrose",
+     "Edinburgh",
+     "#33 SquareMeal UK Top 100"
+    ],
+    [
+     "Fhior",
+     "Edinburgh",
+     "#34 SquareMeal UK Top 100"
+    ],
+    [
+     "Inver",
+     "Strachur",
+     "#45 SquareMeal UK Top 100"
+    ],
+    [
+     "Big Counter",
+     "Glasgow",
+     "#56 SquareMeal UK Top 100"
+    ],
+    [
+     "The Fish Shop",
+     "Ballater",
+     "#60 SquareMeal UK Top 100"
+    ],
+    [
+     "Cail Bruich",
+     "Glasgow",
+     "#70 SquareMeal UK Top 100"
+    ]
+   ]
+  },
+  {
+   "code": "w101s-2025",
+   "name": "World's 101 Best Steak Restaurants (UK entries)",
+   "year": 2025,
+   "url": "https://www.enprimeurclub.com/lists/2025-worlds-best-steaks-101-best-steak-restaurants",
+   "entries": [
+    [
+     "Ibai",
+     "London",
+     "#11 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Hawksmoor",
+     "London",
+     "#23 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Brat",
+     "London",
+     "#24 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Lutyens Grill",
+     "London",
+     "#39 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Aragawa",
+     "London",
+     "#41 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "BLOK",
+     "Llanddewi Brefi",
+     "#55 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "The Devonshire",
+     "London",
+     "#70 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Porter & Rye",
+     "Glasgow",
+     "#85 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Guinea Grill",
+     "London",
+     "#89 World's 101 Best Steak Restaurants"
+    ]
+   ]
+  },
+  {
+   "code": "w101s-2026",
+   "name": "World's 101 Best Steak Restaurants (UK entries)",
+   "year": 2026,
+   "url": "https://www.enprimeurclub.com/lists/2026-worlds-best-steaks-101-best-steak-restaurants",
+   "entries": [
+    [
+     "Ibai",
+     "London",
+     "#7 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Hawksmoor St. Pancras",
+     "London",
+     "#13 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Brat",
+     "London",
+     "#17 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Lutyens Grill",
+     "London",
+     "#35 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "BLOK",
+     "Llanddewi Brefi",
+     "#42 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "The Devonshire",
+     "London",
+     "#45 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Chelsea Grill",
+     "London",
+     "#55 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Sagardi",
+     "London",
+     "#90 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Zoilo",
+     "London",
+     "#96 World's 101 Best Steak Restaurants"
+    ],
+    [
+     "Guinea Grill",
+     "London",
+     "#99 World's 101 Best Steak Restaurants"
+    ]
+   ]
+  },
+  {
+   "code": "t50cb-2026",
+   "name": "Top 50 Cocktail Bars (UK)",
+   "year": 2026,
+   "url": "https://www.enprimeurclub.com/lists/top-50-cocktail-bars-uk-2026",
+   "entries": [
+    [
+     "COUCH",
+     "Birmingham",
+     "#1 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Bar Glue",
+     "Liverpool",
+     "#2 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Satan's Whiskers",
+     "London",
+     "#3 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Brain Jar",
+     "Hull",
+     "#4 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Waltz",
+     "London",
+     "#5 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Schofield's",
+     "Manchester",
+     "#6 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Amaro",
+     "London",
+     "#7 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Bar Termini",
+     "London",
+     "#8 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Panda & Sons",
+     "Edinburgh",
+     "#9 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Tayēr + Elementary",
+     "London",
+     "#10 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Three Sheets Soho",
+     "London",
+     "#11 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Side Hustle",
+     "London",
+     "#12 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Hideout",
+     "Bath",
+     "#13 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Speak in Code",
+     "Manchester",
+     "#14 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Swift",
+     "London",
+     "#15 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Passing Fancies",
+     "Birmingham",
+     "#16 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "#17 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Archive & Myth",
+     "London",
+     "#18 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Kwant",
+     "London",
+     "#19 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Below Stairs",
+     "Leeds",
+     "#20 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Murder Inc.",
+     "London",
+     "#21 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Daddy Marmalades",
+     "Glasgow",
+     "#22 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "BLINKER",
+     "Manchester",
+     "#23 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Lab 22",
+     "Cardiff",
+     "#24 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Lyaness",
+     "London",
+     "#25 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Equal Parts",
+     "London",
+     "#26 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Nauticus",
+     "Edinburgh",
+     "#27 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Kiki Lounge",
+     "Douglas",
+     "#28 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Filthy XIII",
+     "Bristol",
+     "#29 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Slowpour",
+     "Liverpool",
+     "#30 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Connaught Bar",
+     "London",
+     "#31 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Three Sheets",
+     "London",
+     "#32 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Viajante87",
+     "London",
+     "#33 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Sister Ray",
+     "Liverpool",
+     "#34 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Scales",
+     "London",
+     "#35 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "A Bar with Shapes For a Name",
+     "London",
+     "#36 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Bar Kinky",
+     "London",
+     "#37 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Over & Above",
+     "Cheltenham",
+     "#38 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Dram Bar",
+     "London",
+     "#39 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Pearl at Park Hill",
+     "Sheffield",
+     "#40 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Milk Thistle",
+     "Bristol",
+     "#41 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The Morris",
+     "Liverpool",
+     "#42 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Spy Bar",
+     "London",
+     "#43 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Happiness Forgets",
+     "London",
+     "#44 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Disrepute",
+     "London",
+     "#45 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Opium Cocktail Bar & Dim Sum Parlour",
+     "London",
+     "#46 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "LowKey",
+     "Cardiff",
+     "#47 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Soma",
+     "London",
+     "#48 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "Tabula Rasa",
+     "Leeds",
+     "#49 UK Top 50 Cocktail Bars"
+    ],
+    [
+     "The American Bar at Gleneagles",
+     "Auchterarder",
+     "#50 UK Top 50 Cocktail Bars"
+    ]
+   ]
+  },
+  {
+   "code": "t500-2025",
+   "name": "Top 500 Bars (UK entries)",
+   "year": 2025,
+   "url": "https://www.enprimeurclub.com/lists/top-500-bars-2025",
+   "entries": [
+    [
+     "Panda & Sons",
+     "Edinburgh",
+     "#1 Top 500 Bars"
+    ],
+    [
+     "Tayēr + Elementary",
+     "London",
+     "#7 Top 500 Bars"
+    ],
+    [
+     "The Connaught Bar",
+     "London",
+     "#12 Top 500 Bars"
+    ],
+    [
+     "Scarfes Bar",
+     "London",
+     "#21 Top 500 Bars"
+    ],
+    [
+     "Satan's Whiskers",
+     "London",
+     "#22 Top 500 Bars"
+    ],
+    [
+     "Lyaness",
+     "London",
+     "#40 Top 500 Bars"
+    ],
+    [
+     "Spy Bar",
+     "London",
+     "#48 Top 500 Bars"
+    ],
+    [
+     "Donovan Bar",
+     "London",
+     "#55 Top 500 Bars"
+    ],
+    [
+     "Seed Library",
+     "London",
+     "#61 Top 500 Bars"
+    ],
+    [
+     "A Bar with Shapes For a Name",
+     "London",
+     "#63 Top 500 Bars"
+    ],
+    [
+     "Nightjar",
+     "London",
+     "#71 Top 500 Bars"
+    ],
+    [
+     "Side Hustle",
+     "London",
+     "#79 Top 500 Bars"
+    ],
+    [
+     "Dukes Bar",
+     "London",
+     "#85 Top 500 Bars"
+    ],
+    [
+     "Nipperkin",
+     "London",
+     "#86 Top 500 Bars"
+    ],
+    [
+     "Oriole",
+     "London",
+     "#92 Top 500 Bars"
+    ],
+    [
+     "Kwant",
+     "London",
+     "#108 Top 500 Bars"
+    ],
+    [
+     "Three Sheets Soho",
+     "London",
+     "#115 Top 500 Bars"
+    ],
+    [
+     "Kol Mezcalería",
+     "London",
+     "#118 Top 500 Bars"
+    ],
+    [
+     "American Bar at The Savoy",
+     "London",
+     "#128 Top 500 Bars"
+    ],
+    [
+     "Bar Termini",
+     "London",
+     "#130 Top 500 Bars"
+    ],
+    [
+     "Swift",
+     "London",
+     "#133 Top 500 Bars"
+    ],
+    [
+     "Callooh Callay",
+     "London",
+     "#137 Top 500 Bars"
+    ],
+    [
+     "The American Bar at Gleneagles",
+     "Auchterarder",
+     "#139 Top 500 Bars"
+    ],
+    [
+     "Velvet",
+     "London",
+     "#144 Top 500 Bars"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "#148 Top 500 Bars"
+    ],
+    [
+     "Artesian",
+     "London",
+     "#151 Top 500 Bars"
+    ],
+    [
+     "Viajante87",
+     "London",
+     "#170 Top 500 Bars"
+    ],
+    [
+     "Bramble",
+     "Edinburgh",
+     "#177 Top 500 Bars"
+    ],
+    [
+     "Dram Bar",
+     "London",
+     "#183 Top 500 Bars"
+    ],
+    [
+     "Vesper Bar",
+     "London",
+     "#187 Top 500 Bars"
+    ],
+    [
+     "Hacha Agaveria",
+     "London",
+     "#212 Top 500 Bars"
+    ],
+    [
+     "Three Sheets",
+     "London",
+     "#222 Top 500 Bars"
+    ],
+    [
+     "Schofield's",
+     "Manchester",
+     "#224 Top 500 Bars"
+    ]
+   ]
+  },
+  {
+   "code": "t500-2026",
+   "name": "Top 500 Bars (UK entries)",
+   "year": 2026,
+   "url": "https://www.enprimeurclub.com/lists/top-500-bars-2026",
+   "entries": [
+    [
+     "Swift",
+     "London",
+     "#113 Top 500 Bars"
+    ],
+    [
+     "Dukes Bar",
+     "London",
+     "#121 Top 500 Bars"
+    ],
+    [
+     "A Bar with Shapes For a Name",
+     "London",
+     "#129 Top 500 Bars"
+    ],
+    [
+     "American Bar at The Savoy",
+     "London",
+     "#156 Top 500 Bars"
+    ],
+    [
+     "Bramble",
+     "Edinburgh",
+     "#162 Top 500 Bars"
+    ],
+    [
+     "Nightjar",
+     "London",
+     "#166 Top 500 Bars"
+    ],
+    [
+     "Bar Termini",
+     "London",
+     "#171 Top 500 Bars"
+    ],
+    [
+     "Three Sheets Soho",
+     "London",
+     "#183 Top 500 Bars"
+    ],
+    [
+     "The American Bar at Gleneagles",
+     "Auchterarder",
+     "#197 Top 500 Bars"
+    ],
+    [
+     "Equal Parts",
+     "London",
+     "#204 Top 500 Bars"
+    ],
+    [
+     "Nipperkin",
+     "London",
+     "#248 Top 500 Bars"
+    ],
+    [
+     "Viajante87",
+     "London",
+     "#256 Top 500 Bars"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "#263 Top 500 Bars"
+    ],
+    [
+     "Oriole",
+     "London",
+     "#270 Top 500 Bars"
+    ],
+    [
+     "Happiness Forgets",
+     "London",
+     "#277 Top 500 Bars"
+    ],
+    [
+     "Amaro",
+     "London",
+     "#289 Top 500 Bars"
+    ],
+    [
+     "Sexy Fish",
+     "London",
+     "#293 Top 500 Bars"
+    ],
+    [
+     "Dram Bar",
+     "London",
+     "#294 Top 500 Bars"
+    ],
+    [
+     "COUCH",
+     "Birmingham",
+     "#336 Top 500 Bars"
+    ]
+   ]
+  },
+  {
+   "code": "sltn-2025",
+   "name": "SLTN Awards",
+   "year": 2025,
+   "url": "https://sltn.co.uk/sltn-awards/winners-2025/",
+   "entries": [
+    [
+     "The Pot Still",
+     "Glasgow",
+     "Bartender of the Year (Sally Law)"
+    ],
+    [
+     "The Gate",
+     "Glasgow",
+     "Bartender of the Year, highly commended; Independent Pub/Bar, highly commended"
+    ],
+    [
+     "Sebb's",
+     "Glasgow",
+     "Bartender of the Year, highly commended"
+    ],
+    [
+     "Malones",
+     "Edinburgh",
+     "Beer Quality Award; Best Venue to Watch the Match"
+    ],
+    [
+     "Deoch an Dorus",
+     "Glasgow",
+     "Beer Quality Award, highly commended"
+    ],
+    [
+     "The Stag",
+     "Forfar",
+     "Beer Quality Award, highly commended"
+    ],
+    [
+     "The Three Sisters",
+     "Edinburgh",
+     "Best Outdoor Area"
+    ],
+    [
+     "Malones",
+     "Glasgow",
+     "Best Outdoor Area, highly commended"
+    ],
+    [
+     "The Ship Inn",
+     "Elie",
+     "Best Outdoor Area, highly commended"
+    ],
+    [
+     "The Clubhouse",
+     "Glasgow",
+     "Best Venue to Watch the Match, highly commended"
+    ],
+    [
+     "Fullbacks",
+     "Milngavie",
+     "Best Venue to Watch the Match, highly commended"
+    ],
+    [
+     "Daddy Marmalades",
+     "Glasgow",
+     "Cocktail Bar of the Year"
+    ],
+    [
+     "The Absent Ear",
+     "Glasgow",
+     "Cocktail Bar, highly commended; Mixologist of the Year (Arianne Smith)"
+    ],
+    [
+     "The Old Workshop",
+     "Aberdeen",
+     "Cocktail Bar of the Year, highly commended"
+    ],
+    [
+     "The Original Rosslyn Inn",
+     "Roslin",
+     "Community Pub of the Year"
+    ],
+    [
+     "Harbour Bar",
+     "Gourdon",
+     "Community Pub, highly commended"
+    ],
+    [
+     "Hugo's",
+     "Moffat",
+     "Community Pub, highly commended"
+    ],
+    [
+     "The Boar's Head",
+     "Auchtermuchty",
+     "Gastropub of the Year"
+    ],
+    [
+     "The Clarence",
+     "Glasgow",
+     "Gastropub of the Year, highly commended"
+    ],
+    [
+     "The Kirkmichael Arms",
+     "Kirkmichael",
+     "Gastropub of the Year, highly commended"
+    ],
+    [
+     "The Oak Tree Inn",
+     "Balmaha",
+     "Independent Pub/Bar of the Year"
+    ],
+    [
+     "Teuchters Landing",
+     "Edinburgh",
+     "Independent Pub/Bar of the Year, highly commended"
+    ],
+    [
+     "Coco",
+     "Edinburgh",
+     "Late-Night Venue of the Year"
+    ],
+    [
+     "Soul",
+     "Aberdeen",
+     "Late-Night Venue, highly commended"
+    ],
+    [
+     "Uno Mas",
+     "Edinburgh",
+     "Late-Night Venue, highly commended"
+    ],
+    [
+     "Stravaigin",
+     "Glasgow",
+     "Licensee of the Year (Olivia Wong)"
+    ],
+    [
+     "The Barrelman",
+     "Dundee",
+     "Licensee of the Year, highly commended"
+    ],
+    [
+     "Kelvingrove Café",
+     "Glasgow",
+     "Mixologist of the Year, highly commended"
+    ],
+    [
+     "The American Bar at Gleneagles",
+     "Auchterarder",
+     "Mixologist of the Year, highly commended"
+    ],
+    [
+     "Sub Club",
+     "Glasgow",
+     "Music-Led Venue of the Year"
+    ],
+    [
+     "Saint Luke's & The Winged Ox",
+     "Glasgow",
+     "Music-Led Venue, highly commended"
+    ],
+    [
+     "Corner Shop",
+     "Glasgow",
+     "New Business of the Year"
+    ],
+    [
+     "Ardfern",
+     "Edinburgh",
+     "New Business of the Year, highly commended"
+    ],
+    [
+     "The Corona Bar",
+     "Glasgow",
+     "New Business of the Year, highly commended"
+    ],
+    [
+     "Jack 'O' Bryan's",
+     "Dunfermline",
+     "Restaurant of the Year (Casual Dining)"
+    ],
+    [
+     "Five March",
+     "Glasgow",
+     "Restaurant of the Year (Casual Dining), highly commended"
+    ],
+    [
+     "Killiecrankie House",
+     "Pitlochry",
+     "Restaurant of the Year (Fine Dining)"
+    ],
+    [
+     "Timberyard",
+     "Edinburgh",
+     "Wine Award; Restaurant of the Year (Fine Dining), highly commended"
+    ],
+    [
+     "The Ivy Lodge",
+     "Aberdeen",
+     "Spirits Bar of the Year"
+    ],
+    [
+     "Bruach",
+     "Broughty Ferry",
+     "Spirits Bar, highly commended"
+    ],
+    [
+     "Masonic Arms",
+     "Kirkcudbright",
+     "Spirits Bar, highly commended"
+    ],
+    [
+     "The Black Grape",
+     "Edinburgh",
+     "Wine Award, highly commended"
+    ],
+    [
+     "Ubiquitous Chip",
+     "Glasgow",
+     "Wine Award, highly commended"
+    ],
+    [
+     "Tipsy Midgie",
+     "Edinburgh",
+     "Whisky Bar of the Year"
+    ],
+    [
+     "Dornoch Castle Whisky Bar",
+     "Dornoch",
+     "Whisky Bar, highly commended"
+    ]
+   ]
+  },
+  {
+   "code": "sltn-2024",
+   "name": "SLTN Awards",
+   "year": 2024,
+   "url": "https://sltn.co.uk/sltn-awards/winners-2024/",
+   "entries": [
+    [
+     "The Caledonian Bar",
+     "Port Glasgow",
+     "Bartender of the Year, highly commended"
+    ],
+    [
+     "Lunar",
+     "Glasgow",
+     "Bartender of the Year, highly commended"
+    ],
+    [
+     "The Stag",
+     "Forfar",
+     "Beer Quality Award"
+    ],
+    [
+     "The Craftsman Company",
+     "Aberdeen",
+     "Beer Quality Award, highly commended"
+    ],
+    [
+     "Teuchters Landing",
+     "Edinburgh",
+     "Best Outdoor Area; Craft Beer Bar, highly commended"
+    ],
+    [
+     "The Albyn",
+     "Aberdeen",
+     "Best Outdoor Area, highly commended"
+    ],
+    [
+     "West Side Tavern",
+     "Glasgow",
+     "Best Outdoor Area, highly commended"
+    ],
+    [
+     "Fullbacks",
+     "Milngavie",
+     "Best Venue to Watch the Match"
+    ],
+    [
+     "The Absent Ear",
+     "Glasgow",
+     "Cocktail Bar of the Year"
+    ],
+    [
+     "Daddy Marmalades",
+     "Glasgow",
+     "Mixologist of the Year (Mari Chierchia); Cocktail Bar, highly commended"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "Cocktail Bar of the Year, highly commended"
+    ],
+    [
+     "The Station Bar",
+     "Alness",
+     "Community Pub of the Year"
+    ],
+    [
+     "Redmond's of Dennistoun",
+     "Glasgow",
+     "Craft Beer Bar of the Year"
+    ],
+    [
+     "Cold Town House",
+     "Edinburgh",
+     "Craft Beer Bar, highly commended"
+    ],
+    [
+     "The Boar's Head",
+     "Auchtermuchty",
+     "Gastropub of the Year"
+    ],
+    [
+     "Inverkip Hotel",
+     "Inverkip",
+     "Gastropub of the Year, highly commended"
+    ],
+    [
+     "Stravaigin",
+     "Glasgow",
+     "Gastropub of the Year, highly commended"
+    ],
+    [
+     "BLOC+",
+     "Glasgow",
+     "Independent Pub/Bar of the Year"
+    ],
+    [
+     "Bag O' Nails",
+     "Glasgow",
+     "Independent Pub/Bar, highly commended"
+    ],
+    [
+     "Johnny Foxes & The Den",
+     "Inverness",
+     "Licensee of the Year (Tina MacDonald)"
+    ],
+    [
+     "Bramble",
+     "Edinburgh",
+     "Industry Achievement Award (founders Mike Aikman and Jason Scott)"
+    ],
+    [
+     "The Howlin' Wolf",
+     "Glasgow",
+     "Late Night Venue of the Year"
+    ],
+    [
+     "The Pot Still",
+     "Glasgow",
+     "Licensee of the Year, highly commended; Whisky Bar, highly commended"
+    ],
+    [
+     "The Black Grape",
+     "Edinburgh",
+     "Licensee of the Year, highly commended; Wine Award, highly commended"
+    ],
+    [
+     "MacGregor's",
+     "Inverness",
+     "Music-led Venue of the Year"
+    ],
+    [
+     "The Garage",
+     "Glasgow",
+     "Music-led Venue, highly commended"
+    ],
+    [
+     "DUNE",
+     "St Andrews",
+     "New Business of the Year"
+    ],
+    [
+     "Pania",
+     "Glasgow",
+     "New Business of the Year, highly commended"
+    ],
+    [
+     "The Dome",
+     "Edinburgh",
+     "Restaurant of the Year (Casual Dining)"
+    ],
+    [
+     "Tarragon by Graham Mitchell",
+     "Aberdeen",
+     "Restaurant of the Year (Casual Dining), highly commended"
+    ],
+    [
+     "The Dipping Lugger",
+     "Ullapool",
+     "Restaurant of the Year (Fine Dining)"
+    ],
+    [
+     "Jack 'O' Bryan's",
+     "Dunfermline",
+     "Restaurant of the Year (Fine Dining), highly commended"
+    ],
+    [
+     "The Criterion",
+     "St Andrews",
+     "Spirits Bar of the Year"
+    ],
+    [
+     "The Ivy Lodge",
+     "Aberdeen",
+     "Spirits Bar, highly commended"
+    ],
+    [
+     "Tipsy Midgie",
+     "Edinburgh",
+     "Whisky Bar of the Year"
+    ],
+    [
+     "The George Hotel",
+     "Inveraray",
+     "Whisky Bar, highly commended"
+    ],
+    [
+     "La Jupe",
+     "Helensburgh",
+     "Wine Award"
+    ],
+    [
+     "Ubiquitous Chip",
+     "Glasgow",
+     "Wine Award, highly commended"
+    ]
+   ]
+  },
+  {
+   "code": "gba-2025",
+   "name": "Glasgow Bar Awards",
+   "year": 2025,
+   "url": "https://sltn.co.uk/?p=550153",
+   "entries": [
+    [
+     "Kelvingrove Café",
+     "Glasgow",
+     "Legend Award; Rising Star"
+    ],
+    [
+     "The Absent Ear",
+     "Glasgow",
+     "Best Bar"
+    ],
+    [
+     "Kitty O'Sheas",
+     "Glasgow",
+     "Best Pub"
+    ],
+    [
+     "Sebb's",
+     "Glasgow",
+     "Best Restaurant Bar"
+    ],
+    [
+     "Tabac",
+     "Glasgow",
+     "Best Bar Team"
+    ],
+    [
+     "The Howlin' Wolf",
+     "Glasgow",
+     "Best Late Night Bar"
+    ],
+    [
+     "The Buttery",
+     "Glasgow",
+     "Social Star"
+    ],
+    [
+     "Devil of Brooklyn",
+     "Glasgow",
+     "Best Cocktail"
+    ],
+    [
+     "Lochlea",
+     "Glasgow",
+     "Far Side of the Bar"
+    ],
+    [
+     "The Pot Still",
+     "Glasgow",
+     "Unsung Hero"
+    ],
+    [
+     "La Jupe",
+     "Helensburgh",
+     "Best Shake (joint)"
+    ],
+    [
+     "Gaga",
+     "Glasgow",
+     "Best Shake (joint)"
+    ]
+   ]
+  },
+  {
+   "code": "eba-2025",
+   "name": "Edinburgh Bar Awards",
+   "year": 2025,
+   "url": "https://sltn.co.uk/?p=554047",
+   "entries": [
+    [
+     "Panda & Sons",
+     "Edinburgh",
+     "Best Bar; Best Bar Team"
+    ],
+    [
+     "Hey Palu",
+     "Edinburgh",
+     "Best Cocktail; Best Bar, highly commended"
+    ],
+    [
+     "Nauticus",
+     "Edinburgh",
+     "Best Pub"
+    ],
+    [
+     "The Mother Superior",
+     "Edinburgh",
+     "Best Pub, highly commended"
+    ],
+    [
+     "Old Pal",
+     "Edinburgh",
+     "Best Restaurant Bar; Rising Star"
+    ],
+    [
+     "Little Capo",
+     "Edinburgh",
+     "Best Restaurant Bar, highly commended"
+    ],
+    [
+     "The Cocktail Geeks",
+     "Edinburgh",
+     "Best Bar Team, highly commended"
+    ],
+    [
+     "Uno Mas",
+     "Edinburgh",
+     "Best Late Night Venue"
+    ],
+    [
+     "Nightcap",
+     "Edinburgh",
+     "Best Late Night Venue, highly commended"
+    ],
+    [
+     "Port of Leith",
+     "Edinburgh",
+     "Far Side of the Bar"
+    ]
+   ]
+  },
+  {
+   "code": "gfg100-2024-sco",
+   "name": "Good Food Guide best local restaurants (Scotland winners)",
+   "year": 2024,
+   "url": "https://www.stirlingnews.co.uk/news/trendingacrossscotland/24469426.scotlands-best-restaurants-named-good-food-guide",
+   "entries": [
+    [
+     "The Kinneuchar Inn",
+     "Kilconquhar",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "L'Escargot Bleu",
+     "Edinburgh",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "The Gordon Arms",
+     "Selkirk",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "The Dory Bistro",
+     "Pittenweem",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "The Palmerston",
+     "Edinburgh",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "The Whitehouse",
+     "Lochaline",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "Provender",
+     "Melrose",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "Gloriosa",
+     "Glasgow",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "Leftfield",
+     "Edinburgh",
+     "Good Food Guide best local restaurant (Scotland)"
+    ],
+    [
+     "Fin & Grape",
+     "Edinburgh",
+     "Good Food Guide best local restaurant (Scotland)"
+    ]
+   ]
+  },
+  {
+   "code": "scran",
+   "name": "Scotsman Scran Awards",
+   "year": 2025,
+   "url": "https://sltn.co.uk/2026/07/24/parkers-complete-celentanos-move-into-glasgow-city-centre/",
+   "entries": [
+    [
+     "Celentano's",
+     "Glasgow",
+     "Scran Awards Scottish Restaurant of the Year (2025)"
+    ],
+    [
+     "Elements",
+     "Glasgow",
+     "Scran Awards Newcomer of the Year (2025)"
+    ],
+    [
+     "Fhior",
+     "Edinburgh",
+     "Scran Awards Scottish Restaurant of the Year (2024)"
+    ]
+   ]
+  },
+  {
+   "code": "sra-2023",
+   "name": "Scottish Restaurant Awards",
+   "year": 2023,
+   "url": "https://www.scottishdailyexpress.co.uk/lifestyle/food/highland-restaurant-stunning-sea-view-30414115",
+   "entries": [
+    [
+     "Sun Dancer",
+     "Nairn",
+     "Scottish Restaurant of the Year"
+    ],
+    [
+     "El Cartel",
+     "Edinburgh",
+     "Mexican Restaurant of the Year"
+    ],
+    [
+     "The Orangery at Victoria Square",
+     "Stirling",
+     "Fine Dining Restaurant of the Year"
+    ],
+    [
+     "The Glasvegan",
+     "Glasgow",
+     "Vegetarian Restaurant of the Year"
+    ],
+    [
+     "Ola Kala",
+     "Edinburgh",
+     "Street Food Restaurant of the Year"
+    ],
+    [
+     "Samphire",
+     "Inveraray",
+     "Seafood Restaurant of the Year"
+    ],
+    [
+     "The Drake",
+     "Glasgow",
+     "Family Restaurant of the Year"
+    ],
+    [
+     "The Loft Restaurant",
+     "Pitlochry",
+     "Romantic Restaurant of the Year"
+    ],
+    [
+     "Ristorante Pieno",
+     "Glasgow",
+     "Best of Glasgow"
+    ],
+    [
+     "Sapporo Teppanyaki",
+     "Glasgow",
+     "Sushi Restaurant of the Year"
+    ],
+    [
+     "L'Escargot Bleu",
+     "Edinburgh",
+     "Best of Edinburgh"
+    ],
+    [
+     "Butta Burger",
+     "Edinburgh",
+     "Burger Restaurant of the Year"
+    ],
+    [
+     "Vietnam House",
+     "Edinburgh",
+     "Noodles Restaurant of the Year"
+    ],
+    [
+     "Piccolo Mondo",
+     "Glasgow",
+     "Italian Restaurant of the Year"
+    ]
+   ]
+  },
+  {
+   "code": "sra-2026",
+   "name": "Scottish Restaurant Awards",
+   "year": 2026,
+   "url": "https://www.edinburghnews.scotsman.com/your-world/edinburgh-eateries-among-winners-at-scottish-restaurant-awards-2026-9287123",
+   "entries": [
+    [
+     "North Port",
+     "Perth",
+     "Traditional Scottish Restaurant of the Year"
+    ],
+    [
+     "Thyme and Tide",
+     "Tighnabruaich",
+     "Traditional Scottish Restaurant, outstanding achievement"
+    ],
+    [
+     "The Makar's Rest",
+     "Edinburgh",
+     "Traditional Scottish Restaurant, recognition for excellence"
+    ],
+    [
+     "The Piper's Rest",
+     "Edinburgh",
+     "Scottish/British Restaurant, outstanding achievement"
+    ],
+    [
+     "The Woodsman",
+     "Alloa",
+     "Scottish/British Restaurant, recognition for excellence"
+    ],
+    [
+     "Syrian Pie",
+     "Glasgow",
+     "Category winner"
+    ],
+    [
+     "Palm Tree Kitchen",
+     "Glasgow",
+     "Outstanding achievement"
+    ],
+    [
+     "Hummus",
+     "Edinburgh",
+     "Recognition for excellence"
+    ],
+    [
+     "SpaccaNapoli",
+     "Glasgow",
+     "Category winner"
+    ],
+    [
+     "Fish Shop",
+     "Ballater",
+     "Seafood Restaurant of the Year"
+    ],
+    [
+     "Kelp",
+     "Glasgow",
+     "Seafood Restaurant, outstanding achievement"
+    ],
+    [
+     "Barry Fish",
+     "Edinburgh",
+     "Seafood Restaurant, recognition for excellence"
+    ],
+    [
+     "Hendersons",
+     "Edinburgh",
+     "Category winner"
+    ],
+    [
+     "PULSE PlantBased HomeCooking",
+     "Edinburgh",
+     "Vegan Friendly Restaurant of the Year"
+    ],
+    [
+     "The Sly Fox",
+     "Edinburgh",
+     "Vegan Friendly Restaurant, outstanding achievement"
+    ],
+    [
+     "The 78",
+     "Glasgow",
+     "Vegan Friendly Restaurant, recognition for excellence"
+    ],
+    [
+     "Kolachi",
+     "Edinburgh",
+     "Category winner"
+    ],
+    [
+     "Tuk Tuk Indian Street Food",
+     "Edinburgh",
+     "Outstanding achievement"
+    ],
+    [
+     "Booffi",
+     "Glasgow",
+     "Buffet Restaurant, outstanding achievement"
+    ],
+    [
+     "The Clachan Inn",
+     "Drymen",
+     "Category winner"
+    ],
+    [
+     "City Restaurant",
+     "Edinburgh",
+     "Fish & Chips Restaurant, outstanding achievement"
+    ]
+   ]
+  },
+  {
+   "code": "sra-2024b",
+   "name": "Scottish Restaurant Awards",
+   "year": 2024,
+   "url": "https://midlothianadvertiser.co.uk/lifestyle/food-and-drink/hidden-gem-edinburgh-restaurant-thrilled-to-be-named-best-in-scotland-on-15th-birthday-4565587",
+   "entries": [
+    [
+     "Christie's Scottish Tapas",
+     "Falkirk",
+     "Scottish Restaurant of the Year"
+    ],
+    [
+     "The Birds and Bees",
+     "Stirling",
+     "Scottish Restaurant of the Year, highly commended"
+    ],
+    [
+     "Koyama",
+     "Edinburgh",
+     "Japanese Restaurant of the Year"
+    ],
+    [
+     "Harajuku Kitchen",
+     "Edinburgh",
+     "Japanese Restaurant, highly commended"
+    ],
+    [
+     "Rohan's Kitchen",
+     "Glasgow",
+     "Indian Restaurant, highly commended"
+    ],
+    [
+     "Ristorante Pieno",
+     "Glasgow",
+     "Best of Glasgow, highly commended"
+    ],
+    [
+     "Novapizza Vegan Kitchen",
+     "Edinburgh",
+     "Best of Edinburgh"
+    ],
+    [
+     "Pierinos",
+     "Edinburgh",
+     "Best of Edinburgh, highly commended"
+    ],
+    [
+     "Ola Kala",
+     "Edinburgh",
+     "Street Food Restaurant, highly commended"
+    ]
+   ]
+  },
+  {
+   "code": "sca-2024",
+   "name": "Scottish Curry Awards",
+   "year": 2024,
+   "url": "https://www.eveningtimes.co.uk/news/scottish-news/24255439.glasgow-restaurant-crowned-best-city-awards-event/",
+   "entries": [
+    [
+     "Rickshaw & Co",
+     "Glasgow",
+     "Best of Glasgow"
+    ],
+    [
+     "The Malletsheugh",
+     "Glasgow",
+     "New Restaurant of the Year"
+    ],
+    [
+     "Asian Tandoori",
+     "Glasgow",
+     "Takeaway of the Year (Glasgow)"
+    ],
+    [
+     "Desi Dhaba Chaiwala",
+     "Glasgow",
+     "Street Food Restaurant of the Year"
+    ],
+    [
+     "Westend Banana Leaf",
+     "Glasgow",
+     "Street Food Restaurant, highly commended"
+    ],
+    [
+     "Madras Café",
+     "Glasgow",
+     "Customer Service of the Year"
+    ],
+    [
+     "Shezan",
+     "Edinburgh",
+     "Curry King of the Year"
+    ],
+    [
+     "Pataka",
+     "Edinburgh",
+     "Scotland's Choice, highly commended"
+    ],
+    [
+     "The Khukuri Nepalese Restaurant",
+     "Edinburgh",
+     "Neighbourhood Restaurant, highly commended"
+    ]
+   ]
+  },
+  {
+   "code": "sca-2025",
+   "name": "Scottish Curry Awards",
+   "year": 2025,
+   "url": "https://www.parliament.scot/chamber-and-committees/votes-and-motions/S6M-17338",
+   "entries": [
+    [
+     "The Malletsheugh",
+     "Glasgow",
+     "Innovative Menu of the Year"
+    ],
+    [
+     "Gurkha Bar and Restaurant",
+     "Edinburgh",
+     "South East Indian Restaurant of the Year"
+    ],
+    [
+     "Bombay Lounge",
+     "Dalkeith",
+     "Dining Experience of the Year (South East)"
+    ],
+    [
+     "Murphy's Pakora Bar",
+     "Glasgow",
+     "Spice Awards 2025 winner"
+    ]
+   ]
+  },
+  {
+   "code": "aa-edi-2025",
+   "name": "AA Rosettes, Edinburgh (two and above)",
+   "year": 2025,
+   "url": "https://www.ratedtrips.com/travel-ideas/best-restaurants-in-edinburgh",
+   "entries": [
+    [
+     "The Kitchin",
+     "Edinburgh",
+     "Five AA Rosettes"
+    ],
+    [
+     "21212",
+     "Edinburgh",
+     "Four AA Rosettes"
+    ],
+    [
+     "Number One, The Balmoral",
+     "Edinburgh",
+     "Four AA Rosettes"
+    ],
+    [
+     "Restaurant Martin Wishart",
+     "Edinburgh",
+     "Four AA Rosettes"
+    ],
+    [
+     "Dean Banks at the Pompadour",
+     "Edinburgh",
+     "Three AA Rosettes"
+    ],
+    [
+     "Timberyard",
+     "Edinburgh",
+     "Three AA Rosettes"
+    ],
+    [
+     "The Little Chartroom",
+     "Edinburgh",
+     "Three AA Rosettes"
+    ],
+    [
+     "The Dungeon Restaurant at Dalhousie Castle",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "La Garrigue",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "Grazing by Mark Greenaway",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "Locanda de Gusti",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "Dulse",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "Ondine",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "Rhubarb at Prestonfield",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ],
+    [
+     "The Witchery by the Castle",
+     "Edinburgh",
+     "Two AA Rosettes"
+    ]
+   ]
+  }
+ ]
+}

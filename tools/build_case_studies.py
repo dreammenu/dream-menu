@@ -691,12 +691,13 @@ def r_critics():
         if p['tier'] in ('AA Rosettes', 'Other guides'):
             return 'Other guides'
         return {'One star': 'MICHELIN Star'}.get(p['tier'], p['tier'])
-    OUT = 'Outside the guides we track'
-    OREC = json.load(open('tools/data/other-recognition.json', encoding='utf-8'))['venues']
-    also = lambda p: ('<br>Also recognised: ' + esc('; '.join(OREC[p['n']]))) if p['n'] in OREC else ''
-    tiers = [('MICHELIN Star', 'k1'), ('Bib Gourmand', 'k1'), ('MICHELIN selected', 'k3'), ('Other guides', 'k3'), (OUT, 'k2')]
-    rows = [(lbl, k, [(p['m'], f'<b>{esc(p["n"])}</b><br>{esc(p["c"])}<br>{p["m"]} mentions, rank {p["rank"]}<br>{esc(", ".join(p["aw"]) or "Not in the guides we track")}{also(p)}') for p in c['points'] if tier_of(p) == lbl]) for lbl, k in tiers]
+    OTH, OUT = 'Other awards and lists', 'Outside the lists we track'
+    OAM = load('other-awards.js', 'DM_OA')['meta']
+    also = lambda p: ('<br>Also: ' + esc('; '.join(p.get('oa') or []))) if p.get('oa') else ''
+    tiers = [('MICHELIN Star', 'k1'), ('Bib Gourmand', 'k1'), ('MICHELIN selected', 'k3'), ('Other guides', 'k3'), (OTH, 'k3'), (OUT, 'k2')]
+    rows = [(lbl, k, [(p['m'], f'<b>{esc(p["n"])}</b><br>{esc(p["c"])}<br>{p["m"]} mentions, rank {p["rank"]}<br>{esc(", ".join(p["aw"]) or ("Other awards and lists" if p.get("oa") else "Not on the lists we track"))}{also(p)}') for p in c['points'] if tier_of(p) == lbl]) for lbl, k in tiers]
     un = [p for p in c['points'] if not p['aw']][:12]
+    any100, oth100 = T['100']['any'], T['100']['other']
     stars = [p for p in c['points'] if any('Star' in a for a in p['aw'])]
     bib_top = [p for p in c['points'][:25] if p['tier'] == 'Bib Gourmand']
     scot_star = sum(1 for p in AW['places'] if p[6] == 'Scotland' and any(AW['groups'][a[0]] == 'star' for a in p[10]))
@@ -704,14 +705,14 @@ def r_critics():
     allshare = 100 * T[allk]['award'] / T[allk]['n']
     ch1 = (ex(f'Guest favourites are far likelier to be in the major guides, yet most are not', 'Share of venues in any guide we track (MICHELIN, 50 Best, AA three Rosettes and above, Good Food Guide 100 Best Local, OAD, La Liste), by guest popularity.',
               hbar([(b, 100 * v['award'] / v['n'], f'{v["award"]} of {v["n"]}') for b, v in bands], on={'Top 25'}, unit='%', dec=0),
-              f'{DM_SRC}; awards from the Dream Menu awards list', (['Band', 'In a tracked guide', 'Venues', 'Share'], [[b, v['award'], v['n'], f'{100 * v["award"] / v["n"]:.0f}%'] for b, v in bands]))
-           + sowhat('a tourism body', f'The guides and the guests agree more than chance would suggest ({pc(T["25"]["award"], 25)}% of the top 25 against {allshare:.0f}% overall), but {100 - T["100"]["award"]} of the hundred venues guests name most are not in any of the guides we track. Many of them hold other recognition (local awards, one or two AA Rosettes, Good Food Guide listings). A visitor following only the big guides misses most of what locals love.'))
+              f'{DM_SRC}; awards from the Dream Menu awards list', (['Band', 'In a big guide', 'Any award we track', 'Venues', 'Share in a big guide'], [[b, v['award'], v['any'], v['n'], f'{100 * v["award"] / v["n"]:.0f}%'] for b, v in bands]))
+           + sowhat('a tourism body', f'The guides and the guests agree more than chance would suggest ({pc(T["25"]["award"], 25)}% of the top 25 against {allshare:.0f}% overall), but {100 - T["100"]["award"]} of the hundred venues guests name most are not in the big guides. Add the Scottish, UK and bar awards we also track and {any100} of the top 100 hold some recognition; {oth100} of them only outside the big guides. A visitor following only the big guides misses most of what locals love.'))
     ch2 = (ex('Bib Gourmand is where guests and inspectors meet; stars sit further down the list', f'The {len(c["points"])} venues guests name most, by guide status. Across: guest mentions (square-root scale). Hover for each venue.',
               strip(rows, max(p['m'] for p in c['points']), 'Guest mentions'),
               DM_SRC, (['Status', 'Venues in the top ' + str(len(c['points'])), 'Highest-ranked'], [[lbl, len(px), next((p['n'] for p in c['points'] if tier_of(p) == lbl), '')] for lbl, _, px in rows]))
            + f'<div class="prose"><p>{len(bib_top)} of the 25 most-named venues hold a Bib Gourmand ({esc(", ".join(p["n"] for p in bib_top))}). The starred venues guests name ({esc(", ".join(p["n"] for p in stars))}) sit between ranks {min(p["rank"] for p in stars)} and {max(p["rank"] for p in stars)}: admired, but named less often than the city\'s casual favourites.</p></div>')
     ch3 = (ex('Favourites beyond the big guides', 'The most-named venues not in the guides we track. This is about guide coverage, not quality: many hold other awards.',
-              hbar([(p['n'], p['m'], p['c']) for p in un], on={un[0]['n']}), DM_SRC + '; other recognition checked by hand for named venues, examples only', (['Venue', 'City', 'Mentions', 'Rank', 'Also recognised (examples)'], [[p['n'], p['c'], p['m'], p['rank'], '; '.join(OREC.get(p['n'], []))] for p in un]))
+              hbar([(p['n'], p['m'], p['c']) for p in un], on={un[0]['n']}), DM_SRC + f'; other awards from {OAM["lists"]} Scottish, UK and bar lists', (['Venue', 'City', 'Mentions', 'Rank', 'Other awards and lists'], [[p['n'], p['c'], p['m'], p['rank'], '; '.join(p.get('oa') or [])] for p in un]))
            + sowhat('press and city marketing', f'{un[0]["n"]} is the most-named venue in the archive and is not in the guides we track. A guest favourites list alongside the guides gives visitors and press the local view.'))
     recs = [('Publish a guest favourites trail beside the guides', f'{100 - T["100"]["award"]} of the top 100 named venues are outside the guides we track. A trail built from guest mentions fills the gap the big guides leave.', 'High', 'Medium', 'Next season'),
             ('Use Bib Gourmand as the bridge', f'{len(bib_top)} of the top 25 hold a Bib Gourmand: the award guests and inspectors agree on most. Lead visitor food campaigns with it.', 'High', 'Low', 'Now'),
@@ -722,7 +723,7 @@ def r_critics():
         title='Guests and <em>critics</em>', desc='How far guest favourites and guide award winners overlap, where they meet and the favourites the guides miss.',
         stand='Do the guides and the guests agree? This study sets the venues Dream Menu guests name most against MICHELIN, 50 Best, AA and Good Food Guide awards.',
         client='A city marketing or tourism body', question='Should we promote guide winners, guest favourites, or both?', evidence=f'{f0(c["venues"])} named venues, {f0(AW["meta"]["places"])} award winners',
-        kpis=[(f'{pc(T["25"]["award"], 25)}%', 'of the top 25 named venues hold a guide award'), (f'{allshare:.0f}%', 'of all named venues do'), (str(100 - T['100']['award']), 'of the top 100 are outside the guides we track'), (str(scot_star), 'MICHELIN-starred venues in Scotland')],
+        kpis=[(f'{pc(T["25"]["award"], 25)}%', 'of the top 25 named venues hold a guide award'), (f'{allshare:.0f}%', 'of all named venues do'), (str(any100), 'of the top 100 hold a guide award or another award we track'), (str(scot_star), 'MICHELIN-starred venues in Scotland')],
         answer='Guests and critics agree more than chance would suggest, especially on Bib Gourmand, but most guest favourites are not in the big guides, so a visitor offer built only on those guides misses most of what locals love.',
         msgs=[(f'{pc(T["25"]["award"], 25)}%', 'of top 25', 'Favourites are likelier to be recognised', f'Against {allshare:.0f}% of all named venues.'),
               (str(len(bib_top)), 'of top 25', 'Bib Gourmand is the bridge', 'Casual, good-value cooking is where inspectors and guests agree.'),
@@ -736,7 +737,7 @@ def r_critics():
                ('Beyond Glasgow', 'Most named venues are in Glasgow. Targeted fieldwork elsewhere would test whether the pattern holds.'),
                ('Award inflation', 'If guide selections expand, overlap rises without guests changing their minds. Track awards and mentions together.')],
         method_stats=[(f0(c['venues']), 'named venues compared'), (f0(AW['meta']['places']), 'award winners on the list'), (str(aw_named), 'award venues guests name'), (str(len(c['points'])), 'top venues plotted')],
-        method='<p>Each venue guests name is matched to the Dream Menu awards list (MICHELIN 2026 editions, the 50 Best lists, AA Rosettes, the Good Food Guide and others; see the <a href="/awards">award winners</a> page). "Any guide award" includes MICHELIN selected. Bands are by number of guest mentions.</p><p><b>What "outside the guides we track" means.</b> Only the lists above are matched. AA one and two Rosettes, Good Food Guide listings outside its 100 Best Local, SquareMeal, Harden\'s, World\'s 101 Best Steaks, Top 500 Bars, the Scottish Restaurant Awards and local or trade awards are not in the data, and past editions are not counted. A venue outside the tracked guides may well hold these; it is not a judgement on quality. Where we have checked, other recognition is shown as "Also recognised" (examples only). Venues can ask for a correction at contact.dreammenu@gmail.com.</p>',
+        method='<p>Each venue guests name is matched to the Dream Menu awards list (MICHELIN 2026 editions, the 50 Best lists, AA Rosettes, the Good Food Guide and others; see the <a href="/awards">award winners</a> page). "Any guide award" includes MICHELIN selected. Bands are by number of guest mentions.</p><p><b>Other awards and lists.</b> We also match guest venues to ' + str(OAM["lists"]) + ' further lists: ' + esc("; ".join(OAM["names"])) + '. These are matched by hand on name and town, and look-alikes are rejected. A venue outside every list here may still hold recognition we have not found, such as local and trade awards or past editions. Being outside these lists is not a judgement on quality. Venues can ask for a correction at contact.dreammenu@gmail.com.</p>',
         card=(str(100 - T['100']['award']), 'of the top 100 guest favourites are outside the big guides'),
         blurb='How far guest favourites and guide award winners overlap, where they meet and the favourites the guides miss.'))
 

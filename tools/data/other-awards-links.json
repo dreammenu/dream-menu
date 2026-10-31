@@ -1,0 +1,1633 @@
+{
+ "note": "Hand-reviewed matches of tools/data/other-awards.json entries to guest venues (31 Oct 2026). Rejected look-alikes are listed in 'rejected'.",
+ "links": [
+  {
+   "list": "aa-gla-2025",
+   "entry": "Cail Bruich",
+   "town": "Glasgow",
+   "venue": "cail-bruich-x",
+   "venue_name": "Cail Bruich"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "The Gannet",
+   "town": "Glasgow",
+   "venue": "the-gannet-x",
+   "venue_name": "The Gannet"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "UNALOME by Graeme Cheevers",
+   "town": "Glasgow",
+   "venue": "unalome-by-graeme-cheevers-x",
+   "venue_name": "UNALOME by Graeme Cheevers"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Swadish by Ajay Kumar",
+   "town": "Glasgow",
+   "venue": "swadish-glasgow",
+   "venue_name": "Swadish"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Number Sixteen",
+   "town": "Glasgow",
+   "venue": "number-sixteen-glasgow",
+   "venue_name": "Number Sixteen"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Shish Mahal",
+   "town": "Glasgow",
+   "venue": "shish-mahal-glasgow",
+   "venue_name": "Shish Mahal"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Ubiquitous Chip",
+   "town": "Glasgow",
+   "venue": "ubiquitous-chip-x",
+   "venue_name": "Ubiquitous Chip"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Kelp",
+   "town": "Glasgow",
+   "venue": "kelp-glasgow",
+   "venue_name": "Kelp"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Partick Duck Club",
+   "town": "Glasgow",
+   "venue": "partick-duck-club-x",
+   "venue_name": "Partick Duck Club"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Eighty Eight",
+   "town": "Glasgow",
+   "venue": "eighty-eight-glasgow",
+   "venue_name": "Eighty Eight"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Stravaigin",
+   "town": "Glasgow",
+   "venue": "stravaigin-x",
+   "venue_name": "Stravaigin"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Opium",
+   "town": "Glasgow",
+   "venue": "opium-x",
+   "venue_name": "Opium"
+  },
+  {
+   "list": "aa-gla-2025",
+   "entry": "Porter & Rye",
+   "town": "Glasgow",
+   "venue": "porter-rye-x",
+   "venue_name": "Porter & Rye"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Restaurant Andrew Fairlie",
+   "town": "Auchterarder",
+   "venue": "restaurant-andrew-fairlie-auchterarder",
+   "venue_name": "Restaurant Andrew Fairlie"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Glenturret Lalique",
+   "town": "Crieff",
+   "venue": "the-glenturret-lalique-restaurant-crieff",
+   "venue_name": "The Glenturret Lalique Restaurant"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Cail Bruich",
+   "town": "Glasgow",
+   "venue": "cail-bruich-x",
+   "venue_name": "Cail Bruich"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Unalome by Graeme Cheevers",
+   "town": "Glasgow",
+   "venue": "unalome-by-graeme-cheevers-x",
+   "venue_name": "UNALOME by Graeme Cheevers"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Heron",
+   "town": "Edinburgh",
+   "venue": "heron-x",
+   "venue_name": "Heron"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Lyla",
+   "town": "Edinburgh",
+   "venue": "lyla-x",
+   "venue_name": "LYLA"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Kitchin",
+   "town": "Edinburgh",
+   "venue": "the-kitchin-x",
+   "venue_name": "The Kitchin"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Restaurant Martin Wishart",
+   "town": "Edinburgh",
+   "venue": "restaurant-martin-wishart-edinburgh",
+   "venue_name": "Restaurant Martin Wishart"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Timberyard",
+   "town": "Edinburgh",
+   "venue": "timberyard-x",
+   "venue_name": "TIMBERYARD"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Inver",
+   "town": "Strachur",
+   "venue": "inver-strachur",
+   "venue_name": "Inver"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Free Company",
+   "town": "Balerno",
+   "venue": "the-free-company-gb",
+   "venue_name": "The Free Company"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Free Company",
+   "town": "Balerno",
+   "venue": "free-company-balerno",
+   "venue_name": "Free Company"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Margo",
+   "town": "Glasgow",
+   "venue": "margo-x",
+   "venue_name": "Margo"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Sebb's",
+   "town": "Glasgow",
+   "venue": "sebb-s-x",
+   "venue_name": "Sebb's"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Clarence",
+   "town": "Glasgow",
+   "venue": "the-clarence-glasgow-x",
+   "venue_name": "The Clarence Glasgow"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Mara",
+   "town": "Aberdeen",
+   "venue": "mara-aberdeen",
+   "venue_name": "Mara"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Ardfern",
+   "town": "Edinburgh",
+   "venue": "ardfern-x",
+   "venue_name": "Ardfern"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Ka Pao",
+   "town": "Glasgow",
+   "venue": "ka-pao-x",
+   "venue_name": "Ka Pao"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Ox and Finch",
+   "town": "Glasgow",
+   "venue": "ox-and-finch-x",
+   "venue_name": "Ox and Finch"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Noto",
+   "town": "Edinburgh",
+   "venue": "noto-x",
+   "venue_name": "Noto"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Bonnie Badger",
+   "town": "Gullane",
+   "venue": "the-bonnie-badger-pub-x",
+   "venue_name": "The Bonnie Badger - Pub"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Scran and Scallie",
+   "town": "Edinburgh",
+   "venue": "the-scran-and-scallie-x",
+   "venue_name": "The Scran and Scallie"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Number 16",
+   "town": "Glasgow",
+   "venue": "number-16-x",
+   "venue_name": "Number 16"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Fallachan Kitchen",
+   "town": "Glasgow",
+   "venue": "fallachan-kitchen-x",
+   "venue_name": "Fallachan Kitchen"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Coorie Inn",
+   "town": "Crieff",
+   "venue": "coorie-inn-restaurant-rooms-x",
+   "venue_name": "Coorie Inn Restaurant & Rooms"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Loma by Graeme Cheevers",
+   "town": "Balloch",
+   "venue": "loma-by-graeme-cheevers-x",
+   "venue_name": "LOMA by Graeme Cheevers"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Stravaigin",
+   "town": "Glasgow",
+   "venue": "stravaigin-x",
+   "venue_name": "Stravaigin"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Brett",
+   "town": "Glasgow",
+   "venue": "brett-x",
+   "venue_name": "Brett"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Little Capo",
+   "town": "Edinburgh",
+   "venue": "little-capo-edinburgh",
+   "venue_name": "Little Capo"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Vinette",
+   "town": "Edinburgh",
+   "venue": "vinette-edinburgh",
+   "venue_name": "Vinette"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Palmerston",
+   "town": "Edinburgh",
+   "venue": "the-palmerston-x",
+   "venue_name": "The Palmerston"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Dulse",
+   "town": "Edinburgh",
+   "venue": "dulse-seafood-wine-edinburgh-west-end-x",
+   "venue_name": "Dulse Seafood & Wine (Edinburgh West End)"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Sotto",
+   "town": "Edinburgh",
+   "venue": "sotto-edinburgh",
+   "venue_name": "Sotto"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Hendersons",
+   "town": "Edinburgh",
+   "venue": "hendersons-edinburgh",
+   "venue_name": "Hendersons"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Cardinal",
+   "town": "Edinburgh",
+   "venue": "cardinal-edinburgh",
+   "venue_name": "Cardinal"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Spence",
+   "town": "Edinburgh",
+   "venue": "the-spence-x",
+   "venue_name": "The Spence"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Number One",
+   "town": "Edinburgh",
+   "venue": "number-one-the-balmoral-x",
+   "venue_name": "Number One, The Balmoral"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Spry",
+   "town": "Edinburgh",
+   "venue": "spry-edinburgh",
+   "venue_name": "Spry"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Eleanore",
+   "town": "Edinburgh",
+   "venue": "eleanore-x",
+   "venue_name": "Eleanore"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Montrose",
+   "town": "Edinburgh",
+   "venue": "montrose-edinburgh",
+   "venue_name": "Montrose"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Little Chartroom",
+   "town": "Edinburgh",
+   "venue": "the-little-chartroom-x",
+   "venue_name": "The Little Chartroom"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Kinneuchar Inn",
+   "town": "Kilconquhar",
+   "venue": "the-kinneuchar-inn-kilconquhar",
+   "venue_name": "The Kinneuchar Inn"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Haar",
+   "town": "St Andrews",
+   "venue": "haar-st-andrews",
+   "venue_name": "Haar"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "1610 at the Globe Inn",
+   "town": "Dumfries",
+   "venue": "1610-at-the-globe-inn-dumfries",
+   "venue_name": "1610 at The Globe Inn"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Dipping Lugger",
+   "town": "Ullapool",
+   "venue": "the-dipping-lugger-ullapool",
+   "venue_name": "The Dipping Lugger"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "Rocpool",
+   "town": "Inverness",
+   "venue": "rocpool-inverness",
+   "venue_name": "Rocpool"
+  },
+  {
+   "list": "mich-sco-2025",
+   "entry": "The Grandtully Hotel",
+   "town": "Grandtully",
+   "venue": "grandtully-hotel-grandtully",
+   "venue_name": "Grandtully Hotel"
+  },
+  {
+   "list": "sbpa-2025",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "sbpa-2024",
+   "entry": "Tempura",
+   "town": "Ayr",
+   "venue": "tempura-ayr-x",
+   "venue_name": "Tempura Ayr"
+  },
+  {
+   "list": "sbpa-2024",
+   "entry": "Boteco Do Brasil",
+   "town": "Glasgow",
+   "venue": "boteco-do-brasil-x",
+   "venue_name": "Boteco Do Brasil"
+  },
+  {
+   "list": "sbpa-2024",
+   "entry": "Teuchters Landing",
+   "town": "Edinburgh",
+   "venue": "teuchters-landing-x",
+   "venue_name": "Teuchters Landing"
+  },
+  {
+   "list": "sbpa-2024",
+   "entry": "The Smokin' Fox",
+   "town": "Glasgow",
+   "venue": "the-smokin-fox-x",
+   "venue_name": "The Smokin' Fox"
+  },
+  {
+   "list": "sra-2024",
+   "entry": "Valvona & Crolla",
+   "town": "Edinburgh",
+   "venue": "valvona-crolla-x",
+   "venue_name": "Valvona & Crolla"
+  },
+  {
+   "list": "sra-2024",
+   "entry": "Meze Meze",
+   "town": "Glasgow",
+   "venue": "meze-meze-x",
+   "venue_name": "Meze Meze"
+  },
+  {
+   "list": "sra-2024",
+   "entry": "Damasqino Restaurant & Cafe",
+   "town": "Glasgow",
+   "venue": "damasqino-restaurant-cafe-x",
+   "venue_name": "Damasqino Restaurant & Cafe"
+  },
+  {
+   "list": "sra-2024",
+   "entry": "Chaophraya",
+   "town": "Glasgow",
+   "venue": "chaophraya-x",
+   "venue_name": "Chaophraya"
+  },
+  {
+   "list": "sra-2024",
+   "entry": "Smokey Trotters Kitchen",
+   "town": "Glasgow",
+   "venue": "smokey-trotters-kitchen-x",
+   "venue_name": "Smokey Trotters Kitchen"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Trinity",
+   "town": "London",
+   "venue": "trinity-london",
+   "venue_name": "Trinity"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Ynyshir",
+   "town": "Machynlleth",
+   "venue": "ynyshir-x",
+   "venue_name": "Ynyshir"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Kiln",
+   "town": "London",
+   "venue": "kiln-london",
+   "venue_name": "Kiln"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Restaurant Gordon Ramsay",
+   "town": "London",
+   "venue": "restaurant-gordon-ramsay-london",
+   "venue_name": "Restaurant Gordon Ramsay"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Lyla",
+   "town": "Edinburgh",
+   "venue": "lyla-x",
+   "venue_name": "LYLA"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Restaurant Pine",
+   "town": "East Wallhouses",
+   "venue": "restaurant-pine-gb",
+   "venue_name": "Restaurant Pine"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Camille",
+   "town": "London",
+   "venue": "camille-london",
+   "venue_name": "Camille"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "The Glenturret Lalique",
+   "town": "Crieff",
+   "venue": "the-glenturret-lalique-restaurant-crieff",
+   "venue_name": "The Glenturret Lalique Restaurant"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "JÖRO",
+   "town": "Sheffield",
+   "venue": "joro-x",
+   "venue_name": "JORO"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Chez Bruce",
+   "town": "London",
+   "venue": "chez-bruce-london",
+   "venue_name": "Chez Bruce"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Brat",
+   "town": "London",
+   "venue": "brat-x",
+   "venue_name": "Brat"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "The Kinneuchar Inn",
+   "town": "Kilconquhar",
+   "venue": "the-kinneuchar-inn-kilconquhar",
+   "venue_name": "The Kinneuchar Inn"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Inver",
+   "town": "Strachur",
+   "venue": "inver-strachur",
+   "venue_name": "Inver"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "The Little Chartroom",
+   "town": "Edinburgh",
+   "venue": "the-little-chartroom-x",
+   "venue_name": "The Little Chartroom"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Fallow",
+   "town": "London",
+   "venue": "fallow-london",
+   "venue_name": "Fallow"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Forge at Middleton Lodge",
+   "town": "Middleton Tyas",
+   "venue": "forge-x",
+   "venue_name": "FORGE"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "The Quality Chop House",
+   "town": "London",
+   "venue": "quality-chop-house-london",
+   "venue_name": "Quality Chop House"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Gymkhana",
+   "town": "London",
+   "venue": "gymkhana-london",
+   "venue_name": "Gymkhana"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "Lisboeta",
+   "town": "London",
+   "venue": "lisboeta-london",
+   "venue_name": "Lisboeta"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "The Palmerston",
+   "town": "Edinburgh",
+   "venue": "the-palmerston-x",
+   "venue_name": "The Palmerston"
+  },
+  {
+   "list": "nra-2025",
+   "entry": "St. JOHN",
+   "town": "London",
+   "venue": "st-john-x",
+   "venue_name": "St. John"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Ynyshir",
+   "town": "Machynlleth",
+   "venue": "ynyshir-x",
+   "venue_name": "Ynyshir"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Trinity",
+   "town": "London",
+   "venue": "trinity-london",
+   "venue_name": "Trinity"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "JÖRO",
+   "town": "Sheffield",
+   "venue": "joro-x",
+   "venue_name": "JORO"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Camille",
+   "town": "London",
+   "venue": "camille-london",
+   "venue_name": "Camille"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Kiln",
+   "town": "London",
+   "venue": "kiln-london",
+   "venue_name": "Kiln"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Timberyard",
+   "town": "Edinburgh",
+   "venue": "timberyard-x",
+   "venue_name": "TIMBERYARD"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Lyla",
+   "town": "Edinburgh",
+   "venue": "lyla-x",
+   "venue_name": "LYLA"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "The Kinneuchar Inn",
+   "town": "Kilconquhar",
+   "venue": "the-kinneuchar-inn-kilconquhar",
+   "venue_name": "The Kinneuchar Inn"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Restaurant Pine",
+   "town": "East Wallhouses",
+   "venue": "restaurant-pine-gb",
+   "venue_name": "Restaurant Pine"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Perilla",
+   "town": "London",
+   "venue": "perilla-x",
+   "venue_name": "Perilla"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "The Glenturret Lalique",
+   "town": "Crieff",
+   "venue": "the-glenturret-lalique-restaurant-crieff",
+   "venue_name": "The Glenturret Lalique Restaurant"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "The Kitchin",
+   "town": "Edinburgh",
+   "venue": "the-kitchin-x",
+   "venue_name": "The Kitchin"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Brat",
+   "town": "London",
+   "venue": "brat-x",
+   "venue_name": "Brat"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Dogstar",
+   "town": "Edinburgh",
+   "venue": "dogstar-x",
+   "venue_name": "Dogstar"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "The Palmerston",
+   "town": "Edinburgh",
+   "venue": "the-palmerston-x",
+   "venue_name": "The Palmerston"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "The Quality Chop House",
+   "town": "London",
+   "venue": "quality-chop-house-london",
+   "venue_name": "Quality Chop House"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Chez Bruce",
+   "town": "London",
+   "venue": "chez-bruce-london",
+   "venue_name": "Chez Bruce"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "Fallow",
+   "town": "London",
+   "venue": "fallow-london",
+   "venue_name": "Fallow"
+  },
+  {
+   "list": "nra-2026",
+   "entry": "St. JOHN",
+   "town": "London",
+   "venue": "st-john-x",
+   "venue_name": "St. John"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Panda & Sons",
+   "town": "Edinburgh",
+   "venue": "panda-and-sons-x",
+   "venue_name": "Panda and Sons"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Lyaness",
+   "town": "London",
+   "venue": "lyaness-london",
+   "venue_name": "Lyaness"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Nauticus",
+   "town": "Edinburgh",
+   "venue": "nauticus-x",
+   "venue_name": "Nauticus"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Daddy Marmalades",
+   "town": "Glasgow",
+   "venue": "daddy-marmalades-x",
+   "venue_name": "Daddy Marmalades"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "The Connaught Bar",
+   "town": "London",
+   "venue": "the-connaught-london",
+   "venue_name": "The Connaught"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Bramble Bar & Lounge",
+   "town": "Edinburgh",
+   "venue": "bramble-x",
+   "venue_name": "Bramble"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "The American Bar at Gleneagles",
+   "town": "Auchterarder",
+   "venue": "gleneagles-x",
+   "venue_name": "Gleneagles"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "Bar Glue",
+   "town": "Liverpool",
+   "venue": "bar-glue-liverpool",
+   "venue_name": "Bar Glue"
+  },
+  {
+   "list": "t50cb-2025",
+   "entry": "The Gate",
+   "town": "Glasgow",
+   "venue": "the-gate-x",
+   "venue_name": "The Gate"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "Hitchen's Barn",
+   "town": "Oakham",
+   "venue": "hitchen-s-barn-oakham",
+   "venue_name": "Hitchen's Barn"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "The Spärrows",
+   "town": "Manchester",
+   "venue": "the-sparrows-x",
+   "venue_name": "The Spärrows"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "The Gordon Arms",
+   "town": "Selkirk",
+   "venue": "the-gordon-arms-yarrow",
+   "venue_name": "The Gordon Arms"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "Fin & Grape",
+   "town": "Edinburgh",
+   "venue": "fin-grape-x",
+   "venue_name": "FIN & GRAPE"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "Mara",
+   "town": "Aberdeen",
+   "venue": "mara-aberdeen",
+   "venue_name": "Mara"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "Barry Fish",
+   "town": "Edinburgh",
+   "venue": "barry-fish-x",
+   "venue_name": "Barry Fish"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "The Palmerston",
+   "town": "Edinburgh",
+   "venue": "the-palmerston-x",
+   "venue_name": "The Palmerston"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "Gloriosa",
+   "town": "Glasgow",
+   "venue": "gloriosa-x",
+   "venue_name": "Gloriosa"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "The Free Company",
+   "town": "Balerno",
+   "venue": "the-free-company-gb",
+   "venue_name": "The Free Company"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "The Free Company",
+   "town": "Balerno",
+   "venue": "free-company-balerno",
+   "venue_name": "Free Company"
+  },
+  {
+   "list": "gfg100-2025",
+   "entry": "Pomelo",
+   "town": "Edinburgh",
+   "venue": "pomelo-edinburgh",
+   "venue_name": "Pomelo"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "Lyla",
+   "town": "Edinburgh",
+   "venue": "lyla-x",
+   "venue_name": "LYLA"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "The Glenturret Lalique",
+   "town": "Crieff",
+   "venue": "the-glenturret-lalique-restaurant-crieff",
+   "venue_name": "The Glenturret Lalique Restaurant"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "The Kinneuchar Inn",
+   "town": "Kilconquhar",
+   "venue": "the-kinneuchar-inn-kilconquhar",
+   "venue_name": "The Kinneuchar Inn"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "The Little Chartroom",
+   "town": "Edinburgh",
+   "venue": "the-little-chartroom-x",
+   "venue_name": "The Little Chartroom"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "Montrose",
+   "town": "Edinburgh",
+   "venue": "montrose-edinburgh",
+   "venue_name": "Montrose"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "Inver",
+   "town": "Strachur",
+   "venue": "inver-strachur",
+   "venue_name": "Inver"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "Big Counter",
+   "town": "Glasgow",
+   "venue": "big-counter-x",
+   "venue_name": "Big Counter"
+  },
+  {
+   "list": "sqm-2025",
+   "entry": "Cail Bruich",
+   "town": "Glasgow",
+   "venue": "cail-bruich-x",
+   "venue_name": "Cail Bruich"
+  },
+  {
+   "list": "w101s-2025",
+   "entry": "Brat",
+   "town": "London",
+   "venue": "brat-x",
+   "venue_name": "Brat"
+  },
+  {
+   "list": "w101s-2025",
+   "entry": "Porter & Rye",
+   "town": "Glasgow",
+   "venue": "porter-rye-x",
+   "venue_name": "Porter & Rye"
+  },
+  {
+   "list": "w101s-2026",
+   "entry": "Brat",
+   "town": "London",
+   "venue": "brat-x",
+   "venue_name": "Brat"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Bar Glue",
+   "town": "Liverpool",
+   "venue": "bar-glue-liverpool",
+   "venue_name": "Bar Glue"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Panda & Sons",
+   "town": "Edinburgh",
+   "venue": "panda-and-sons-x",
+   "venue_name": "Panda and Sons"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Daddy Marmalades",
+   "town": "Glasgow",
+   "venue": "daddy-marmalades-x",
+   "venue_name": "Daddy Marmalades"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Lyaness",
+   "town": "London",
+   "venue": "lyaness-london",
+   "venue_name": "Lyaness"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Nauticus",
+   "town": "Edinburgh",
+   "venue": "nauticus-x",
+   "venue_name": "Nauticus"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "The Connaught Bar",
+   "town": "London",
+   "venue": "the-connaught-london",
+   "venue_name": "The Connaught"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "Disrepute",
+   "town": "London",
+   "venue": "disrepute-x",
+   "venue_name": "Disrepute"
+  },
+  {
+   "list": "t50cb-2026",
+   "entry": "The American Bar at Gleneagles",
+   "town": "Auchterarder",
+   "venue": "gleneagles-x",
+   "venue_name": "Gleneagles"
+  },
+  {
+   "list": "t500-2025",
+   "entry": "Panda & Sons",
+   "town": "Edinburgh",
+   "venue": "panda-and-sons-x",
+   "venue_name": "Panda and Sons"
+  },
+  {
+   "list": "t500-2025",
+   "entry": "The Connaught Bar",
+   "town": "London",
+   "venue": "the-connaught-london",
+   "venue_name": "The Connaught"
+  },
+  {
+   "list": "t500-2025",
+   "entry": "Lyaness",
+   "town": "London",
+   "venue": "lyaness-london",
+   "venue_name": "Lyaness"
+  },
+  {
+   "list": "t500-2025",
+   "entry": "The American Bar at Gleneagles",
+   "town": "Auchterarder",
+   "venue": "gleneagles-x",
+   "venue_name": "Gleneagles"
+  },
+  {
+   "list": "t500-2025",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "t500-2025",
+   "entry": "Bramble",
+   "town": "Edinburgh",
+   "venue": "bramble-x",
+   "venue_name": "Bramble"
+  },
+  {
+   "list": "t500-2026",
+   "entry": "Bramble",
+   "town": "Edinburgh",
+   "venue": "bramble-x",
+   "venue_name": "Bramble"
+  },
+  {
+   "list": "t500-2026",
+   "entry": "The American Bar at Gleneagles",
+   "town": "Auchterarder",
+   "venue": "gleneagles-x",
+   "venue_name": "Gleneagles"
+  },
+  {
+   "list": "t500-2026",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "The Pot Still",
+   "town": "Glasgow",
+   "venue": "the-pot-still-x",
+   "venue_name": "The Pot Still"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "The Gate",
+   "town": "Glasgow",
+   "venue": "the-gate-x",
+   "venue_name": "The Gate"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Sebb's",
+   "town": "Glasgow",
+   "venue": "sebb-s-x",
+   "venue_name": "Sebb's"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Daddy Marmalades",
+   "town": "Glasgow",
+   "venue": "daddy-marmalades-x",
+   "venue_name": "Daddy Marmalades"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "The Clarence",
+   "town": "Glasgow",
+   "venue": "the-clarence-glasgow-x",
+   "venue_name": "The Clarence Glasgow"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Teuchters Landing",
+   "town": "Edinburgh",
+   "venue": "teuchters-landing-x",
+   "venue_name": "Teuchters Landing"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Stravaigin",
+   "town": "Glasgow",
+   "venue": "stravaigin-x",
+   "venue_name": "Stravaigin"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Kelvingrove Café",
+   "town": "Glasgow",
+   "venue": "kelvingrove-cafe-x",
+   "venue_name": "Kelvingrove Café"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "The American Bar at Gleneagles",
+   "town": "Auchterarder",
+   "venue": "gleneagles-x",
+   "venue_name": "Gleneagles"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Corner Shop",
+   "town": "Glasgow",
+   "venue": "corner-shop-x",
+   "venue_name": "Corner Shop"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Ardfern",
+   "town": "Edinburgh",
+   "venue": "ardfern-x",
+   "venue_name": "Ardfern"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Five March",
+   "town": "Glasgow",
+   "venue": "five-march-x",
+   "venue_name": "Five March"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Timberyard",
+   "town": "Edinburgh",
+   "venue": "timberyard-x",
+   "venue_name": "TIMBERYARD"
+  },
+  {
+   "list": "sltn-2025",
+   "entry": "Ubiquitous Chip",
+   "town": "Glasgow",
+   "venue": "ubiquitous-chip-x",
+   "venue_name": "Ubiquitous Chip"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Lunar",
+   "town": "Glasgow",
+   "venue": "lunar-wine-cocktail-bar-x",
+   "venue_name": "Lunar Wine & Cocktail Bar"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Teuchters Landing",
+   "town": "Edinburgh",
+   "venue": "teuchters-landing-x",
+   "venue_name": "Teuchters Landing"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "West Side Tavern",
+   "town": "Glasgow",
+   "venue": "west-side-tavern-x",
+   "venue_name": "West Side Tavern"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Daddy Marmalades",
+   "town": "Glasgow",
+   "venue": "daddy-marmalades-x",
+   "venue_name": "Daddy Marmalades"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Stravaigin",
+   "town": "Glasgow",
+   "venue": "stravaigin-x",
+   "venue_name": "Stravaigin"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "BLOC+",
+   "town": "Glasgow",
+   "venue": "bloc-x",
+   "venue_name": "Bloc+"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Bramble",
+   "town": "Edinburgh",
+   "venue": "bramble-x",
+   "venue_name": "Bramble"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "The Howlin' Wolf",
+   "town": "Glasgow",
+   "venue": "the-howlin-wolf-glasgow",
+   "venue_name": "The Howlin Wolf"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "The Pot Still",
+   "town": "Glasgow",
+   "venue": "the-pot-still-x",
+   "venue_name": "The Pot Still"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "The Dome",
+   "town": "Edinburgh",
+   "venue": "the-dome-x",
+   "venue_name": "The Dome"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "The Dipping Lugger",
+   "town": "Ullapool",
+   "venue": "the-dipping-lugger-ullapool",
+   "venue_name": "The Dipping Lugger"
+  },
+  {
+   "list": "sltn-2024",
+   "entry": "Ubiquitous Chip",
+   "town": "Glasgow",
+   "venue": "ubiquitous-chip-x",
+   "venue_name": "Ubiquitous Chip"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "Kelvingrove Café",
+   "town": "Glasgow",
+   "venue": "kelvingrove-cafe-x",
+   "venue_name": "Kelvingrove Café"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "Sebb's",
+   "town": "Glasgow",
+   "venue": "sebb-s-x",
+   "venue_name": "Sebb's"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "Tabac",
+   "town": "Glasgow",
+   "venue": "tabac-glasgow",
+   "venue_name": "Tabac"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "The Howlin' Wolf",
+   "town": "Glasgow",
+   "venue": "the-howlin-wolf-glasgow",
+   "venue_name": "The Howlin Wolf"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "The Buttery",
+   "town": "Glasgow",
+   "venue": "the-buttery-x",
+   "venue_name": "The Buttery"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "The Buttery",
+   "town": "Glasgow",
+   "venue": "two-fat-ladies-at-the-buttery-glasgow",
+   "venue_name": "Two Fat Ladies at The Buttery"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "Devil of Brooklyn",
+   "town": "Glasgow",
+   "venue": "devil-of-brooklyn-x",
+   "venue_name": "Devil of Brooklyn"
+  },
+  {
+   "list": "gba-2025",
+   "entry": "The Pot Still",
+   "town": "Glasgow",
+   "venue": "the-pot-still-x",
+   "venue_name": "The Pot Still"
+  },
+  {
+   "list": "eba-2025",
+   "entry": "Panda & Sons",
+   "town": "Edinburgh",
+   "venue": "panda-and-sons-x",
+   "venue_name": "Panda and Sons"
+  },
+  {
+   "list": "eba-2025",
+   "entry": "Hey Palu",
+   "town": "Edinburgh",
+   "venue": "hey-palu-x",
+   "venue_name": "Hey Palu"
+  },
+  {
+   "list": "eba-2025",
+   "entry": "Nauticus",
+   "town": "Edinburgh",
+   "venue": "nauticus-x",
+   "venue_name": "Nauticus"
+  },
+  {
+   "list": "eba-2025",
+   "entry": "Old Pal",
+   "town": "Edinburgh",
+   "venue": "old-pal-bar-and-kitchen-x",
+   "venue_name": "Old Pal Bar and Kitchen"
+  },
+  {
+   "list": "eba-2025",
+   "entry": "Little Capo",
+   "town": "Edinburgh",
+   "venue": "little-capo-edinburgh",
+   "venue_name": "Little Capo"
+  },
+  {
+   "list": "eba-2025",
+   "entry": "The Cocktail Geeks",
+   "town": "Edinburgh",
+   "venue": "cocktail-geeks-edinburgh",
+   "venue_name": "Cocktail Geeks"
+  },
+  {
+   "list": "gfg100-2024-sco",
+   "entry": "The Kinneuchar Inn",
+   "town": "Kilconquhar",
+   "venue": "the-kinneuchar-inn-kilconquhar",
+   "venue_name": "The Kinneuchar Inn"
+  },
+  {
+   "list": "gfg100-2024-sco",
+   "entry": "L'Escargot Bleu",
+   "town": "Edinburgh",
+   "venue": "l-escargot-bleu-edinburgh",
+   "venue_name": "L'Escargot Bleu"
+  },
+  {
+   "list": "gfg100-2024-sco",
+   "entry": "The Gordon Arms",
+   "town": "Selkirk",
+   "venue": "the-gordon-arms-yarrow",
+   "venue_name": "The Gordon Arms"
+  },
+  {
+   "list": "gfg100-2024-sco",
+   "entry": "The Palmerston",
+   "town": "Edinburgh",
+   "venue": "the-palmerston-x",
+   "venue_name": "The Palmerston"
+  },
+  {
+   "list": "gfg100-2024-sco",
+   "entry": "Gloriosa",
+   "town": "Glasgow",
+   "venue": "gloriosa-x",
+   "venue_name": "Gloriosa"
+  },
+  {
+   "list": "gfg100-2024-sco",
+   "entry": "Fin & Grape",
+   "town": "Edinburgh",
+   "venue": "fin-grape-x",
+   "venue_name": "FIN & GRAPE"
+  },
+  {
+   "list": "scran",
+   "entry": "Celentano's",
+   "town": "Glasgow",
+   "venue": "celentano-s-x",
+   "venue_name": "Celentano's"
+  },
+  {
+   "list": "scran",
+   "entry": "Elements",
+   "town": "Glasgow",
+   "venue": "elements-x",
+   "venue_name": "Elements"
+  },
+  {
+   "list": "sra-2023",
+   "entry": "L'Escargot Bleu",
+   "town": "Edinburgh",
+   "venue": "l-escargot-bleu-edinburgh",
+   "venue_name": "L'Escargot Bleu"
+  },
+  {
+   "list": "sra-2023",
+   "entry": "Vietnam House",
+   "town": "Edinburgh",
+   "venue": "vietnam-house-edinburgh",
+   "venue_name": "The Vietnam House"
+  },
+  {
+   "list": "sra-2026",
+   "entry": "Palm Tree Kitchen",
+   "town": "Glasgow",
+   "venue": "palm-tree-kitchen-gb",
+   "venue_name": "Palm Tree Kitchen"
+  },
+  {
+   "list": "sra-2026",
+   "entry": "Kelp",
+   "town": "Glasgow",
+   "venue": "kelp-glasgow",
+   "venue_name": "Kelp"
+  },
+  {
+   "list": "sra-2026",
+   "entry": "Barry Fish",
+   "town": "Edinburgh",
+   "venue": "barry-fish-x",
+   "venue_name": "Barry Fish"
+  },
+  {
+   "list": "sra-2026",
+   "entry": "Hendersons",
+   "town": "Edinburgh",
+   "venue": "hendersons-edinburgh",
+   "venue_name": "Hendersons"
+  },
+  {
+   "list": "sra-2024b",
+   "entry": "Novapizza Vegan Kitchen",
+   "town": "Edinburgh",
+   "venue": "novapizza-edinburgh",
+   "venue_name": "Novapizza"
+  },
+  {
+   "list": "sca-2024",
+   "entry": "Rickshaw & Co",
+   "town": "Glasgow",
+   "venue": "rickshaw-co-x",
+   "venue_name": "Rickshaw & Co"
+  },
+  {
+   "list": "sca-2024",
+   "entry": "The Malletsheugh",
+   "town": "Glasgow",
+   "venue": "the-malletsheugh-x",
+   "venue_name": "The Malletsheugh"
+  },
+  {
+   "list": "sca-2025",
+   "entry": "The Malletsheugh",
+   "town": "Glasgow",
+   "venue": "the-malletsheugh-x",
+   "venue_name": "The Malletsheugh"
+  },
+  {
+   "list": "sca-2025",
+   "entry": "Murphy's Pakora Bar",
+   "town": "Glasgow",
+   "venue": "murphy-s-pakora-glasgow",
+   "venue_name": "Murphy's Pakora"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "The Kitchin",
+   "town": "Edinburgh",
+   "venue": "the-kitchin-x",
+   "venue_name": "The Kitchin"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Number One, The Balmoral",
+   "town": "Edinburgh",
+   "venue": "number-one-the-balmoral-x",
+   "venue_name": "Number One, The Balmoral"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Number One, The Balmoral",
+   "town": "Edinburgh",
+   "venue": "the-balmoral-x",
+   "venue_name": "The Balmoral"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Restaurant Martin Wishart",
+   "town": "Edinburgh",
+   "venue": "restaurant-martin-wishart-edinburgh",
+   "venue_name": "Restaurant Martin Wishart"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Timberyard",
+   "town": "Edinburgh",
+   "venue": "timberyard-x",
+   "venue_name": "TIMBERYARD"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "The Little Chartroom",
+   "town": "Edinburgh",
+   "venue": "the-little-chartroom-x",
+   "venue_name": "The Little Chartroom"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Locanda de Gusti",
+   "town": "Edinburgh",
+   "venue": "locanda-de-gusti-x",
+   "venue_name": "Locanda de Gusti"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Dulse",
+   "town": "Edinburgh",
+   "venue": "dulse-seafood-wine-edinburgh-west-end-x",
+   "venue_name": "Dulse Seafood & Wine (Edinburgh West End)"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "Ondine",
+   "town": "Edinburgh",
+   "venue": "ondine-oyster-grill-edinburgh",
+   "venue_name": "Ondine Oyster & Grill"
+  },
+  {
+   "list": "aa-edi-2025",
+   "entry": "The Witchery by the Castle",
+   "town": "Edinburgh",
+   "venue": "the-witchery-x",
+   "venue_name": "The Witchery"
+  }
+ ],
+ "rejected": [
+  "Scran & Scallie vs Scran",
+  "Number 16 / Five March vs the combined 'Haylynn Canteen, Number 16, Five March' entry",
+  "Kitchen Glasgow vs every '... Kitchen'",
+  "Piccolo Mondo vs Mondo (Coatbridge)",
+  "Restaurant Gordon Ramsay vs Bishopgate / Burger",
+  "Kelvingrove Café vs The Sisters Kelvingrove",
+  "Malaga Tapas (St Andrew's Road) vs Malaga Tapas Bearsden",
+  "Westend Banana Leaf vs Banana Leaf",
+  "Madras Café vs Madras Dhosa",
+  "Murphy's Pakora Bar vs The Pakora Bar",
+  "Sotto vs 'Paz, Sotto and Mirin'",
+  "Crown & Anchor Inn vs The Crown",
+  "Bar San Juan vs San Juan Spot",
+  "North vs North East of Thailand / North Yorkshire",
+  "The Warren vs Jan Warren",
+  "Hawksmoor London vs Hawksmoor Edinburgh (different site)"
+ ]
+}

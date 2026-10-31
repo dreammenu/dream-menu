@@ -29,6 +29,7 @@ def load(fn, var):
 P = load('partner-data.js', 'DM_PARTNER')
 D = load('dm-data.js', 'DM')
 C = load('dm-cat.js', 'DMC')
+OA = load('other-awards.js', 'DM_OA')['v'] if os.path.exists('other-awards.js') else {}   # tools/build_other_awards.py
 L = load('dm-labels.js', 'DML')
 
 COURSE = {k: P['trends'][k]['label'] for k in P['order']}
@@ -369,14 +370,15 @@ def critics():
     tops = {}
     for k in (10, 25, 50, 100, len(vs)):
         sub = vs[:k]
-        tops[k] = dict(n=len(sub), award=sum(1 for v in sub if v['i'] in aw))
+        tops[k] = dict(n=len(sub), award=sum(1 for v in sub if v['i'] in aw), other=sum(1 for v in sub if v['i'] not in aw and v['i'] in OA),
+                       any=sum(1 for v in sub if v['i'] in aw or v['i'] in OA))
     pts = []
     for rank, v in enumerate(vs[:150], 1):
         a = aw.get(v['i'])
-        pts.append(dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], rank=rank, tier=tier_of(a['a']) if a else 'Outside the guides we track',
-                        aw=(a['a'][:2] if a else [])))
-    orec = json.load(open('tools/data/other-recognition.json', encoding='utf-8'))['venues']   # checked by hand, examples only
-    champions = [dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], o='; '.join(orec.get(v['n'], []))) for v in vs if v['i'] not in aw][:10]
+        o = [r[0] for r in OA.get(v['i'], [])][:2]
+        tier = tier_of(a['a']) if a else ('Other awards and lists' if o else 'Outside the lists we track')
+        pts.append(dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], rank=rank, tier=tier, aw=(a['a'][:2] if a else []), oa=o))
+    champions = [dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], o='; '.join(r[0] for r in OA.get(v['i'], [])[:2])) for v in vs if v['i'] not in aw][:10]
     starred = [dict(n=v['n'], c=v['c'], m=v['m'], tier=tier_of(aw[v['i']]['a']), aw=aw[v['i']]['a'][0]) for v in vs if v['i'] in aw][:10]
     # Pareto: cumulative share of mentions held by the top x% of venues
     tot = sum(v['m'] for v in vs)

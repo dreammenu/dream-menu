@@ -101,3 +101,4 @@ a.pg-chip:hover{border-color:var(--ink)}
 .dm-ins{border-radius:14px;padding:18px 20px;margin-top:6px}.dm-ins h2{font-size:18px;margin:0 0 12px}
 @media (max-width:860px){.pg-hero-ins.has-ins{grid-template-columns:minmax(0,1fr)}.dm-ins{margin-top:4px}}
 .pg-hero-main{min-width:0}
+.pg-src-l{font-size:12px;color:var(--muted)}

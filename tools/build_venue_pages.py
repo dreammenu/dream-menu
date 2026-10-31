@@ -370,7 +370,7 @@ for v in PUBLIC_V:
 for lst in by_city.values():
     lst.sort(key=lambda v: (-(v.get('m') or 0), v['n']))
 AW = D.get('aw') or {}
-OREC = json.load(open('tools/data/other-recognition.json', encoding='utf-8'))['venues']   # examples checked by hand
+OA = load('other-awards.js', 'DM_OA')['v']   # tools/build_other_awards.py
 STOP = {'the', 'restaurant', 'kitchen', 'house', 'cafe', 'glasgow', 'edinburgh', 'london', 'grill', 'and', 'with', 'street', 'road'}
 for v in PUBLIC_V:
     s = vslug(v)
@@ -386,10 +386,11 @@ for v in PUBLIC_V:
     own = [(c, t) for c, t in (v.get('q') or []) if keys and any(k in slugify(t).replace('-', ' ') for k in keys)]
     quotes = ''.join(f'<blockquote class="quote">{E(t)}<small>Guest answer, {E(COURSE.get(c, c).lower())}</small></blockquote>' for c, t in own[:4])
     aw = AW.get(v['i'])
-    other = OREC.get(v['n'], [])
-    items = (aw['a'] if aw else []) + other
-    aw_html = ('<div class="card"><h2>Awards and guides</h2><ul class="pg-list">' + ''.join(f'<li>{E(a)}</li>' for a in items) +
-               '</ul><p class="pg-mut"><a href="/awards">All award winners</a>' + (' · Includes recognition checked by hand outside our awards list.' if other else '') + '</p></div>') if items else ''
+    other = OA.get(v['i'], [])
+    lis = [f'<li>{E(a)}</li>' for a in (aw['a'] if aw else [])]
+    lis += [f'<li>{E(t)}' + (f' <a class="pg-src-l" href="{E(u)}" rel="nofollow noopener" target="_blank">source</a>' if u.startswith('http') else '') + '</li>' for t, _, _, u in other]
+    aw_html = ('<div class="card"><h2>Awards and guides</h2><ul class="pg-list">' + ''.join(lis) +
+               '</ul><p class="pg-mut"><a href="/awards">All award winners</a>' + (' · Includes Scottish, UK and bar awards matched by hand. Spotted something missing? <a href="mailto:contact.dreammenu@gmail.com">Tell us</a>' if other else '') + '</p></div>') if lis else ''
     near = [x for x in city if x is not v][:6]
     near_html = ''.join(f'<li>{vlink(x)} <b>{x["m"]}</b></li>' for x in near)
     addr = E(v['ad']) if v.get('ad') and v.get('p') == 'exact' else E(place(v))
