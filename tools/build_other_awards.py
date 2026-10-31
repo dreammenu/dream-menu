@@ -38,7 +38,10 @@ AW = D.get('aw') or {}
 AT = {('The American Bar at Gleneagles', 'Gleneagles'): 'The American Bar', ('The Connaught Bar', 'The Connaught'): 'The Connaught Bar',
       ('Number One, The Balmoral', 'The Balmoral'): 'Number One'}
 SHORT = {'sbpa': 'Scottish Bar & Pub Awards', 'sltn': 'SLTN Awards', 'sra': 'Scottish Restaurant Awards', 'gba': 'Glasgow Bar Awards',
-         'eba': 'Edinburgh Bar Awards', 'sca': 'Scottish Curry Awards'}
+         'eba': 'Edinburgh Bar Awards', 'sca': 'Scottish Curry Awards', 'aah': 'AA Hospitality Awards', 'ara': "Scotland's Asian Restaurant Awards",
+         'class': 'CLASS Bar Awards', 'npba': 'National Pub & Bar Awards', 't50g': 'Top 50 Gastropubs', 'tabob': 'Tripadvisor Best of the Best',
+         'sasfa': 'Scottish Asian Food Awards', 'sex': 'Scottish Excellence Awards', 'fas': 'Food Awards Scotland', 'spice': 'Spice Awards',
+         'nra': 'National Restaurant Awards'}
 
 
 def text(L, entry):
@@ -50,6 +53,8 @@ def text(L, entry):
         return f'{t} ({y} list)'
     if fam == 'mich':
         return f'{t} {y}'
+    if fam == 'gfga':
+        return f'Good Food Guide Awards {y}: {t}'
     if fam.startswith('gfg'):
         return f'{t} {y}'
     if fam == 'scran':
