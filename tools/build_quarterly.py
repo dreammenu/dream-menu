@@ -86,7 +86,8 @@ deb = SC['debates']
 tap = deb['water']['c']['Tap'] + deb['water']['c'].get('Scottish tap water', 0)
 pc = lambda a, b: f'{round(100 * a / b)}%'
 MK = {m['id']: m for m in D['markets']}
-cov = [(n, MK[i]['mn']) for n, i in (('Scotland', 'nation:Scotland'), ('England', 'nation:England')) if i in MK]
+_cities = sorted((m for m in D['markets'] if m['k'] == 'city'), key=lambda m: (-m['mn'], m['n']))
+cov = [(m['n'] + (' (deep)' if m['g'] >= 30 and m['mn'] >= 300 else ''), m['mn']) for m in _cities[:5]] + [(f'{len(_cities) - 5} more cities and towns', sum(m['mn'] for m in _cities[5:]))]
 dish_link = lambda l: f'<a href="/trends/{slugify(l)}">{E(l)}</a>' if os.path.exists(f'trends/{slugify(l)}.html') else E(l)
 rows = ''.join(f'<tr><td>{c}</td><td><b>{dish_link(a)}</b> {pa:.0f}%</td><td>{dish_link(b)} {pb:.0f}%</td></tr>' for c, a, pa, b, pb in menu)
 gla = MK.get('city:Glasgow|United Kingdom')
@@ -101,7 +102,7 @@ body = f'''<section class="pg-hero"><div class="wrap"><p class="eyebrow">State o
   <div class="card"><h2>The debates</h2><ul class="pg-list"><li>Irn-Bru beats Coca-Cola, {pc(deb["coke"]["c"]["Irn Bru"], deb["coke"]["n"])} to {pc(deb["coke"]["c"]["Coca Cola"], deb["coke"]["n"])}</li><li>Coffee over tea, {pc(deb["tea"]["c"]["Coffee"], deb["tea"]["n"])} to {pc(deb["tea"]["c"]["Tea"], deb["tea"]["n"])}</li><li>Pineapple on pizza: {pc(deb["pineapple"]["c"]["No"], deb["pineapple"]["n"])} say no</li><li>Water: still {pc(deb["water"]["c"]["Still"], deb["water"]["n"])}, tap {pc(tap, deb["water"]["n"])}</li></ul><p class="pg-mut"><a href="/#debates">All four debates</a></p></div>
   <div class="card"><h2>What guests want gone</h2><ol class="pg-list">{"".join(f"<li>{E(t)} <b>{n}</b></li>" for t, n in P["extra"]["bin"][:5])}</ol><p class="pg-mut">Answers to &ldquo;which trend would you bin?&rdquo;</p></div>
   <div class="card"><h2>Most-named venues</h2><ol class="pg-list">{"".join(f"<li>{vlink(v)} <b>{v['m']}</b></li>" for v in top_v)}</ol><p class="pg-mut"><a href="/rankings">Rankings by market and course</a></p></div>
-  <div class="card"><h2>Where the evidence is growing</h2><ul class="pg-list">{"".join(f"<li>{n}: {fmt(c)} venue mentions</li>" for n, c in cov)}</ul><p class="pg-mut">Scotland is the deep market; England and everywhere else are early signals. <a href="/take-part">Add your market</a></p></div>
+  <div class="card"><h2>Where the evidence is growing</h2><ul class="pg-list">{"".join(f"<li>{n}: {fmt(c)} venue mentions</li>" for n, c in cov)}</ul><p class="pg-mut">Glasgow and Edinburgh are each deep markets; the other cities are early signals. <a href="/#coverage">Every city</a> · <a href="/take-part">Add your city</a></p></div>
   <div class="card pg-lock"><h2>What is moving</h2><p>Which dishes are clearly rising or falling, by course and market, with a trend score out of 10, is in the partner briefing.</p><p><a class="go" href="/login?next=/briefing">Partner briefing</a> · <a class="go" href="/for-business#work">Become a partner</a></p></div>
 </div></section>
 <section><div class="wrap"><p class="pg-src">Source: Dream Menu, {fmt(P["n_all"])} interviews, September 2025 to {LAST_H}. Qualitative fieldwork with a large base, not a representative survey. Credit: Dream Menu (dream-menu.com). <a href="/press">Press kit</a></p>

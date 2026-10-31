@@ -282,20 +282,19 @@ KPI = json.JSONDecoder().raw_decode(_si[_mi.end():])[0]['kpi']
 
 def fb_cards():
     rows = ''.join(f'<li><span class="dish">{c}: {html.escape(d)}</span><span class="dots"></span><span class="price">{pc0(p)}</span></li>' for c, d, p in menu)
-    by_mk = []
-    for (t, pr, *_), name in zip(MARKET_SETS, TAB_NAMES):
-        by_mk.append((name, cat_counts(pr)[2]))
-    by_mk.append(('Chains and unplaced venues', M['mentions'] - sum(n for _, n in by_mk)))
-    tot = M['mentions']
-    mk_rows = ''.join(f'<li><span class="dish">{n}</span><span class="dots"></span><span class="price">{fmt(c)} ({pc0(100 * c / tot)})</span></li>' for n, c in by_mk)
+    top, rest, unplaced, cities, deep = city_cover()
+    by_mk = [(m['n'] + (' (deep)' if deep(m) else ''), m['mn']) for m in top[:6]]
+    by_mk.append((f'{len(cities) - 6} more cities and towns', sum(m['mn'] for m in cities[6:])))
+    by_mk.append(('Chains and unplaced venues', unplaced))
+    mk_rows = ''.join(f'<li><span class="dish">{n}</span><span class="dots"></span><span class="price">{fmt(c)}</span></li>' for n, c in by_mk)
     guest_award = sum(1 for p in _PL if p[15])
     guest_star_uk = sum(1 for p in _PL if p[15] and _star(p) and p[5] == 'GB')
     return (
         '<!--fb-cards--><section><div class="wrap">\n  <h2 id="evidence">The evidence, in brief</h2>\n  <div class="grid">\n'
         f'    <div class="card"><div class="eyebrow">The dream menu</div><h3 style="margin-top:6px">The top dish on every course</h3><ol class="menu">{rows}</ol>'
         f'<p class="note" style="margin-top:8px">Share of each course&rsquo;s answers, {N_ALL} interviews to {LAST_H}. <a href="/#courses">Every course in full</a></p></div>\n'
-        f'    <div class="card"><div class="eyebrow">Where the evidence comes from</div><h3 style="margin-top:6px">Venue mentions by market</h3><ol class="menu">{mk_rows}</ol>'
-        f'<p class="note" style="margin-top:8px">Glasgow, where the series started, is the deepest market, so every other market is also read on its own. <a href="/#places">Compare the markets</a></p></div>\n'
+        f'    <div class="card"><div class="eyebrow">Where the evidence comes from</div><h3 style="margin-top:6px">Venue mentions by city</h3><ol class="menu">{mk_rows}</ol>'
+        f'<p class="note" style="margin-top:8px">{len(cities)} cities and towns so far; Glasgow and Edinburgh are each deep enough to read on their own. <a href="/#coverage">Every city</a></p></div>\n'
         f'    <div class="card stat"><div class="eyebrow">What is moving</div><h3 style="margin-top:6px">{KPI["sig"]} clear movers</h3><p>Of {KPI["tests"]} dishes and groups tested, {KPI["sig"]} moved clearly between 2025 and 2026: {KPI["up"]} up and {KPI["down"]} down. '
         f'Partners see which ones, by course, market and guest type, with a score out of 10 for every trend.</p><a class="go" href="/login?next=/briefing">Partner briefing</a></div>\n'
         f'    <div class="card stat"><div class="eyebrow">Recognition</div><h3 style="margin-top:6px">Guests and guides</h3><p>{guest_award} venues guests name also hold a guide award; {guest_star_uk} of them are MICHELIN Starred venues in the UK. '
@@ -337,29 +336,42 @@ def fb_contact():
 
 
 
-# ---------------------------------------------------------------- home: where the evidence comes from (UK-wide, honest depth)
+# ---------------------------------------------------------------- home: where the evidence comes from, by city (Gordon, 31 Oct)
+CITY_TOP = 10
+
+
+def city_cover():
+    """Venue mentions by city (where the venue is). Returns the top cities, the rest, and counts."""
+    cities = sorted((m for m in D['markets'] if m['k'] == 'city'), key=lambda m: (-m['mn'], m['n']))
+    deep = lambda m: m['g'] >= 30 and m['mn'] >= DEEP_MENTIONS
+    top = cities[:CITY_TOP]
+    rest = cities[CITY_TOP:]
+    unplaced = M['mentions'] - sum(m['mn'] for m in cities)
+    return top, rest, unplaced, cities, deep
+
+
 def coverage_html():
-    rows = [('Scotland', 'nation:Scotland'), ('England', 'nation:England'), ('Northern Ireland', 'nation:Northern Ireland'), ('Wales', 'nation:Wales')]
-    out = []
-    for name, mid in rows:
-        m = MK.get(mid)
-        if m:
-            out.append((name, m['mn'], m['g'], bool(m.get('so')) and m['mn'] >= DEEP_MENTIONS))
-    intl = sum(m['mn'] for m in D['markets'] if m['k'] == 'country' and m['n'] != 'United Kingdom')
-    intl_g = max([m['g'] for m in D['markets'] if m['k'] == 'country' and m['n'] != 'United Kingdom'] or [0])
-    out.append(('Outside the UK', intl, None, False))
-    top = max(r[1] for r in out)
-    li = ''.join(
-        f'<li><span class="cv-l">{n}</span><span class="cv-t"><i style="width:{max(1.5, 100 * mn / top):.1f}%"></i></span>'
-        f'<span class="cv-v">{fmt(mn)}</span><span class="mk-tag{"" if deep else " early"}">{"Deep" if deep else "Early signal"}</span></li>'
-        for n, mn, g, deep in out)
+    top, rest, unplaced, cities, deep = city_cover()
+    n_deep = sum(1 for m in cities if deep(m))
+    uk = sum(1 for m in cities if m['co'] == 'United Kingdom')
+    abroad = len(cities) - uk
+    place = lambda m: m['n'] if m['co'] == 'United Kingdom' else f"{m['n']}, {m['co']}"
+    tiles = ''.join(
+        f'<li class="{"deep" if deep(m) else ""}"><b>{html.escape(place(m))}</b><span class="cv-n">{fmt(m["mn"])}</span>'
+        f'<span class="cv-s">venue mentions · {fmt(m["g"])} guests</span>'
+        f'<span class="mk-tag{"" if deep(m) else " early"}">{"Deep" if deep(m) else "Early signal"}</span></li>'
+        for m in top)
+    tiles += (f'<li class="more"><b>{len(rest)} more cities and towns</b><span class="cv-n">{fmt(sum(m["mn"] for m in rest))}</span>'
+              f'<span class="cv-s">venue mentions, including {html.escape(next((m["n"] for m in rest if m["co"] == "United Kingdom"), ""))} and {html.escape(next((m["n"] for m in rest if m["co"] != "United Kingdom"), ""))}</span></li>')
+    deep_names = ' and '.join(html.escape(m['n']) for m in cities if deep(m))
     return ('<section class="h-cover" id="coverage"><div class="wrap"><div class="cv-head"><div><div class="eyebrow">Coverage</div>'
             '<h2>Where the evidence <em>comes from</em></h2>'
-            '<p class="lede">Dream Menu started in Glasgow and is growing across the UK. Every figure on this site says which market it covers. '
-            'A market is <b>deep</b> once 30 or more guests have made 300 or more venue mentions there; until then it is an <b>early signal</b>, worth reading with care.</p></div>'
-            '<a class="btn gold" href="/take-part">Add your market</a></div>'
-            f'<ol class="cv">{li}</ol><p class="note">Venue mentions by where the venue is, {N_ALL} interviews to {LAST_H}. '
-            'Interviews from England, Wales, Northern Ireland and abroad are the fastest way to widen the picture.</p></div></section>')
+            f'<p class="lede">Guests have named venues in <b>{len(cities)} cities and towns</b>: {uk} in the UK and {abroad} abroad. '
+            f'{deep_names} are each <b>deep</b> markets in their own right, so every finding can be read city by city. '
+            'A city is deep once 30 or more guests have made 300 or more venue mentions there; below that it is an <b>early signal</b>, worth reading with care.</p></div>'
+            '<a class="btn gold" href="/take-part">Add your city</a></div>'
+            f'<ol class="cv-cities">{tiles}</ol><p class="note">Venue mentions by the city the venue is in, {N_ALL} interviews to {LAST_H}. '
+            f'{fmt(unplaced)} further mentions are of chains or places guests did not tie to a city. Every figure on this site says which market it covers.</p></div></section>')
 
 
 _ix = open('index.html', encoding='utf-8').read()

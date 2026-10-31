@@ -187,3 +187,12 @@
 .cv-v{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
 .cv .mk-tag{margin:0;justify-self:start}
 @media (max-width:560px){.cv li{grid-template-columns:110px minmax(0,1fr) 52px;}.cv .mk-tag{grid-column:1/-1;justify-self:start;margin-top:-4px}}
+/* coverage by city */
+.cv-cities{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.cv-cities li{border:1.5px solid var(--rule-strong);border-radius:12px;padding:12px 14px;background:var(--paper);display:flex;flex-direction:column;gap:3px;min-width:0}
+.cv-cities li.deep{border-color:var(--ink);border-width:2px}
+.cv-cities li b{font:800 16px/1.2 var(--display);overflow-wrap:anywhere}
+.cv-cities .cv-n{font:800 26px/1.1 var(--display);font-variant-numeric:tabular-nums;margin-top:4px}
+.cv-cities .cv-s{font-size:12.5px;color:var(--muted)}
+.cv-cities .mk-tag{margin:6px 0 0;align-self:flex-start}
+.cv-cities li.more{background:var(--panel);border-style:dashed}
