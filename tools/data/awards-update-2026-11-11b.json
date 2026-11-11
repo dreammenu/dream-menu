@@ -1,0 +1,1030 @@
+{
+ "built": "2026-11-11",
+ "rank": [],
+ "replace": [
+  {
+   "place": "potager-kuala-lumpur",
+   "from": [
+    "ms",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "chef-1996-beijing",
+   "from": [
+    "ms",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "akar-kuala-lumpur",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "beta-kuala-lumpur",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "chim-by-chef-noom-kuala-lumpur",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "dc-by-darren-chin-kuala-lumpur",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "molina-kuala-lumpur",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "terra-dining-kuala-lumpur",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "au-jardin-george-town",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "auntie-gaik-lean-s-old-school-eatery-george-town",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "zinan-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "focus-by-bill-yue-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "chaimen-hui-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "fang-xiang-jing-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "fu-rong-huang-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "ma-s-kitchen-jinjiang-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "silver-pot-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "xu-s-cuisine-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "young-art-yong-ya-he-xian-tongzilin-east-road-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "co-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "hokkien-cuisine-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "the-hall-chengdu",
+   "from": [
+    "m1",
+    2026
+   ],
+   "to": [
+    "m1",
+    2027
+   ]
+  },
+  {
+   "place": "dewakan-kuala-lumpur",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "yu-zhi-lan-chengdu",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "blackswan-beijing",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "jingji-beijing",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "king-s-joy-beijing",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "lamdre-beijing",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "lu-shang-lu-beijing",
+   "from": [
+    "m2",
+    2026
+   ],
+   "to": [
+    "m2",
+    2027
+   ]
+  },
+  {
+   "place": "xin-rong-ji-chengdu",
+   "from": [
+    "m3",
+    2026
+   ],
+   "to": [
+    "m3",
+    2027
+   ]
+  },
+  {
+   "place": "chao-shang-chao-chaoyang-beijing",
+   "from": [
+    "m3",
+    2026
+   ],
+   "to": [
+    "m3",
+    2027
+   ]
+  },
+  {
+   "place": "xin-rong-ji-xinyuan-south-road-beijing",
+   "from": [
+    "m3",
+    2026
+   ],
+   "to": [
+    "m3",
+    2027
+   ]
+  }
+ ],
+ "add": [
+  [
+   "magill-estate-restaurant-magill",
+   "Magill Estate Restaurant",
+   -34.9136,
+   138.6797,
+   "Magill - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m2",
+     2027
+    ]
+   ],
+   "Contemporary",
+   "",
+   "Penfolds Magill Estate, Magill, Adelaide foothills (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "anvers-restaurant-kangarilla",
+   "Anvers Restaurant",
+   -35.155,
+   138.661,
+   "Kangarilla",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Modern Australian",
+   "",
+   "Kangarilla (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "arkhe-norwood",
+   "arkhé",
+   -34.9217,
+   138.633,
+   "Norwood - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Contemporary",
+   "",
+   "The Parade, Norwood (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "aurora-at-ila-adelaide",
+   "Aurora at ILA",
+   -34.9255,
+   138.5925,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Modern Australian",
+   "",
+   "Light Square, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "esmay-hackney",
+   "Esmay",
+   -34.9185,
+   138.616,
+   "Hackney - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Contemporary",
+   "",
+   "Hackney Hotel, Hackney (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "hentley-farm-seppeltsfield",
+   "Hentley Farm",
+   -34.493,
+   138.913,
+   "Seppeltsfield - Barossa",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Contemporary",
+   "",
+   "Seppeltsfield, Barossa (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "lvn-at-bird-in-hand-woodside",
+   "LVN at Bird in Hand",
+   -34.9545,
+   138.879,
+   "Woodside - Adelaide Hills",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Live-fire",
+   "",
+   "Bird in Hand estate, Woodside (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "maxwell-restaurant-mclaren-vale",
+   "Maxwell Restaurant",
+   -35.2185,
+   138.544,
+   "McLaren Vale",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Creative",
+   "",
+   "McLaren Vale (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "restaurant-aptos-stirling",
+   "Restaurant Aptos",
+   -35.004,
+   138.718,
+   "Stirling - Adelaide Hills",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Australian",
+   "",
+   "Stirling (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "restaurant-botanic-adelaide",
+   "Restaurant Botanic",
+   -34.9175,
+   138.6105,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Contemporary",
+   "",
+   "Adelaide Botanic Garden (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "skillogalee-barrel-house-sevenhill",
+   "Skillogalee Barrel House",
+   -33.937,
+   138.62,
+   "Sevenhill - Clare Valley",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "Regional",
+   "",
+   "Clare Valley (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "africola-adelaide",
+   "Africola",
+   -34.925,
+   138.611,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "African-inspired",
+   "",
+   "East Terrace, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "antidote-kitchen-clare",
+   "Antidote Kitchen",
+   -33.833,
+   138.611,
+   "Clare - Clare Valley",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Fusion",
+   "",
+   "Clare Valley (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "bar-torino-adelaide",
+   "Bar Torino",
+   -34.933,
+   138.609,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "European",
+   "",
+   "Hutt Street, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "bistro-francais-hyde-park",
+   "Bistro Français",
+   -34.953,
+   138.599,
+   "Hyde Park - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "French",
+   "",
+   "King William Road, Hyde Park (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "fino-seppeltsfield",
+   "FINO Seppeltsfield",
+   -34.487,
+   138.92,
+   "Seppeltsfield - Barossa",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Seasonal",
+   "",
+   "Seppeltsfield, Barossa (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "golden-boy-adelaide",
+   "Golden Boy",
+   -34.9205,
+   138.6115,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Thai",
+   "",
+   "North Terrace at East Terrace, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "gondola-gondola-adelaide",
+   "Gondola Gondola",
+   -34.9235,
+   138.596,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Southeast Asian",
+   "",
+   "Peel Street, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "la-popular-taqueria-port-adelaide",
+   "La Popular Taqueria",
+   -34.846,
+   138.504,
+   "Port Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Mexican",
+   "",
+   "Port Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "noi-vietnamese-eatery-fullarton",
+   "Noi Vietnamese Eatery",
+   -34.953,
+   138.629,
+   "Fullarton - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Vietnamese",
+   "",
+   "Fullarton (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "pantry-on-prospect-prospect",
+   "Pantry on Prospect",
+   -34.884,
+   138.594,
+   "Prospect - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Bistro",
+   "",
+   "Prospect Road, Prospect (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "part-time-lover-adelaide",
+   "Part Time Lover",
+   -34.929,
+   138.5995,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Bistro",
+   "",
+   "Paul Kelly Lane, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "parwana-afghan-kitchen-torrensville",
+   "Parwana Afghan Kitchen",
+   -34.92,
+   138.565,
+   "Torrensville - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Afghan",
+   "",
+   "Torrensville (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "stamps-mitcham",
+   "Stamps",
+   -34.979,
+   138.621,
+   "Mitcham - Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Bistro",
+   "",
+   "Mitcham (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "sunnys-pizza-adelaide",
+   "Sunny's Pizza",
+   -34.9265,
+   138.595,
+   "Adelaide",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Pizza",
+   "",
+   "West End, Adelaide (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "the-salopian-inn-mclaren-vale",
+   "The Salopian Inn",
+   -35.223,
+   138.547,
+   "McLaren Vale",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Seasonal",
+   "",
+   "McLaren Vale (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "tirage-kingscote",
+   "Tirage",
+   -35.656,
+   137.638,
+   "Kingscote - Kangaroo Island",
+   "AU",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "mb",
+     2027
+    ]
+   ],
+   "Mediterranean",
+   "",
+   "Kingscote, Kangaroo Island (placed in the area named; exact spot not confirmed)",
+   "https://sitchu.com.au/eat-drink/michelin-guide-australia",
+   []
+  ],
+  [
+   "old-tower-beijing",
+   "Old Tower",
+   39.9042,
+   116.4074,
+   "Beijing",
+   "CN",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "",
+   "",
+   "Beijing (placed in the city; exact spot not confirmed)",
+   "https://www.michelin.com/en/publications/products-and-services/michelin-guide-unveils-the-2027-beijing-tianjin-selection",
+   []
+  ],
+  [
+   "china-banquet-tianjin",
+   "China Banquet",
+   39.0842,
+   117.201,
+   "Tianjin",
+   "CN",
+   "",
+   "r",
+   "c",
+   0,
+   [
+    [
+     "m1",
+     2027
+    ]
+   ],
+   "",
+   "",
+   "Tianjin (placed in the city; exact spot not confirmed)",
+   "https://www.michelin.com/en/publications/products-and-services/michelin-guide-unveils-the-2027-beijing-tianjin-selection",
+   []
+  ]
+ ],
+ "sources": {
+  "michelin": "Current distinctions as listed on guide.michelin.com, extract refreshed 2026-10-11 (2026 guide editions), via the open michelin-my-maps dataset (checked 29 Oct 2026: no newer extract). Philippines updated to the 2027 edition announced 29 Oct 2026: stars and Bib Gourmands from press coverage of the announcement; new entries are pinned in their town until the guide publishes addresses, and four 2026 Bib Gourmands not named for 2027 (CUR8, Hálong, Pares Batchoy Food House, Your Local) keep their 2026 record. Updated 11 Nov 2026 for editions published after the extract: South Australia 2027 (first Australian guide, 14 Oct: 11 stars and 16 Bib Gourmands added, pinned in the suburb or town named, MICHELIN Selected not yet added), Beijing & Tianjin 2027 (28 Oct: Chef 1996 promoted, Old Tower and China Banquet new; other one-star names not published in the release keep their 2026 record), Kuala Lumpur & Penang 2027 (4 Nov: Potager promoted, all stars retained) and Chengdu 2027 (stars as already listed, moved to the 2027 edition). Bib Gourmand and Selected lists for these cities otherwise stay as in the extract."
+ }
+}

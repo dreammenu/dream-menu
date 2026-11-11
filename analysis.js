@@ -51,7 +51,7 @@
     var grid = h('div', 'iv-grid2 even'); host.appendChild(grid);
     var a = h('div'), b = h('div'); grid.appendChild(a); grid.appendChild(b);
     var steps = [['10', 'Top 10'], ['25', 'Top 25'], ['50', 'Top 50'], ['100', 'Top 100'], [String(K.venues), 'All ' + fmt(K.venues)]];
-    var c1 = V.card(a, { id: 'agreement', title: 'Share of guests’ most-named venues that hold a guide award', sub: 'Venues ranked by how many times guests name them. Award = any MICHELIN, 50 Best, AA, Good Food Guide, OAD, La Liste or other listed guide.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', '') + ' Awards as listed on 29 Oct 2026.', fresh: ['venues', 'awards'], csv: 'dream-menu-guests-vs-critics' });
+    var c1 = V.card(a, { id: 'agreement', title: 'Share of guests’ most-named venues that hold a guide award', sub: 'Venues ranked by how many times guests name them. Award = any MICHELIN, 50 Best, AA, Good Food Guide, OAD, La Liste or other listed guide.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', '') + ' Awards as listed on 11 Nov 2026.', fresh: ['venues', 'awards'], csv: 'dream-menu-guests-vs-critics' });
     V.responsive(c1.plot, function (W) {
       var H = 250, m = { t: 26, b: 34, l: 6, r: 6 }, s = V.svg(c1.plot, W, H, 'Award share by rank band');
       var rows = steps.map(function (st) { var t = K.tops[st[0]]; return { l: st[1], v: t.award / t.n * 100, a: t.award, n: t.n }; });

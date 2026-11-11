@@ -1,5 +1,5 @@
 {
- "note": "Award lists outside awards.js, collected 31 Oct 2026 for matching to Dream Menu guest venues. Each entry: [venue, town, award text].",
+ "note": "Award lists outside awards.js, collected 31 Oct 2026 (SLTN 2026 added 11 Nov 2026) for matching to Dream Menu guest venues. Each entry: [venue, town, award text].",
  "lists": [
   {
    "code": "aa-gla-2025",
@@ -3338,6 +3338,229 @@
      "COUCH",
      "Birmingham",
      "#336 Top 500 Bars"
+    ]
+   ]
+  },
+  {
+   "code": "sltn-2026",
+   "name": "SLTN Awards",
+   "year": 2026,
+   "url": "https://sltn.co.uk/2026/11/06/leading-hotelier-angela-vickers-tops-the-2026-sltn-awards/",
+   "entries": [
+    [
+     "Dornoch Castle Whisky Bar",
+     "Dornoch",
+     "Whisky Bar of the Year"
+    ],
+    [
+     "The Mother Superior",
+     "Edinburgh",
+     "Whisky Bar of the Year, highly commended"
+    ],
+    [
+     "The Pot Still",
+     "Glasgow",
+     "Whisky Bar of the Year, highly commended"
+    ],
+    [
+     "Le Petit Raisin",
+     "Edinburgh",
+     "The Wine Award"
+    ],
+    [
+     "Divino",
+     "Edinburgh",
+     "The Wine Award, highly commended"
+    ],
+    [
+     "Unalome",
+     "Glasgow",
+     "The Wine Award, highly commended; Restaurant of the Year (Fine Dining), highly commended"
+    ],
+    [
+     "Bittersweet",
+     "Leith",
+     "Spirits Bar of the Year; Bartender of the Year (Sam Chatterji); Cocktail Bar of the Year, highly commended"
+    ],
+    [
+     "The Old Workshop",
+     "Aberdeen",
+     "Spirits Bar of the Year, highly commended"
+    ],
+    [
+     "VEGA",
+     "Glasgow",
+     "Spirits Bar of the Year, highly commended"
+    ],
+    [
+     "The Pawn Lounge",
+     "Alexandria",
+     "Community Pub of the Year"
+    ],
+    [
+     "Angels Hotel",
+     "Uddingston",
+     "Community Pub of the Year, highly commended; Best Venue to Watch the Match, highly commended"
+    ],
+    [
+     "The Original Rosslyn Inn",
+     "Roslin",
+     "Licensee of the Year (Richard Harris); Community Pub of the Year, highly commended"
+    ],
+    [
+     "Malones",
+     "Leith",
+     "Beer Quality Award"
+    ],
+    [
+     "The Dome",
+     "Edinburgh",
+     "Beer Quality Award, highly commended"
+    ],
+    [
+     "The Stag",
+     "Forfar",
+     "Beer Quality Award, highly commended"
+    ],
+    [
+     "The Ship Inn",
+     "Elie",
+     "Best Outdoor Area"
+    ],
+    [
+     "Allanton Inn",
+     "Duns",
+     "Best Outdoor Area, highly commended"
+    ],
+    [
+     "SiSi Rooftop",
+     "Glasgow",
+     "Best Outdoor Area, highly commended; New Business of the Year, highly commended"
+    ],
+    [
+     "Malones",
+     "Edinburgh",
+     "Best Venue to Watch the Match"
+    ],
+    [
+     "The Raven",
+     "Glasgow",
+     "Best Venue to Watch the Match, highly commended"
+    ],
+    [
+     "BLOC+",
+     "Glasgow",
+     "Music-Led Venue of the Year; Independent Pub/Bar of the Year, highly commended"
+    ],
+    [
+     "King Tut's Wah Wah Hut",
+     "Glasgow",
+     "Music-Led Venue of the Year, highly commended"
+    ],
+    [
+     "Whistlebinkies Live Music Bar",
+     "Edinburgh",
+     "Music-Led Venue of the Year, highly commended"
+    ],
+    [
+     "Daddy Marmalades",
+     "Glasgow",
+     "Cocktail Bar of the Year; Mixologist of the Year (Kim Toft)"
+    ],
+    [
+     "Kelvingrove Café",
+     "Glasgow",
+     "Cocktail Bar of the Year, highly commended; Mixologist of the Year, highly commended (Branford Edgar)"
+    ],
+    [
+     "Hawksmoor",
+     "Edinburgh",
+     "Mixologist of the Year, highly commended (Carrie Smith)"
+    ],
+    [
+     "The Last Word",
+     "Edinburgh",
+     "Bartender of the Year, highly commended (Gracie Goggins)"
+    ],
+    [
+     "Ubiquitous Chip",
+     "Glasgow",
+     "Bartender of the Year, highly commended (Luke Robertson)"
+    ],
+    [
+     "The Barrelman",
+     "Dundee",
+     "Licensee of the Year, highly commended"
+    ],
+    [
+     "The Ivy Lodge",
+     "Aberdeen",
+     "Licensee of the Year, highly commended"
+    ],
+    [
+     "Bistro Eleven Fifty Five",
+     "Glasgow",
+     "Restaurant of the Year (Casual Dining)"
+    ],
+    [
+     "Coorie Inn",
+     "Muthill",
+     "Restaurant of the Year (Casual Dining), highly commended"
+    ],
+    [
+     "Killiecrankie House",
+     "Pitlochry",
+     "Restaurant of the Year (Fine Dining)"
+    ],
+    [
+     "Shoreline",
+     "Newport-on-Tay",
+     "Gastropub of the Year"
+    ],
+    [
+     "The Chop and Ale House at Champany Inn",
+     "Linlithgow",
+     "Gastropub of the Year, highly commended"
+    ],
+    [
+     "The Kirkmichael Arms",
+     "Kirkmichael",
+     "Gastropub of the Year, highly commended"
+    ],
+    [
+     "The Boston Bar Old Town",
+     "Edinburgh",
+     "New Business of the Year"
+    ],
+    [
+     "The Crab & Lobster Fish Shack",
+     "South Queensferry",
+     "New Business of the Year, highly commended"
+    ],
+    [
+     "The Corona Bar",
+     "Glasgow",
+     "Independent Pub/Bar of the Year"
+    ],
+    [
+     "The Fort Hotel",
+     "Broughty Ferry",
+     "Independent Pub/Bar of the Year, highly commended"
+    ],
+    [
+     "Freddy's",
+     "Edinburgh",
+     "Late-Night Venue of the Year"
+    ],
+    [
+     "Malones",
+     "Glasgow",
+     "Late-Night Venue of the Year, highly commended"
+    ],
+    [
+     "WhyNot Nightclub",
+     "Edinburgh",
+     "Late-Night Venue of the Year, highly commended"
     ]
    ]
   },

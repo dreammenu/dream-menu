@@ -1,5 +1,5 @@
 {
- "note": "Hand-reviewed matches of tools/data/other-awards.json entries to guest venues (31 Oct 2026). Rejected look-alikes are listed in 'rejected'.",
+ "note": "Hand-reviewed matches of tools/data/other-awards.json entries to guest venues (31 Oct 2026). Rejected look-alikes are listed in 'rejected'. SLTN 2026 links added 11 Nov 2026.",
  "links": [
   {
    "list": "aa-gla-2025",
@@ -2485,6 +2485,97 @@
    "town": "Glasgow",
    "venue": "murphy-s-pakora-glasgow",
    "venue_name": "Murphy's Pakora"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "The Pot Still",
+   "town": "Glasgow",
+   "venue": "the-pot-still-x",
+   "venue_name": "The Pot Still"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Unalome",
+   "town": "Glasgow",
+   "venue": "unalome-by-graeme-cheevers-x",
+   "venue_name": "UNALOME by Graeme Cheevers"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "The Dome",
+   "town": "Edinburgh",
+   "venue": "the-dome-x",
+   "venue_name": "The Dome"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "BLOC+",
+   "town": "Glasgow",
+   "venue": "bloc-x",
+   "venue_name": "Bloc+"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Daddy Marmalades",
+   "town": "Glasgow",
+   "venue": "daddy-marmalades-x",
+   "venue_name": "Daddy Marmalades"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Kelvingrove Café",
+   "town": "Glasgow",
+   "venue": "kelvingrove-cafe-x",
+   "venue_name": "Kelvingrove Café"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Hawksmoor",
+   "town": "Edinburgh",
+   "venue": "hawksmoor-edinburgh-x",
+   "venue_name": "Hawksmoor Edinburgh"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "The Last Word",
+   "town": "Edinburgh",
+   "venue": "the-last-word-edinburgh",
+   "venue_name": "The Last Word"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Ubiquitous Chip",
+   "town": "Glasgow",
+   "venue": "ubiquitous-chip-x",
+   "venue_name": "Ubiquitous Chip"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Coorie Inn",
+   "town": "Muthill",
+   "venue": "coorie-inn-restaurant-rooms-x",
+   "venue_name": "Coorie Inn Restaurant & Rooms"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "Killiecrankie House",
+   "town": "Pitlochry",
+   "venue": "killiecrankie-house-x",
+   "venue_name": "Killiecrankie House"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "The Kirkmichael Arms",
+   "town": "Kirkmichael",
+   "venue": "the-kirkmichael-arms-x",
+   "venue_name": "The Kirkmichael Arms"
+  },
+  {
+   "list": "sltn-2026",
+   "entry": "The Crab & Lobster Fish Shack",
+   "town": "South Queensferry",
+   "venue": "the-crab-lobster-fish-shack-x",
+   "venue_name": "The Crab & Lobster Fish Shack"
   }
  ],
  "rejected": [
@@ -2510,6 +2601,8 @@
   "The Loveable Rogue (West End) awards vs The Loveable Rogue East End",
   "The Scran & Scallie vs Scran (again, new lists)",
   "Radio (Irish bar) vs Radio Buena Vida",
-  "Turkiye Efes vs Türkiye"
+  "Turkiye Efes vs Türkiye",
+  "VEGA vs Suissi Vegan Kitchen and other '...vegan' names",
+  "The Fort Hotel (Broughty Ferry) vs Beaufort Hotel"
  ]
 }

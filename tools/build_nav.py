@@ -81,7 +81,7 @@ ITEMS = [
  ('f20', 'State of the Menu', '/quarterly', 'The quarter in food: the public headlines, every quarter, with an email edition', 'food', 'food press supplier chef', 1, None),
  ('f19', 'Dish trends', '/trends', 'Every dish and drink we track, with a page for each: share of guests, where to get it, which markets name it', 'food', 'food chef supplier press', 1, None),
  ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
- ('f8', 'Award winners', '/awards', '21,017 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
+ ('f8', 'Award winners', '/awards', '21,046 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),
  ('f10', 'Dream Fringe', '/specials#fringe', 'Late-night food after the shows and the best Fringe venues', 'food', 'food', 0, 'f9'),
  ('f11', 'Dream Cocktail', '/specials#cocktail', 'The drinks guests and bartenders would order', 'food', 'food chef', 0, 'f9'),
