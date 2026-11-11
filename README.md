@@ -14,7 +14,7 @@ The header menus (including the "I'm a..." audience menu), the footer links, sea
 ## Analysis pages and data freshness
 
 - `/analysis` (public) and `/intelligence` (partner, locked) are built from the site's own data files. After a data refresh run, from the repository root:
-  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_pages.py && python3 tools/build_nav.py`
+  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_pages.py && python3 tools/build_nav.py`
   `build_intel.py` writes `analysis-data.js` (headline analysis only, nothing about quarterly movement) and `partner/intel-data.js` (behind sign-in). The charts are drawn by `analysis.js` and `partner/intel.js` using the small chart toolkit in `dmviz.js` / `dmviz.css`; every chart has a table view, a CSV download and a link.
 - `dm-fresh.js` loads on every page. It adds a "Data to ... · Updated ..." line under each visual or block of figures, a "Last updated" chip under the page title and a data status panel in the footer. When a dataset is refreshed, change its dates in the `SETS` list at the top of that file.
 
@@ -34,7 +34,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 2. From the repository root:
    `python3 tools/add_interviews.py tools/data/<interviews>.json`
    `python3 tools/add_venues.py tools/data/<venues>.json tools/data/<interviews>.json <path to ukpostcodes.csv>`
-   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
+   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
    Run each step once per batch: the first two add to the existing counts. `add_venues.py` needs the dwyl UK postcode file (github.com/dwyl/uk-postcodes-latitude-longitude-complete-csv) to place exact UK addresses.
 
 `add_interviews.py` recovers each quarter's counts exactly from the published shares, adds the new answers, and reruns the two-proportion test, so movers and clear flags stay correct. `refresh_static.py` rewrites every figure that is written into the static pages (home, insights, for business, how it works, partner pages, footer dates and `dm-fresh.js`); the 2026 report pages keep their edition figures on purpose. Counts that the data files do not hold (debates, home course cards) live in `tools/data/static-counts.json`.
@@ -72,3 +72,10 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 
 - **One page.** `/analysis` now holds every analysis. Chapters 1 to 8 are open to all; chapters 9 to 16 (momentum, confidence ranges, trend wall, dish heat, projections, segments, opportunity score, operator pulse) show a short preview until partner sign-in, then draw in place. Partner data still comes only from `/partner/*.js`, which `middleware.js` refuses without the sign-in cookie, so nothing partner-only reaches a signed-out browser. `/intelligence` redirects to `/analysis` (vercel.json) and `intelligence.html` is a redirect stub. The page is written by `tools/build_pages.py`; the method text is `tools/data/analysis-method.html`.
 - **How we compare** (chapter 8): `tools/build_benchmarks.py` keeps each outside figure with its publisher, date, link and what it measures, reads the matching Dream Menu figure live, and writes `bench-public.js` (comparisons using figures already public) and `partner/bench-data.js` (all, including dish and drink movement). Verdicts are agrees, challenges or context. Outside figures are never merged into Dream Menu data. Refresh the outside figures by editing the BENCH entries when a new edition is published (YouGov, Food Standards Scotland, NIQ Hospitality Market Monitor and Business Confidence Survey, ONS CPI, Tastewise, Lumina, Diageo and AG Barr results).
+
+## Added 11 November 2026, afternoon: simpler navigation, drinks restart, who answers
+
+- **Navigation.** Five short header menus (Trends, Places, Analysis & reports, For venues, Partners) listing 17 pages in all, with no sub-lists; the "I'm a..." menu left the header (the home page "Where do you want to start?" band and /explore still do that job). Groups, placement and the menu list are GROUPS, PLACE and MENU in `tools/build_nav.py`. Every other page stays on /explore, in the footer and in search.
+- **Drinks, restarted** (analysis chapter 8): `tools/build_drinks.py` builds `drinks-new.js` from the soft and alcoholic drink questions asked since 23 Aug 2026 (`tools/data/drinks-new-series.json` plus later `new-interviews-*.json` batches). Baseline shares with 95% ranges; movement is tested once two quarters each hold 100 answers.
+- **Who answers** panel in the analysis method section (respondent groups, UK mentions by nation), written by `build_pages.py`.
+- The analysis now has 17 chapters: 1 to 9 open, 10 to 17 for partners.

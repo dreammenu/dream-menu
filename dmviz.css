@@ -237,3 +237,10 @@
 .iv-hero:not(.navy) .iv-toc a{color:var(--v-ink);border-color:var(--v-hair)}
 .iv-toc a .lk{opacity:.7}
 @media (max-width:700px){.pv-lock{grid-template-columns:1fr}}
+
+.dr-top{margin:8px 0 0;font:500 13px/1.5 var(--body);color:var(--v-ink2)}.dr-top b{color:var(--v-ink)}
+.dmv-card.show-table + .dr-top,.show-table .dr-top{display:none}
+
+.who{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 14px}.who h3{margin:0 0 4px;font:700 16px/1.3 var(--body);color:var(--v-ink)}.who-s{margin:0 0 10px;font:500 13px/1.45 var(--body);color:var(--v-muted)}
+.who-bars div{grid-template-columns:minmax(120px,1.3fr) 1fr 40px}.who-bars span{line-height:1.25}
+@media (max-width:800px){.who{grid-template-columns:1fr}}

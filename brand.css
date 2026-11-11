@@ -461,3 +461,9 @@ html:not(.js) .mburger,html:not(.js) .msearch,html:not(.js) .chev{display:none}
 .tier{display:inline-block;font:700 11px/1 var(--body);text-transform:uppercase;letter-spacing:.04em;padding:4px 8px;border-radius:99px}
 .tier.t-back{background:var(--navy);color:#fff}.tier.t-watch{background:var(--gold);color:#0b0b0b}.tier.t-review{background:var(--rule);color:var(--muted)}
 tr.bf-rfirst td{border-top:2px solid var(--ink)}
+
+/* simpler header menus (11 Nov 2026): one short row of pages per menu */
+.mp-simple .mp-inner{padding-top:18px;padding-bottom:22px}
+.mp-sum{margin:0 0 14px;font:600 13px/1.3 var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.mp-simple .mp-links{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+@media (max-width:1023px){.mp-sum{display:none}.mp-simple .mp-links{gap:10px}}

@@ -60,17 +60,28 @@ AUD_ICON = {
 }
 
 GROUPS = [  # key, label, landing page, one-line summary
- ('food', 'Food & places', '/', 'What guests dream of eating and where they go'),
- ('report', 'Report 2026', '/report', 'The Hospitality Intelligence Report 2026'),
- ('ops', 'Operators', '/operators', 'Tools, benchmarks and tested ideas for venues'),
- ('biz', 'For business', '/for-business', 'Partnerships, briefings and data'),
+ ('trends', 'Trends', '/', 'What guests dream of eating, dish by dish'),
+ ('places', 'Places', '/map', 'The venues guests name, mapped and ranked'),
+ ('analysis', 'Analysis & reports', '/analysis', 'What the data means: analysis, quarterly editions and reports'),
+ ('venues', 'For venues', '/operators', 'Tools, benchmarks and tested ideas for people running a venue'),
+ ('partners', 'Partners', '/for-business', 'Working with Dream Menu, and the partner area'),
  ('about', 'About', '/how-it-works', 'How Dream Menu works'),
 ]
+# Where each top-level page sits (children follow their parent). MENU = the pages shown in the header
+# dropdowns, kept short on purpose; everything else is one click away on /explore and in search.
+PLACE = {'f1': 'trends', 'f19': 'trends', 'f9': 'trends', 'f13': 'trends',
+         'f6': 'places', 'f7': 'places', 'f8': 'places',
+         'f16': 'analysis', 'f20': 'analysis', 'r1': 'analysis', 'r4': 'analysis', 'r7': 'analysis', 'r12': 'analysis', 'r15': 'analysis', 'b9': 'analysis',
+         'o1': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
+         'b1': 'partners', 'b2': 'partners',
+         'a1': 'about', 'a3': 'about', 'a2': 'about', 'f15': 'about'}
+MENU = ['f1', 'f19', 'f9', 'f13', 'f6', 'f7', 'f8', 'f16', 'f20', 'r1', 'b9', 'o1', 'o8', 'o13', 'o12', 'b1', 'b2']
+RETITLE = {'r1': 'Report 2026', 'b2': 'Partner area', 'f16': 'The analysis', 'b9': 'Insight Series reports'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
  ('f1', 'Food trends', '/', f'What {N_ALL} guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
- ('f16', 'The analysis', '/analysis', 'Every analysis in one place: cities, critics, how the menu is changing and how Dream Menu compares. Partners unlock eight more chapters', 'food', 'food investor press supplier', 1, None),
+ ('f16', 'The analysis', '/analysis', 'Cities, critics, what is changing and how we compare. Partners unlock more', 'food', 'food investor press supplier', 1, None),
  ('f17', "Every city's appetite", '/analysis#cities', 'Which dishes take a bigger share in each market than everywhere else', 'food', 'investor new supplier', 0, 'f16'),
  ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
  ('f21', 'What changed', '/analysis#changed', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
@@ -81,8 +92,8 @@ ITEMS = [
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
  ('f5', 'Guilty pleasures and Bin it', '/#mood', 'The comfort food guests admit to, and the trends they want gone', 'food', 'food chef venue', 1, 'f1'),
  ('f6', 'Venue map', '/map', f'{N_PINNED} venues guests have named in {N_COUNTRIES} countries, with award winners', 'food', 'food investor new supplier', 1, None),
- ('f20', 'State of the Menu', '/quarterly', 'The quarter in food: the public headlines, every quarter, with an email edition', 'food', 'food press supplier chef', 1, None),
- ('f19', 'Dish trends', '/trends', 'Every dish and drink we track, with a page for each: share of guests, where to get it, which markets name it', 'food', 'food chef supplier press', 1, None),
+ ('f20', 'State of the Menu', '/quarterly', 'The quarter in food, with an email edition', 'food', 'food press supplier chef', 1, None),
+ ('f19', 'Dish trends', '/trends', 'A page for every dish and drink we track', 'food', 'food chef supplier press', 1, None),
  ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
  ('f8', 'Award winners', '/awards', '21,046 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),
@@ -93,7 +104,7 @@ ITEMS = [
  ('f14', 'Advice for anyone who cooks', '/from-the-kitchen#advice', 'Tips from the people who cook for a living', 'food', 'food chef', 0, 'f13'),
  ('f15', 'Take part', '/take-part', 'Share your own dream menu: five courses and the venue that does it best', 'food', 'food', 0, None),
 
- ('r1', 'Report overview', '/report', 'Where Glasgow and Scotland actually eat: the community view, the operator view and tracked demand', 'report', 'venue new investor supplier press chef', 0, None),
+ ('r1', 'Report overview', '/report', 'The Hospitality Intelligence Report: findings, operators, Glasgow and opportunities', 'report', 'venue new investor supplier press chef', 0, None),
  ('r2', 'Seven key findings', '/report#findings', 'The headline findings, with the top five opportunities and risks', 'report', 'investor press supplier venue', 1, 'r1'),
  ('r3', 'Five questions before you invest', '/report#questions', 'A quick test for any concept, site or menu', 'report', 'new investor', 0, 'r1'),
  ('r4', 'Operator pulse', '/report/operator-pulse', 'What 54 operators said about trading, costs and confidence', 'report', 'venue supplier investor press', 0, None),
@@ -113,7 +124,7 @@ ITEMS = [
  ('r18', 'Five investable theses', '/report/opportunities#theses', 'Where the evidence points for capital', 'report', 'investor', 1, 'r15'),
  ('r19', 'Trend forecasts', '/report/opportunities#forecasts', 'What is likely to move next', 'report', 'supplier chef investor', 0, 'r15'),
 
- ('o1', 'Operator toolkit', '/operators', 'The top 20 actions, calculators, a menu matrix and checklists', 'ops', 'venue new chef', 0, None),
+ ('o1', 'Operator toolkit', '/operators', 'Actions, calculators, a menu matrix and checklists', 'ops', 'venue new chef', 0, None),
  ('o2', 'The top 20 actions', '/operators#actions', 'What to do first, from identity to strategy', 'ops', 'venue new', 0, 'o1'),
  ('o3', 'Calculators', '/operators#numbers', 'RevPASH, dish pricing, price rises, no-shows, waste, delivery and more', 'ops', 'venue new', 1, 'o1'),
  ('o4', 'Menu matrix', '/operators#matrix', 'Paste your dishes and see which earn their place', 'ops', 'chef venue', 1, 'o1'),
@@ -129,7 +140,7 @@ ITEMS = [
 
  ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with the UK\'s foodies', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
- ('b9', 'Insight Series', '/case-studies', 'Fifteen reports on request, one free to read: costs, cities, categories, neighbourhoods, critics, confidence and forecasts to 2031', 'biz', 'supplier investor venue new press chef', 1, None),
+ ('b9', 'Insight Series', '/case-studies', 'Fifteen deep-dive reports, one free to read', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
  ('b11', 'Two cities, two appetites', '/case-studies/glasgow-edinburgh', 'How Glasgow and Edinburgh guests differ, for a group opening a second site', 'biz', 'new investor venue', 0, 'b9'),
  ('b12', "Scotland's seafood appetite", '/case-studies/seafood', 'Where seafood sits on the dream menu and what is rising', 'biz', 'supplier chef', 0, 'b9'),
@@ -145,7 +156,7 @@ ITEMS = [
  ('b22', 'Edinburgh and Scotland to 2030', '/case-studies/edinburgh-2030', 'The capital\'s appetite, Leith, the levy test and the coast', 'biz', 'investor press supplier new', 0, 'b9'),
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
- ('b2', 'Partner area', '/partner', 'Everything included in the partnership, in one place', 'biz', 'supplier', 0, None),
+ ('b2', 'Partner area', '/partner', 'Briefing, insights, data downloads and the one-pager, in one place', 'biz', 'supplier', 0, None),
  ('b3', 'Partner briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
  ('b4', 'Insights', '/insights', 'Debates, dishes by group and how the trade feels, in full', 'biz', 'supplier chef press', 0, 'b2'),
  ('b5', 'Data extracts', '/partner#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
@@ -157,8 +168,11 @@ ITEMS = [
 ]
 
 IT = {}
+_parent = {row[0]: row[7] for row in ITEMS}
 for row in ITEMS:
     i, t, u, d, g, a, s, p = row
+    g = PLACE[p or i] if (p or i) in PLACE else PLACE[_parent[p]]
+    t = RETITLE.get(i, t)
     IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23',), k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
@@ -186,40 +200,16 @@ def header(cur_group):
     out = ['<header class="top"><div class="wrap">',
            '<a class="mark" href="/"><img src="/logo-128.png" alt="" width="40" height="40">Dream Menu</a>',
            '<nav class="mnav" id="mnav" aria-label="Site"><ul class="mnav-list">']
-    # audience menu
-    out.append('<li class="mnav-item mnav-aud" data-g="start"><a class="mnav-top" href="/explore" aria-expanded="false" aria-controls="mp-start"><span>I&rsquo;m a&hellip;</span>' + CHEV + '</a>')
-    out.append('<div class="mpanel mp-aud" id="mp-start"><div class="mp-inner">')
-    out.append('<div class="aud-tabs" role="tablist" aria-label="Choose who you are">')
-    for n, (k, lab, pl, bl, picks) in enumerate(AUD):
-        out.append(f'<button type="button" role="tab" id="at-{k}" data-aud="{k}" aria-controls="ap-{k}" aria-selected="{"true" if n == 0 else "false"}" tabindex="{0 if n == 0 else -1}">{aicon(k)}<span>{E(lab)}</span></button>')
-    out.append('</div><div class="aud-panes">')
-    for n, (k, lab, pl, bl, picks) in enumerate(AUD):
-        out.append(f'<div class="aud-pane" role="tabpanel" id="ap-{k}" aria-labelledby="at-{k}"{"" if n == 0 else " hidden"}>')
-        out.append(f'<p class="aud-blurb"><b>Start here</b>{E(bl)}</p><ul class="picks">')
-        for pid in picks:
-            it = IT[pid]
-            out.append(f'<li><a href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></li>')
-        out.append(f'</ul><a class="aud-all" href="/explore?for={k}">Everything for {E(pl)} ({aud_count(k)}) {ARROW}</a></div>')
-    out.append('</div></div></div></li>')
-    # content menus
     for g, lab, land, summ in GROUPS:
         if g == 'about':
             continue
         cur = ' aria-current="true"' if g == cur_group else ''
         out.append(f'<li class="mnav-item" data-g="{g}"><a class="mnav-top" href="{land}" aria-expanded="false" aria-controls="mp-{g}"{cur}><span>{E(lab)}</span>{CHEV}</a>')
-        out.append(f'<div class="mpanel" id="mp-{g}"><div class="mp-inner mp-cols"><div class="mp-links">')
-        for it in pages(g):
-            out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a>')
-            ch = children(it['id'])
-            if ch:
-                out.append('<ul class="mp-sub">' + ''.join(f'<li><a href="{c["u"]}">{E(c["t"])}</a></li>' for c in ch) + '</ul>')
-            out.append('</div>')
-        out.append('</div><aside class="mp-feature"><p class="mp-eyebrow">Don&rsquo;t miss</p>')
-        stars = [x for x in IT.values() if x['g'] == g and x['s']][:3]
-        for it in stars:
-            out.append(f'<a class="mp-star" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span>{ARROW}</a>')
-        out.append(f'<a class="mp-land" href="{land}">Go to {E(lab)} {ARROW}</a></aside></div></div></li>')
-    out.append('</ul><a class="mnav-all" href="/explore">See everything on Dream Menu ' + ARROW + '</a></nav>')
+        out.append(f'<div class="mpanel mp-simple" id="mp-{g}"><div class="mp-inner"><p class="mp-sum">{E(summ)}</p><div class="mp-links">')
+        for it in [IT[i] for i in MENU if IT[i]['g'] == g]:
+            out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
+        out.append('</div></div></div></li>')
+    out.append('</ul><a class="mnav-all" href="/explore">New here? Start with the guide ' + ARROW + '</a></nav>')
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
     out.append('<a class="takepart" href="/take-part">Take part</a>')
     out.append('<button type="button" class="mburger" aria-expanded="false" aria-controls="mnav"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr">Menu</span></button>')

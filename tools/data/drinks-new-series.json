@@ -1,0 +1,936 @@
+{
+"note": "Soft and alcoholic drink answers to the two questions that replaced the single drink question on 23 Aug 2026: sheet rows 1103 to 1257 (23 Aug to 10 Nov 2026), categories as coded in the sheet (rows 1256-1257 by hand). Later interviews are read from tools/data/new-interviews-*.json dated after 'to'.",
+"to": "2026-11-10",
+"rows": [
+{
+"row": 1103,
+"period": "2026-Q3",
+"k": "Cream soda / root beer",
+"a": "Negroni"
+},
+{
+"row": 1104,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Paloma"
+},
+{
+"row": 1105,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Rose wine"
+},
+{
+"row": 1106,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Beer (other)"
+},
+{
+"row": 1107,
+"period": "2026-Q3",
+"k": "Orange soda (Fanta, Orangina, Tango)",
+"a": "Hugo / limoncello / other spritz"
+},
+{
+"row": 1108,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "Whisky / dram"
+},
+{
+"row": 1109,
+"period": "2026-Q3",
+"k": "Prosecco / cava / sparkling",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1110,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Margarita (classic / frozen)"
+},
+{
+"row": 1111,
+"period": "2026-Q3",
+"k": "Ginger beer / ginger ale",
+"a": "Red wine"
+},
+{
+"row": 1112,
+"period": "2026-Q3",
+"k": "Prosecco / cava / sparkling",
+"a": "Champagne"
+},
+{
+"row": 1113,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Rose wine"
+},
+{
+"row": 1114,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Whisky / dram"
+},
+{
+"row": 1115,
+"period": "2026-Q3",
+"k": "Lassi / smoothie",
+"a": "Negroni"
+},
+{
+"row": 1116,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Espresso martini"
+},
+{
+"row": 1117,
+"period": "2026-Q3",
+"k": "Prosecco / cava / sparkling",
+"a": "Paloma"
+},
+{
+"row": 1118,
+"period": "2026-Q3",
+"k": "Bubble tea / milk tea",
+"a": "Bubble tea / milk tea"
+},
+{
+"row": 1119,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "Tequila / mezcal"
+},
+{
+"row": 1120,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1121,
+"period": "2026-Q3",
+"k": "Sparkling / still water",
+"a": "Hugo / limoncello / other spritz"
+},
+{
+"row": 1122,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Champagne"
+},
+{
+"row": 1123,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1124,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "Lager / pilsner"
+},
+{
+"row": 1125,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Lager / pilsner"
+},
+{
+"row": 1126,
+"period": "2026-Q3",
+"k": "Prosecco / cava / sparkling",
+"a": "Champagne"
+},
+{
+"row": 1127,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Margarita (classic / frozen)"
+},
+{
+"row": 1128,
+"period": "2026-Q3",
+"k": "Coffee (other)",
+"a": "Negroni"
+},
+{
+"row": 1129,
+"period": "2026-Q3",
+"k": "Iced tea",
+"a": "Spicy margarita"
+},
+{
+"row": 1130,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "Champagne"
+},
+{
+"row": 1131,
+"period": "2026-Q3",
+"k": "Energy drink",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1132,
+"period": "2026-Q3",
+"k": "Orange soda (Fanta, Orangina, Tango)",
+"a": "Spicy margarita"
+},
+{
+"row": 1133,
+"period": "2026-Q3",
+"k": "Coca-Cola",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1134,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Whisky / dram"
+},
+{
+"row": 1135,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "White wine"
+},
+{
+"row": 1136,
+"period": "2026-Q3",
+"k": "Vodka drinks",
+"a": "Red wine"
+},
+{
+"row": 1137,
+"period": "2026-Q3",
+"k": "Prosecco / cava / sparkling",
+"a": "Red wine"
+},
+{
+"row": 1138,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1139,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1140,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Champagne"
+},
+{
+"row": 1141,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "Beer (other)"
+},
+{
+"row": 1142,
+"period": "2026-Q3",
+"k": "Milkshake",
+"a": "Other"
+},
+{
+"row": 1143,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Red wine"
+},
+{
+"row": 1144,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Lager / pilsner"
+},
+{
+"row": 1145,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1146,
+"period": "2026-Q3",
+"k": "Italian / craft soda",
+"a": "Daiquiri"
+},
+{
+"row": 1147,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Negroni"
+},
+{
+"row": 1148,
+"period": "2026-Q3",
+"k": "Lemonade / limonata",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1149,
+"period": "2026-Q3",
+"k": "Juice (orange, apple, fresh)",
+"a": "Lager / pilsner"
+},
+{
+"row": 1150,
+"period": "2026-Q3",
+"k": "Diet Coke / Coke Zero",
+"a": "Whisky / dram"
+},
+{
+"row": 1151,
+"period": "2026-Q3",
+"k": "Soft drink (other)",
+"a": "White wine"
+},
+{
+"row": 1152,
+"period": "2026-Q3",
+"k": "Orange soda (Fanta, Orangina, Tango)",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1153,
+"period": "2026-Q3",
+"k": "Iced tea",
+"a": "Lager / pilsner"
+},
+{
+"row": 1154,
+"period": "2026-Q3",
+"k": "Dr Pepper",
+"a": "Pina colada"
+},
+{
+"row": 1155,
+"period": "2026-Q3",
+"k": "Orange soda (Fanta, Orangina, Tango)",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1156,
+"period": "2026-Q3",
+"k": "Milkshake",
+"a": "Old Fashioned"
+},
+{
+"row": 1157,
+"period": "2026-Q3",
+"k": "Sparkling / still water",
+"a": "Espresso martini"
+},
+{
+"row": 1158,
+"period": "2026-Q3",
+"k": "Dr Pepper",
+"a": "Lager / pilsner"
+},
+{
+"row": 1159,
+"period": "2026-Q3",
+"k": "Juice (orange, apple, fresh)",
+"a": "Beer (other)"
+},
+{
+"row": 1160,
+"period": "2026-Q3",
+"k": "Coca-Cola",
+"a": "Whisky / dram"
+},
+{
+"row": 1161,
+"period": "2026-Q3",
+"k": "Dr Pepper",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1162,
+"period": "2026-Q3",
+"k": "Energy drink",
+"a": "Latte / flat white / cappuccino"
+},
+{
+"row": 1163,
+"period": "2026-Q3",
+"k": "Cream soda / root beer",
+"a": "Tequila / mezcal"
+},
+{
+"row": 1164,
+"period": "2026-Q3",
+"k": "Irn Bru",
+"a": "Whisky / dram"
+},
+{
+"row": 1165,
+"period": "2026-Q3",
+"k": "Cream soda / root beer",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1166,
+"period": "2026-Q3",
+"k": "Coffee (other)",
+"a": "Matcha"
+},
+{
+"row": 1167,
+"period": "2026-Q3",
+"k": "Ginger beer / ginger ale",
+"a": "Whisky / dram"
+},
+{
+"row": 1168,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1169,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1170,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "White wine"
+},
+{
+"row": 1171,
+"period": "2026-Q4",
+"k": null,
+"a": "Red wine"
+},
+{
+"row": 1172,
+"period": "2026-Q4",
+"k": "Bloody Mary",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1173,
+"period": "2026-Q4",
+"k": "Prosecco / cava / sparkling",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1174,
+"period": "2026-Q4",
+"k": "Sparkling / still water",
+"a": "Wine (other)"
+},
+{
+"row": 1175,
+"period": "2026-Q4",
+"k": "Soft drink (other)",
+"a": "Prosecco / cava / sparkling"
+},
+{
+"row": 1176,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Aperol spritz"
+},
+{
+"row": 1177,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1178,
+"period": "2026-Q4",
+"k": "Tea / chai",
+"a": "French martini"
+},
+{
+"row": 1179,
+"period": "2026-Q4",
+"k": "Soft drink (other)",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1180,
+"period": "2026-Q4",
+"k": "Sparkling / still water",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1181,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1182,
+"period": "2026-Q4",
+"k": "Cordial / squash (elderflower, Ribena)",
+"a": "Red wine"
+},
+{
+"row": 1183,
+"period": "2026-Q4",
+"k": "Beer (other)",
+"a": "Prosecco / cava / sparkling"
+},
+{
+"row": 1184,
+"period": "2026-Q4",
+"k": "Iced tea",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1185,
+"period": "2026-Q4",
+"k": "Energy drink",
+"a": "Red wine"
+},
+{
+"row": 1186,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Lager / pilsner"
+},
+{
+"row": 1187,
+"period": "2026-Q4",
+"k": "Tea / chai",
+"a": "Sake / soju"
+},
+{
+"row": 1188,
+"period": "2026-Q4",
+"k": "Italian / craft soda",
+"a": "Margarita (classic / frozen)"
+},
+{
+"row": 1189,
+"period": "2026-Q4",
+"k": "Italian / craft soda",
+"a": "Lager / pilsner"
+},
+{
+"row": 1190,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Margarita (classic / frozen)"
+},
+{
+"row": 1191,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1192,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1193,
+"period": "2026-Q4",
+"k": "Tea / chai",
+"a": "White wine"
+},
+{
+"row": 1194,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "White wine"
+},
+{
+"row": 1195,
+"period": "2026-Q4",
+"k": "Champagne",
+"a": "Red wine"
+},
+{
+"row": 1196,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Tequila / mezcal"
+},
+{
+"row": 1197,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Espresso martini"
+},
+{
+"row": 1198,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Champagne"
+},
+{
+"row": 1199,
+"period": "2026-Q4",
+"k": "Tequila / mezcal",
+"a": "Red wine"
+},
+{
+"row": 1200,
+"period": "2026-Q4",
+"k": "Italian / craft soda",
+"a": "Whisky / dram"
+},
+{
+"row": 1201,
+"period": "2026-Q4",
+"k": "Mocktail / alcohol-free",
+"a": "Champagne"
+},
+{
+"row": 1202,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Red wine"
+},
+{
+"row": 1203,
+"period": "2026-Q4",
+"k": "Energy drink",
+"a": "Guinness / stout"
+},
+{
+"row": 1204,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Margarita (classic / frozen)"
+},
+{
+"row": 1205,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Juice (orange, apple, fresh)"
+},
+{
+"row": 1206,
+"period": "2026-Q4",
+"k": "Milk",
+"a": "Guinness / stout"
+},
+{
+"row": 1207,
+"period": "2026-Q4",
+"k": "Milkshake",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1208,
+"period": "2026-Q4",
+"k": "Cream soda / root beer",
+"a": "Negroni"
+},
+{
+"row": 1209,
+"period": "2026-Q4",
+"k": "Dr Pepper",
+"a": "Beer (other)"
+},
+{
+"row": 1210,
+"period": "2026-Q4",
+"k": "Ginger beer / ginger ale",
+"a": "White wine"
+},
+{
+"row": 1211,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Aperol spritz"
+},
+{
+"row": 1212,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Whisky / dram"
+},
+{
+"row": 1213,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Whisky / dram"
+},
+{
+"row": 1214,
+"period": "2026-Q4",
+"k": "Ginger beer / ginger ale",
+"a": "Whisky / dram"
+},
+{
+"row": 1215,
+"period": "2026-Q4",
+"k": "Gin and tonic",
+"a": "Champagne"
+},
+{
+"row": 1216,
+"period": "2026-Q4",
+"k": "Cordial / squash (elderflower, Ribena)",
+"a": "Hugo / limoncello / other spritz"
+},
+{
+"row": 1217,
+"period": "2026-Q4",
+"k": "Lassi / smoothie",
+"a": "Champagne"
+},
+{
+"row": 1218,
+"period": "2026-Q4",
+"k": "Italian / craft soda",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1219,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Daiquiri"
+},
+{
+"row": 1220,
+"period": "2026-Q4",
+"k": "Sparkling / still water",
+"a": "Whisky sour / sours"
+},
+{
+"row": 1221,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Old Fashioned"
+},
+{
+"row": 1222,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Daiquiri"
+},
+{
+"row": 1223,
+"period": "2026-Q4",
+"k": "Orange soda (Fanta, Orangina, Tango)",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1224,
+"period": "2026-Q4",
+"k": "Soft drink (other)",
+"a": "Lager / pilsner"
+},
+{
+"row": 1225,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Wine (other)"
+},
+{
+"row": 1226,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Margarita (classic / frozen)"
+},
+{
+"row": 1227,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1228,
+"period": "2026-Q4",
+"k": "Cream soda / root beer",
+"a": "Whisky / dram"
+},
+{
+"row": 1229,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Daiquiri"
+},
+{
+"row": 1230,
+"period": "2026-Q4",
+"k": "Tea / chai",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1231,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Negroni"
+},
+{
+"row": 1232,
+"period": "2026-Q4",
+"k": "Mocktail / alcohol-free",
+"a": "Negroni"
+},
+{
+"row": 1233,
+"period": "2026-Q4",
+"k": "Juice (orange, apple, fresh)",
+"a": "Pina colada"
+},
+{
+"row": 1234,
+"period": "2026-Q4",
+"k": "Italian / craft soda",
+"a": "Port / sherry / dessert wine"
+},
+{
+"row": 1235,
+"period": "2026-Q4",
+"k": "Italian / craft soda",
+"a": "Dirty / classic martini"
+},
+{
+"row": 1236,
+"period": "2026-Q4",
+"k": "Soft drink (other)",
+"a": "Dark and stormy / rum drinks"
+},
+{
+"row": 1237,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Mojito"
+},
+{
+"row": 1238,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Gin and tonic"
+},
+{
+"row": 1239,
+"period": "2026-Q4",
+"k": "Cherry / vanilla cola",
+"a": "IPA / craft beer"
+},
+{
+"row": 1240,
+"period": "2026-Q4",
+"k": "Soft drink (other)",
+"a": "Wine (other)"
+},
+{
+"row": 1241,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Dark and stormy / rum drinks"
+},
+{
+"row": 1242,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1243,
+"period": "2026-Q4",
+"k": "Iced tea",
+"a": "Espresso martini"
+},
+{
+"row": 1244,
+"period": "2026-Q4",
+"k": "Mocktail / alcohol-free",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1245,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Red wine"
+},
+{
+"row": 1246,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1247,
+"period": "2026-Q4",
+"k": "Irn Bru",
+"a": "Dark and stormy / rum drinks"
+},
+{
+"row": 1248,
+"period": "2026-Q4",
+"k": null,
+"a": "Mocktail / alcohol-free"
+},
+{
+"row": 1249,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Vodka drinks"
+},
+{
+"row": 1250,
+"period": "2026-Q4",
+"k": "Soft drink (other)",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1251,
+"period": "2026-Q4",
+"k": "Juice (orange, apple, fresh)",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1252,
+"period": "2026-Q4",
+"k": "Diet Coke / Coke Zero",
+"a": "Red wine"
+},
+{
+"row": 1253,
+"period": "2026-Q4",
+"k": "Juice (orange, apple, fresh)",
+"a": "Other"
+},
+{
+"row": 1254,
+"period": "2026-Q4",
+"k": "Lemonade / limonata",
+"a": "Guinness / stout"
+},
+{
+"row": 1255,
+"period": "2026-Q4",
+"k": "Coca-Cola",
+"a": "Guinness / stout"
+},
+{
+"row": 1256,
+"period": "2026-Q4",
+"k": "Energy drink",
+"a": "Cocktail (other / named house cocktail)"
+},
+{
+"row": 1257,
+"period": "2026-Q4",
+"k": "Sparkling / still water",
+"a": "Red wine"
+}
+]
+}

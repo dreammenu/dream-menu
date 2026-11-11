@@ -370,6 +370,35 @@
     V.chips(c.filters, themes.map(function (t) { return [t, t]; }), 'All', draw); draw('All');
   }
 
+  // ------------------------------------------------------------------ drinks, restarted (new questions since 23 Aug 2026)
+  function drinks(host, D) {
+    var o = h('ol', 'tr-find'); D.find.forEach(function (f) { o.appendChild(h('li', '', esc(f))); }); host.appendChild(o);
+    var grid = h('div', 'iv-grid2 even'); host.appendChild(grid);
+    [['soft', '--v-s3'], ['alc', '--v-s1']].forEach(function (pair) {
+      var S = D[pair[0]], col = 'var(' + pair[1] + ')', cell = h('div'); grid.appendChild(cell);
+      var c = V.card(cell, { id: 'dr-' + pair[0], title: S.label + ': share of answers by type', sub: 'Bars show the share of ' + fmt(S.n) + ' answers since ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.start) : D.meta.start) + '; the thin line is the 95% range. ' + (S.left_out ? S.left_out + ' answers that belonged to the other question are left out.' : ''), src: 'Source: Dream Menu interviews, new drink questions, ' + D.meta.q.map(function (q, i) { return ql(q) + ' (' + S.n_q[i] + ' answers)'; }).join(', ') + '. ' + esc(D.meta.note), fresh: ['interviews'], csv: 'dream-menu-drinks-' + pair[0] });
+      var rows = S.groups;
+      V.responsive(c.plot, function (W) {
+        var rowH = 34, m = { t: 6, b: 26, l: Math.min(190, W * 0.4), r: 52 }, H = m.t + m.b + rows.length * rowH, s = V.svg(c.plot, W, H, S.label + ' shares');
+        var top = Math.ceil(Math.max.apply(null, rows.map(function (r) { return r.hi; })) / 10) * 10, x = lin(0, top, m.l, W - m.r), g = el('g', { class: 'dmv-grid' }, s);
+        for (var t = 0; t <= top; t += 10) { el('line', { x1: x(t), x2: x(t), y1: m.t, y2: H - m.b }, g); el('text', { x: x(t), y: H - m.b + 17, 'text-anchor': 'middle' }, s, t + '%'); }
+        rows.forEach(function (r, i) {
+          var y = m.t + i * rowH + 6;
+          el('text', { x: m.l - 10, y: y + 15, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
+          var bar = el('path', { d: 'M' + x(0) + ' ' + y + 'H' + (x(r.pct) - 4) + 'a4 4 0 0 1 4 4v14a4 4 0 0 1 -4 4H' + x(0) + 'Z', fill: col }, s);
+          el('line', { x1: x(r.lo), x2: x(r.hi), y1: y + 11, y2: y + 11, stroke: 'var(--v-ink)', 'stroke-width': 1.5, opacity: 0.55 }, s);
+          el('text', { x: x(r.hi) + 7, y: y + 15, fill: 'var(--v-ink)', 'font-weight': 700 }, s, r.pct.toFixed(1) + '%');
+          var hit = el('rect', { x: 0, y: y - 6, width: W, height: rowH, fill: 'transparent' }, s);
+          V.tip.bind(hit, '<b>' + esc(r.l) + '</b><div class="row"><span class="k">Share of answers</span><span>' + r.pct.toFixed(1) + '% (' + r.n + ' of ' + S.n + ')</span></div><div class="row"><span class="k">95% range</span><span>' + r.lo + '% to ' + r.hi + '%</span></div>' + D.meta.q.map(function (q, j) { return '<div class="row"><span class="k">' + ql(q) + ' (early signal)</span><span>' + (r.q[j] === null ? '–' : r.q[j] + '%') + '</span></div>'; }).join(''));
+          void bar;
+        });
+      });
+      cell.querySelector('.dmv-plot').insertAdjacentHTML('afterend', '<p class="dr-top"><b>Most named:</b> ' + S.top.slice(0, 6).map(function (t) { return esc(t.l) + ' ' + t.pct + '%'; }).join(' · ') + '</p>');
+      c.setTable([{ l: 'Type or drink', k: 'l' }, { l: 'Level', k: 'lv' }, { l: 'Answers', k: 'n', n: 1 }, { l: 'Share %', k: 'pct', n: 1 }, { l: '95% low', k: 'lo', n: 1 }, { l: '95% high', k: 'hi', n: 1 }],
+        S.groups.map(function (r) { return { l: r.l, lv: 'Type', n: r.n, pct: r.pct, lo: r.lo, hi: r.hi }; }).concat(S.top.map(function (r) { return { l: r.l, lv: 'Drink', n: r.n, pct: r.pct, lo: '', hi: '' }; })));
+    });
+  }
+
   function start() {
     var P = window.DM_TRENDP, X = window.DM_TRENDX, g = function (id) { return document.getElementById(id); };
     if (X || window.DM_INTEL) document.documentElement.classList.add('dm-partner');
@@ -379,6 +408,7 @@
     if (P && g('th-conc')) { conc(g('th-conc'), P); if (X) mix(g('th-conc'), X); }
     if (P && g('th-life')) { stageBar(g('th-life'), P); staples(g('th-life'), P); if (X) { board(g('th-life'), X); slope(g('th-life'), X); } }
     if (X && g('th-fan')) fans(g('th-fan'), X);
+    if (window.DM_DRINKS && g('th-drinks')) drinks(g('th-drinks'), window.DM_DRINKS);
     var BX = window.DM_BENCHX, BP = window.DM_BENCHP;
     if ((BX || BP) && g('th-bench')) bench(g('th-bench'), BX || BP, !!BX);
   }

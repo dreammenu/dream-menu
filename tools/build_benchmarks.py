@@ -83,14 +83,16 @@ add(id='pineapple', topic='Pineapple on pizza', theme='Debates', tier='public', 
     dm=dict(v=pine, unit='%', text=f'{pine}% say yes', base=f'{pine_n:,} guests'),
     ext=dict(v=53, unit='%', text='53% of Britons like pineapple on pizza', who='YouGov, GB adults', date='2017',
              url='https://yougov.co.uk/news/2017/03/06/does-pineapple-belong-pizza'),
+    extra='A January 2024 YouGov survey again found that more than half of Britons love or like it (reported by Reuters, January 2025).',
     read='Foodies split almost exactly like the general public. Pineapple is a genuine 50:50 call, so it belongs on a pizza menu as an option, not a statement.')
 cof, tea_n = deb('tea', 'Coffee')
 tea, _ = deb('tea', 'Tea')
 add(id='tea', topic='Tea or coffee', theme='Debates', tier='public', verdict='differs', kind='level',
     dm=dict(v=cof, unit='%', text=f'{cof}% pick coffee ({tea}% tea)', base=f'{tea_n:,} guests'),
-    ext=dict(v=35, unit='%', text='Just over a third of Britons prefer coffee; 52% prefer tea', who='YouGov, GB adults', date='2012',
-             url='https://yougov.co.uk/news/2012/03/27/tea-vs-coffee'),
-    read='Dream Menu guests are far more coffee-led than Britain as a whole. That reflects who answers (younger, urban, many in the trade), so read coffee demand here as the leading edge, not the national average. YouGov Profiles data from 2025 shows daily coffee and tea drinking now close to level across age groups.')
+    ext=dict(v=37, unit='%', text='Among under-35s, 37% prefer coffee and 25% prefer tea', who='YouGov polling, reported by Beverage Daily', date='July 2025',
+             url='https://www.beveragedaily.com/Article/2025/07/01/delifrance-brews-up-fresh-insight-into-the-uks-coffee-craze/'),
+    extra='Across all British adults, 41% drink tea and 40% drink coffee at least twice a day (YouGov Profiles, 2025). In 2012, 52% of Britons preferred tea.',
+    read='Even against younger Britons, the most coffee-led group in national polling, Dream Menu guests lean much further to coffee. That reflects who answers (urban, food-led, many in the trade), so read coffee demand here as the leading edge, not the national average.')
 irn, coke_n = deb('coke', 'Irn Bru')
 coke, _ = deb('coke', 'Coca Cola')
 add(id='irnbru', topic='Irn-Bru or Coke', theme='Debates', tier='public', verdict='differs', kind='level',
