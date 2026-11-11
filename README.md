@@ -14,7 +14,7 @@ The header menus (including the "I'm a..." audience menu), the footer links, sea
 ## Analysis pages and data freshness
 
 - `/analysis` (public) and `/intelligence` (partner, locked) are built from the site's own data files. After a data refresh run, from the repository root:
-  `python3 tools/build_intel.py && python3 tools/build_pages.py && python3 tools/build_nav.py`
+  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_pages.py && python3 tools/build_nav.py`
   `build_intel.py` writes `analysis-data.js` (headline analysis only, nothing about quarterly movement) and `partner/intel-data.js` (behind sign-in). The charts are drawn by `analysis.js` and `partner/intel.js` using the small chart toolkit in `dmviz.js` / `dmviz.css`; every chart has a table view, a CSV download and a link.
 - `dm-fresh.js` loads on every page. It adds a "Data to ... · Updated ..." line under each visual or block of figures, a "Last updated" chip under the page title and a data status panel in the footer. When a dataset is refreshed, change its dates in the `SETS` list at the top of that file.
 
@@ -34,7 +34,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 2. From the repository root:
    `python3 tools/add_interviews.py tools/data/<interviews>.json`
    `python3 tools/add_venues.py tools/data/<venues>.json tools/data/<interviews>.json <path to ukpostcodes.csv>`
-   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
+   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
    Run each step once per batch: the first two add to the existing counts. `add_venues.py` needs the dwyl UK postcode file (github.com/dwyl/uk-postcodes-latitude-longitude-complete-csv) to place exact UK addresses.
 
 `add_interviews.py` recovers each quarter's counts exactly from the published shares, adds the new answers, and reruns the two-proportion test, so movers and clear flags stay correct. `refresh_static.py` rewrites every figure that is written into the static pages (home, insights, for business, how it works, partner pages, footer dates and `dm-fresh.js`); the 2026 report pages keep their edition figures on purpose. Counts that the data files do not hold (debates, home course cards) live in `tools/data/static-counts.json`.
@@ -63,3 +63,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 ## Added 11 November 2026: shares, not volumes
 
 Markets have very different numbers of answers (Glasgow holds most venue mentions), so comparisons between places are shown as percentages, not counts: the home market tabs (dish chips "vs x%" and "Most-named venues" as a share of that market's mentions), the /analysis city chart (cells show the share of the market's mentions, coloured against the share everywhere), dish pages ("By market": share here vs all markets) and the press kit facts. Raw counts stay in tooltips and CSV downloads. Keep new comparisons in the same form.
+
+## Added 11 November 2026: the menu over time
+
+`tools/build_trends.py` (run after `build_intel.py`, before `build_pages.py`) writes `trend-public.js` (course level only) and `partner/trend-data.js` (behind sign-in); `trend-charts.js` draws both. Public /analysis gains sections D to F (how much each course changed against chance, whether guests converge on favourites, life-cycle mix and steady staples). Partner /intelligence gains sections 9 to 13 (written findings, churn and where the share went, life-cycle board and then-vs-now, menu shape by quarter, projections for clear movers, staples). Food courses only, as the drink questions changed on 23 August 2026. Chance baselines use a fixed random seed, so reruns give the same numbers. Palette slots 4 and 5 (`--v-s4`, `--v-s5`) were added to `dmviz.css` and validated in light and dark.

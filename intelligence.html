@@ -29,7 +29,7 @@
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">Partner intelligence</span>
 <h1>The market read, in ten minutes</h1>
-<p class="lede">Eight views of what the UK’s foodies want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
+<p class="lede">Thirteen views of what the UK’s foodies want, how sure we can be, and where it points: from a one-screen executive read to an opportunity score for every tracked dish and drink. Every chart has a table view and a CSV download.</p>
 </div></section>
 <section class="iv-sec" id="read"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">1</span>Executive read</p><h2 class="iv-title" id="t1" data-short="Executive read">&nbsp;</h2><p class="iv-sub" id="s1">The three things to take into this quarter’s planning, then the numbers behind them.</p><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><div class="iv-callout"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><b>Data to 10 November 2026.</b> Every chart includes all 1,256 interviews received to that date. Quarters with fewer than 100 answers, including the fourth quarter so far, are shown faded: read them as an early signal.</span></div><div data-fresh="interviews look"></div></div></section>
 
@@ -47,6 +47,16 @@
 
 <section class="iv-sec" id="operators-sec"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">8</span>Operator pulse</p><h2 class="iv-title" id="t8" data-short="Operator pulse">&nbsp;</h2><p class="iv-sub" id="s8">What the people buying from suppliers are feeling, and where their response falls short of the pressure. This is where a supplier can help.</p><div id="c-ops"></div></div></section>
 
+<section class="iv-sec" id="tr-changed"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">9</span>What changed</p><h2 class="iv-title" data-short="What changed">Sides moved most: 18.3% of answers changed food group, against 8.0% from chance</h2><p class="iv-sub">The menu over time, course by course. Each finding below is written from the numbers and rechecked at every refresh; the charts underneath show how much each course really moved and where the share went.</p><div id="trx-find"></div><div id="trx-churn"></div></div></section>
+
+<section class="iv-sec" id="tr-life"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">10</span>Life cycle</p><h2 class="iv-title" data-short="Life cycle">What is growing, what is mature and what is tiring</h2><p class="iv-sub">Every tracked dish placed in one of six stages from the shape of its share over six quarters. Rising and fading need a clear earlier-to-recent move; peaked and recovering need a clear swing between quarters.</p><div id="trx-life"></div></div></section>
+
+<section class="iv-sec" id="tr-shape"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">11</span>Menu shape</p><h2 class="iv-title" data-short="Menu shape">How each course is made up, quarter by quarter</h2><p class="iv-sub">The five biggest food groups in each course as a share of every coded answer, and whether guests are converging on a few favourites or spreading out.</p><div id="trx-mix"></div></div></section>
+
+<section class="iv-sec" id="tr-next"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">12</span>Next three quarters</p><h2 class="iv-title" data-short="Next three quarters">Where the clear movers are heading</h2><p class="iv-sub">A damped projection for each clear mover, so a planning range is on the table for range reviews and stock. Projections weigh recent quarters more and flatten over time.</p><div id="trx-fan"></div></div></section>
+
+<section class="iv-sec" id="tr-stap"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">13</span>Staples</p><h2 class="iv-title" data-short="Staples">The dishes that hold their share, every quarter</h2><p class="iv-sub">The quiet strength of the menu: dishes big enough to matter whose share stays inside sampling noise from one full quarter to the next.</p><div id="trx-staples"></div></div></section>
+
 <section class="iv-sec" id="method"><div class="iv-wrap prose">
 <p class="iv-eyebrow">Method</p>
 <h2 class="iv-title" data-short="Method">How these numbers are made</h2>
@@ -56,6 +66,7 @@
 <li><b>95% ranges</b> use the standard error behind each test, so a range clears zero exactly when the move is clear.</li>
 <li><b>Opportunity score</b>: demand (share percentile, 30), momentum (change percentile, 35), evidence (1 − p, 15), room to enter (share of the dish’s venue mentions that go to one venue, doubled and capped, 20), minus 10 where guests also name it in “Bin it”. Weights are a judgement; the table view shows every component so you can re-weight in the CSV.</li>
 <li><b>Segments</b> come from each guest’s own description: industry 449, creators 407, enthusiasts 359.</li>
+<li><b>Menu over time</b> (sections 9 to 13, food courses only): churn is half the sum of absolute changes in food-group share, earlier to recent, compared with 1,500 simulated reruns in which nothing changed and only sampling varied. Life-cycle stages use z-tests between quarters with 100+ answers (peaked: high in a middle quarter, clearly above the latest; recovering: the reverse) and a chi-square test for steadiness (p &gt; 0.5, dish above the course median). Projections are a recency-weighted, damped trend with a planning range. Drink questions changed on 23 August 2026, so drinks are left out.</li>
 <li>Qualitative fieldwork, not a statistically representative survey of the population.</li>
 </ul>
 </div></section>
@@ -66,5 +77,7 @@
 <script src="/dmviz.js"></script>
 <script src="/partner/intel-data.js"></script>
 <script src="/partner/intel.js"></script>
+<script src="/partner/trend-data.js"></script>
+<script src="/trend-charts.js"></script>
 </body>
 </html>
