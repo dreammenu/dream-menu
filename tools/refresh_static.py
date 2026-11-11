@@ -248,7 +248,7 @@ tabs = ('<div class="mtabs" role="tablist" aria-label="Market">' + ''.join(
     f'<button type="button" role="tab" id="t{i}" aria-controls="p{i}" aria-selected="{"true" if i == 0 else "false"}">{n}</button>'
     for i, n in enumerate(TAB_NAMES)) + '</div>')
 edit('index.html', [
-    (r'(really want to eat: trends from )[\d,]+( Dream Menu interviews)', rf'\g<1>{N_ALL}\g<2>'),
+    (r'(speaking for themselves: trends from )[\d,]+( Dream Menu interviews)', rf'\g<1>{N_ALL}\g<2>'),
     (r'from places you actually go\. [\d,]+ interviews later', f'from places you actually go. {N_ALL} interviews later'),
     (r'(<div class="ms">as voted by )[\d,]+( guests</div>)', rf'\g<1>{N_ALL}\g<2>'),
     (r'(<div class="ms">as voted by [\d,]+ guests</div>\s*)<ol>.*?</ol>', lambda m: m.group(1) + menu_html),
