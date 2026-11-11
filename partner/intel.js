@@ -1,4 +1,4 @@
-/* partner/intel.js: draws /intelligence from partner/intel-data.js (both behind partner sign-in). */
+/* partner/intel.js: draws the partner chapters of /analysis from partner/intel-data.js (both behind partner sign-in). */
 (function () {
   'use strict';
   function start() {

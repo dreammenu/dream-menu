@@ -1,6 +1,6 @@
 /* trend-charts.js: the "menu over time" charts, drawn with the dmviz.js kit.
-   Used by /analysis (course-level data in trend-public.js) and /intelligence (full data in
-   partner/trend-data.js, behind sign-in). This file holds no data of its own. Built for
+   Used by /analysis: course-level data in trend-public.js and bench-public.js for everyone; the full data in
+   partner/trend-data.js and partner/bench-data.js (behind sign-in) adds partner charts in place. This file holds no data of its own. Built for
    tools/build_trends.py output; every value is a share of answers within a course. */
 (function () {
   'use strict';
@@ -331,23 +331,58 @@
     c.setTable(cols, rows);
   }
 
+
+  // ------------------------------------------------------------------ how Dream Menu compares (benchmarks)
+  var VERD = { agrees: ['Agrees', '--v-s3', '<path d="M4.5 8.3 7 10.8l4.6-5.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'],
+    differs: ['Challenges', '--v-s2', '<path d="M4 6.2h8M4 9.8h8M10.2 3.8 5.8 12.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'],
+    context: ['Context', '--v-ns', '<circle cx="8" cy="4.6" r="1.1" fill="currentColor"/><path d="M8 7.2v5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>'] };
+  function vchip(v) { var x = VERD[v]; return '<span class="bm-v bm-' + v + '"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' + x[2] + '</svg>' + x[0] + '</span>'; }
+  var ARR = { up: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="rising" role="img"><path d="M8 13V3M3.8 7.2 8 3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    down: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="falling" role="img"><path d="M8 3v10M3.8 8.8 8 13l4.2-4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    flat: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="steady" role="img"><path d="M3 8h10M9.5 4.5 13 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
+  function bench(host, D, partner) {
+    var items = D.items;
+    var c = V.card(host, { id: 'bm-board', title: 'Where outside sources agree with Dream Menu, and where they challenge it', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
+    var themes = ['All'].concat(items.map(function (b) { return b.theme; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
+    function draw(th) {
+      var list = items.filter(function (b) { return th === 'All' || b.theme === th; });
+      var o = '<div class="bm-sum">';
+      ['agrees', 'differs', 'context'].forEach(function (v) {
+        var xs = list.filter(function (b) { return b.verdict === v; });
+        o += '<div class="bm-col"><div class="bm-colh">' + vchip(v) + '<b>' + xs.length + '</b></div>' + (xs.length ? xs.map(function (b) {
+          var dir = b.kind === 'direction' ? '<span class="bm-dirs"><span title="Dream Menu" class="bm-dm">' + ARR[b.dm.dir] + '</span><span title="Outside source" class="bm-ex">' + ARR[b.ext.dir] + '</span></span>' : b.kind === 'level' ? '<span class="bm-lv">' + b.dm.v + '% · ' + b.ext.v + '%</span>' : '';
+          return '<a class="bm-pill" href="#bm-' + b.id + '">' + esc(b.topic) + dir + '</a>';
+        }).join('') : '<p class="tr-quiet">None in this theme.</p>') + '</div>';
+      });
+      o += '</div><p class="bm-key"><span class="bm-dm">' + ARR.up + '</span> Dream Menu &nbsp; <span class="bm-ex">' + ARR.up + '</span> outside source &nbsp; · &nbsp; level comparisons show Dream Menu first</p><div class="bm-grid">';
+      list.forEach(function (b) {
+        o += '<article class="bm-card" id="bm-' + b.id + '"><header><h4>' + esc(b.topic) + '</h4>' + vchip(b.verdict) + '</header>';
+        if (b.kind === 'level') {
+          o += '<div class="bm-bars"><div><span>Dream Menu</span><i style="width:' + b.dm.v + '%" class="bm-dmbar"></i><b>' + b.dm.v + '%</b></div><div><span>Outside</span><i style="width:' + b.ext.v + '%" class="bm-exbar"></i><b>' + b.ext.v + '%</b></div></div>';
+        }
+        o += '<dl><dt><span class="bm-dm">' + (b.dm.dir ? ARR[b.dm.dir] : '●') + '</span>Dream Menu</dt><dd>' + esc(b.dm.text) + ' <small>' + esc(b.dm.base) + '</small></dd>' +
+          '<dt><span class="bm-ex">' + (b.ext.dir ? ARR[b.ext.dir] : '●') + '</span>Outside</dt><dd>' + esc(b.ext.text) + ' <small><a href="' + esc(b.ext.url) + '" rel="noopener" target="_blank">' + esc(b.ext.who) + ', ' + esc(b.ext.date) + '</a></small>' + (b.extra ? '<br><small>' + esc(b.extra) + '</small>' : '') + '</dd></dl>' +
+          '<p class="bm-read"><b>What it means</b>' + esc(b.read) + '</p></article>';
+      });
+      c.plot.innerHTML = o + '</div>';
+      c.setTable([{ l: 'Topic', k: 'topic' }, { l: 'Theme', k: 'theme' }, { l: 'Verdict', f: function (b) { return VERD[b.verdict][0]; } }, { l: 'Dream Menu', f: function (b) { return b.dm.text; } }, { l: 'Outside source figure', f: function (b) { return b.ext.text; } }, { l: 'Source', f: function (b) { return b.ext.who + ', ' + b.ext.date; } }, { l: 'Link', f: function (b) { return b.ext.url; } }, { l: 'What it means', k: 'read' }], list, 'dream-menu-benchmarks');
+    }
+    V.chips(c.filters, themes.map(function (t) { return [t, t]; }), 'All', draw); draw('All');
+  }
+
   function start() {
     var P = window.DM_TRENDP, X = window.DM_TRENDX, g = function (id) { return document.getElementById(id); };
-    if (X) {
-      if (g('trx-find')) findings(g('trx-find'), X);
-      if (g('trx-churn')) { churn(g('trx-churn'), X); flows(g('trx-churn'), X); }
-      if (g('trx-life')) { board(g('trx-life'), X); slope(g('trx-life'), X); }
-      if (g('trx-mix')) { mix(g('trx-mix'), X); conc(g('trx-mix'), X); }
-      if (g('trx-fan')) fans(g('trx-fan'), X);
-      if (g('trx-staples')) { stageBar(g('trx-staples'), X); staples(g('trx-staples'), X); }
-    } else if (P) {
-      if (g('trp-find')) findings(g('trp-find'), P);
-      if (g('trp-churn')) churn(g('trp-churn'), P);
-      if (g('trp-conc')) conc(g('trp-conc'), P);
-      if (g('trp-life')) { stageBar(g('trp-life'), P); staples(g('trp-life'), P); }
-    }
+    if (X || window.DM_INTEL) document.documentElement.classList.add('dm-partner');
+    var F = X || P;
+    if (F && g('th-find')) findings(g('th-find'), F);
+    if (P && g('th-churn')) { churn(g('th-churn'), P); if (X) flows(g('th-churn'), X); }
+    if (P && g('th-conc')) { conc(g('th-conc'), P); if (X) mix(g('th-conc'), X); }
+    if (P && g('th-life')) { stageBar(g('th-life'), P); staples(g('th-life'), P); if (X) { board(g('th-life'), X); slope(g('th-life'), X); } }
+    if (X && g('th-fan')) fans(g('th-fan'), X);
+    var BX = window.DM_BENCHX, BP = window.DM_BENCHP;
+    if ((BX || BP) && g('th-bench')) bench(g('th-bench'), BX || BP, !!BX);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 
-  window.DMT = { findings: findings, churn: churn, conc: conc, stageBar: stageBar, staples: staples, flows: flows, slope: slope, mix: mix, board: board, fans: fans, wrapText: wrapText };
+  window.DMT = { bench: bench, findings: findings, churn: churn, conc: conc, stageBar: stageBar, staples: staples, flows: flows, slope: slope, mix: mix, board: board, fans: fans, wrapText: wrapText };
 })();

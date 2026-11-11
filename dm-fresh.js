@@ -84,8 +84,7 @@
     '/case-studies/edinburgh-2030': { def: null, chip: ['interviews', 'venues'] },
     '/case-studies/ten-forces': { def: null, chip: ['interviews'] },
     '/case-studies/edge-of-the-menu': { def: null, chip: ['interviews'] },
-    '/analysis': { def: null, chip: ['analysis', 'interviews', 'venues', 'awards'] },
-    '/intelligence': { def: null, chip: ['analysis', 'interviews', 'look'] }
+    '/analysis': { def: null, chip: ['analysis', 'interviews', 'venues', 'awards', 'look'] }
   };
   var DATA_SEL = '.bars, table, .facts, canvas, figure, .chart, [class*="chart"], [class*="spark"], .stat, .stats, .h-stats, .kpis, .debate, .tile-num, svg[viewBox]:not([viewBox="0 0 24 24"]):not([viewBox="0 0 16 16"]):not([viewBox="0 0 12 12"]):not(.aico)';
 

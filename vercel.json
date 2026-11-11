@@ -11,6 +11,16 @@
       "source": "/find-the-best",
       "destination": "/rankings",
       "permanent": true
+    },
+    {
+      "source": "/intelligence",
+      "destination": "/analysis",
+      "permanent": false
+    },
+    {
+      "source": "/intelligence.html",
+      "destination": "/analysis",
+      "permanent": false
     }
   ],
   "headers": [

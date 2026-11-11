@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Menu trends over time: extra analyses for /analysis (public) and /intelligence (partner).
+"""Menu trends over time: extra analyses for /analysis (course level for all, full detail for signed-in partners).
 
 Run from the repository root after the data refresh, after build_intel.py:
   python3 tools/build_trends.py

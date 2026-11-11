@@ -162,6 +162,6 @@
   box.classList.add('mv');
   box.innerHTML = '<h2>Is it rising? <span class="mv-badge">Partner</span></h2><div class="mv-rows">' + rows.map(block).join('') + '</div>' + key +
     '<p class="pg-mut">Movement compares the pooled share in ' + span(M.early) + ' with ' + span(M.late) +
-    ' (' + esc(M.test || 'two-proportion z-test, p < 0.05') + '). Trend scores match <a href="/intelligence">Intelligence</a>. Data to ' +
+    ' (' + esc(M.test || 'two-proportion z-test, p < 0.05') + '). Trend scores match <a href="/analysis#opportunity-sec">the analysis</a>. Data to ' +
     esc(M.last ? new Date(M.last + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '') + '. Licensed to Dream Menu partners; please do not share.</p>';
 })();

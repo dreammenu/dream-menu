@@ -20,14 +20,14 @@ _P, _M = _load('partner-data.js'), _load('dm-data.js')['meta']
 N_ALL, N_PINNED, N_COUNTRIES = f"{_P['n_all']:,}", f"{_M['pinned']:,}", _M['countries']
 
 PUBLIC = ('/case-studies/guests-and-critics',)   # the free sample report
-LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/intelligence', '/case-studies')
+LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/case-studies')
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
  ('food', 'Food lover', 'food lovers', 'What people want to eat, where to go, and the debates that never end.', ['f4', 'f6', 'f5', 'f8', 'f9', 'f14']),
  ('venue', 'Running a venue', 'people running a venue', 'Tools, benchmarks and tested ideas to lift every cover.', ['o3', 'o8', 'r9', 'r14', 'o6', 'o12']),
  ('new', 'Opening a venue', 'people opening a venue', 'Gaps in the market, neighbourhoods and the numbers to model before you sign.', ['r16', 'r8', 'r3', 'o3', 'r10', 'o12']),
  ('chef', 'Chef or kitchen lead', 'chefs and kitchen leads', 'What guests order, what is moving and what they are tired of.', ['r14', 'o4', 'r13', 'f5', 'f14', 'r10']),
- ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['b8', 'b3', 'r13', 'r2', 'b5', 'f16']),
+ ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['f16', 'b3', 'r13', 'r2', 'b5', 'f22']),
  ('investor', 'Investor or developer', 'investors and developers', 'Where the evidence points for capital, concepts and sites.', ['r18', 'r16', 'f16', 'r2', 'r8', 'f6']),
  ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['a3', 'r2', 'f16', 'f4', 'f8', 'b17']),
 ]
@@ -37,7 +37,7 @@ KEYWORDS = {
  'f1': 'dishes trends starters mains desserts drinks sides course', 'f4': 'irn-bru coke coffee tea pineapple pizza water', 'f5': 'comfort food matcha dubai chocolate tired',
  'f20': 'quarterly edition newsletter email state of the menu headlines', 'o13': 'badge sticker website embed named venue',
  'f19': 'dish trends tiramisu scallops steak negroni margarita dessert starter page',
- 'f16': 'analysis index city glasgow edinburgh critics michelin awards concentration data', 'b8': 'dashboard analysis momentum matrix opportunity score confidence segments consultant',
+ 'f16': 'analysis index city glasgow edinburgh critics michelin awards concentration data', 'f23': 'partner intelligence dashboard momentum matrix opportunity score confidence segments forecast projection operator pulse', 'f22': 'benchmark compare yougov poll market data sources challenge',
  'f6': 'map restaurants bars cafes venues near me city country', 'f7': 'best restaurants top venues most named', 'f8': 'michelin stars 50 best bib gourmand guides',
  'f9': 'fringe cocktail sandwich edinburgh festival', 'f11': 'cocktails drinks bar bartender', 'f15': 'interview submit share my menu',
  'r2': 'headline summary key findings opportunities risks', 'r4': 'survey operators costs confidence trading energy labour', 'r8': 'finnieston southside shawlands barras west end rents sites location',
@@ -70,9 +70,12 @@ GROUPS = [  # key, label, landing page, one-line summary
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
  ('f1', 'Food trends', '/', f'What {N_ALL} guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
- ('f16', 'The analysis', '/analysis', 'Every city\'s appetite indexed, guests against the critics, and how settled each course is', 'food', 'food investor press supplier', 1, None),
- ('f17', "Every city's appetite, indexed", '/analysis#cities', 'Which dishes each market names more than everyone else', 'food', 'investor new supplier', 0, 'f16'),
+ ('f16', 'The analysis', '/analysis', 'Every analysis in one place: cities, critics, how the menu is changing and how Dream Menu compares. Partners unlock eight more chapters', 'food', 'food investor press supplier', 1, None),
+ ('f17', "Every city's appetite", '/analysis#cities', 'Which dishes take a bigger share in each market than everywhere else', 'food', 'investor new supplier', 0, 'f16'),
  ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
+ ('f21', 'What changed', '/analysis#changed', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
+ ('f22', 'How we compare', '/analysis#compare', 'Dream Menu against national polls, eating-out data, menu trackers and sales', 'food', 'food press investor supplier', 1, 'f16'),
+ ('f23', 'Partner chapters', '/analysis#matrix-sec', 'Momentum, confidence ranges, projections, segments, opportunity scores and the operator pulse', 'food', 'supplier investor', 0, 'f16'),
  ('f2', 'The dishes people choose', '/#courses', 'The top dishes for every course and their share of guests', 'food', 'food chef supplier', 0, 'f1'),
  ('f3', "Every city's appetite", '/#places', 'What Glasgow, Edinburgh and every market names, and the venues behind it', 'food', 'food investor supplier', 0, 'f1'),
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
@@ -143,7 +146,6 @@ ITEMS = [
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
  ('b2', 'Partner area', '/partner', 'Everything included in the partnership, in one place', 'biz', 'supplier', 0, None),
- ('b8', 'Partner intelligence', '/intelligence', 'Momentum matrix, confidence ranges, segments, opportunity scores and the operator pulse', 'biz', 'supplier investor', 1, 'b2'),
  ('b3', 'Partner briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
  ('b4', 'Insights', '/insights', 'Debates, dishes by group and how the trade feels, in full', 'biz', 'supplier chef press', 0, 'b2'),
  ('b5', 'Data extracts', '/partner#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
@@ -157,7 +159,7 @@ ITEMS = [
 IT = {}
 for row in ITEMS:
     i, t, u, d, g, a, s, p = row
-    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=u.startswith(LOCKED) and u not in PUBLIC, k=KEYWORDS.get(i, ''))
+    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23',), k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
 LOCK = '<svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'

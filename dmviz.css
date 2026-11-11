@@ -200,3 +200,40 @@
 .tr-quiet{margin:4px 0 0;font:500 12px/1.6 var(--body);color:var(--v-ink2)}.tr-quiet small{color:var(--v-muted)}
 @media (max-width:1100px){.tr-board{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:700px){.tr-board{grid-template-columns:1fr}.tr-find{grid-template-columns:1fr}}
+
+/* how Dream Menu compares (benchmarks) */
+.bm-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 8px}
+.bm-col{background:var(--v-plane);border-radius:12px;padding:10px 10px 6px}
+.bm-colh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.bm-colh b{font:700 18px/1 var(--body);color:var(--v-ink)}
+.bm-v{display:inline-flex;align-items:center;gap:5px;font:700 12px/1 var(--body);padding:5px 9px 5px 7px;border-radius:999px;color:var(--v-ink)}
+.bm-agrees{background:color-mix(in srgb,var(--v-s3) 22%,transparent)}.bm-differs{background:color-mix(in srgb,var(--v-s2) 22%,transparent)}.bm-context{background:var(--v-grid)}
+.bm-pill{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--v-surface);border:1px solid var(--v-hair);border-radius:9px;padding:7px 9px;margin-top:6px;font:600 13px/1.25 var(--body);color:var(--v-ink);text-decoration:none}
+.bm-pill:hover{border-color:var(--v-axis)}
+.bm-dirs{display:inline-flex;gap:2px}.bm-lv{font:600 12px/1 var(--body);color:var(--v-muted);white-space:nowrap}
+.bm-dm{color:var(--v-brand);display:inline-flex}.bm-ex{color:var(--v-muted);display:inline-flex}
+.bm-key{font:500 12px/1.4 var(--body);color:var(--v-muted);margin:6px 0 14px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.bm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.bm-card{border:1px solid var(--v-hair);border-radius:12px;padding:14px 16px;scroll-margin-top:90px}
+.bm-card header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.bm-card h4{margin:0;font:700 16px/1.25 var(--body);color:var(--v-ink)}
+.bm-bars{display:grid;gap:5px;margin:2px 0 10px}.bm-bars div{display:grid;grid-template-columns:78px 1fr 44px;align-items:center;gap:8px;font:600 12px/1 var(--body);color:var(--v-ink2)}
+.bm-bars i{display:block;height:12px;border-radius:0 4px 4px 0;max-width:100%}.bm-dmbar{background:var(--v-brand)}.bm-exbar{background:var(--v-ns)}.bm-bars b{color:var(--v-ink)}
+.bm-card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 10px}
+.bm-card dt{font:700 12px/1.4 var(--body);color:var(--v-ink2);display:flex;gap:4px;align-items:flex-start;white-space:nowrap}
+.bm-card dd{margin:0;font:500 13.5px/1.45 var(--body);color:var(--v-ink)}.bm-card small{color:var(--v-muted);font-size:12px}
+.bm-card small a{color:inherit}
+.bm-read{margin:10px 0 0;padding-top:10px;border-top:1px solid var(--v-hair);font:500 13.5px/1.5 var(--body);color:var(--v-ink)}
+.bm-read b{display:block;font:800 11px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--v-muted);margin-bottom:5px}
+@media (max-width:800px){.bm-sum{grid-template-columns:1fr}}
+
+/* one analysis page: partner chapters unlock in place */
+.pv-body{display:none}.dm-partner .pv-body{display:block}.dm-partner .pv-lock{display:none}
+.pv-lock{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--v-surface);border:1px dashed var(--v-axis);border-radius:14px;padding:18px 20px}
+.pv-lock svg{color:var(--v-muted)}.pv-lock p{margin:0;font:500 14.5px/1.5 var(--body);color:var(--v-ink2)}.pv-lock p b{color:var(--v-ink)}
+.pv-lock a{font:700 14px/1 var(--body);white-space:nowrap;padding:10px 14px;border-radius:999px;background:var(--v-brand);color:#fff;text-decoration:none}
+.iv-eyebrow .pv-tag{margin-left:8px;font:700 11px/1 var(--body);letter-spacing:.04em;text-transform:none;padding:4px 8px;border-radius:999px;background:var(--v-gold);color:#0b0b0b}
+.dm-partner .iv-eyebrow .pv-tag{background:var(--v-grid);color:var(--v-ink2)}
+.iv-toc-g{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 0}.iv-toc-g > span{font:700 12px/1 var(--body);color:rgba(255,255,255,.7);margin-right:4px;text-transform:uppercase;letter-spacing:.06em}
+.iv-hero:not(.navy) .iv-toc-g > span{color:var(--v-muted)}
+.iv-hero:not(.navy) .iv-toc a{color:var(--v-ink);border-color:var(--v-hair)}
+.iv-toc a .lk{opacity:.7}
+@media (max-width:700px){.pv-lock{grid-template-columns:1fr}}
