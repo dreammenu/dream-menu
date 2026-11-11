@@ -53,11 +53,11 @@ def city_index(mid, name):
                 cnt[ci] = cnt.get(ci, 0) + n
     T, WT = sum(cnt.values()), sum(wt.values())
     best = max((ci for ci in cnt if cnt[ci] >= 5), key=lambda ci: (cnt[ci] / T) / (wt[ci] / WT))
-    return lab(C['c'][best]), (cnt[best] / T) / (wt[best] / WT)
+    return lab(C['c'][best]), (cnt[best] / T) / (wt[best] / WT), 100 * cnt[best] / T, 100 * wt[best] / WT
 
 
-edi_dish, edi_x = city_index('city:Edinburgh|United Kingdom', 'Edinburgh')
-gla_dish, gla_x = city_index('city:Glasgow|United Kingdom', 'Glasgow')
+edi_dish, edi_x, edi_sh, edi_all = city_index('city:Edinburgh|United Kingdom', 'Edinburgh')
+gla_dish, gla_x, gla_sh, gla_all = city_index('city:Glasgow|United Kingdom', 'Glasgow')
 top_v = [v for v in D['venues'] if v['i'] == MK['city:Glasgow|United Kingdom']['top'][0]][0]
 
 FACTS = [
@@ -67,7 +67,7 @@ FACTS = [
     (pc(tap, deb['water']['n']), 'ask for tap water with dinner, close behind still at ' + pc(deb['water']['c']['Still'], deb['water']['n'])),
     (top['p'][1], f'name {top["p"][0].lower()} as their dream dessert, the most-named single dish on any course'),
     (top['s'][1], f'choose {top["s"][0].lower()} to start'),
-    (f'×{edi_x:.1f}', f'Edinburgh names the {edi_dish.lower()} {edi_x:.1f} times as often as guests overall'),
+    (f'{edi_sh:.1f}%', f'of Edinburgh venue mentions are for the {edi_dish.lower()}, against {edi_all:.1f}% across all markets'),
     (f'{P["extra"]["bin"][0][1]}', f'guests want {P["extra"]["bin"][0][0].lower()} binned: the trend they are most tired of'),
     (f'{P["extra"]["guilty"][0][1]}', f'name {P["extra"]["guilty"][0][0].lower()} as their guilty pleasure, the top answer'),
     (fmt(guest_award), 'venues guests name also hold a MICHELIN, 50 Best or guide award'),
@@ -85,7 +85,7 @@ body = f'''<section class="navyband"><div class="wrap">
   <h2 id="figures">Figures worth quoting</h2>
   <p class="lede" style="margin-bottom:14px">From {fmt(P["n_all"])} Dream Menu interviews, September 2025 to {LAST_H}. Each card copies the figure with its source line.</p>
   <div class="grid pr-grid">{cards}</div>
-  <p class="note" style="margin-top:12px">Glasgow&rsquo;s most-named venue is {E(top_v["n"])} ({top_v["m"]} mentions). Glasgow over-indexes on {E(gla_dish.lower())} (×{gla_x:.1f}). More on the <a href="/">food trends page</a>, the <a href="/analysis">analysis</a> and the <a href="/rankings">rankings</a>.</p>
+  <p class="note" style="margin-top:12px">Glasgow&rsquo;s most-named venue is {E(top_v["n"])} ({100 * top_v["m"] / MK['city:Glasgow|United Kingdom']['mn']:.1f}% of the city&rsquo;s venue mentions). {E(gla_dish)} takes {gla_sh:.1f}% of Glasgow&rsquo;s venue mentions, against {gla_all:.1f}% across all markets. More on the <a href="/">food trends page</a>, the <a href="/analysis">analysis</a> and the <a href="/rankings">rankings</a>.</p>
 </div></section>
 <section><div class="wrap prose">
   <h2 id="credit">How to credit</h2>

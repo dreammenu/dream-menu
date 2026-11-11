@@ -59,3 +59,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 - **Partner alert**: `tools/build_alert.py` writes `tools/data/alerts/<date>.txt/.html`; Claude drafts it in Gmail for Gordon to send.
 - **Testimonials** on /for-business come from `tools/data/testimonials.json` (hidden while empty; real quotes with permission only).
 - Structured data: Organization and WebSite on the home page, Dataset on how-it-works, Restaurant on venue pages, Article on dish pages.
+
+## Added 11 November 2026: shares, not volumes
+
+Markets have very different numbers of answers (Glasgow holds most venue mentions), so comparisons between places are shown as percentages, not counts: the home market tabs (dish chips "vs x%" and "Most-named venues" as a share of that market's mentions), the /analysis city chart (cells show the share of the market's mentions, coloured against the share everywhere), dish pages ("By market": share here vs all markets) and the press kit facts. Raw counts stay in tooltips and CSV downloads. Keep new comparisons in the same form.

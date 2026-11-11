@@ -207,9 +207,10 @@ for s, d in DISHES.items():
         for name, _ in MARKETS:
             c = MK_CNT[name].get(ci, 0)
             if wsh and MK_TOT[name] >= 50:
-                mk.append((name, c, 100 * (c / MK_TOT[name]) / wsh))
+                mk.append((name, c, 100 * c / MK_TOT[name], MK_TOT[name]))
     mk_rows = ''.join(
-        f'<tr><td>{E(n)}</td><td class="num">{c}</td><td class="num">{"×%.1f" % (x / 100) if c >= 3 else "–"}</td></tr>' for n, c, x in mk)
+        f'<tr><td>{E(n)}</td><td class="num" title="{c} of {fmt(t)} mentions"><b>{sh:.1f}%</b></td><td class="num">{100 * wsh:.1f}%</td></tr>' if c >= 3 else
+        f'<tr><td>{E(n)}</td><td class="num">–</td><td class="num">{100 * wsh:.1f}%</td></tr>' for n, c, sh, t in mk)
     vs = venues_for(d['c'])
     vl = ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E(place(v))}</span> <b>{k}</b></li>' for k, v in vs)
     same = sorted((x for x in DISHES.values() if x['g'] == d['g'] and x is not d), key=lambda x: -max(r['pct'] for r in x['rows']))[:8]
@@ -226,7 +227,7 @@ for s, d in DISHES.items():
 <section><div class="wrap pg-grid">
   <div class="card"><h2>On the dream menu</h2><div class="tablewrap" style="border:0"><table><thead><tr><th>Course</th><th class="num">Share</th><th class="num">Guests</th><th class="num">Rank</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p class="pg-mut">Share of the guests who answered that course, all interviews.</p></div>
-  <div class="card"><h2>By market</h2>{('<div class="tablewrap" style="border:0"><table><thead><tr><th>Market</th><th class="num">Mentions</th><th class="num">Index</th></tr></thead><tbody>' + mk_rows + '</tbody></table></div><p class="pg-mut">Mentions at venues in each market. ×1.5 = named one and a half times as often as across all markets; shown from three mentions. Markets outside Scotland are early signals.</p>') if mk_rows else '<p class="pg-mut">Not enough venue mentions to compare markets yet.</p>'}</div>
+  <div class="card"><h2>By market</h2>{('<div class="tablewrap" style="border:0"><table><thead><tr><th>Market</th><th class="num">Share here</th><th class="num">All markets</th></tr></thead><tbody>' + mk_rows + '</tbody></table></div><p class="pg-mut">Share of each market&#39;s venue-linked dish mentions, so markets with fewer answers compare fairly; shown from three mentions. Markets outside Scotland are early signals.</p>') if mk_rows else '<p class="pg-mut">Not enough venue mentions to compare markets yet.</p>'}</div>
   <div class="card"><h2>Where guests go for it</h2>{('<ol class="pg-list">' + vl + '</ol>') if vl else '<p class="pg-mut">No venue named for this dish more than once yet.</p>'}</div>
   <div class="card pg-lock" id="dm-move" data-slug="{s}"><h2>Is it rising?</h2><p>Quarter-by-quarter movement, a clear-move test and a trend score out of 10 for {E(d["l"])} are for Dream Menu partners.</p><p><a class="go" href="/login?next=/trends/{s}">Partner sign-in</a> · <a class="go" href="/for-business#work">Become a partner</a></p></div>
 </div></section>

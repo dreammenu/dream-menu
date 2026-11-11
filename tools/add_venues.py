@@ -58,7 +58,8 @@ COARSE = {
     'Traybakes / slices / Scottish bakes': 'Café / Bakery / Dessert', 'Jelly / custard / childhood puddings': 'Café / Bakery / Dessert',
     'Gin and tonic': 'Gin & tonic', 'IPA / craft beer': 'Beer / lager / ale',
 }
-CC = {'United Kingdom': 'GB', 'Ireland': 'IE', 'Netherlands': 'NL', 'Mexico': 'MX', 'Italy': 'IT', 'Australia': 'AU'}
+CC = {'United Kingdom': 'GB', 'Ireland': 'IE', 'Netherlands': 'NL', 'Mexico': 'MX', 'Italy': 'IT', 'Australia': 'AU',
+      'United States': 'US', 'France': 'FR', 'Spain': 'ES', 'Greece': 'GR', 'Barbados': 'BB', 'New Zealand': 'NZ'}
 
 
 def load(fn, var):

@@ -5,21 +5,21 @@
 (function () {
   'use strict';
   var SETS = {
-    interviews: { label: 'Dream Menu interviews', size: '1,238 interviews', from: '2025-09-01', to: '2026-10-29', updated: '2026-10-31',
-      note: 'Dish categories refined 24 Oct 2026. Interviews to 29 Oct added 31 Oct.' },
-    venues: { label: 'Venues named by guests', size: '1,875 venues, 1,662 pinned', from: '2025-09-01', to: '2026-10-29', updated: '2026-10-31',
-      note: 'Addresses researched 22 Oct 2026; new venues added 31 Oct.' },
+    interviews: { label: 'Dream Menu interviews', size: '1,256 interviews', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-11',
+      note: 'Dish categories refined 24 Oct 2026. Interviews to 10 Nov added 11 Nov.' },
+    venues: { label: 'Venues named by guests', size: '1,935 venues, 1,722 pinned', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-11',
+      note: 'Addresses researched 22 Oct 2026; new venues added 11 Nov.' },
     awards: { label: 'Awards and guides', size: '21,017 award winners', to: '2026-10-29', updated: '2026-10-29',
       note: 'MICHELIN extract of 11 Oct 2026 (newest available) plus the Philippines 2027 edition of 29 Oct; World 50 Best Restaurants 2026 51-100 added; AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },
-    look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24', checked: '2026-10-28' },
+    look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24', checked: '2026-11-11' },
     report: { label: 'Hospitality Intelligence Report 2026', size: 'Edition 6', to: '2026-10-09', updated: '2026-10-21' },
-    fringe: { label: 'Dream Fringe interviews', size: '52 interviews', from: '2026-07-24', to: '2026-08-28', updated: '2026-10-21', checked: '2026-10-28' },
-    cocktail: { label: 'Dream Cocktail entries', size: '16 creations', to: '2026-06-08', updated: '2026-10-21', checked: '2026-10-28' },
-    sandwich: { label: 'Dream Sandwich entries', size: '20 creations', to: '2026-05-14', updated: '2026-10-21', checked: '2026-10-28' },
-    kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21', checked: '2026-10-28' },
+    fringe: { label: 'Dream Fringe interviews', size: '52 interviews', from: '2026-07-24', to: '2026-08-28', updated: '2026-10-21', checked: '2026-11-11' },
+    cocktail: { label: 'Dream Cocktail entries', size: '16 creations', to: '2026-06-08', updated: '2026-10-21', checked: '2026-11-11' },
+    sandwich: { label: 'Dream Sandwich entries', size: '20 creations', to: '2026-05-14', updated: '2026-10-21', checked: '2026-11-11' },
+    kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21', checked: '2026-11-11' },
     research: { label: 'Published research reviewed', size: '20 ideas scored', updated: '2026-10-26' },
     toolkit: { label: 'Operator toolkit', size: 'Benchmarks from the 2026 report', to: '2026-10-09', updated: '2026-10-26' },
-    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-10-29', updated: '2026-10-31' }
+    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-11-10', updated: '2026-11-11' }
   };
   var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   function fmt(d) { if (!d) return ''; var p = d.split('-'); return (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0]; }

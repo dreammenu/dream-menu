@@ -4,19 +4,19 @@ world:World,World,world,2025-Q4,815
 world:World,World,world,2026-Q1,898
 world:World,World,world,2026-Q2,811
 world:World,World,world,2026-Q3,506
-world:World,World,world,2026-Q4,192
+world:World,World,world,2026-Q4,276
 region:Europe,Europe,region,2025-Q3,245
 region:Europe,Europe,region,2025-Q4,798
 region:Europe,Europe,region,2026-Q1,807
 region:Europe,Europe,region,2026-Q2,693
 region:Europe,Europe,region,2026-Q3,378
-region:Europe,Europe,region,2026-Q4,146
+region:Europe,Europe,region,2026-Q4,206
 region:North America,North America,region,2025-Q3,2
 region:North America,North America,region,2025-Q4,4
 region:North America,North America,region,2026-Q1,10
 region:North America,North America,region,2026-Q2,10
 region:North America,North America,region,2026-Q3,10
-region:North America,North America,region,2026-Q4,2
+region:North America,North America,region,2026-Q4,18
 region:Asia,Asia,region,2025-Q3,1
 region:Asia,Asia,region,2026-Q1,2
 region:Asia,Asia,region,2026-Q2,5
@@ -24,7 +24,7 @@ region:Asia,Asia,region,2026-Q3,10
 region:Asia,Asia,region,2026-Q4,1
 region:Oceania,Oceania,region,2026-Q2,4
 region:Oceania,Oceania,region,2026-Q3,1
-region:Oceania,Oceania,region,2026-Q4,1
+region:Oceania,Oceania,region,2026-Q4,8
 region:Africa,Africa,region,2026-Q3,2
 region:South America,South America,region,2026-Q3,1
 country:United Kingdom,United Kingdom,country,2025-Q3,245
@@ -32,19 +32,22 @@ country:United Kingdom,United Kingdom,country,2025-Q4,796
 country:United Kingdom,United Kingdom,country,2026-Q1,790
 country:United Kingdom,United Kingdom,country,2026-Q2,684
 country:United Kingdom,United Kingdom,country,2026-Q3,371
-country:United Kingdom,United Kingdom,country,2026-Q4,145
+country:United Kingdom,United Kingdom,country,2026-Q4,202
 country:United States,United States,country,2025-Q3,2
 country:United States,United States,country,2025-Q4,4
 country:United States,United States,country,2026-Q1,8
 country:United States,United States,country,2026-Q2,9
 country:United States,United States,country,2026-Q3,8
+country:United States,United States,country,2026-Q4,15
 country:Spain,Spain,country,2026-Q1,5
 country:Spain,Spain,country,2026-Q2,4
+country:Spain,Spain,country,2026-Q4,1
 country:Japan,Japan,country,2026-Q2,4
 country:Japan,Japan,country,2026-Q3,3
 country:France,France,country,2026-Q1,2
 country:France,France,country,2026-Q2,3
 country:France,France,country,2026-Q3,1
+country:France,France,country,2026-Q4,1
 country:Australia,Australia,country,2026-Q2,3
 country:Australia,Australia,country,2026-Q3,1
 country:Australia,Australia,country,2026-Q4,1
@@ -69,15 +72,18 @@ country:Switzerland,Switzerland,country,2025-Q4,1
 country:Switzerland,Switzerland,country,2026-Q2,1
 country:Austria,Austria,country,2026-Q1,1
 country:Barbados,Barbados,country,2026-Q3,1
+country:Barbados,Barbados,country,2026-Q4,1
 country:Brazil,Brazil,country,2026-Q3,1
 country:Germany,Germany,country,2026-Q3,1
 country:Greece,Greece,country,2026-Q3,1
+country:Greece,Greece,country,2026-Q4,1
 country:India,India,country,2026-Q2,1
 country:Jersey,Jersey,country,2026-Q3,1
 country:Kosovo,Kosovo,country,2025-Q4,1
 country:Mexico,Mexico,country,2026-Q2,1
 country:Mexico,Mexico,country,2026-Q4,2
 country:New Zealand,New Zealand,country,2026-Q2,1
+country:New Zealand,New Zealand,country,2026-Q4,7
 country:Saudi Arabia,Saudi Arabia,country,2026-Q1,1
 country:Singapore,Singapore,country,2026-Q1,1
 country:Sweden,Sweden,country,2026-Q1,1
@@ -87,31 +93,32 @@ nation:Scotland,Scotland,nation,2025-Q4,762
 nation:Scotland,Scotland,nation,2026-Q1,738
 nation:Scotland,Scotland,nation,2026-Q2,634
 nation:Scotland,Scotland,nation,2026-Q3,329
-nation:Scotland,Scotland,nation,2026-Q4,116
+nation:Scotland,Scotland,nation,2026-Q4,153
 nation:England,England,nation,2025-Q4,25
 nation:England,England,nation,2026-Q1,23
 nation:England,England,nation,2026-Q2,24
 nation:England,England,nation,2026-Q3,29
-nation:England,England,nation,2026-Q4,24
+nation:England,England,nation,2026-Q4,43
 nation:Northern Ireland,Northern Ireland,nation,2026-Q2,4
 nation:Wales,Wales,nation,2026-Q2,1
+nation:Wales,Wales,nation,2026-Q4,1
 city:Glasgow|United Kingdom,Glasgow,city,2025-Q3,229
 city:Glasgow|United Kingdom,Glasgow,city,2025-Q4,602
 city:Glasgow|United Kingdom,Glasgow,city,2026-Q1,539
 city:Glasgow|United Kingdom,Glasgow,city,2026-Q2,415
 city:Glasgow|United Kingdom,Glasgow,city,2026-Q3,194
-city:Glasgow|United Kingdom,Glasgow,city,2026-Q4,50
+city:Glasgow|United Kingdom,Glasgow,city,2026-Q4,68
 city:Edinburgh|United Kingdom,Edinburgh,city,2025-Q3,5
 city:Edinburgh|United Kingdom,Edinburgh,city,2025-Q4,134
 city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q1,127
 city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q2,156
 city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q3,113
-city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q4,47
+city:Edinburgh|United Kingdom,Edinburgh,city,2026-Q4,59
 city:London|United Kingdom,London,city,2025-Q4,12
 city:London|United Kingdom,London,city,2026-Q1,17
 city:London|United Kingdom,London,city,2026-Q2,17
 city:London|United Kingdom,London,city,2026-Q3,15
-city:London|United Kingdom,London,city,2026-Q4,9
+city:London|United Kingdom,London,city,2026-Q4,23
 city:Aberdeen|United Kingdom,Aberdeen,city,2025-Q4,3
 city:Aberdeen|United Kingdom,Aberdeen,city,2026-Q1,26
 city:Aberdeen|United Kingdom,Aberdeen,city,2026-Q2,20
@@ -121,6 +128,7 @@ city:Ayr|United Kingdom,Ayr,city,2025-Q3,4
 city:Ayr|United Kingdom,Ayr,city,2025-Q4,5
 city:Ayr|United Kingdom,Ayr,city,2026-Q1,3
 city:Ayr|United Kingdom,Ayr,city,2026-Q2,4
+city:Ayr|United Kingdom,Ayr,city,2026-Q4,1
 city:Dundee|United Kingdom,Dundee,city,2025-Q4,3
 city:Dundee|United Kingdom,Dundee,city,2026-Q1,4
 city:Dundee|United Kingdom,Dundee,city,2026-Q2,5
@@ -130,6 +138,7 @@ city:Auchterarder|United Kingdom,Auchterarder,city,2025-Q4,1
 city:Auchterarder|United Kingdom,Auchterarder,city,2026-Q1,5
 city:Auchterarder|United Kingdom,Auchterarder,city,2026-Q2,3
 city:Auchterarder|United Kingdom,Auchterarder,city,2026-Q3,1
+city:Auchterarder|United Kingdom,Auchterarder,city,2026-Q4,1
 city:Ullapool|United Kingdom,Ullapool,city,2026-Q1,4
 city:Ullapool|United Kingdom,Ullapool,city,2026-Q2,6
 city:Ullapool|United Kingdom,Ullapool,city,2026-Q3,1
@@ -148,6 +157,7 @@ city:Kilmarnock|United Kingdom,Kilmarnock,city,2025-Q3,1
 city:Kilmarnock|United Kingdom,Kilmarnock,city,2025-Q4,3
 city:Kilmarnock|United Kingdom,Kilmarnock,city,2026-Q2,1
 city:Kilmarnock|United Kingdom,Kilmarnock,city,2026-Q3,1
+city:Kilmarnock|United Kingdom,Kilmarnock,city,2026-Q4,1
 city:Manchester|United Kingdom,Manchester,city,2025-Q4,1
 city:Manchester|United Kingdom,Manchester,city,2026-Q1,2
 city:Manchester|United Kingdom,Manchester,city,2026-Q2,2
@@ -158,10 +168,11 @@ city:Portree|United Kingdom,Portree,city,2026-Q2,1
 city:New York|United States,New York,city,2026-Q1,3
 city:New York|United States,New York,city,2026-Q2,1
 city:New York|United States,New York,city,2026-Q3,1
+city:New York|United States,New York,city,2026-Q4,1
 city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2025-Q4,2
 city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q1,1
 city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q3,1
-city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q4,6
+city:Newcastle upon Tyne|United Kingdom,Newcastle upon Tyne,city,2026-Q4,10
 city:Pitlochry|United Kingdom,Pitlochry,city,2025-Q3,1
 city:Pitlochry|United Kingdom,Pitlochry,city,2025-Q4,1
 city:Pitlochry|United Kingdom,Pitlochry,city,2026-Q1,1
@@ -178,9 +189,11 @@ city:Los Angeles|United States,Los Angeles,city,2025-Q3,2
 city:Los Angeles|United States,Los Angeles,city,2026-Q1,1
 city:Los Angeles|United States,Los Angeles,city,2026-Q2,1
 city:Madison|United States,Madison,city,2026-Q3,4
+city:Madison|United States,Madison,city,2026-Q4,6
 city:Paris|France,Paris,city,2026-Q1,2
 city:Paris|France,Paris,city,2026-Q2,1
 city:Paris|France,Paris,city,2026-Q3,1
+city:Paris|France,Paris,city,2026-Q4,1
 city:Tarbert|United Kingdom,Tarbert,city,2026-Q1,3
 city:Tarbert|United Kingdom,Tarbert,city,2026-Q2,1
 city:Bangkok|Thailand,Bangkok,city,2026-Q3,2
@@ -238,6 +251,7 @@ city:Adelaide|Australia,Adelaide,city,2026-Q2,1
 city:Alloa|United Kingdom,Alloa,city,2026-Q1,1
 city:Athens|Greece,Athens,city,2026-Q3,1
 city:Austin|United States,Austin,city,2026-Q2,1
+city:Austin|United States,Austin,city,2026-Q4,1
 city:Banff|United Kingdom,Banff,city,2026-Q1,1
 city:Bilbao|Spain,Bilbao,city,2026-Q2,1
 city:Bologna|Italy,Bologna,city,2026-Q1,1
@@ -247,6 +261,7 @@ city:Brent|United Kingdom,Brent,city,2025-Q4,1
 city:Campobasso|Italy,Campobasso,city,2026-Q1,1
 city:Cape Town|South Africa,Cape Town,city,2026-Q3,1
 city:Chicago|United States,Chicago,city,2026-Q3,1
+city:Chicago|United States,Chicago,city,2026-Q4,1
 city:Dornoch|United Kingdom,Dornoch,city,2026-Q2,1
 city:Dubai|United Arab Emirates,Dubai,city,2026-Q3,1
 city:Dublin|Ireland,Dublin,city,2026-Q3,1
@@ -267,6 +282,7 @@ city:Melbourne|Australia,Melbourne,city,2026-Q3,1
 city:Modena|Italy,Modena,city,2026-Q1,1
 city:Oaxaca|Mexico,Oaxaca,city,2026-Q2,1
 city:Orlando|United States,Orlando,city,2026-Q2,1
+city:Orlando|United States,Orlando,city,2026-Q4,1
 city:Osaka|Japan,Osaka,city,2026-Q2,1
 city:Ourense|Spain,Ourense,city,2026-Q1,1
 city:Padstow|United Kingdom,Padstow,city,2026-Q1,1
@@ -291,3 +307,13 @@ city:Selkirk|United Kingdom,Selkirk,city,2026-Q4,1
 city:Windsor|United Kingdom,Windsor,city,2026-Q4,1
 city:Fremantle|Australia,Fremantle,city,2026-Q4,1
 city:Scourie|United Kingdom,Scourie,city,2026-Q4,1
+city:La Mirada|United States,La Mirada,city,2026-Q4,1
+city:Indianapolis|United States,Indianapolis,city,2026-Q4,1
+city:Santa Monica|United States,Santa Monica,city,2026-Q4,2
+city:Denver|United States,Denver,city,2026-Q4,1
+city:Barcelona|Spain,Barcelona,city,2026-Q4,1
+city:Auckland|New Zealand,Auckland,city,2026-Q4,7
+city:Dunbar|United Kingdom,Dunbar,city,2026-Q4,1
+city:East Kilbride|United Kingdom,East Kilbride,city,2026-Q4,2
+city:Menai Bridge|United Kingdom,Menai Bridge,city,2026-Q4,1
+city:Leominster|United Kingdom,Leominster,city,2026-Q4,1

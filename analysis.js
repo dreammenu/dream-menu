@@ -17,9 +17,9 @@
     var sigs = C.signature.filter(function (s) { return s.c; });
     var sc = $('#city-sig');
     if (sc) sc.innerHTML = sigs.map(function (s) { return '<div class="kpi"><span class="lab">' + esc(s.m) + '’s signature order</span><span class="val" style="font-size:28px">' + esc(s.c) + '</span><span class="del">' + (s.pin === 100 ? 'All ' + s.n : s.pin + '% of its ' + Math.round(s.n * 100 / s.pin)) + ' venue-linked mentions are in ' + esc(s.m) + ', which holds ' + s.base + '% of all mentions. Index ' + s.idx + '.</span></div>'; }).join('') +
-      '<div class="kpi"><span class="lab">Venue-linked dish mentions</span><span class="val">' + fmt(C.total) + '</span><span class="del">' + C.markets.map(function (m, i) { return esc(m) + ' ' + fmt(C.totals[i]); }).slice(0, 2).join(', ') + '</span></div>';
-    var c = V.card(host, { id: 'city-index', title: 'How often each market names a dish, against all markets (100 = the same)', sub: 'Index = the dish’s share of a market’s mentions ÷ its share everywhere × 100. Greyed cells rest on fewer than five mentions, so read them as a hint.', src: SRC_V, fresh: ['venues', 'interviews'], csv: 'dream-menu-city-appetite-index' });
-    var scale = h('div', 'scale', 'Named less <i style="background:var(--v-r2)"></i><i style="background:var(--v-r1)"></i><i style="background:var(--v-d0)"></i><i style="background:var(--v-d1)"></i><i style="background:var(--v-d2)"></i><i style="background:var(--v-d3)"></i> Named more');
+      '<div class="kpi"><span class="lab">Venue-linked dish mentions</span><span class="val">' + fmt(C.total) + '</span><span class="del">' + C.markets.map(function (m, i) { return esc(m) + ' ' + Math.round(C.totals[i] * 100 / C.total) + '%'; }).slice(0, 2).join(', ') + '</span></div>';
+    var c = V.card(host, { id: 'city-index', title: 'Each dish’s share of a market’s mentions, against its share everywhere', sub: 'Cells show the share of that market’s venue-linked mentions. Colour compares it with the dish’s share across all markets, so a market with few answers reads on the same scale as Glasgow. Greyed cells rest on fewer than five mentions, so read them as a hint.', src: SRC_V, fresh: ['venues', 'interviews'], csv: 'dream-menu-city-appetite-index' });
+    var scale = h('div', 'scale', 'Smaller share than everywhere <i style="background:var(--v-r2)"></i><i style="background:var(--v-r1)"></i><i style="background:var(--v-d0)"></i><i style="background:var(--v-d1)"></i><i style="background:var(--v-d2)"></i><i style="background:var(--v-d3)"></i> Bigger share');
     c.el.insertBefore(scale, c.plot);
     function bucket(v) {
       if (v === null) return ['transparent', ''];
@@ -27,12 +27,12 @@
       if (v <= 150) return ['var(--v-d1)', 'b-d1']; if (v <= 220) return ['var(--v-d2)', 'b-d2']; return ['var(--v-d3)', 'b-d3'];
     }
     var cols = 'minmax(140px,1.7fr) ' + C.markets.map(function () { return 'minmax(64px,1fr)'; }).join(' ');
-    var o = '<div class="heat-scroll"><div class="heat" style="grid-template-columns:' + cols + '"><div class="hh" style="text-align:left">Dish · share of all</div>' + C.markets.map(function (m, i) { return '<div class="hh">' + esc(m) + '<br><span style="font-weight:400">' + fmt(C.totals[i]) + '</span></div>'; }).join('');
+    var o = '<div class="heat-scroll"><div class="heat" style="grid-template-columns:' + cols + '"><div class="hh" style="text-align:left">Dish · share of all</div>' + C.markets.map(function (m, i) { return '<div class="hh">' + esc(m) + '<br><span style="font-weight:400">base ' + fmt(C.totals[i]) + '</span></div>'; }).join('');
     C.rows.forEach(function (r, ri) {
       o += '<div class="hl" title="' + esc(r.l) + '"><span style="overflow:hidden;text-overflow:ellipsis">' + esc(r.l) + '</span><span style="flex:none;font-weight:400;color:var(--v-muted);margin-left:6px">' + r.share + '%</span></div>';
       r.cells.forEach(function (cell, i) {
         var b = cell.thin ? ['var(--v-plane)', ''] : bucket(cell.idx);
-        o += '<div class="hc ' + b[1] + '" style="background-color:' + b[0] + (cell.thin ? ';color:var(--v-muted)' : '') + '" data-r="' + ri + '" data-i="' + i + '">' + (cell.n ? cell.idx : '–') + '</div>';
+        o += '<div class="hc ' + b[1] + '" style="background-color:' + b[0] + (cell.thin ? ';color:var(--v-muted)' : '') + '" data-r="' + ri + '" data-i="' + i + '">' + (cell.n ? cell.share + '%' : '–') + '</div>';
       });
     });
     c.plot.innerHTML = o + '</div></div>';
@@ -42,7 +42,7 @@
     });
     c.setTable([{ l: 'Dish', k: 'l' }, { l: 'Group', k: 'g' }, { l: 'Mentions', k: 'n', n: 1 }, { l: 'Share of all %', k: 'share', n: 1 }].concat(C.markets.map(function (m, i) { return { l: m + ' index', f: function (r) { return r.cells[i].n ? r.cells[i].idx : ''; }, n: 1 }; })).concat(C.markets.map(function (m, i) { return { l: m + ' mentions', f: function (r) { return r.cells[i].n; }, n: 1 }; })), C.rows);
     var g = sigs[0], e = sigs[1];
-    setT('ta', g && e ? 'Glasgow orders the ' + esc(g.c.toLowerCase()) + ', Edinburgh the ' + esc(e.c.toLowerCase()) + ': each city has a drink it names far more than anywhere else' : 'Every market has its own appetite');
+    setT('ta', g && e ? 'Glasgow orders the ' + esc(g.c.toLowerCase()) + ', Edinburgh the ' + esc(e.c.toLowerCase()) + ': each city has a drink that takes a far bigger share of its answers than anywhere else' : 'Every market has its own appetite');
   })();
 
   // =================================================================== B. guests vs critics

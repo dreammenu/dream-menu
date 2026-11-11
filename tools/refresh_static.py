@@ -202,13 +202,14 @@ def market_pane(i, title, pred, more_href, more_text, mid, hidden):
     rows = ''
     for ci in top:
         x = idx(ci)
-        chip = (f'<span class="hb-x up" title="Named {x / 100:.1f} times as often as across all markets">×{x / 100:.1f}</span>' if x >= 125 and solid(ci) else
-                f'<span class="hb-x dn" title="Named less often than across all markets">×{x / 100:.1f}</span>' if x <= 75 and solid(ci) else '')
+        here, allp = 100 * cnt[ci] / tot, 100 * WORLD_CNT[ci] / WORLD_T
+        chip = (f'<span class="hb-x up" title="{here:.1f}% of mentions here, {allp:.1f}% across all markets">vs {allp:.1f}%</span>' if x >= 125 and solid(ci) else
+                f'<span class="hb-x dn" title="{here:.1f}% of mentions here, {allp:.1f}% across all markets">vs {allp:.1f}%</span>' if x <= 75 and solid(ci) else '')
         rows += (f'<li><span class="hb-l">{html.escape(lab(C["c"][ci]))}{chip}</span><span class="hb-t"><i style="width:{100 * cnt[ci] / hi:.1f}%"></i></span>'
                  f'<span class="hb-v">{100 * cnt[ci] / tot:.1f}%</span></li>')
     sig = sorted((ci for ci in cnt if solid(ci) and idx(ci) >= 125), key=lambda ci: -idx(ci))[:3]
-    sig_html = ('<p class="sig"><b>Named more here than across all markets:</b> ' + ', '.join(
-        f'{html.escape(lab(C["c"][ci]))} (×{idx(ci) / 100:.1f})' for ci in sig) + '</p>') if sig else ''
+    sig_html = ('<p class="sig"><b>A bigger share of mentions here than across all markets:</b> ' + ', '.join(
+        f'{html.escape(lab(C["c"][ci]))} ({100 * cnt[ci] / tot:.1f}% here vs {100 * WORLD_CNT[ci] / WORLD_T:.1f}%)' for ci in sig) + '</p>') if sig else ''
     if mid:
         m = MK[mid]
         base = f'{fmt(m["mn"])} venue mentions from {fmt(m["g"])} guests'
@@ -219,13 +220,13 @@ def market_pane(i, title, pred, more_href, more_text, mid, hidden):
     vs = sorted((v for v in venues if v.get('y') != 'area'), key=lambda v: (-(v.get('m') or 0), v['n']))[:6]
     vl = ''.join(
         f'<li><a href="/map#venue-{v["i"]}"><span class="r">{r}</span><span class="vn">{html.escape(v["n"])}'
-        f'<small>{html.escape(v["tw"] or v["c"])}{", " + html.escape(v["co"]) if v["co"] != "United Kingdom" else ""}</small></span><span class="vm">{v["m"]}</span></a></li>'
+        f'<small>{html.escape(v["tw"] or v["c"])}{", " + html.escape(v["co"]) if v["co"] != "United Kingdom" else ""}</small></span><span class="vm" title="Named {v['m']} times">{100 * v["m"] / (mentions or 1):.1f}%</span></a></li>'
         for r, v in enumerate(vs, 1))
     return (f'<div class="mpane" role="tabpanel" id="p{i}" aria-labelledby="t{i}"{" hidden" if hidden else ""}>\n'
             f'  <div class="mcol"><h3>What guests name in {title} {tag_html}</h3><p class="sub">Share of the {fmt(tot)} dishes named at venues here · {base}. '
-            f'×1.5 means named one and a half times as often as across all markets (shown where a dish is named at least {floor} times at three or more venues).</p>\n'
+            f'"vs" marks a dish whose share here differs clearly from its share across all markets (shown where a dish is named at least {floor} times at three or more venues).</p>\n'
             f'  <ol class="hb">{rows}</ol>{sig_html}</div>\n'
-            f'  <div class="mcol"><h3>Most-named venues</h3><p class="sub">Times named by guests</p><ol class="vlist">{vl}</ol>\n'
+            f'  <div class="mcol"><h3>Most-named venues</h3><p class="sub">Share of all venue mentions in this market</p><ol class="vlist">{vl}</ol>\n'
             f'  <a class="more" href="{more_href}">{more_text}</a></div>\n</div>')
 
 
