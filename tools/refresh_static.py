@@ -430,15 +430,7 @@ edit('briefing.html', [
     (r'(Partner briefing · data to )[^<]+', rf'\g<1>{LAST_H}'),
     (r'<p class="lede">[\d,]+ interviews with dish answers\.', f'<p class="lede">{fmt(P["n"])} interviews with dish answers.'),
 ])
-edit('partner.html', [
-    (r'Market intelligence from [\d,]+ interviews', f'Market intelligence from {N_ALL} interviews'),
-    (r'<b>[\d,]+</b><span>interviews to [^<]+</span>', f'<b>{N_ALL}</b><span>interviews to {LAST_H}</span>'),
-    (r'(respondent groups and the full operator survey\. Data to )[^.]+\.', rf'\g<1>{LAST_H}.'),
-    (r'(guide awards\.</td><td class="num">)[\d,]+', rf'\g<1>{fmt(M["venues"])}'),
-    (r'(plus counts and shares\.</td><td class="num">)[\d,]+', rf'\g<1>{fmt(sum(len(v) for v in C["m"].values()))}'),
-    (r'(which cities and neighbourhoods are gaining momentum\.</td><td class="num">)[\d,]+',
-     rf'\g<1>{fmt(open("partner/data/market_activity_by_quarter.csv", encoding="utf-8-sig").read().count(chr(10)) - 1)}'),
-])
+# partner.html is written by tools/build_partner.py
 edit('operators.html', [(r'(figures are from the live interviews to )[^,]+(, as shown)', rf'\g<1>{LAST_H}\g<2>')])
 edit('map.html', [(r"(dream-menu interviews to )[^.]+\. Venues mapped from (?:every )?interviews? to [^,]+,",
                    rf"\g<1>{LAST_H}. Venues mapped from every interview to {LAST_H},")])

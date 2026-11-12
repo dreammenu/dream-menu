@@ -14,7 +14,7 @@ The header menus (including the "I'm a..." audience menu), the footer links, sea
 ## Analysis pages and data freshness
 
 - `/analysis` (public) and `/intelligence` (partner, locked) are built from the site's own data files. After a data refresh run, from the repository root:
-  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_pages.py && python3 tools/build_nav.py`
+  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_partner.py && python3 tools/build_pages.py && python3 tools/build_nav.py`
   `build_intel.py` writes `analysis-data.js` (headline analysis only, nothing about quarterly movement) and `partner/intel-data.js` (behind sign-in). The charts are drawn by `analysis.js` and `partner/intel.js` using the small chart toolkit in `dmviz.js` / `dmviz.css`; every chart has a table view, a CSV download and a link.
 - `dm-fresh.js` loads on every page. It adds a "Data to ... · Updated ..." line under each visual or block of figures, a "Last updated" chip under the page title and a data status panel in the footer. When a dataset is refreshed, change its dates in the `SETS` list at the top of that file.
 
@@ -34,7 +34,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 2. From the repository root:
    `python3 tools/add_interviews.py tools/data/<interviews>.json`
    `python3 tools/add_venues.py tools/data/<venues>.json tools/data/<interviews>.json <path to ukpostcodes.csv>`
-   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
+   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_partner.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_nav.py`
    Run each step once per batch: the first two add to the existing counts. `add_venues.py` needs the dwyl UK postcode file (github.com/dwyl/uk-postcodes-latitude-longitude-complete-csv) to place exact UK addresses.
 
 `add_interviews.py` recovers each quarter's counts exactly from the published shares, adds the new answers, and reruns the two-proportion test, so movers and clear flags stay correct. `refresh_static.py` rewrites every figure that is written into the static pages (home, insights, for business, how it works, partner pages, footer dates and `dm-fresh.js`); the 2026 report pages keep their edition figures on purpose. Counts that the data files do not hold (debates, home course cards) live in `tools/data/static-counts.json`.
@@ -79,3 +79,9 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 - **Drinks, restarted** (analysis chapter 8): `tools/build_drinks.py` builds `drinks-new.js` from the soft and alcoholic drink questions asked since 23 Aug 2026 (`tools/data/drinks-new-series.json` plus later `new-interviews-*.json` batches). Baseline shares with 95% ranges; movement is tested once two quarters each hold 100 answers.
 - **Who answers** panel in the analysis method section (respondent groups, UK mentions by nation), written by `build_pages.py`.
 - The analysis now has 17 chapters: 1 to 9 open, 10 to 17 for partners.
+
+## Added 12 November 2026: partner area and Work with us
+
+- `/partner` is written by `tools/build_partner.py` (run after `build_intel.py`): this quarter's clear movers, top opportunity scores and operator mood from the data; tools sorted by job (sales, buying and range, marketing, strategy); the partnership term as a timeline worked out from today's date; data downloads; terms and sponsorship folded away. The table markup is kept so `partner/downloads.js` still binds to it. `refresh_static.py` no longer edits partner.html.
+- The same script writes the "Ways to work with us" block on `/for-business`: one route each for suppliers and brands, investors and consultants, venues, and press.
+- Header menu "Partners" is now "Work with us" (Ways to work with us, Press kit, Partner area). The footer mirrors the header menus; the full page list stays on /explore.

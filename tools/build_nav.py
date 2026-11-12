@@ -64,7 +64,7 @@ GROUPS = [  # key, label, landing page, one-line summary
  ('places', 'Places', '/map', 'The venues guests name, mapped and ranked'),
  ('analysis', 'Analysis & reports', '/analysis', 'What the data means: analysis, quarterly editions and reports'),
  ('venues', 'For venues', '/operators', 'Tools, benchmarks and tested ideas for people running a venue'),
- ('partners', 'Partners', '/for-business', 'Working with Dream Menu, and the partner area'),
+ ('partners', 'Work with us', '/for-business', 'Partnerships, reports, press, and the partner area for signed-in partners'),
  ('about', 'About', '/how-it-works', 'How Dream Menu works'),
 ]
 # Where each top-level page sits (children follow their parent). MENU = the pages shown in the header
@@ -74,9 +74,9 @@ PLACE = {'f1': 'trends', 'f19': 'trends', 'f9': 'trends', 'f13': 'trends',
          'f16': 'analysis', 'f20': 'analysis', 'r1': 'analysis', 'r4': 'analysis', 'r7': 'analysis', 'r12': 'analysis', 'r15': 'analysis', 'b9': 'analysis',
          'o1': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
          'b1': 'partners', 'b2': 'partners',
-         'a1': 'about', 'a3': 'about', 'a2': 'about', 'f15': 'about'}
-MENU = ['f1', 'f19', 'f9', 'f13', 'f6', 'f7', 'f8', 'f16', 'f20', 'r1', 'b9', 'o1', 'o8', 'o13', 'o12', 'b1', 'b2']
-RETITLE = {'r1': 'Report 2026', 'b2': 'Partner area', 'f16': 'The analysis', 'b9': 'Insight Series reports'}
+         'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'about'}
+MENU = ['f1', 'f19', 'f9', 'f13', 'f6', 'f7', 'f8', 'f16', 'f20', 'r1', 'b9', 'o1', 'o8', 'o13', 'o12', 'b1', 'a3', 'b2']
+RETITLE = {'r1': 'Report 2026', 'b2': 'Partner area', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series reports'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
@@ -138,7 +138,7 @@ ITEMS = [
  ('o13', 'Named on Dream Menu badge', '/badge', 'A free badge for venues guests have named, linking to the venue page', 'ops', 'venue', 0, None),
  ('o12', 'Restaurant MOT', '/restaurant-mot', 'An independent four-week diagnostic of one venue', 'ops', 'venue new', 0, None),
 
- ('b1', 'For business', '/for-business', 'Market intelligence from over a thousand conversations with the UK\'s foodies', 'biz', 'supplier investor venue', 0, None),
+ ('b1', 'For business', '/for-business', 'Partnerships, commissioned reports, the Restaurant MOT and data licences', 'biz', 'supplier investor venue', 0, None),
  ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
  ('b9', 'Insight Series', '/case-studies', 'Fifteen deep-dive reports, one free to read', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
@@ -156,14 +156,14 @@ ITEMS = [
  ('b22', 'Edinburgh and Scotland to 2030', '/case-studies/edinburgh-2030', 'The capital\'s appetite, Leith, the levy test and the coast', 'biz', 'investor press supplier new', 0, 'b9'),
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
- ('b2', 'Partner area', '/partner', 'Briefing, insights, data downloads and the one-pager, in one place', 'biz', 'supplier', 0, None),
+ ('b2', 'Partner area', '/partner', 'Signed-in partners: this quarter, tools by job, the term and data downloads', 'biz', 'supplier', 0, None),
  ('b3', 'Partner briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
  ('b4', 'Insights', '/insights', 'Debates, dishes by group and how the trade feels, in full', 'biz', 'supplier chef press', 0, 'b2'),
  ('b5', 'Data extracts', '/partner#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
 
  ('a1', 'How it works', '/how-it-works', 'Where the data comes from, how venues are placed and which guides count', 'about', 'press', 0, None),
- ('a3', 'Press kit', '/press', 'Figures worth quoting, how to credit them, logos and the press contact', 'about', 'press', 0, None),
+ ('a3', 'Press kit', '/press', 'Figures to quote, how to credit them and logos', 'about', 'press', 0, None),
  ('a2', 'Privacy', '/privacy', 'How interview answers and site visits are used', 'about', 'press', 0, None),
 ]
 
@@ -220,7 +220,7 @@ def footer_links():
     out = ['<nav class="footlinks footcols" aria-label="All pages">']
     for g, lab, land, summ in GROUPS:
         out.append(f'<div><b>{E(lab)}</b>')
-        for it in pages(g):
+        for it in (pages(g) if g == 'about' else [IT[i] for i in MENU if IT[i]['g'] == g]):
             out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
         if g == 'about':
             out.append('<a href="/explore">Explore everything</a><a href="/login">Partner sign-in</a>')
