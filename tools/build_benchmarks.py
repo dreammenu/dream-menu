@@ -111,20 +111,20 @@ add(id='water', topic='Tap water with dinner', theme='Debates', tier='public', v
 # ---------------------------------------------------------------- trends guests want gone vs market growth (public)
 mat = binned('Matcha')
 add(id='matcha', topic='Matcha', theme='Trends', tier='public', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f'The trend guests most want binned: {mat} guests ({100 * mat / N_ALL:.0f}% of all interviews)', base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f'The trend guests most want binned, named by {100 * mat / N_ALL:.1f}% of all interviews', base=f'{N_ALL:,} interviews'),
     ext=dict(dir='up', text='Consumers choosing matcha lattes 33.5% more than a year earlier; matcha dishes on UK menus doubled', who='Tastewise, UK consumer and menu data', date='June 2026',
              url='https://tastewise.io/blog/uk-menu-trends'),
     extra='A matcha iced latte was one of the UK’s top trending Deliveroo orders of 2025.',
     read='Growth and backlash at once: the classic sign of a polarising trend near its peak. Serve it well for the fans who want it, but don’t build a menu identity around it.')
 dub = binned('Dubai chocolate')
 add(id='pistachio', topic='Dubai chocolate and pistachio', theme='Trends', tier='public', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f'Second most-named trend to bin: {dub} guests ({100 * dub / N_ALL:.0f}% of interviews)', base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f'Second most-named trend to bin, named by {100 * dub / N_ALL:.1f}% of all interviews', base=f'{N_ALL:,} interviews'),
     ext=dict(dir='up', text='Pistachio reaching consumers 44% faster than a year earlier; pistachio with chocolate up 28%', who='Tastewise, UK consumer data', date='June 2026',
              url='https://tastewise.io/blog/uk-menu-trends'),
     read='The same pattern as matcha. Pistachio as a flavour still has room; the viral Dubai bar format is what foodies are tired of.')
 ld = binned('Loaded and dirty food')
 add(id='loaded', topic='Loaded and dirty food', theme='Trends', tier='public', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f'{ld} guests name loaded and dirty food as a trend to bin', base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f'{100 * ld / N_ALL:.1f}% of all interviews name loaded and dirty food as a trend to bin', base=f'{N_ALL:,} interviews'),
     ext=dict(dir='up', text='Loaded fries and shareable potato platters recommended as plant-forward wins for pubs and bars', who='UKHospitality trend report', date='2026',
              url='https://www.ukhospitality.org.uk/?p=10357'),
     read='A gap between what the trade is advised to add and what foodies say they are tired of. Worth testing before adding loaded formats to a menu.')

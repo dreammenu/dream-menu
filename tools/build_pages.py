@@ -69,6 +69,8 @@ def chap(n, kicker, title, sub, body, sid, partner=False, preview='', tid='', su
     """One chapter. Partner chapters show a short preview with a sign-in link until partner data loads."""
     t = f'<h2 class="iv-title"{f" id={chr(34)}{tid}{chr(34)}" if tid else ""} data-short="{kicker}">{title}</h2>'
     sp = f'<p class="iv-sub"{f" id={chr(34)}{sub_id}{chr(34)}" if sub_id else ""}>{sub}</p>'
+    if str(n) in DO:
+        sp += f'<p class="iv-do"><b>Use it to</b>{DO[str(n)]}</p>'
     tag = '<span class="pv-tag">Partners</span>' if partner else ''
     inner = body
     if partner:
@@ -78,6 +80,27 @@ def chap(n, kicker, title, sub, body, sid, partner=False, preview='', tid='', su
             f'{t}{sp}{inner}</div></section>\n')
 
 
+_others = [r['cl'].lower() + 's' for r in TX['churn'] if r is not _most]
+DO = {  # one direct use per chapter, shown under the chapter intro
+    '1': 'brief a team in two minutes. Every line is rechecked at each refresh, so quote it with its date.',
+    '2': 'fit a menu to its market. Lean into dishes shaded above average in your city, and think twice before importing a favourite that sits below it.',
+    '3': 'decide what to promote. Where guests and critics agree, shout about it; where guests lead, you are ahead of the guides.',
+    '4': 'decide where to be different. Keep a settled course short and well made, and put your signature dish in the most open one.',
+    '5': (f'set priorities for the next menu change. Review {_most["cl"].lower()}s first; change {", ".join(_others[:-1])} and {_others[-1]} for cost or quality, not to chase a trend.'
+          if _most['p'] < 0.05 else 'set priorities. No course has moved beyond chance, so test new ideas as specials first.'),
+    '6': 'judge how much room there is for something new. A rising top-five share says back the favourites; a falling one says guests are open to alternatives.',
+    '7': 'manage the range: protect staples, trial rising dishes as specials, and retire fading ones on your own schedule.',
+    '8': 'set a baseline. Price alcohol-free properly now, and wait for two full quarters before acting on movement.',
+    '9': 'calibrate confidence. Where outside data agrees, act; where it differs, test first, because foodies tend to lead the wider public.',
+    '10': 'shortlist for a range review: back top right, watch top left, question big dishes that are slipping.',
+    '11': 'separate signal from noise. Act on a move only when its whole range sits clear of zero.',
+    '12': 'scan every course at once, then open a dish in chapters 11 and 13 before deciding.',
+    '13': 'find specials: a small dish running hot against its own average is an early candidate.',
+    '14': 'plan stock and ranges from the shaded range, not the single line.',
+    '15': 'match the range to the customer: trade buyers, creators and diners want different things.',
+    '16': 'start range conversations from the Back list and revisit anything marked Review.',
+    '17': 'lead sales conversations with the pressures operators name most, and the gaps in their response.',
+}
 CH = [  # number, label, anchor, partner
     ('1', 'Headlines', 'read', False), ('2', 'Every city', 'cities', False), ('3', 'Guests and critics', 'critics', False),
     ('4', 'How settled', 'settled-sec', False), ('5', 'What changed', 'changed', False), ('6', 'Converging?', 'converging', False),

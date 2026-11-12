@@ -85,3 +85,10 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 - `/partner` is written by `tools/build_partner.py` (run after `build_intel.py`): this quarter's clear movers, top opportunity scores and operator mood from the data; tools sorted by job (sales, buying and range, marketing, strategy); the partnership term as a timeline worked out from today's date; data downloads; terms and sponsorship folded away. The table markup is kept so `partner/downloads.js` still binds to it. `refresh_static.py` no longer edits partner.html.
 - The same script writes the "Ways to work with us" block on `/for-business`: one route each for suppliers and brands, investors and consultants, venues, and press.
 - Header menu "Partners" is now "Work with us" (Ways to work with us, Press kit, Partner area). The footer mirrors the header menus; the full page list stays on /explore.
+
+## 12 November 2026: home page and direct recommendations
+
+* `tools/build_home.py` (run after refresh_static, build_trends, build_drinks and build_benchmarks; before build_nav) writes the home "This quarter" band: three findings from Dream Menu data with a "What to do" line each, plus one outside check kept visibly separate. It also fixes the home section order (hero, numbers, this quarter, start here, courses, places, debates, comfort and fatigue, map, coverage, partners, sign-up) and carries the source note.
+* Guilty pleasures and Bin it now show shares of all interviews, not counts. Benchmark texts for matcha, Dubai chocolate and loaded food are shares too.
+* Every analysis chapter has a "Use it to" line saying what decision it supports (`DO` in build_pages.py; chapter 5's line follows the data).
+* Header groups renamed: Food trends, Where to eat, Analysis & reports, For venues, Work with us.

@@ -230,8 +230,10 @@ def market_pane(i, title, pred, more_href, more_text, mid, hidden):
             f'  <a class="more" href="{more_href}">{more_text}</a></div>\n</div>')
 
 
-def rank_list(lst):
-    return '<ol class="rk">' + ''.join(f'<li><span class="r">{i}</span><span class="t">{html.escape(t)}</span><span class="v">{n}</span></li>'
+def rank_list(lst, base=None):
+    # shares of all interviews, not raw counts: the base grows every quarter
+    base = base or int(str(N_ALL).replace(',', ''))
+    return '<ol class="rk">' + ''.join(f'<li><span class="r">{i}</span><span class="t">{html.escape(t)}</span><span class="v">{100 * n / base:.1f}%</span></li>'
                                      for i, (t, n) in enumerate(lst[:6], 1)) + '</ol>'
 
 
@@ -269,7 +271,6 @@ edit('index.html', [
     (r'(<h3>Guilty pleasures</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['guilty'])),
     (r'(<h3>Bin it</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['bin'])),
     (r'<h2>[\d,]+ venues, <em>pinned</em></h2>', f'<h2>{fmt(M["pinned"])} venues, <em>pinned</em></h2>'),
-    (r'Source: [\d,]+ Dream Menu interviews, 1 September 2025 to [^.]+\.', f'Source: {N_ALL} Dream Menu interviews, 1 September 2025 to {LAST_H}.'),
 ])
 
 # ---------------------------------------------------------------- for-business.html: evidence cards and contact

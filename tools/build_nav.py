@@ -60,8 +60,8 @@ AUD_ICON = {
 }
 
 GROUPS = [  # key, label, landing page, one-line summary
- ('trends', 'Trends', '/', 'What guests dream of eating, dish by dish'),
- ('places', 'Places', '/map', 'The venues guests name, mapped and ranked'),
+ ('trends', 'Food trends', '/', 'What guests dream of eating, dish by dish'),
+ ('places', 'Where to eat', '/map', 'The venues guests name, mapped and ranked'),
  ('analysis', 'Analysis & reports', '/analysis', 'What the data means: analysis, quarterly editions and reports'),
  ('venues', 'For venues', '/operators', 'Tools, benchmarks and tested ideas for people running a venue'),
  ('partners', 'Work with us', '/for-business', 'Partnerships, reports, press, and the partner area for signed-in partners'),
@@ -76,7 +76,7 @@ PLACE = {'f1': 'trends', 'f19': 'trends', 'f9': 'trends', 'f13': 'trends',
          'b1': 'partners', 'b2': 'partners',
          'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'about'}
 MENU = ['f1', 'f19', 'f9', 'f13', 'f6', 'f7', 'f8', 'f16', 'f20', 'r1', 'b9', 'o1', 'o8', 'o13', 'o12', 'b1', 'a3', 'b2']
-RETITLE = {'r1': 'Report 2026', 'b2': 'Partner area', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series reports'}
+RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner area', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series reports'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
