@@ -80,6 +80,7 @@ w1 = lambda a, b: f'{100 * a / b:.1f}%' if b else '0%'
 def edit(fn, pairs, required=True):
     s = open(fn, encoding='utf-8').read()
     o = s
+    s = re.sub(r'<details class="vinfo">.*?</details>', '', s, flags=re.S)  # chart notes are re-added by build_info.py
     for pat, rep in pairs:
         s2 = re.sub(pat, rep, s, flags=re.S)
         if s2 == s and required and not re.search(pat, s, flags=re.S):

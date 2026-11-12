@@ -7,6 +7,7 @@ site's shared head, header and footer (taken from insights.html). Run from the r
 The charts are drawn in the browser by analysis.js and partner/intel.js from the data files
 that build_intel.py writes. Section titles are filled from the data, so they stay true after a refresh.
 """
+from vinfo import vinfo
 import json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -128,9 +129,9 @@ def _bars(rows):
     return '<div class="bm-bars who-bars">' + ''.join(f'<div><span>{l}</span><i style="width:{v:.1f}%" class="bm-dmbar"></i><b>{'&lt;1' if 0 < v < 0.5 else format(v, '.0f')}%</b></div>' for l, v in rows) + '</div>'
 
 
-WHO = (f'<div class="who"><div class="dmv-card"><h3>Who answers</h3><p class="who-s">Share of the {_gt:,} guests who answered the dish questions, by how they describe themselves.</p>'
+WHO = (f'<div class="who"><div class="dmv-card"><h3>Who answers</h3><p class="who-s">Share of the {_gt:,} guests who answered the dish questions, by how they describe themselves.</p>' + vinfo('Each bar is one group’s share of the panel. Groups come from how guests introduce themselves, so they are a guide, not a strict job title.\nThe panel leans towards people who work in or write about food, which is why it tends to spot trends before the wider public.')
        + _bars([(_GL.get(g['g'], g['g']), 100 * g['n'] / _gt) for g in P['groups']])
-       + f'</div><div class="dmv-card"><h3>Where their venues are</h3><p class="who-s">Share of the {_uk:,} UK venue mentions, by nation. {100 * (_all - _uk) / _all:.0f}% of all {_all:,} mentions are outside the UK or not placed in a nation.</p>'
+       + f'</div><div class="dmv-card"><h3>Where their venues are</h3><p class="who-s">Share of the {_uk:,} UK venue mentions, by nation. {100 * (_all - _uk) / _all:.0f}% of all {_all:,} mentions are outside the UK or not placed in a nation.</p>' + vinfo('Each bar is a nation’s share of the venues guests named in the UK. It shows where the evidence is strongest: findings lean towards Scotland because most venues named are there.')
        + _bars([(n, 100 * c / _uk) for n, c in sorted(_nat, key=lambda x: -x[1])])
        + '</div></div><p class="iv-sub" style="max-width:80ch"><b>Read it as:</b> a large panel of food-led people, most of them in Scotland and many working in the trade. It leads the wider public on trends more than it mirrors it, which is why chapter 9 sets the findings against national sources. Age, home city and how often guests eat out are not collected yet.</p>')
 main = f"""<main class="iv-page">

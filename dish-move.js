@@ -160,7 +160,7 @@
   }
   box.classList.remove('pg-lock');
   box.classList.add('mv');
-  box.innerHTML = '<h2>Is it rising? <span class="mv-badge">Partner</span></h2><div class="mv-rows">' + rows.map(block).join('') + '</div>' + key +
+  box.innerHTML = '<h2>Is it rising? <span class="mv-badge">Partner</span></h2>' + '<details class="vinfo"><summary><span class="vi-i" aria-hidden="true">i</span>How to read this</summary><div class="vi-b"><p>Each small chart is this dish’s share of a course’s answers, quarter by quarter. Faint dots are quarters with few answers; the straight line is the trend through the firmer quarters.</p><p>The badge only says rising or falling when the change passes a statistical test. Otherwise treat the movement as noise.</p></div></details>' + '<div class="mv-rows">' + rows.map(block).join('') + '</div>' + key +
     '<p class="pg-mut">Movement compares the pooled share in ' + span(M.early) + ' with ' + span(M.late) +
     ' (' + esc(M.test || 'two-proportion z-test, p < 0.05') + '). Trend scores match <a href="/analysis#opportunity-sec">the analysis</a>. Data to ' +
     esc(M.last ? new Date(M.last + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '') + '. Licensed to Dream Menu partners; please do not share.</p>';

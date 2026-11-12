@@ -92,3 +92,9 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * Guilty pleasures and Bin it now show shares of all interviews, not counts. Benchmark texts for matcha, Dubai chocolate and loaded food are shares too.
 * Every analysis chapter has a "Use it to" line saying what decision it supports (`DO` in build_pages.py; chapter 5's line follows the data).
 * Header groups renamed: Food trends, Where to eat, Analysis & reports, For venues, Work with us.
+
+## 12 November 2026: "How to read this" notes on every chart
+
+* Each chart has a small, closed-by-default "How to read this" note under its title: what it shows, how to read it, one caution. One shared component (`.vinfo` in brand.css).
+* Where the notes live: analysis charts in `INFO` in dmviz.js (keyed by card id; a new card without an entry simply shows no note); case-study exhibits in `KIND_INFO` in tools/cs_kit.py (picked by chart type, override with `info=`); the Who answers panels in build_pages.py; the dish page partner chart in dish-move.js; the map place panel in map.html; everything else (home, insights, briefing, operator pulse, one-pager, venue pages) in `RULES` in tools/build_info.py.
+* Run tools/build_info.py after build_home.py and before build_nav.py. refresh_static.py strips the notes from the files it edits so its patterns still match; build_info.py puts them back.

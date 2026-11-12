@@ -67,12 +67,48 @@
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
 
+
+  // ---------- "How to read this" notes, one per chart id (kept short: what it shows, how to read, one caution)
+  var INFO = {
+    'city-index': 'Pick a dish and read across. Use the key above the table: cells towards the "bigger share" end mean that city names the dish more than the panel as a whole does, cells towards the other end less, and neutral cells are about average. Because every cell is a share of that city’s own mentions, a city with 40 interviews compares fairly with one that has 600.\nCaution: greyed cells rest on fewer than five mentions. Treat them as a hint, not a finding.',
+    'agreement': 'Each bar takes the venues guests name most, from the top 10 out to every venue, and shows the share holding at least one guide award. Bars that fall from left to right mean guests and critics agree most about the very top places.\nCaution: "no award" means no award in the guides we track, not a judgement on quality.',
+    'concentration': 'Read along the curve: at any point across, it tells you what share of all mentions goes to that top slice of venues. The steeper the early rise, the more guests pile onto the same few places.\nUse it to judge how hard it is for a new venue to be noticed.',
+    'champions': 'These are the places guests name most that the big guides leave out. The bar is the number of times guests named each venue.\nUse it to find word-of-mouth favourites before the guides do. Small counts are normal here: two or three mentions is already notable.',
+    'award-favourites': 'Award-holding venues, ranked by how often guests name them. The bar is the number of mentions.\nRead it as the places where public opinion and critical opinion meet.',
+    'settled': 'Each bar is one course. The taller the bar, the more of its answers go to just three food groups, so the more guests agree on what that course should be.\nUse it to see where a menu must play safe (tall bars) and where there is room to stand out (short bars).',
+    'tr-churn': 'Each dot is how much of a course has changed food group since late 2025. The grey band is how much change you would see from chance alone if nothing had really moved. A dot inside the band is noise; a dot clearly to its right is a real shift.\nThe further right, the more that course is being rewritten.',
+    'tr-conc': 'Each line follows the share taken by a course’s five favourite dishes, quarter by quarter. Rising means tastes are narrowing onto the same favourites; falling means guests are spreading out to other dishes.\nCaution: where the shaded bands of two quarters overlap, the difference between them could be chance.',
+    'tr-stages': 'Each bar splits a course’s 14 most-named dishes into life-cycle stages, from rising to fading. A dish only counts as rising or fading if its move passes a statistical test; otherwise it sits in "no clear pattern".\nA course with many staples is stable; one with many risers and faders is in flux.',
+    'tr-staples': 'Each line runs from a dish’s lowest to its highest quarterly share, and the dot is its share overall. A short line means the dish barely moves from quarter to quarter.\nThese are the dishes to keep on a menu while other courses change.',
+    'tr-flows': 'Pick a course. Bars to the left are food groups that lost share; bars to the right gained it. Losses and gains always balance.\nCaution: these are shifts between two sets of interviews, not individual guests changing their minds. Only solid bars are clear moves.',
+    'tr-slope': 'Each line joins a dish’s share in the earlier quarters (left) to the recent ones (right). Steeper means bigger change. Coloured lines passed a significance test; grey lines did not.\nStart with the coloured lines: they are the moves worth acting on.',
+    'tr-mix': 'Each bar is one quarter, split into the five biggest food groups, so every bar adds to 100%. Watch how the size of one colour changes from bar to bar.\nCaution: faded bars have few answers and can swing on a handful of interviews.',
+    'tr-board': 'Every tracked dish, filed under the stage its share pattern fits best. The tiny chart beside each dish shows its share each quarter.\nRead it as a portfolio: protect staples, trial risers, and plan an exit for faders.',
+    'tr-fan': 'The solid line is what has happened; the dashed line is where the recent trend points; the shaded fan is a sensible planning range around it. The fan widens because the further ahead you look, the less certain the path.\nUse the range for stock and range decisions, never the single line.',
+    'bm-board': 'Each card sets a Dream Menu figure beside a published outside figure on the same topic. "Agrees" and "differs" compare direction and rough level only.\nOutside figures measure different people and things (all adults, delivery orders, menus), so a difference is a finding, not an error. They are never mixed into Dream Menu data.',
+    'dr-soft': 'Each bar is the share of soft drink answers in that group; the thin line is the range the true share very likely sits in. Narrow lines mean a firm figure.\nCaution: this series only started in late August 2026, so it shows levels, not trends yet.',
+    'dr-alc': 'Each bar is the share of alcoholic drink answers in that group; the thin line is the range the true share very likely sits in. "Alcohol-free instead" counts guests who chose not to drink.\nCaution: this series only started in late August 2026, so it shows levels, not trends yet.',
+    'matrix': 'Across = how big a dish is (its share of answers). Up = how fast that share is growing. Bigger bubbles have more answers behind them.\nTop right: big and growing, back it. Top left: small but rising, the next staples. Bottom right: big but slipping, review it.',
+    'confidence': 'Each dot is the best estimate of how much a dish’s share changed. The line around it is the range the true change very likely sits in.\nThe rule is simple: if the line crosses zero, the change could be chance. Act only on lines that sit wholly to one side.',
+    'trend-wall': 'One small chart per food group, all on the same scale within a cell, so shapes compare at a glance. The shaded area marks the recent quarters used in the test; a coloured frame means the move is clear.\nScan for frames first, then check the detail in the other partner chapters.',
+    'dish-heat': 'Each row is a dish and each column a quarter. Colour compares the dish only with its own average, so a small dish having a strong quarter shows up as clearly as a big one.\nUse it to spot specials worth trying. Caution: hatched columns have few answers.',
+    'segments': 'Each column is one group of guests, with its six most-named items as a share of that group’s answers. Compare the same item across columns to see who wants it most.\nUse it to plan a range for the customer you sell to rather than the average guest.',
+    'opportunity': 'One score out of 10 per dish or drink, combining how big it is, how fast it is moving, how firm the evidence is and how crowded the field is. Back = act now, Watch = promising, Review = losing ground.\nThe score is a way to rank a shortlist, not a forecast of sales.',
+    'pressure-gap': 'For each pressure, the first bar is the share of operators feeling it and the second the share taking the action that answers it. A big gap between the two is unmet need.\nThat gap is where a supplier can offer help.',
+    'trade-call': 'Each bar is all operator answers, split from "much worse" on the left to "much better" on the right. More of the bar to the right of the line means more optimism.\nCompare the rows to see whether the mood has improved on last year.'
+  };
+
+  function info(t) {
+    if (!t) return '';
+    return '<details class="vinfo"><summary><span class="vi-i" aria-hidden="true">i</span>How to read this</summary><div class="vi-b">' +
+      t.split('\n').map(function (p) { return '<p>' + p + '</p>'; }).join('') + '</div></details>';
+  }
   // ---------- card
   function card(host, o) {
     var c = h('div', 'dmv-card');
     if (o.id) c.id = o.id;
     var head = h('div', 'dmv-head');
-    var tt = h('div', '', (o.title ? '<h3>' + o.title + '</h3>' : '') + (o.sub ? '<p>' + o.sub + '</p>' : ''));
+    var tt = h('div', '', (o.title ? '<h3>' + o.title + '</h3>' : '') + (o.sub ? '<p>' + o.sub + '</p>' : '') + info(o.info || INFO[o.id]));
     head.appendChild(tt);
     var tools = h('div', 'dmv-tools');
     head.appendChild(tools);

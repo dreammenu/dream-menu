@@ -5,6 +5,7 @@ Charts follow the site's dataviz rules: one validated palette (case.css --c1 ind
 ends, a hover tooltip on every mark (case.js reads data-tip) and a data table under every exhibit.
 """
 import html, math, random
+from vinfo import vinfo
 
 esc = lambda s: html.escape(str(s), quote=True)
 
@@ -21,13 +22,42 @@ def pts(v, dec=1):
 
 
 # ------------------------------------------------------------------ exhibits
+# "How to read this" notes by chart kind, matched on the chart's own markup (first match wins)
+KIND_INFO = [
+    ('svgc fan', 'The solid line is the recorded share; the dashed line is where the recent trend points; the shaded band is a sensible planning range around it. The band widens because the further ahead you look, the less certain the path.\nUse the band for planning, not the single line. Faded dots are quarters with few answers.'),
+    ('aria-label="Map', 'Each circle is a venue at its approximate address; bigger circles are named by more guests. Strong circles are the ones the text discusses.\nHover or tap a circle for the venue and its figures.'),
+    ('svgc strip', 'Each dot is one item, spread vertically so dots do not hide each other; further right means a higher value. The scale is square-root, which keeps small values readable beside large ones.\nHover or tap a dot for its name and figure.'),
+    ('wf-svg', 'Each step adds its cost to the running total, ending in the total bar on the right.\nThe figures are modelled from published prices and typical orders, not receipts from real nights out.'),
+    ('class="svgc"', 'One small chart per item, all on the same scale, so heights compare fairly across panels. The line is the share each quarter and the figure top right is the latest value.\nFaded points are quarters with fewer than 100 answers: read them as an early signal, not a result.'),
+    ('class="db"', 'Each row compares two periods. The ring is the earlier share and the dot the recent one, so the line between them is the size of the change; the key shows which colour means rising or falling.\n"Clear" marks a change too big to be explained by sampling alone. The rest could be noise.'),
+    ('dv2 ledger', 'Each row sets two counts of guests against each other on one scale: bars to the left for the first answer named in the key, bars to the right for the second. The figures at the end give both.\nA long bar on both sides means a divisive item: loved by some, tired of by others.'),
+    ('class="dv2"', 'Bars grow left or right from the centre line: to the right means above the reference point, to the left below it, and a longer bar is a bigger gap.\nFaded rows are less certain, usually because they rest on few answers.'),
+    ('class="hb"', 'Each bar is one item on a common scale, with its value at the end. Strong bars are the ones the text is about; pale bars are there for comparison.\nHover or tap a bar for the exact figure.'),
+    ('class="sb"', 'Each bar adds up to 100% and splits one group\u2019s answers into parts. Compare the size of the same colour from row to row rather than the overall bar length.\nHover or tap a segment for its share and the number behind it.'),
+    ('class="cols"', 'Each column is one period or group on a common scale, with its value on top. Highlighted columns are the ones the text discusses.'),
+    ('class="heat"', 'Each cell is shaded by how its value ranks against every other cell in the table: darker means higher. Read across a row to compare places, down a column to compare items.'),
+    ('class="mx"', 'Each numbered point is a recommendation, placed by likely impact (up) and the effort it needs (right). Top left are quick wins; top right are bigger bets worth planning.\nPositions are informed judgement, not measured values.'),
+    ('lanes-svg', 'The curve is the usual life of a food trend, from early adopters through the mainstream to fade. Each circle counts the items we place at that stage, and the columns below list them, shaded by how confident we are.\nRead it as a watchlist, not a forecast.'),
+    ('class="rm"', 'Each bar runs from when we expect an idea to first appear to when it reaches the mainstream, marked by the dot. The vertical line is today.\nThese timings are judgement drawn from the data and trade sources, not modelled forecasts.'),
+    ('class="scens"', 'Each card is one possible future with our estimate of how likely it is. The likelihoods are judgement calls, not modelled probabilities; the early signs show what to watch to know which way things are going.'),
+    ('class="forces"', 'Each card is one force acting on the market: the headline figure, which way it pushes and how soon it bites.'),
+]
+
+
+def kind_info(chart):
+    for key, text in KIND_INFO:
+        if key in chart:
+            return text
+    return ''
+
+
 class Ex:
     """Numbers exhibits within one report."""
 
     def __init__(self):
         self.n = 0
 
-    def __call__(self, title, sub, chart, src, data=None, legend=None):
+    def __call__(self, title, sub, chart, src, data=None, legend=None, info=None):
         self.n += 1
         lg = ''
         if legend:
@@ -39,7 +69,7 @@ class Ex:
             tr = ''.join('<tr>' + ''.join(f'<td>{esc(c)}</td>' for c in r) + '</tr>' for r in rows)
             tb = f'<details class="ex-data"><summary>Show the data</summary><div class="cs-table-wrap"><table><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div></details>'
         return (f'<figure class="ex" id="exhibit-{self.n}"><figcaption class="ex-cap"><span class="ex-n">Exhibit {self.n}</span>'
-                f'<h3>{title}</h3><p class="exh-sub">{sub}</p></figcaption>{lg}{chart}'
+                f'<h3>{title}</h3><p class="exh-sub">{sub}</p>{vinfo(kind_info(chart) if info is None else info)}</figcaption>{lg}{chart}'
                 f'<footer class="ex-src">Source: {src}</footer>{tb}</figure>')
 
 
@@ -215,7 +245,7 @@ def strip(rows, xmax, xlabel, w=680, seed=7):
             jy = cy + rnd.uniform(-rh * .36, rh * .36)
             body += f'<circle class="{k} ring" cx="{X(x) + rnd.uniform(-2.5, 2.5):.1f}" cy="{jy:.1f}" r="5" tabindex="0" data-tip="{esc(tip)}"/>'
         y0 += rh
-    return (f'<svg class="svgc" viewBox="0 0 {w} {h:.0f}" role="img" aria-label="{esc(xlabel)}">{g}{body}'
+    return (f'<svg class="svgc strip" viewBox="0 0 {w} {h:.0f}" role="img" aria-label="{esc(xlabel)}">{g}{body}'
             f'<text x="{pl + iw / 2:.1f}" y="{h - 4:.0f}" text-anchor="middle">{esc(xlabel)}</text></svg>')
 
 
@@ -244,7 +274,7 @@ def waterfall(steps, total_label, unit='£', w=640, h=300):
             out += f'<line class="wfc" x1="{cx + bw / 2:.1f}" x2="{nx - bw / 2:.1f}" y1="{y(run + v):.1f}" y2="{y(run + v):.1f}"/>'
             run += v
     out += f'<line class="axis" x1="{pl}" x2="{w - pr}" y1="{y(0):.1f}" y2="{y(0):.1f}"/>'
-    return f'<svg class="svgc" viewBox="0 0 {w} {h}" role="img" aria-label="Budget build-up">{out}</svg>'
+    return f'<svg class="svgc wf-svg" viewBox="0 0 {w} {h}" role="img" aria-label="Budget build-up">{out}</svg>'
 
 
 def glasgow_map(points, labels, w=680, bbox=(55.822, 55.882, -4.330, -4.195)):

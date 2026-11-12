@@ -1186,7 +1186,7 @@ function sparkline(m){
     '<text x="'+(pl-6)+'" y="'+(H-pb+3)+'" text-anchor="end">0</text>'+
     qs.map(function(q,i){return (i===0||i===qs.length-1)?'<text x="'+x(i)+'" y="'+(H-4)+'" text-anchor="'+(i?'end':'start')+'">'+q.replace('-',' ')+'</text>':''}).join('')+
     '<text x="'+x(pts.length-1)+'" y="'+(y(pts[pts.length-1])-7)+'" text-anchor="end" style="fill:var(--ink)">'+lab(pts[pts.length-1])+'</text></svg>';
-  return '<section class="blk"><h3>'+(share?'Share of all venue mentions':'Venue mentions')+' <small>by quarter</small></h3>'+g+
+  return '<section class="blk"><h3>'+(share?'Share of all venue mentions':'Venue mentions')+' <small>by quarter</small></h3>'+'<details class="vin'+'fo"><summary><span class="vi-i" aria-hidden="true">i</span>How to read this</summary><div class="vi-b"><p>The line follows this place quarter by quarter, oldest on the left. The dot and figure on the right are the latest quarter; the dashed line marks the halfway point of the scale.</p><p>A share is fairer than a count here, because the number of interviews changes from quarter to quarter.</p></div></details>'+g+
     '<p class="note">'+(share?'How much of every quarter\'s naming lands in '+esc(m.n)+'. Quarters with fewer than 200 mentions in total are left out.':'Mentions follow interview volume, so read this as activity, not popularity.')+'</p></section>';
 }
 function marketHTML(m){
