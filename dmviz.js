@@ -106,12 +106,15 @@
   // ---------- card
   function card(host, o) {
     var c = h('div', 'dmv-card');
-    if (o.id) c.id = o.id;
+    if (o.id) { c.id = o.id; var slot = document.querySelector('[data-card="' + o.id + '"]'); if (slot) host = slot; }   // a page can place any chart by id
     var head = h('div', 'dmv-head');
-    var tt = h('div', '', (o.title ? '<h3>' + o.title + '</h3>' : '') + (o.sub ? '<p>' + o.sub + '</p>' : '') + info(o.info || INFO[o.id]));
+    // Editorial order: the finding as the headline, what is measured as the line beneath, reading notes folded away.
+    var note = o.info || INFO[o.id] || '';
+    var tt = o.claim
+      ? h('div', '', '<h3>' + o.claim + '</h3>' + (o.title ? '<p>' + o.title + '</p>' : '') + info((o.sub ? o.sub + '\n' : '') + note))
+      : h('div', '', (o.title ? '<h3>' + o.title + '</h3>' : '') + (o.sub ? '<p>' + o.sub + '</p>' : '') + info(note));
     head.appendChild(tt);
     var tools = h('div', 'dmv-tools');
-    head.appendChild(tools);
     c.appendChild(head);
     var filters = h('div', 'dmv-filters'); c.appendChild(filters);
     if (!o.filters) filters.style.display = 'none';
@@ -123,6 +126,7 @@
     foot.appendChild(h('p', 'dmv-src', o.src || ''));
     c.appendChild(foot);
     if (o.fresh && window.DM_FRESH) foot.appendChild(window.DM_FRESH.stamp(o.fresh));
+    foot.appendChild(tools);
     host.appendChild(c);
     var api = { el: c, plot: plot, filters: filters, legend: legend, data: null };
     api.setTable = function (cols, rows, name) {

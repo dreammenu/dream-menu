@@ -66,52 +66,90 @@ LOCKSVG = '<svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><p
 LK = '<svg class="lk" viewBox="0 0 16 16" width="11" height="11" aria-label="Partners" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'
 
 
-def chap(n, kicker, title, sub, body, sid, partner=False, preview='', tid='', sub_id=''):
-    """One chapter. Partner chapters show a short preview with a sign-in link until partner data loads."""
+_others = [r['cl'].lower() + 's' for r in TX['churn'] if r is not _most]
+_oth = ', '.join(_others[:-1]) + ' and ' + _others[-1]
+_moved = _most['p'] < 0.05
+
+
+def _js(fn):
+    t = open(fn, encoding='utf-8').read()
+    return json.JSONDecoder().raw_decode(t[t.index('{'):])[0]
+
+
+AD, DRK, BEN = _js('analysis-data.js'), _js('drinks-new.js'), _js('bench-public.js')
+_food = sorted([c for c in AD['conc'] if c['course'] in 'smdp'], key=lambda c: -c['top3'])
+_open = _food[-1]
+_set = next(c for c in _food if not (_moved and c['course'] == _most['course']))   # a course in flux is not one to call settled
+_K = AD['critics']
+_t25 = round(100 * _K['tops']['25']['award'] / _K['tops']['25']['n'])
+_tall = round(100 * _K['tops'][str(_K['venues'])]['award'] / _K['venues'])
+_alc = {g['l']: g for g in DRK['alc']['groups']}
+_af = _alc.get('Alcohol-free instead', {}).get('pct', 0)
+_stap3 = ', '.join(x['l'].lower() for x in TP['staples'][:2]) + ' and ' + TP['staples'][2]['l'].lower()
+_bagree = sum(1 for i in BEN['items'] if i['verdict'] == 'agrees')
+_bdiff = sum(1 for i in BEN['items'] if i['verdict'] == 'differs')
+
+DO = {  # one direct use per section, shown under its introduction
+    'read': 'brief a team in two minutes. Every line is rechecked at each refresh, so quote it with its date.',
+    'settled-sec': 'decide where to be different. Keep a settled course short and well made, and put your signature dish in the most open one.',
+    'life': 'manage the range: protect the staples, trial rising dishes as specials, and retire fading ones on your own schedule.',
+    'changed': (f'set priorities for the next menu change. Review {_most["cl"].lower()}s first; change {_oth} for cost or quality, not to chase a trend.'
+                if _moved else 'set priorities. No course has moved beyond chance, so test new ideas as specials first.'),
+    'drinks': 'set a baseline. Price alcohol-free properly now, and wait for two full quarters before acting on movement.',
+    'cities': 'fit a menu to its market. Lean into dishes that sit above average in your city, and think twice before importing a favourite that sits below it.',
+    'critics': 'decide what to promote. Where guests and critics agree, shout about it; where guests lead, you are ahead of the guides.',
+    'compare': 'calibrate confidence. Where outside data agrees, act; where it differs, test first, because foodies tend to lead the wider public.',
+    'opportunity-sec': 'start range conversations from the Back list, then use the matrix to see whether a dish is big, growing or both.',
+    'confidence-sec': 'separate signal from noise. Act on a move only when its whole range sits clear of zero.',
+    'next': 'plan stock and ranges from the shaded range, not the single line.',
+    'segments-sec': 'match the range to the customer: trade buyers, creators and diners want different things.',
+    'operators-sec': 'lead sales conversations with the pressures operators name most, and the gaps in their response.',
+}
+
+
+def chap(n, kicker, title, sub, body, sid, partner=False, preview='', tid='', sub_id='', part=''):
+    """One section of the story. Partner sections show a short preview with a sign-in link until partner data loads."""
     t = f'<h2 class="iv-title"{f" id={chr(34)}{tid}{chr(34)}" if tid else ""} data-short="{kicker}">{title}</h2>'
     sp = f'<p class="iv-sub"{f" id={chr(34)}{sub_id}{chr(34)}" if sub_id else ""}>{sub}</p>'
-    if str(n) in DO:
-        sp += f'<p class="iv-do"><b>Use it to</b>{DO[str(n)]}</p>'
+    if sid in DO:
+        sp += f'<p class="iv-do"><b>Use it to</b>{DO[sid]}</p>'
     tag = '<span class="pv-tag">Partners</span>' if partner else ''
     inner = body
     if partner:
         inner = (f'<div class="pv-lock">{LOCKSVG}<p><b>For Dream Menu partners.</b> {preview}</p>'
                  f'<a href="/login?next=/analysis">Partner sign-in</a></div><div class="pv-body">{body}</div>')
-    return (f'<section class="iv-sec" id="{sid}"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">{n}</span>{kicker}{tag}</p>'
+    ph = f'<div class="iv-part"><div class="iv-wrap"><span>{part}</span></div></div>' if part else ''
+    return (f'{ph}<section class="iv-sec" id="{sid}"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">{n}</span>{kicker}{tag}</p>'
             f'{t}{sp}{inner}</div></section>\n')
 
 
-_others = [r['cl'].lower() + 's' for r in TX['churn'] if r is not _most]
-DO = {  # one direct use per chapter, shown under the chapter intro
-    '1': 'brief a team in two minutes. Every line is rechecked at each refresh, so quote it with its date.',
-    '2': 'fit a menu to its market. Lean into dishes shaded above average in your city, and think twice before importing a favourite that sits below it.',
-    '3': 'decide what to promote. Where guests and critics agree, shout about it; where guests lead, you are ahead of the guides.',
-    '4': 'decide where to be different. Keep a settled course short and well made, and put your signature dish in the most open one.',
-    '5': (f'set priorities for the next menu change. Review {_most["cl"].lower()}s first; change {", ".join(_others[:-1])} and {_others[-1]} for cost or quality, not to chase a trend.'
-          if _most['p'] < 0.05 else 'set priorities. No course has moved beyond chance, so test new ideas as specials first.'),
-    '6': 'judge how much room there is for something new. A rising top-five share says back the favourites; a falling one says guests are open to alternatives.',
-    '7': 'manage the range: protect staples, trial rising dishes as specials, and retire fading ones on your own schedule.',
-    '8': 'set a baseline. Price alcohol-free properly now, and wait for two full quarters before acting on movement.',
-    '9': 'calibrate confidence. Where outside data agrees, act; where it differs, test first, because foodies tend to lead the wider public.',
-    '10': 'shortlist for a range review: back top right, watch top left, question big dishes that are slipping.',
-    '11': 'separate signal from noise. Act on a move only when its whole range sits clear of zero.',
-    '12': 'scan every course at once, then open a dish in chapters 11 and 13 before deciding.',
-    '13': 'find specials: a small dish running hot against its own average is an early candidate.',
-    '14': 'plan stock and ranges from the shaded range, not the single line.',
-    '15': 'match the range to the customer: trade buyers, creators and diners want different things.',
-    '16': 'start range conversations from the Back list and revisit anything marked Review.',
-    '17': 'lead sales conversations with the pressures operators name most, and the gaps in their response.',
-}
-CH = [  # number, label, anchor, partner
-    ('1', 'Headlines', 'read', False), ('2', 'Every city', 'cities', False), ('3', 'Guests and critics', 'critics', False),
-    ('4', 'How settled', 'settled-sec', False), ('5', 'What changed', 'changed', False), ('6', 'Converging?', 'converging', False),
-    ('7', 'Life cycle', 'life', False), ('8', 'Drinks', 'drinks', False), ('9', 'How we compare', 'compare', False),
-    ('10', 'Momentum', 'matrix-sec', True), ('11', 'How sure we are', 'confidence-sec', True), ('12', 'Trend wall', 'wall-sec', True),
-    ('13', 'Dish heat', 'heat-sec', True), ('14', 'Next three quarters', 'next', True), ('15', 'Who wants what', 'segments-sec', True),
-    ('16', 'Opportunity score', 'opportunity-sec', True), ('17', 'Operator pulse', 'operators-sec', True)]
-toc = ('<div class="iv-toc-g"><span>Open to all</span>' + ''.join(f'<a href="#{a}"><b>{n}</b>{t}</a>' for n, t, a, p in CH if not p) + '</div>'
-       '<div class="iv-toc-g"><span>Partners</span>' + ''.join(f'<a href="#{a}"><b>{n}</b>{t} {LK}</a>' for n, t, a, p in CH if p) + '</div>')
-toc = toc.replace('<div class="iv-toc-g">', '<div class="iv-toc iv-toc-g">')
+PARTS = [  # the story in order: label, anchor, lock
+    ('The short version', 'read', False), ('What guests want', 'settled-sec', False), ('What is changing', 'changed', False),
+    ('Where it differs', 'cities', False), ('The reality check', 'compare', False), ('What to do', 'actions', False),
+    ('Partner briefing', 'opportunity-sec', True), ('Reference charts', 'reference', False)]
+toc = '<ol class="iv-story">' + ''.join(f'<li><a href="#{a}"><b>{i}</b><span>{t}{" " + LK if lock else ""}</span></a></li>' for i, (t, a, lock) in enumerate(PARTS, 1)) + '</ol>'
+
+_ROLES = [
+    ('Running a venue or a kitchen',
+     (f'Review the {_most["cl"].lower()} list first: it is the only course that has moved beyond chance. ' if _moved else 'No course has moved beyond chance, so trial new ideas as specials. ')
+     + f'Protect the staples ({_stap3}). Give alcohol-free its own priced section: {_af:.1f}% of guests choose it when asked for an alcoholic drink.',
+     '/operators', 'Operator toolkit'),
+    ('Opening a venue or investing',
+     f'Guests broadly agree on what {_set["cl"].lower()}s should be, so compete there on quality, not novelty. {_open["cl"]}s are the most open course: that is where a signature dish can stand out. '
+     f'Recommendation is concentrated (the top 10% of venues take {_K["marks"]["10"]:.0f}% of mentions), so plan for word of mouth from day one.',
+     '/map', 'Venue map and rankings'),
+    ('Supplying venues or building a range',
+     f'Build the core range around the {_n_stap} steady staples and follow the shift within {_most["cl"].lower()}s. '
+     'Partners see which food groups gained and lost, a score for every dish and a three-quarter planning range.',
+     '/for-business', 'Ways to work with us'),
+    ('Marketing, press and guides',
+     f'{_t25}% of the 25 most-named venues hold a guide award, against {_tall}% of all venues named: guests and critics agree at the very top and part ways below it. '
+     'The favourites beyond the guides are the stories nobody else has.',
+     '/press', 'Press kit'),
+]
+ACTIONS = ('<div class="iv-roles">' + ''.join(
+    f'<article><h3>{r}</h3><p>{t}</p><a href="{u}">{l} &rarr;</a></article>' for r, t, u, l in _ROLES) + '</div>')
+
 CALLOUT = ('<div class="iv-callout"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><b>Data to '
            + LAST_H + '.</b> Every chart includes all ' + N_ALL + ' interviews received to that date. Quarters with fewer than ' + str(P['min_n'])
            + ' answers, including the fourth quarter so far, are shown faded: read them as an early signal.</span></div>')
@@ -138,26 +176,41 @@ main = f"""<main class="iv-page">
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">The analysis</span>
 <h1>What the UK’s foodies want, and where it’s heading</h1>
-<p class="lede">One place for every analysis of {N_ALL} interviews: how each city eats, how guests compare with the critics, how the menu is changing, and how Dream Menu compares with outside sources. Chapters 1 to 9 are open to all. Partners also see chapters 10 to 17, plus extra charts inside chapters 1, 5 to 7 and 9, after signing in. Every chart has a table view and a CSV download.</p>
+<p class="lede">{N_ALL} interviews, read as one story: what guests want, what is changing, where cities and critics differ, how it compares with outside data, and what to do about it. Parts 1 to 6 are open to all. Partners also get the briefing in part 7. Every chart has a short guide, a table view and a download.</p>
 {toc}
 </div></section>
-{chap(1, 'Headlines', 'What the data says this quarter', 'Each finding is written from the numbers and rechecked at every refresh. Partners also see the executive read: clear movers, operator confidence and the three things to plan around.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div>' + CALLOUT + '<div data-fresh="interviews look"></div>', 'read')}
-{chap(2, 'Every city’s appetite', '&nbsp;', 'Shares, not counts, so a city with fewer interviews is compared fairly with Glasgow. Each cell is the dish’s share of that market’s mentions, coloured by how far it sits above or below its share everywhere.', '<div class="kpis" id="city-sig"></div><div id="c-cities"></div>', 'cities', tid='ta')}
-{chap(3, 'Guests and critics', '&nbsp;', '', '<div id="c-critics"></div>', 'critics', tid='tb', sub_id='sb')}
-{chap(4, 'How settled each course is', '&nbsp;', 'A settled course is safe ground for a menu; an open one is where a distinctive dish can stand out.', '<div id="c-conc"></div>', 'settled-sec', tid='tc')}
-{chap(5, 'What changed', 'Sides are being rewritten; the rest of the menu is holding' if _most['course'] == 'd' else f"{_most['cl']}s changed most", 'How much of each course’s answers moved to a different food group between late 2025 and the recent quarters, set against what sampling alone would produce. Partners also see where the share went, food group by food group.', '<div id="th-churn"></div>', 'changed')}
-{chap(6, 'Converging or spreading out', 'Do guests pile onto the same few favourites?', 'The share of each course’s answers taken by its five most-named dishes, quarter by quarter, with 95% ranges. Partners also see the shape of every course, quarter by quarter.', '<div id="th-conc"></div>', 'converging')}
-{chap(7, 'Life cycle and staples', f"{_n_stap} steady staples, and how every course’s dishes are moving", 'How many of each course’s tracked dishes are rising, steady, peaked, recovering or fading, and the staples whose share never really moves. Partners also see every dish named on the life-cycle board and a then-and-now chart.', '<div id="th-life"></div>', 'life')}
-{chap(8, 'Drinks, restarted', 'What guests drink, on a clean new series', 'The drink question was split into soft and alcoholic on 23 August 2026, so the old drink trends stopped there. This is the new baseline, built only from the new questions. Movement will be tested once two quarters each hold 100 answers.', '<div id="th-drinks"></div>', 'drinks')}
-{chap(9, 'How we compare', 'Dream Menu against outside sources', 'National polls, eating-out data, menu trackers and sales figures, set beside Dream Menu’s own numbers. Outside figures are never mixed into Dream Menu data: they sit alongside it, with their source and date, as a check and a challenge. Partners also see dish and drink comparisons and the operator benchmarks.', '<div id="th-bench"></div>', 'compare')}
-{chap(10, 'Momentum matrix', 'Where size and momentum meet', 'Each dish placed by how big it is (across) and how fast its share is moving (up or down). Pick a course. Top right is where volume and momentum meet; top left is where the next staples come from.', '<div id="c-matrix"></div>', 'matrix-sec', True, 'Every tracked dish placed by size and momentum, course by course, so you can see where volume and growth meet.', tid='t2')}
+{chap(1, 'The short version', 'What the data says this quarter', 'If you read one section, read this. Each line is written from the numbers and rechecked at every refresh; the sections below show the evidence behind it. Partners also see the executive read: clear movers, operator confidence and the three things to plan around.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div>' + CALLOUT + '<div data-fresh="interviews look"></div>', 'read', part='Part one · The short version')}
+{chap(2, 'How settled the menu is', '&nbsp;', 'Start with the shape of demand. Where guests agree on what a course should be, a menu has to deliver the favourite well. Where they do not, there is room to be different.', '<div id="c-conc"></div>', 'settled-sec', tid='tc', part='Part two · What guests want')}
+{chap(3, 'The dishes that hold', f"{_n_stap} dishes hold their share in every quarter: the core of any menu", 'Most dishes drift up and down with the sample. A few never do. These are the staples guests keep choosing whatever else is in fashion, and beside them is how many of each course’s dishes are rising, steady or fading. Partners can open every dish by name in the reference charts.', '<div id="th-life"></div>', 'life')}
+{chap(4, 'What changed', ('Sides are being rewritten; the rest of the menu is holding' if _most['course'] == 'd' else f"{_most['cl']}s changed most") if _moved else 'No course has changed beyond chance', f'So much for what holds. Now for what moves. Comparing late 2025 with the recent quarters, {_most["obs"]}% of {_most["cl"].lower()} answers sit in a different food group, against about {_most["chance"]}% that sampling alone would produce. No other course clears that bar. Do guests pile onto fewer favourites as a result? No: the five favourite dishes in each course hold the share they did a year ago (reference charts). Partners also see where the share went, food group by food group.', '<div id="th-churn"></div>', 'changed', part='Part three · What is changing')}
+{chap(5, 'Drinks, restarted', 'What guests drink, on a clean new series', 'Drinks need their own telling. The question was split into soft and alcoholic on 23 August 2026, so the old drink trends stopped there. This is the new baseline, built only from the new questions; movement will be tested once two quarters each hold 100 answers.', '<div id="th-drinks"></div>', 'drinks')}
+{chap(6, 'Every city’s appetite', '&nbsp;', 'The national picture hides real differences. Shares, not counts, are used throughout, so a city with fewer interviews is compared fairly with Glasgow.', '<div class="kpis" id="city-sig"></div><div id="c-cities"></div>', 'cities', tid='ta', part='Part four · Where it differs')}
+{chap(7, 'Guests and critics', '&nbsp;', '', '<div id="c-critics"></div>', 'critics', tid='tb', sub_id='sb')}
+{chap(8, 'How we compare', f'Outside data agrees with Dream Menu on {_bagree} topics and challenges it on {_bdiff}', 'A panel of food-led people is not the general public, so every finding deserves a check. Here national polls, eating-out data, menu trackers and sales figures sit beside Dream Menu’s own numbers. Outside figures are never mixed into Dream Menu data: they stand alongside it, with their source and date, as a check and a challenge. Partners also see dish, drink and operator comparisons.', '<div id="th-bench"></div>', 'compare', part='Part five · The reality check')}
+<div class="iv-part"><div class="iv-wrap"><span>Part six · What to do</span></div></div>
+<section class="iv-sec" id="actions"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">9</span>What to do about it</p>
+<h2 class="iv-title" data-short="What to do">The same evidence, read for four kinds of reader</h2>
+<p class="iv-sub">Each recommendation follows from the sections above and is rewritten when the numbers change.</p>
+{ACTIONS}
+</div></section>
+{chap(10, 'What to back', 'A score for every dish and drink', 'The briefing starts with the answer: one ranking that weighs size, momentum, strength of evidence and how open the field is. <b>Back</b> = rising clearly or scoring 60 and over. <b>Watch</b> = promising, not proven. <b>Review</b> = falling clearly or scoring low and drifting down. The matrix below it shows why a dish scores as it does: how big it is against how fast it is moving.', '<div id="c-opp"></div><h3 class="iv-h3 iv-h3b" id="t2"></h3><div id="c-matrix"></div><span id="matrix-sec"></span>', 'opportunity-sec', True, 'A score out of 10 for every tracked dish and drink (back it, watch it or review it), with each one placed by size and momentum.', tid='t7', part='Part seven · Partner briefing')}
 {chap(11, 'How sure we are', 'Which moves are real', '', '<div id="c-forest"></div>', 'confidence-sec', True, 'Every change with its 95% range, so you can tell a real move from noise before acting on it.', tid='t3', sub_id='s3')}
-{chap(12, 'Trend wall', 'Every course on one wall', 'Thirty-six small charts on one scale per cell, so the shape of each course reads at a glance. Hover any cell for the quarter-by-quarter numbers.', '<div id="c-wall"></div>', 'wall-sec', True, 'The six biggest food groups in every course, quarter by quarter, on one wall.', tid='t4')}
-{chap(13, 'Dish heat', 'Spikes against each dish’s own average', 'Ten leading dishes per course, coloured against their own average so a small dish that spikes stands out as clearly as a big one.', '<div id="c-heat"></div>', 'heat-sec', True, 'Ten leading dishes per course, coloured against their own average so spikes stand out.', tid='t5')}
-{chap(14, 'Next three quarters', 'Where the clear movers are heading', 'A damped projection for each clear mover, so a planning range is on the table for range reviews and stock. Projections weigh recent quarters more and flatten over time.', '<div id="th-fan"></div>', 'next', True, 'A three-quarter planning range for every dish and food group that is clearly rising or falling.')}
-{chap(15, 'Who wants what', 'How each group of guests differs', 'Industry (chefs, operators, front of house), creators (food pages and writers) and enthusiasts answer differently. Plan the range for the customer you are selling to.', '<div id="c-seg"></div>', 'segments-sec', True, 'How industry, creators and enthusiasts differ on every course.', tid='t6')}
-{chap(16, 'Opportunity score', 'A score for every dish and drink', 'One ranking that weighs size, momentum, strength of evidence and how open the field is. <b>Back</b> = rising clearly or scoring 60 and over. <b>Watch</b> = promising, not proven. <b>Review</b> = falling clearly or scoring low and drifting down.', '<div id="c-opp"></div>', 'opportunity-sec', True, 'A score out of 10 for every tracked dish and drink: back it, watch it or review it.', tid='t7')}
-{chap(17, 'Operator pulse', 'How operators feel, and where they need help', 'What the people buying from suppliers are feeling, and where their response falls short of the pressure. This is where a supplier can help.', '<div id="c-ops"></div>', 'operators-sec', True, 'What 55 operators say about costs, confidence and the gaps a supplier can fill.', tid='t8')}
+{chap(12, 'Next three quarters', 'Where the clear movers are heading', 'Once a move is clear, the question is how far it goes. A damped projection gives each clear mover a planning range for range reviews and stock; it weighs recent quarters more and flattens over time.', '<div id="th-fan"></div>', 'next', True, 'A three-quarter planning range for every dish and food group that is clearly rising or falling.')}
+{chap(13, 'Who wants what', 'How each group of guests differs', 'A score is an average. Industry (chefs, operators, front of house), creators (food pages and writers) and enthusiasts answer differently, so plan the range for the customer you are selling to.', '<div id="c-seg"></div>', 'segments-sec', True, 'How industry, creators and enthusiasts differ on every course.', tid='t6')}
+{chap(14, 'Operator pulse', 'How operators feel, and where they need help', 'Last, the people who buy. What operators are feeling, and where their response falls short of the pressure: this is where a supplier can help.', '<div id="c-ops"></div>', 'operators-sec', True, 'What 55 operators say about costs, confidence and the gaps a supplier can fill.', tid='t8')}
+<div class="iv-part"><div class="iv-wrap"><span>Reference</span></div></div>
+<section class="iv-sec" id="reference"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">15</span>Reference charts</p>
+<h2 class="iv-title" data-short="Reference">The detail behind the story</h2>
+<p class="iv-sub">Charts that support a point made above without needing a section of their own. Open the ones you need.</p>
+<details class="iv-ref" id="converging"><summary>Are guests converging on the same favourites? <small>Top-five share by quarter</small></summary><div id="th-conc"></div></details>
+<details class="iv-ref" id="ref-concentration"><summary>How concentrated are recommendations? <small>Share of mentions held by the most-named venues</small></summary><div data-card="concentration"></div></details>
+<div class="pv-body">
+<details class="iv-ref" id="ref-board"><summary>Every tracked dish by life-cycle stage <small>Partners</small></summary><div data-card="tr-board"></div></details>
+<details class="iv-ref" id="ref-slope"><summary>Then and now: every dish, earlier share against recent <small>Partners</small></summary><div data-card="tr-slope"></div></details>
+<details class="iv-ref" id="wall-sec"><summary>Trend wall: the top six groups in every course <small>Partners</small></summary><h3 class="iv-h3" id="t4"></h3><div id="c-wall"></div></details>
+<details class="iv-ref" id="heat-sec"><summary>Dish heat: each dish against its own average <small>Partners</small></summary><h3 class="iv-h3" id="t5"></h3><div id="c-heat"></div></details>
+</div>
+</div></section>
 <section class="iv-sec" id="method"><div class="iv-wrap prose">
 <p class="iv-eyebrow">Method</p>
 <h2 class="iv-title" data-short="Method">Who answers, and how these numbers are made</h2>
@@ -172,7 +225,8 @@ an = (head('The analysis | Dream Menu', 'How each city eats, how guests compare 
       '<script src="/trend-public.js"></script>\n<script src="/drinks-new.js"></script>\n<script src="/bench-public.js"></script>\n'
       '<script src="/partner/intel-data.js"></script>\n<script src="/partner/intel.js"></script>\n'
       '<script src="/partner/trend-data.js"></script>\n<script src="/partner/bench-data.js"></script>\n'
-      '<script src="/trend-charts.js"></script>\n</body>\n</html>\n')
+      '<script src="/trend-charts.js"></script>\n'
+      '<script>(function(){function o(){var t=location.hash&&document.getElementById(location.hash.slice(1));for(var e=t;e;e=e.parentElement)if(e.tagName==="DETAILS")e.open=true;if(t&&t.closest&&t.closest("details"))t.scrollIntoView();}addEventListener("hashchange",o);setTimeout(o,600);})();</script>\n</body>\n</html>\n')
 open('analysis.html', 'w', encoding='utf-8').write(an)
 
 # the old partner page now lives inside /analysis

@@ -170,7 +170,7 @@ doc.addEventListener('keydown',function(e){
   var hs=$$('h2',main).filter(function(h){return h.id||(h.closest('section')&&h.closest('section').id&&$('h2',h.closest('section'))===h)});
   if(hs.length<3)hs=$$('h3[id]',main);
   if(hs.length<3)return;
-  var links=hs.slice(0,10).map(function(h){var id=h.id||h.closest('section').id;return '<a href="#'+id+'">'+esc(label(h))+'</a>'}).join('');
+  var links=hs.slice(0,18).map(function(h){var id=h.id||h.closest('section').id;return '<a href="#'+id+'">'+esc(label(h))+'</a>'}).join('');
   var bar=doc.createElement('nav'); bar.className='jump onpage'; bar.setAttribute('aria-label','On this page');
   bar.innerHTML='<div class="wrap"><span class="onpage-l">On this page</span>'+links+'</div>';
   var sub=$('.subnav',main), first=main.firstElementChild;
@@ -220,5 +220,70 @@ doc.addEventListener('keydown',function(e){
   selA.addEventListener('change',function(){store('dm-aud',selA.value||null);markAud(selA.value);if(selA.value)pickAud(selA.value,false);apply()});
   q.addEventListener('input',function(){apply()});
   apply(false);
+})();
+/* ---------- wayfinding: sticky header, section tracking, breadcrumbs, next step, back to top ---------- */
+(function(){
+  var path=location.pathname.replace(/\.html$/,'').replace(/\/index$/,'').replace(/\/$/,'')||'/', top=$('header.top'), main=$('main'), isMap=path==='/map';
+  if(!top||!main)return;
+  // 1. header stays within reach: slides away going down, returns on the way up
+  if(!isMap){
+    root.classList.add('nav-sticky');
+    var setH=function(){root.style.setProperty('--hh',top.offsetHeight+'px')}; setH(); window.addEventListener('resize',setH);
+    var ly=window.scrollY, tick=false;
+    window.addEventListener('scroll',function(){
+      if(tick)return; tick=true;
+      requestAnimationFrame(function(){
+        var y=window.scrollY, open=$('.mnav-top[aria-expanded="true"]')||root.classList.contains('mnav-open')||doc.body.classList.contains('mnav-open');
+        if(y>ly+6&&y>320&&!open)root.classList.add('nav-away'); else if(y<ly-6||y<=320)root.classList.remove('nav-away');
+        root.classList.toggle('nav-deep',y>1400);
+        ly=y; tick=false;
+      });
+    },{passive:true});
+  }
+  // 2. "On this page" follows the reader and marks the current section
+  var bar=$('.jump.onpage');
+  if(bar&&'IntersectionObserver' in window){
+    var links=$$('a[href^="#"]',bar), map={}, cur=null;
+    links.forEach(function(a){var t=doc.getElementById(a.getAttribute('href').slice(1)); if(t){var sec=t.tagName==='SECTION'?t:(t.closest('section')||t); map[sec.id||t.id]=a;}});
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ var a=map[e.target.id]; if(a&&a!==cur){ if(cur)cur.removeAttribute('aria-current'); cur=a; a.setAttribute('aria-current','true');
+        var w=a.parentNode; if(w.scrollWidth>w.clientWidth)w.scrollTo({left:a.offsetLeft-w.clientWidth/2+a.offsetWidth/2,behavior:'smooth'}); } } });
+    },{rootMargin:'-20% 0px -70% 0px'});
+    Object.keys(map).forEach(function(id){var t=doc.getElementById(id); if(t)io.observe(t)});
+  }
+  // 3. breadcrumbs: where this page sits, taken from the menu itself
+  var PARENT={venue:['Where to eat','/map','Venue map','/map'],trends:['Food trends','/','Dish trends','/trends'],'case-studies':['Analysis & reports','/analysis','Insight Series reports','/case-studies'],report:['Analysis & reports','/analysis','Report 2026','/report'],quarterly:['Analysis & reports','/analysis','State of the Menu','/quarterly']};
+  var seg=path.split('/').filter(Boolean), trail=[], here=null, nextUp=null;
+  var title=function(){var h=$('h1',main); return h?h.textContent.replace(/\s+/g,' ').trim():doc.title.split('|')[0].trim()};
+  if(seg.length===2&&PARENT[seg[0]]){
+    var P=PARENT[seg[0]]; trail=[[P[0],P[1]],[P[2],P[3]]]; here=title(); nextUp={k:'Back to',t:P[2],h:P[3],d:''};
+  } else if(seg.length===1){
+    var a=$('.mp-p[href="'+path+'"]',top);
+    if(a){
+      var item=a.closest('.mnav-item'), g=$('.mnav-top',item), all=$$('.mp-p',top), i=all.indexOf(a), n=all[i+1]||all[0];
+      if(g.getAttribute('href')!==path)trail=[[g.textContent.trim(),g.getAttribute('href')]];
+      else trail=[[g.textContent.trim(),null]];
+      here=$('b',a).textContent;
+      if(n&&n.getAttribute('href')!==path&&n.getAttribute('href')!=='/')nextUp={k:n.closest('.mnav-item')===item?'Next':'Next: '+$('.mnav-top',n.closest('.mnav-item')).textContent.trim(),t:$('b',n).textContent,h:n.getAttribute('href'),d:($('span',n)||{}).textContent||''};
+    } else if(!/^\/(login|logout|404)$/.test(path)) here=title();
+  }
+  if(here&&path!=='/'&&!isMap&&!$('.crumbs')){
+    var c=doc.createElement('nav'); c.className='crumbs'; c.setAttribute('aria-label','Breadcrumb');
+    c.innerHTML='<div class="wrap"><a href="/">Home</a>'+trail.map(function(t){return '<i aria-hidden="true">/</i>'+(t[1]?'<a href="'+t[1]+'">'+esc(t[0])+'</a>':'<span>'+esc(t[0])+'</span>')}).join('')+'<i aria-hidden="true">/</i><b aria-current="page">'+esc(here.length>48?here.slice(0,46)+'…':here)+'</b></div>';
+    top.insertAdjacentElement('afterend',c);
+  }
+  // 4. one clear next step at the foot of the page
+  var foot=$('footer.foot');
+  if(nextUp&&foot&&path!=='/'&&!isMap&&!$('.nextup,.cs-next,.ph-next',main)){
+    var nx=doc.createElement('a'); nx.className='nextstep'; nx.href=nextUp.h;
+    nx.innerHTML='<div class="wrap"><span>'+esc(nextUp.k)+'</span><b>'+esc(nextUp.t)+'</b>'+(nextUp.d?'<em>'+esc(nextUp.d)+'</em>':'')+'<i aria-hidden="true">&rarr;</i></div>';
+    foot.insertAdjacentElement('beforebegin',nx);
+  }
+  // 5. back to top on long pages
+  if(!isMap){
+    var up=doc.createElement('button'); up.type='button'; up.className='totop'; up.setAttribute('aria-label','Back to top');
+    up.innerHTML='<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    up.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})}; doc.body.appendChild(up);
+  }
 })();
 })();

@@ -38,7 +38,7 @@
 
   // ------------------------------------------------------------------ churn: observed against chance
   function churn(host, D) {
-    var c = V.card(host, { id: 'tr-churn', title: 'Share of each course’s answers that moved to a different food group', sub: 'Recent quarters against the earlier ones. The grey band is where 95% of results fall if nothing had really changed and only sampling varied; a dot beyond it is real change.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-course-churn',
+    var c = V.card(host, { id: 'tr-churn', claim: (function () { var mv = D.churn.filter(function (r) { return r.p < 0.05; }); return mv.length === 1 ? 'Only ' + mv[0].cl.toLowerCase() + 's have really changed' : mv.length ? mv.map(function (r) { return r.cl + 's'; }).join(' and ') + ' have moved beyond chance' : 'No course has moved beyond chance'; })(), title: 'Share of each course’s answers that moved to a different food group', sub: 'Recent quarters against the earlier ones. The grey band is where 95% of results fall if nothing had really changed and only sampling varied; a dot beyond it is real change.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-course-churn',
       legend: [['Moved beyond chance', '--v-up'], ['Within chance', '--v-ns'], ['95% range from sampling alone', '--v-grid']] });
     var rows = D.churn;
     V.responsive(c.plot, function (W) {
@@ -67,7 +67,7 @@
 
   // ------------------------------------------------------------------ concentration small multiples
   function conc(host, D) {
-    var c = V.card(host, { id: 'tr-conc', title: 'Share of answers taken by each course’s five favourite dishes, by quarter', sub: 'A rising line means guests are converging on the same few dishes; a falling one means the course is opening up. Bands are 95% ranges for each quarter.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-top-five-share' });
+    var c = V.card(host, { id: 'tr-conc', claim: 'Guests are not piling onto fewer favourites', title: 'Share of answers taken by each course’s five favourite dishes, by quarter', sub: 'A rising line means guests are converging on the same few dishes; a falling one means the course is opening up. Bands are 95% ranges for each quarter.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-top-five-share' });
     var grid = h('div', 'tr-sm'); c.plot.appendChild(grid);
     D.conc.forEach(function (r) {
       var cell = h('div', 'tr-cell'); grid.appendChild(cell);
@@ -104,7 +104,7 @@
 
   // ------------------------------------------------------------------ lifecycle mix per course
   function stageBar(host, D) {
-    var c = V.card(host, { id: 'tr-stages', title: 'Where each course’s tracked dishes sit in their life cycle', sub: 'The fourteen most-named dishes in each course, sorted by the shape of their share over six quarters. Only moves that pass a significance test count as rising, fading, peaked or recovering.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-lifecycle-mix',
+    var c = V.card(host, { id: 'tr-stages', claim: (function () { var r = 0, f = 0, t = 0; D.stages.forEach(function (s) { r += s.c.Rising || 0; f += s.c.Fading || 0; for (var k in s.c) t += s.c[k]; }); return 'Of ' + t + ' tracked dishes, ' + r + ' are clearly rising and ' + f + ' clearly fading'; })(), title: 'Where each course’s tracked dishes sit in their life cycle', sub: 'The fourteen most-named dishes in each course, sorted by the shape of their share over six quarters. Only moves that pass a significance test count as rising, fading, peaked or recovering.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-lifecycle-mix',
       legend: STAGE_ORDER.map(function (s) { return [s, STAGE_COL[s]]; }) });
     var rows = D.stages;
     V.responsive(c.plot, function (W) {
@@ -130,7 +130,7 @@
   function staples(host, D) {
     var list = D.staples || [];
     if (!list.length) return;
-    var c = V.card(host, { id: 'tr-staples', title: 'The steady staples: dishes whose share never really moves', sub: 'Lowest to highest share in any full quarter, with the dot at the share across all answers. Safe ground for a core range.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-steady-staples' });
+    var c = V.card(host, { id: 'tr-staples', claim: esc(list[0].l) + ' is the surest thing on the menu', title: 'The steady staples: each dish’s lowest, highest and overall share of its course', sub: 'Lowest to highest share in any full quarter, with the dot at the share across all answers. Safe ground for a core range.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-steady-staples' });
     var order = D.meta.courses.map(function (x) { return x[1]; });
     var rows = list.slice().sort(function (a, b) { return a.cl === b.cl ? b.pct - a.pct : order.indexOf(a.cl) - order.indexOf(b.cl); });
     V.responsive(c.plot, function (W) {
@@ -156,10 +156,11 @@
   // ------------------------------------------------------------------ where the share went (partner)
   function flows(host, D) {
     var cur = D.flows.slice().sort(function (a, b) { return b.lost - a.lost; })[0].course;
-    var c = V.card(host, { id: 'tr-flows', title: 'Where the share went: food-group gains and losses, earlier to recent', sub: 'Losses on the left add up to gains on the right. These are net shifts between two sets of guests, not individual people switching. Solid bars are clear moves.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-share-flows', filters: true,
+    var c = V.card(host, { id: 'tr-flows', claim: (function () { var F = D.flows.filter(function (x) { return x.course === cur; })[0], g = F.groups.slice().sort(function (a, b) { return a.move - b.move; }); return 'In ' + F.cl.toLowerCase() + 's, ' + g[0].l.toLowerCase() + ' gave way to ' + g[g.length - 1].l.toLowerCase(); })(), title: 'Where the share went: food-group gains and losses, earlier to recent', sub: 'Losses on the left add up to gains on the right. These are net shifts between two sets of guests, not individual people switching. Solid bars are clear moves.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-share-flows', filters: true,
       legend: [['Clear gain', '--v-up'], ['Clear loss', '--v-down'], ['Not a clear move', '--v-ns']] });
     function draw(k) {
       cur = k; var F = D.flows.filter(function (f) { return f.course === k; })[0];
+      (function () { var g = F.groups.filter(function (x) { return x.l !== 'Everything else'; }).sort(function (a, b) { return a.move - b.move; }), sig = g.filter(function (x) { return x.sig; }), h3 = c.el.querySelector('h3'); if (h3) h3.textContent = sig.length && g[0].move < 0 && g[g.length - 1].move > 0 ? 'In ' + F.cl.toLowerCase() + 's, ' + g[0].l.toLowerCase() + ' gave way to ' + g[g.length - 1].l.toLowerCase() : F.cl + 's: no food group has clearly gained or lost'; })();
       var rows = F.groups.slice().sort(function (a, b) { return a.move - b.move; });
       V.responsive(c.plot, function (W) {
         var rowH = 30, m = { t: 30, b: 26, l: Math.min(210, W * 0.36), r: 20 }, H = m.t + m.b + rows.length * rowH;
@@ -188,7 +189,7 @@
   // ------------------------------------------------------------------ then vs now slope (partner)
   function slope(host, D) {
     var cur = 'd';
-    var c = V.card(host, { id: 'tr-slope', title: 'Then and now: every tracked dish, earlier share against recent share', sub: 'Each line joins a dish’s pooled share in the earlier quarters to the recent ones. Coloured lines are clear moves; grey lines are within noise.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-then-and-now', filters: true,
+    var c = V.card(host, { id: 'tr-slope', claim: 'Most lines are flat; the coloured ones matter', title: 'Then and now: every tracked dish, earlier share against recent share', sub: 'Each line joins a dish’s pooled share in the earlier quarters to the recent ones. Coloured lines are clear moves; grey lines are within noise.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-then-and-now', filters: true,
       legend: [['Clearly rising', '--v-up'], ['Clearly falling', '--v-down'], ['Not a clear move', '--v-ns']] });
     function draw(k) {
       cur = k; var rows = D.life.filter(function (r) { return r.course === k; });
@@ -225,7 +226,7 @@
   // ------------------------------------------------------------------ menu mix by quarter (partner)
   function mix(host, D) {
     var cur = 'd';
-    var c = V.card(host, { id: 'tr-mix', title: 'The shape of each course, quarter by quarter', sub: 'Each bar is one quarter’s answers split across the five biggest food groups (100% = every coded answer). Faded bars rest on fewer than ' + D.meta.min_n + ' answers.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-menu-mix', filters: true });
+    var c = V.card(host, { id: 'tr-mix', claim: 'How each course is made up, quarter by quarter', title: 'The shape of each course, quarter by quarter', sub: 'Each bar is one quarter’s answers split across the five biggest food groups (100% = every coded answer). Faded bars rest on fewer than ' + D.meta.min_n + ' answers.', src: src(D), fresh: ['interviews'], csv: 'dream-menu-menu-mix', filters: true });
     function draw(k) {
       cur = k; var M = D.mix.filter(function (x) { return x.course === k; })[0];
       V.legend(c.legend, M.rows.map(function (r, i) { return [r.l, MIX_COL[i]]; }));
@@ -292,7 +293,7 @@
   function fans(host, D) {
     var list = D.fc.slice(0, 8);
     if (!list.length) return;
-    var c = V.card(host, { id: 'tr-fan', title: 'Where the clear movers are heading: three quarters on recent trend', sub: 'Solid line = share so far (hollow = low base); dashed line and band = a damped projection with a planning range. A planning range, not a forecast guarantee: use it to size orders, not to promise.', src: src(D) + ' Projection: recency-weighted trend, damped 0.7 per quarter (as in the Insight Series).', fresh: ['interviews'], csv: 'dream-menu-mover-projections',
+    var c = V.card(host, { id: 'tr-fan', claim: 'Where the clear movers are heading', title: 'Share of answers so far, and a three-quarter planning range on the recent trend', sub: 'Solid line = share so far (hollow = low base); dashed line and band = a damped projection with a planning range. A planning range, not a forecast guarantee: use it to size orders, not to promise.', src: src(D) + ' Projection: recency-weighted trend, damped 0.7 per quarter (as in the Insight Series).', fresh: ['interviews'], csv: 'dream-menu-mover-projections',
       legend: [['Clearly rising', '--v-up'], ['Clearly falling', '--v-down']] });
     var grid = h('div', 'tr-sm'); c.plot.appendChild(grid);
     list.forEach(function (r) {
@@ -342,7 +343,7 @@
     flat: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="steady" role="img"><path d="M3 8h10M9.5 4.5 13 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
   function bench(host, D, partner) {
     var items = D.items;
-    var c = V.card(host, { id: 'bm-board', title: 'Where outside sources agree with Dream Menu, and where they challenge it', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
+    var c = V.card(host, { id: 'bm-board', claim: 'Outside sources agree on ' + items.filter(function (b) { return b.verdict === 'agrees'; }).length + ' topics and push back on ' + items.filter(function (b) { return b.verdict === 'differs'; }).length, title: 'Dream Menu figures beside published outside figures on the same topic', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
     var themes = ['All'].concat(items.map(function (b) { return b.theme; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
     function draw(th) {
       var list = items.filter(function (b) { return th === 'All' || b.theme === th; });
@@ -376,7 +377,7 @@
     var grid = h('div', 'iv-grid2 even'); host.appendChild(grid);
     [['soft', '--v-s3'], ['alc', '--v-s1']].forEach(function (pair) {
       var S = D[pair[0]], col = 'var(' + pair[1] + ')', cell = h('div'); grid.appendChild(cell);
-      var c = V.card(cell, { id: 'dr-' + pair[0], title: S.label + ': share of answers by type', sub: 'Bars show the share of ' + fmt(S.n) + ' answers since ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.start) : D.meta.start) + '; the thin line is the 95% range. ' + (S.left_out ? S.left_out + ' answers that belonged to the other question are left out.' : ''), src: 'Source: Dream Menu interviews, new drink questions, ' + D.meta.q.map(function (q, i) { return ql(q) + ' (' + S.n_q[i] + ' answers)'; }).join(', ') + '. ' + esc(D.meta.note), fresh: ['interviews'], csv: 'dream-menu-drinks-' + pair[0] });
+      var c = V.card(cell, { id: 'dr-' + pair[0], claim: esc(S.groups[0].l) + ' lead with ' + S.groups[0].pct + '% of answers', title: S.label + ': share of answers by type', sub: 'Bars show the share of ' + fmt(S.n) + ' answers since ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.start) : D.meta.start) + '; the thin line is the 95% range. ' + (S.left_out ? S.left_out + ' answers that belonged to the other question are left out.' : ''), src: 'Source: Dream Menu interviews, new drink questions, ' + D.meta.q.map(function (q, i) { return ql(q) + ' (' + S.n_q[i] + ' answers)'; }).join(', ') + '. ' + esc(D.meta.note), fresh: ['interviews'], csv: 'dream-menu-drinks-' + pair[0] });
       var rows = S.groups;
       V.responsive(c.plot, function (W) {
         var rowH = 34, m = { t: 6, b: 26, l: Math.min(190, W * 0.4), r: 52 }, H = m.t + m.b + rows.length * rowH, s = V.svg(c.plot, W, H, S.label + ' shares');

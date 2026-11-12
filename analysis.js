@@ -18,7 +18,7 @@
     var sc = $('#city-sig');
     if (sc) sc.innerHTML = sigs.map(function (s) { return '<div class="kpi"><span class="lab">' + esc(s.m) + '’s signature order</span><span class="val" style="font-size:28px">' + esc(s.c) + '</span><span class="del">' + (s.pin === 100 ? 'All ' + s.n : s.pin + '% of its ' + Math.round(s.n * 100 / s.pin)) + ' venue-linked mentions are in ' + esc(s.m) + ', which holds ' + s.base + '% of all mentions. Index ' + s.idx + '.</span></div>'; }).join('') +
       '<div class="kpi"><span class="lab">Venue-linked dish mentions</span><span class="val">' + fmt(C.total) + '</span><span class="del">' + C.markets.map(function (m, i) { return esc(m) + ' ' + Math.round(C.totals[i] * 100 / C.total) + '%'; }).slice(0, 2).join(', ') + '</span></div>';
-    var c = V.card(host, { id: 'city-index', title: 'Each dish’s share of a market’s mentions, against its share everywhere', sub: 'Cells show the share of that market’s venue-linked mentions. Colour compares it with the dish’s share across all markets, so a market with few answers reads on the same scale as Glasgow. Greyed cells rest on fewer than five mentions, so read them as a hint.', src: SRC_V, fresh: ['venues', 'interviews'], csv: 'dream-menu-city-appetite-index' });
+    var c = V.card(host, { id: 'city-index', claim: 'No two cities order alike', title: 'Each dish’s share of a market’s mentions, against its share everywhere', sub: 'Cells show the share of that market’s venue-linked mentions. Colour compares it with the dish’s share across all markets, so a market with few answers reads on the same scale as Glasgow. Greyed cells rest on fewer than five mentions, so read them as a hint.', src: SRC_V, fresh: ['venues', 'interviews'], csv: 'dream-menu-city-appetite-index' });
     var scale = h('div', 'scale', 'Smaller share than everywhere <i style="background:var(--v-r2)"></i><i style="background:var(--v-r1)"></i><i style="background:var(--v-d0)"></i><i style="background:var(--v-d1)"></i><i style="background:var(--v-d2)"></i><i style="background:var(--v-d3)"></i> Bigger share');
     c.el.insertBefore(scale, c.plot);
     function bucket(v) {
@@ -51,7 +51,7 @@
     var grid = h('div', 'iv-grid2 even'); host.appendChild(grid);
     var a = h('div'), b = h('div'); grid.appendChild(a); grid.appendChild(b);
     var steps = [['10', 'Top 10'], ['25', 'Top 25'], ['50', 'Top 50'], ['100', 'Top 100'], [String(K.venues), 'All ' + fmt(K.venues)]];
-    var c1 = V.card(a, { id: 'agreement', title: 'Share of guests’ most-named venues that hold a guide award', sub: 'Venues ranked by how many times guests name them. Award = any MICHELIN, 50 Best, AA, Good Food Guide, OAD, La Liste or other listed guide.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', '') + ' Awards as listed on 11 Nov 2026.', fresh: ['venues', 'awards'], csv: 'dream-menu-guests-vs-critics' });
+    var c1 = V.card(a, { id: 'agreement', claim: 'Guests and critics agree at the top, then part ways', title: 'Share of guests’ most-named venues that hold a guide award', sub: 'Venues ranked by how many times guests name them. Award = any MICHELIN, 50 Best, AA, Good Food Guide, OAD, La Liste or other listed guide.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', '') + ' Awards as listed on 11 Nov 2026.', fresh: ['venues', 'awards'], csv: 'dream-menu-guests-vs-critics' });
     V.responsive(c1.plot, function (W) {
       var H = 250, m = { t: 26, b: 34, l: 6, r: 6 }, s = V.svg(c1.plot, W, H, 'Award share by rank band');
       var rows = steps.map(function (st) { var t = K.tops[st[0]]; return { l: st[1], v: t.award / t.n * 100, a: t.award, n: t.n }; });
@@ -70,7 +70,7 @@
       el('line', { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), class: 'dmv-axis' }, s);
       c1.setTable([{ l: 'Venues', k: 'l' }, { l: 'With a guide award', k: 'a', n: 1 }, { l: 'Venues', k: 'n', n: 1 }, { l: 'Share %', f: function (r) { return r.v.toFixed(1); }, n: 1 }], rows);
     });
-    var c2 = V.card(b, { id: 'concentration', title: 'How concentrated guest recommendations are', sub: 'Venues ranked by mentions; the line shows the share of all mentions held by the top x% of venues.', src: SRC_V.replace('Counts are dish mentions tied to a named venue.', fmt(K.mentions) + ' venue mentions across ' + fmt(K.venues) + ' venues.'), fresh: ['venues'], csv: 'dream-menu-mention-concentration' });
+    var c2 = V.card(b, { id: 'concentration', claim: 'A tenth of venues take ' + Math.round(K.marks['10']) + '% of all mentions', title: 'How concentrated guest recommendations are', sub: 'Venues ranked by mentions; the line shows the share of all mentions held by the top x% of venues.', src: SRC_V.replace('Counts are dish mentions tied to a named venue.', fmt(K.mentions) + ' venue mentions across ' + fmt(K.venues) + ' venues.'), fresh: ['venues'], csv: 'dream-menu-mention-concentration' });
     V.responsive(c2.plot, function (W) {
       var H = 250, m = { t: 14, b: 34, l: 40, r: 14 }, s = V.svg(c2.plot, W, H, 'Concentration curve');
       var x = lin(0, 100, m.l, W - m.r), y = lin(0, 100, H - m.b, m.t);
@@ -93,10 +93,10 @@
     });
     var lists = h('div', 'iv-grid2 even'); host.appendChild(lists);
     var l1 = h('div'), l2 = h('div'); lists.appendChild(l1); lists.appendChild(l2);
-    var c3 = V.card(l1, { id: 'champions', title: 'Guests’ champions beyond the big guides', sub: 'The most-named venues not in the guides we track (MICHELIN, 50 Best, AA three Rosettes and above, Good Food Guide 100 Best Local, OAD, La Liste). Many hold other awards; this is about guide coverage, not quality.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', ''), fresh: ['venues', 'awards'], csv: 'dream-menu-guest-champions' });
+    var c3 = V.card(l1, { id: 'champions', claim: 'The favourites the big guides miss', title: 'Most-named venues outside the guides we track, by times named', sub: 'The most-named venues not in the guides we track (MICHELIN, 50 Best, AA three Rosettes and above, Good Food Guide 100 Best Local, OAD, La Liste). Many hold other awards; this is about guide coverage, not quality.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', ''), fresh: ['venues', 'awards'], csv: 'dream-menu-guest-champions' });
     c3.plot.innerHTML = '<ol class="rank-list">' + K.champions.map(function (v) { return '<li><div>' + esc(v.n) + '<span>' + esc(v.c) + (v.o ? ' · Also recognised: ' + esc(v.o) : '') + '</span></div><em>' + v.m + '</em></li>'; }).join('') + '</ol><p class="dmv-src" style="margin-top:8px">Number = times named by guests. Being outside the big guides says nothing about quality. "Also recognised" shows the Scottish, UK and bar awards we match by hand; a venue with none listed may still hold awards we have not found.</p>';
     c3.setTable([{ l: 'Venue', k: 'n' }, { l: 'City', k: 'c' }, { l: 'Mentions', k: 'm', n: 1 }, { l: 'Guests naming', k: 'g', n: 1 }, { l: 'Also recognised (examples)', k: 'o' }], K.champions);
-    var c4 = V.card(l2, { id: 'award-favourites', title: 'Award holders guests name most', sub: 'Where guests and critics agree.', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', '') + ' Highest recognition shown.', fresh: ['venues', 'awards'], csv: 'dream-menu-award-favourites' });
+    var c4 = V.card(l2, { id: 'award-favourites', claim: 'Where guests and critics agree', title: 'Award holders guests name most, by times named', sub: '', src: SRC_V.replace(' Counts are dish mentions tied to a named venue.', '') + ' Highest recognition shown.', fresh: ['venues', 'awards'], csv: 'dream-menu-award-favourites' });
     c4.plot.innerHTML = '<ol class="rank-list">' + K.starred.map(function (v) { return '<li><div>' + esc(v.n) + '<span>' + esc(v.c) + ' · ' + esc(v.aw) + '</span></div><em>' + v.m + '</em></li>'; }).join('') + '</ol><p class="dmv-src" style="margin-top:8px">Number = times named by guests.</p>';
     c4.setTable([{ l: 'Venue', k: 'n' }, { l: 'City', k: 'c' }, { l: 'Recognition', k: 'aw' }, { l: 'Mentions', k: 'm', n: 1 }], K.starred);
     var t25 = K.tops['25'], all = K.tops[String(K.venues)];
@@ -108,7 +108,7 @@
   (function conc() {
     var host = $('#c-conc'); if (!host) return;
     var R = A.conc;
-    var c = V.card(host, { id: 'settled', title: 'Share of each course’s answers taken by its three biggest food groups', sub: 'The higher the bar, the more settled the course: guests agree on what it should be.', src: 'Source: Dream Menu interviews, ' + fmt(A.fresh.dish_n) + ' answering the dish questions, 1 Sep 2025 to ' + F.fmt(A.fresh.interviews_to) + '. Shares of answers coded to a food group.', fresh: ['interviews'], csv: 'dream-menu-course-concentration',
+    var c = V.card(host, { id: 'settled', claim: (function () { var f = R.filter(function (r) { return 'smdp'.indexOf(r.course) >= 0; }).sort(function (a, b) { return b.top3 - a.top3; }); return f[0].cl + 's are the most settled course, ' + f[f.length - 1].cl.toLowerCase() + 's the most open'; })(), title: 'Share of each course’s answers taken by its three biggest food groups', sub: 'The higher the bar, the more settled the course: guests agree on what it should be.', src: 'Source: Dream Menu interviews, ' + fmt(A.fresh.dish_n) + ' answering the dish questions, 1 Sep 2025 to ' + F.fmt(A.fresh.interviews_to) + '. Shares of answers coded to a food group.', fresh: ['interviews'], csv: 'dream-menu-course-concentration',
       legend: [['Biggest group', '--v-brand', 'sq'], ['Second', '--v-d2', 'sq'], ['Third', '--v-d1', 'sq']] });
     V.responsive(c.plot, function (W) {
       var mob = W < 560, lw = mob ? 96 : 150, rh = 46, m = { t: 6, b: 26, r: 46 };

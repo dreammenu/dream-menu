@@ -44,7 +44,7 @@
   (function matrix() {
     var host = $('#c-matrix'); if (!host) return;
     var cur = 'd';
-    var c = V.card(host, { id: 'matrix', title: 'Share of answers against change in share, every tracked dish', sub: 'Bubble size = answers. Lines split each course at its median share and at no change.', src: SRC, fresh: ['interviews'], csv: 'dream-menu-momentum-matrix',
+    var c = V.card(host, { id: 'matrix', claim: 'Big and growing sits top right', title: 'Share of answers against change in share, every tracked dish', sub: 'Bubble size = answers. Lines split each course at its median share and at no change.', src: SRC, fresh: ['interviews'], csv: 'dream-menu-momentum-matrix',
       legend: [['Clear rise', '--v-up'], ['Clear fall', '--v-down'], ['Not a clear move', '--v-ns']] });
     V.chips(c.filters, [['all', 'All courses']].concat(COURSES), cur, function (v) { cur = v; redraw(); });
     var redraw = V.responsive(c.plot, draw);
@@ -101,7 +101,7 @@
   (function forest() {
     var host = $('#c-forest'); if (!host) return;
     var mode = 'sig';
-    var c = V.card(host, { id: 'confidence', title: 'Change in share with its 95% range: a line that crosses zero is not a clear move', sub: 'Dot = best estimate of the change from earlier to recent quarters. Line = the range the true change very likely sits in.', src: SRC + ' Ranges use the standard error behind each test.', fresh: ['interviews'], csv: 'dream-menu-movers-with-ranges',
+    var c = V.card(host, { id: 'confidence', claim: 'A line that crosses zero is not a clear move', title: 'Change in share from earlier to recent quarters, with its 95% range', sub: 'Dot = best estimate of the change from earlier to recent quarters. Line = the range the true change very likely sits in.', src: SRC + ' Ranges use the standard error behind each test.', fresh: ['interviews'], csv: 'dream-menu-movers-with-ranges',
       legend: [['Clear rise', '--v-up'], ['Clear fall', '--v-down'], ['Not a clear move', '--v-ns']] });
     V.chips(c.filters, [['sig', 'Clear movers'], ['big', 'Largest 30 dishes and groups'], ['near', 'Near misses']], mode, function (v) { mode = v; redraw(); });
     var redraw = V.responsive(c.plot, draw);
@@ -146,7 +146,7 @@
   // =================================================================== 4. trend wall
   (function wallChart() {
     var host = $('#c-wall'); if (!host) return;
-    var c = V.card(host, { id: 'trend-wall', title: 'The top six groups in every course, six quarters each', sub: 'Shaded = the recent quarters used for the test. Open dots = quarters with fewer than ' + I.method.min_n + ' answers. A coloured frame marks a clear move.', src: SRC, fresh: ['interviews'], csv: 'dream-menu-trend-wall',
+    var c = V.card(host, { id: 'trend-wall', claim: 'Every course at a glance', title: 'The top six groups in every course, six quarters each', sub: 'Shaded = the recent quarters used for the test. Open dots = quarters with fewer than ' + I.method.min_n + ' answers. A coloured frame marks a clear move.', src: SRC, fresh: ['interviews'], csv: 'dream-menu-trend-wall',
       legend: [['Clear rise', '--v-up', 'sq'], ['Clear fall', '--v-down', 'sq']] });
     var out = '', rows = [];
     I.wall.forEach(function (w) {
@@ -178,7 +178,7 @@
   (function heatChart() {
     var host = $('#c-heat'); if (!host) return;
     var cur = 'd';
-    var c = V.card(host, { id: 'dish-heat', title: 'Each dish’s share by quarter, against its own average', sub: 'Blue = above the dish’s own average that quarter, red = below. The number is the share of answers. Hatched columns have fewer than ' + I.method.min_n + ' answers.', src: SRC, fresh: ['interviews'], csv: 'dream-menu-dish-heat' });
+    var c = V.card(host, { id: 'dish-heat', claim: 'Which dishes are running hot or cold', title: 'Each dish’s share by quarter, against its own average', sub: 'Blue = above the dish’s own average that quarter, red = below. The number is the share of answers. Hatched columns have fewer than ' + I.method.min_n + ' answers.', src: SRC, fresh: ['interviews'], csv: 'dream-menu-dish-heat' });
     V.chips(c.filters, COURSES, cur, function (v) { cur = v; draw(); });
     var sc = h('div', 'scale', 'Below average <i style="background:var(--v-r3)"></i><i style="background:var(--v-r2)"></i><i style="background:var(--v-r1)"></i><i style="background:var(--v-d0)"></i><i style="background:var(--v-d1)"></i><i style="background:var(--v-d2)"></i><i style="background:var(--v-d3)"></i> Above average');
     c.el.insertBefore(sc, c.plot);
@@ -215,7 +215,7 @@
     var host = $('#c-seg'); if (!host) return;
     var S = I.seg, mode = 'groups';
     var COL = ['--v-s1', '--v-s2', '--v-s3'], SHAPE = ['circle', 'square', 'diamond'];
-    var c = V.card(host, { id: 'segments', title: 'Share of all dish and drink answers, by who is answering', sub: 'Each group’s top six. An open marker means the item is outside that group’s top six, so its share is below the value shown.', src: 'Source: Dream Menu interviews, ' + S.segs.map(function (s) { return s.g + ' ' + fmt(s.n); }).join(', ') + '. Respondent group from the guest’s own description of their page.', fresh: ['interviews'], csv: 'dream-menu-segments',
+    var c = V.card(host, { id: 'segments', claim: 'Trade, creators and diners want different things', title: 'Share of all dish and drink answers, by who is answering', sub: 'Each group’s top six. An open marker means the item is outside that group’s top six, so its share is below the value shown.', src: 'Source: Dream Menu interviews, ' + S.segs.map(function (s) { return s.g + ' ' + fmt(s.n); }).join(', ') + '. Respondent group from the guest’s own description of their page.', fresh: ['interviews'], csv: 'dream-menu-segments',
       legend: S.segs.map(function (s, i) { return [s.g + ' (' + s.share + '%)', COL[i], i === 1 ? 'sq' : '']; }) });
     V.chips(c.filters, [['groups', 'Food groups'], ['dishes', 'Dishes']], mode, function (v) { mode = v; redraw(); });
     var redraw = V.responsive(c.plot, draw);
@@ -251,7 +251,7 @@
     var host = $('#c-opp'); if (!host) return;
     var filt = 'all', course = 'all';
     var PARTS = [['demand', 'Demand', '--v-brand'], ['momentum', 'Momentum', '--v-s1'], ['evidence', 'Evidence', '--v-d2'], ['room', 'Room to enter', '--v-gold']];
-    var c = V.card(host, { id: 'opportunity', title: 'Trend score for every tracked dish and drink, out of 10', sub: 'Out of 10 (the 100-point score divided by 10): demand 30, momentum 35, evidence 15, room to enter 20, minus 10 if guests also want it binned. Soft drinks are left out (too few answers per quarter).', src: SRC + ' Room to enter = how much of the dish’s venue mentions go to one venue.', fresh: ['interviews', 'venues'], csv: 'dream-menu-opportunity-scores',
+    var c = V.card(host, { id: 'opportunity', claim: 'What to back, watch and review', title: 'Trend score for every tracked dish and drink, out of 10', sub: 'Out of 10 (the 100-point score divided by 10): demand 30, momentum 35, evidence 15, room to enter 20, minus 10 if guests also want it binned. Soft drinks are left out (too few answers per quarter).', src: SRC + ' Room to enter = how much of the dish’s venue mentions go to one venue.', fresh: ['interviews', 'venues'], csv: 'dream-menu-opportunity-scores',
       legend: PARTS.map(function (p) { return [p[1], p[2], 'sq']; }) });
     var crs = [['all', 'All courses']].concat(COURSES.filter(function (x) { return x[0] !== 'k'; }));
     var f1 = h('div', 'dmv-filters'), f2 = c.filters;
@@ -287,7 +287,7 @@
     var SRC8 = 'Source: Dream Menu 2026 Look Ahead survey, ' + o.n + ' operators, 2 April to 3 May 2026. Respondents could pick several options, so shares add to more than 100%.';
     var wrap = h('div', 'iv-grid2'); host.appendChild(wrap);
     var a = h('div'), b = h('div'); wrap.appendChild(a); wrap.appendChild(b);
-    var c1 = V.card(a, { id: 'pressure-gap', title: 'Pressure felt against the matching action taken', sub: 'Share of operators naming each pressure, beside the share who took the action that answers it most directly.', src: SRC8, fresh: ['look'], csv: 'dream-menu-pressure-vs-action',
+    var c1 = V.card(a, { id: 'pressure-gap', claim: 'Where operators feel pressure but have not acted', title: 'Pressure felt against the matching action taken', sub: 'Share of operators naming each pressure, beside the share who took the action that answers it most directly.', src: SRC8, fresh: ['look'], csv: 'dream-menu-pressure-vs-action',
       legend: [['Name it as a pressure', '--v-s2', 'sq'], ['Took the matching action', '--v-s1', 'sq']] });
     V.responsive(c1.plot, function (W) {
       var R = o.gap, mob = W < 520, rh = 64, m = { t: 6, b: 26, l: 0, r: 40 };
@@ -309,7 +309,7 @@
     });
     function bar(x0, y0, w, hh) { w = Math.max(w, 2); var r = Math.min(4, w); return 'M' + x0 + ' ' + y0 + 'H' + (x0 + w - r) + 'Q' + (x0 + w) + ' ' + y0 + ' ' + (x0 + w) + ' ' + (y0 + r) + 'V' + (y0 + hh - r) + 'Q' + (x0 + w) + ' ' + (y0 + hh) + ' ' + (x0 + w - r) + ' ' + (y0 + hh) + 'H' + x0 + 'Z'; }
 
-    var c2 = V.card(b, { id: 'trade-call', title: 'How operators call the next few months, and how this year compares', sub: 'Each bar is all answers. Worse to the left of the line, better to the right.', src: SRC8.replace(' Respondents could pick several options, so shares add to more than 100%.', ' “Unsure” answers left out.'), fresh: ['look'], csv: 'dream-menu-trade-call',
+    var c2 = V.card(b, { id: 'trade-call', claim: 'How operators see the months ahead', title: 'How operators call the next few months, and how this year compares', sub: 'Each bar is all answers. Worse to the left of the line, better to the right.', src: SRC8.replace(' Respondents could pick several options, so shares add to more than 100%.', ' “Unsure” answers left out.'), fresh: ['look'], csv: 'dream-menu-trade-call',
       legend: [['Worse', '--v-down', 'sq'], ['Neutral', '--v-ns', 'sq'], ['Better', '--v-up', 'sq']] });
     V.responsive(c2.plot, function (W) {
       var rows = [
