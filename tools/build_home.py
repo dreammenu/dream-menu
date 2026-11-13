@@ -57,9 +57,27 @@ else:
         'Keep core lines and test new ideas as specials before they earn a permanent place.',
         '/analysis#changed', 'What changed, course by course'))
 
-# 2. What to protect: steady staples
+# 2. Demand against supply, from the menu audit (tools/build_menu_audit.py). Replaced the staples card on 13 Nov 2026:
+#    the staples are still on /analysis#life; this is the finding a venue can act on tonight. Falls back to staples without an audit.
+import os
+AU = None
+if os.path.exists('menu-audit-public.js'):
+    AU = json.loads(open('menu-audit-public.js', encoding='utf-8').read().split('window.DM_AUDIT=', 1)[1].strip().rstrip(';'))
+_gaps = sorted([r for r in (AU or {}).get('rows', []) if r['read'] == 'Gap'], key=lambda r: -r['demand'])
 st = T['staples']
-if st:
+if _gaps:
+    g = _gaps[0]
+    gc = g['course'].lower()
+    same = [r for r in _gaps if r['course'] == g['course']]
+    over = sorted([r for r in AU['rows'] if r['read'] == 'Over-supplied' and r['course'] == g['course']], key=lambda r: -r['menus'])
+    cn = AU.get('cn', {}).get(g['course'], AU['n'])
+    cards.append(card(2, 'Menus', f'{g["l"]}: {pct(g["demand"])} of guests, {g["menus"]:.0f}% of menus',
+        f'We read the published menus of {AU["n"]} of the venues guests name most. {g["l"]} is the most-named {gc}, yet it is on {g["menus"]:.0f}% of the {cn} menus that print {gc}s.'
+        + (f' {over[0]["l"]} are on {over[0]["menus"]:.0f}%, for {pct(over[0]["demand"])} of guests.' if over else ''),
+        (f'Check your {gc} list against the {len(same)} most-named ({", ".join(r["l"].lower() for r in same)}) before adding anything new.' if len(same) > 1
+         else f'If {g["l"].lower()} is not on your menu, trial it as a special.'),
+        '/analysis#menu-gap', 'What guests ask for against what menus list'))
+elif st:
     top = st[:3]
     names = ', '.join(s['l'].lower() for s in top[:-1]) + ' and ' + top[-1]['l'].lower()
     cards.append(card(2, 'Staples', f'{len(st)} dishes hold their share every quarter',
@@ -95,7 +113,8 @@ section = (
     '<section class="h-sec" id="now"><div class="wrap">\n'
     '  <div class="h-head"><div class="eyebrow">This quarter</div><h2>Three findings, and <em>what to do about them</em></h2>\n'
     f'  <p class="lede">Tested against chance, not just counted. Figures are shares of answers from {N_ALL:,} interviews to {when}. '
-    'The fourth card is an outside source, kept separate as a challenge to our own data.</p></div>\n'
+    + (f'The menus card sets those answers beside {AU["n"]} published menus read on {date.fromisoformat(AU["collected"]).day} {date.fromisoformat(AU["collected"]).strftime("%B %Y")}. ' if _gaps else '')
+    + 'The fourth card is an outside source, kept separate as a challenge to our own data.</p></div>\n'
     f'  <div class="hf-grid">{"".join(cards)}</div>\n'
     '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/report">Report 2026</a></p>\n'
     '</div></section>\n')

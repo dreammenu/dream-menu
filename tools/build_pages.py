@@ -89,6 +89,37 @@ _stap3 = ', '.join(x['l'].lower() for x in TP['staples'][:2]) + ' and ' + TP['st
 _bagree = sum(1 for i in BEN['items'] if i['verdict'] == 'agrees')
 _bdiff = sum(1 for i in BEN['items'] if i['verdict'] == 'differs')
 
+# ---- menu audit (tools/build_menu_audit.py): every figure below is read from menu-audit-public.js
+def _audit():
+    t = open('menu-audit-public.js', encoding='utf-8').read().split('window.DM_AUDIT=', 1)[1].strip().rstrip(';')
+    return json.loads(t)
+
+
+AU = _audit() if os.path.exists('menu-audit-public.js') else None
+AU_SUB = AU_V = AU_I = AU_S = AU_M = ''
+if AU and AU.get('rows'):
+    _gaps = sorted([r for r in AU['rows'] if r['read'] == 'Gap'], key=lambda r: -r['demand'])
+    _over = sorted([r for r in AU['rows'] if r['read'] == 'Over-supplied'], key=lambda r: -r['menus'])
+    _apr = {x['course']: x for x in AU.get('prices', [])}
+    _acn = AU.get('cn', {})
+    if _gaps:
+        _g = _gaps[0]
+        _gc = _g['course'].lower()
+        _same = [r for r in _gaps if r['course'] == _g['course']]
+        _o = next((r for r in _over if r['course'] == _g['course']), _over[0] if _over else None)
+        AU_SUB = (f' Then supply: we read the published menus of {AU["n"]} of the venues guests name most. {_g["l"]} is the {_gc} answer of {_g["demand"]:.1f}% of guests '
+                  f'but is listed on {_g["menus"]:.0f}% of the {_acn.get(_g["course"], AU["n"])} menus that print {_gc}s'
+                  + (f', against {_o["menus"]:.0f}% for {_o["l"].lower()}, which {_o["demand"]:.1f}% name' if _o else '') + '.')
+        AU_V = (f' On the {_gc} list, check the {len(_same)} most-named {_gc}s first ({", ".join(r["l"].lower() for r in _same)}): '
+                f'together they are {sum(r["demand"] for r in _same):.1f}% of {_gc} answers, and each is on {max(r["menus"] for r in _same):.0f}% or fewer of the menus we read.'
+                if len(_same) > 1 else f' Check {_g["l"].lower()} first: {_g["demand"]:.1f}% of guests name it and {_g["menus"]:.0f}% of the menus we read list it.')
+        AU_S = (' The menu audit shows where listings trail demand: ' + '; '.join(f'{r["l"].lower()} ({r["demand"]:.1f}% of guests, {r["menus"]:.0f}% of menus)' for r in _gaps[:3]) + '.')
+        AU_M = (f' A fresh line from the menu audit: {_g["l"].lower()} is the most-named {_gc}, at {_g["demand"]:.1f}% of answers, yet {100 - _g["menus"]:.0f}% of the {_gc} menus we read leave it off.')
+    if 'Main' in _apr and 'Starter' in _apr:
+        _m, _s = _apr['Main'], _apr['Starter']
+        AU_I = (f' For pricing, the middle printed price at the {AU["n"]} audited venues is £{_s["median"]:.2f} for a starter and £{_m["median"]:.2f} for a main '
+                f'(half of all mains fall between £{_m["lo"]:.2f} and £{_m["hi"]:.2f}).')
+
 DO = {  # one direct use per section, shown under its introduction
     'read': 'brief a team in two minutes. Every line is rechecked at each refresh, so quote it with its date.',
     'demand': 'set the shape of a menu or a range: lead each course with its biggest food group, protect the staples, and trial rising dishes as specials.',
@@ -155,19 +186,19 @@ toc = '<ol class="iv-story">' + ''.join(f'<li><a href="#{a}"><b>{i}</b><span>{t}
 _ROLES = [
     ('Running a venue or a kitchen',
      (f'Review the {_most["cl"].lower()} list first: it is the only course that has moved beyond chance. ' if _moved else 'No course has moved beyond chance, so trial new ideas as specials. ')
-     + f'Protect the staples ({_stap3}). Give alcohol-free its own priced section: {_af:.1f}% of guests choose it when asked for an alcoholic drink.',
+     + f'Protect the staples ({_stap3}). Give alcohol-free its own priced section: {_af:.1f}% of guests choose it when asked for an alcoholic drink.' + AU_V,
      '/operators', 'Operator toolkit'),
     ('Opening a venue or investing',
      f'Guests broadly agree on what {_set["cl"].lower()}s should be, so compete there on quality, not novelty. {_open["cl"]}s are the most open course: that is where a signature dish can stand out. '
-     f'Recommendation is concentrated (the top 10% of venues take {_K["marks"]["10"]:.0f}% of mentions), so plan for word of mouth from day one.',
+     f'Recommendation is concentrated (the top 10% of venues take {_K["marks"]["10"]:.0f}% of mentions), so plan for word of mouth from day one.' + AU_I,
      '/map', 'Venue map and rankings'),
     ('Supplying venues or building a range',
      f'Build the core range around the {_n_stap} steady staples and follow the shift within {_most["cl"].lower()}s. '
-     'Partners see which food groups gained and lost, a score for every dish and a three-quarter planning range.',
+     'Partners see which food groups gained and lost, a score for every dish and a three-quarter planning range.' + AU_S,
      '/for-business', 'Ways to work with us'),
     ('Marketing, press and guides',
      f'{_t25}% of the 25 most-named venues hold a guide award, against {_tall}% of all venues named: guests and critics agree at the very top and part ways below it. '
-     'The favourites beyond the guides are the stories nobody else has.',
+     'The favourites beyond the guides are the stories nobody else has.' + AU_M,
      '/press', 'Press kit'),
 ]
 ACTIONS = ('<div class="iv-roles">' + ''.join(
@@ -203,7 +234,7 @@ main = f"""<main class="iv-page">
 {toc}
 </div></section>
 {chap(1, 'The short version', 'What the data says this quarter', 'Each line is written from the numbers and rechecked at every refresh. The sections below show the evidence.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div><div data-fresh="interviews look"></div>', 'read')}
-{chap(2, 'What do guests want?', f"{_lead['s']['l']} to start, {_lead['m']['l'].lower()} for main, {_lead['d']['l'].lower()} on the side", f'Demand first. The chart shows what each course is made of, by food group. Below it is the life cycle that menu analysts use: a dish emerges, grows, becomes established and fades. {_n_stap} dishes are established staples that hold their share every quarter.', '<div id="th-demand"></div><div id="th-audit"></div><span id="life"></span><span id="settled-sec"></span><div id="th-life"></div>', 'demand', part='Question one')}
+{chap(2, 'What do guests want?', f"{_lead['s']['l']} to start, {_lead['m']['l'].lower()} for main, {_lead['d']['l'].lower()} on the side", f'Demand first. The chart shows what each course is made of, by food group. Below it is the life cycle that menu analysts use: a dish emerges, grows, becomes established and fades. {_n_stap} dishes are established staples that hold their share every quarter.{AU_SUB}', '<div id="th-demand"></div><div id="th-audit"></div><span id="life"></span><span id="settled-sec"></span><div id="th-life"></div>', 'demand', part='Question one')}
 {chap(3, 'What is changing?', ('Sides are being rewritten; the rest of the menu is holding' if _most['course'] == 'd' else f"{_most['cl']}s changed most") if _moved else 'No course has changed beyond chance', f'{_most["obs"]}% of {_most["cl"].lower()} answers now sit in a different food group than in late 2025, against about {_most["chance"]}% that sampling alone would produce. No other course clears that bar.', '<div id="th-churn"></div><h3 class="iv-h3 iv-h3b" id="drinks">Drinks: a new baseline since August 2026</h3><p class="iv-sub">The drinks question was split into soft and alcoholic on 23 August 2026, so this series starts there. Levels only for now; movement will be tested once two quarters each hold 100 answers.</p><div id="th-drinks"></div>', 'changed', part='Question two')}
 {chap(4, 'Where does it differ?', '&nbsp;', 'The national picture hides real differences between cities, and between what guests name and what guides reward. Shares, not counts, are used throughout, so a smaller city is compared fairly with Glasgow.', '<div id="c-cities"></div><span id="critics"></span><h3 class="iv-h3 iv-h3b" id="tb"></h3><p class="iv-sub" id="sb"></p><div id="c-critics"></div>', 'cities', tid='ta', part='Question three')}
 {chap(5, 'Can we trust it?', f'Outside data agrees with Dream Menu on {_bagree} topics and challenges it on {_bdiff}', 'A panel of food-led people is not the general public, so every finding is checked against national polls, eating-out data, menu trackers and sales figures. Outside figures are never mixed into Dream Menu data: they sit beside it with their source and date.', '<div id="th-bench"></div>', 'compare', part='Question four')}

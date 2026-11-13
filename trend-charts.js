@@ -434,12 +434,12 @@
 
   // ---------- menu audit: what guests ask for against what venues list
   function supplyGap(host, A) {
-    var order = { 'Gap': 0, 'Over-supplied': 1, 'Table stakes': 2, 'Niche': 3 }, cur = 'Gap', gaps = A.rows.filter(function (r) { return r.read === 'Gap'; }).sort(function (a, b) { return b.demand - a.demand; });
+    var order = { 'Gap': 0, 'Over-supplied': 1, 'Table stakes': 2, 'Niche': 3, 'Not comparable': 4 }, cur = 'Gap', gaps = A.rows.filter(function (r) { return r.read === 'Gap'; }).sort(function (a, b) { return b.demand - a.demand; });
     var c = V.card(host, { id: 'menu-gap', claim: gaps.length ? esc(gaps[0].l) + ' leads ' + gaps.length + ' dishes guests want more than menus offer' : 'Menus cover what guests ask for', title: 'Share of guests naming each dish, beside the share of ' + A.n + ' audited menus that list it',
-      src: 'Source: Dream Menu interviews, and the published menus of ' + A.n + ' of the most-named venues, read ' + String(A.collected || '').split('-').reverse().join('/') + '. A menu counts once however many versions of a dish it lists.' });
+      src: 'Source: Dream Menu interviews, and the published menus of ' + A.n + ' of the most-named venues, read ' + String(A.collected || '').split('-').reverse().join('/') + '. A menu counts once however many versions of a dish it lists; each share is of the menus that print that course.' });
     function draw() {
       var rows = A.rows.filter(function (r) { return cur === 'All' || r.read === cur; }).sort(function (a, b) { return order[a.read] - order[b.read] || b.demand - a.demand; });
-      c.plot.innerHTML = '<div class="sc-wrap"><table class="sc"><thead><tr><th>Read</th><th>Dish</th><th>Course</th><th class="num">Guests naming it</th><th class="num">On menus</th><th class="num">Typical price</th></tr></thead><tbody>' + rows.map(function (r) {
+      c.plot.innerHTML = '<div class="sc-wrap"><table class="sc sc-au"><thead><tr><th>Read</th><th>Dish</th><th>Course</th><th class="num">Guests naming it</th><th class="num">On menus</th><th class="num">Typical price</th></tr></thead><tbody>' + rows.map(function (r) {
         return '<tr><td><span class="sc-call ' + (r.read === 'Gap' ? 'sc-grow' : r.read === 'Over-supplied' ? 'sc-trim' : 'sc-core') + '">' + r.read + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.demand * 7).toFixed(0) + '%"></b></i>' + r.demand.toFixed(1) + '%</td><td class="num"><i class="sc-bar"><b style="width:' + r.menus.toFixed(0) + '%;background:var(--v-ns,#b8b6ae)"></b></i>' + r.menus.toFixed(0) + '%</td><td class="num">' + (r.price ? '£' + r.price.toFixed(2) : '<small>too few</small>') + '</td></tr>';
       }).join('') + '</tbody></table></div>';
     }

@@ -8,10 +8,25 @@ Input   tools/data/menu-audit.json   written by hand or by Claude from venues' o
   "dish" must be one of the labels in pick-data.js for that course; "group" one of the course's food groups in partner-data.js.
   Prices are GBP as printed; leave out when a menu has no prices. Only menus read from the venue's own site or its own PDF count.
 
+Shares are worked out per course over the menus where that course was read (many menus print no desserts,
+or keep them on a separate card), so a missing dessert list does not count as "does not list tiramisu".
+
+Reads: Gap, Table stakes, Over-supplied, Niche, Not comparable (see the thresholds below the imports).
+
 Output  menu-audit-public.js   window.DM_AUDIT (or null when there is no audit yet). Public: menus are public and so are demand shares.
 Run after build_venue_pages.py (it needs pick-data.js):  python3 tools/build_menu_audit.py
 """
 import json, os, statistics as st
+
+# Thresholds, set 13 November 2026 after the first audit (45 venues).
+# Gap: demand in the course's top quarter of tracked dishes, on fewer than SUPPLY% of menus. With the first rule (demand at or
+#   above the course median) 20 of 56 dishes read as gaps, most of them named by about 2% of guests: too weak to act on.
+# Table stakes: demand at or above the course median and on SUPPLY% or more of menus. Over-supplied: demand below the median, on SUPPLY% or more.
+SUPPLY = 25
+# A guest who says "steak" without a cut is served by any steak on the menu, so that label counts every steak label.
+ANY = {('m', 'Steak (cut not named)'): ['Steak (cut not named)', 'Fillet steak', 'Ribeye steak', 'Sharing steaks (chateaubriand, côte de boeuf)']}
+# On menus this label takes every pasta main, while on the guest side it is only the pasta left after the named ones: not like for like.
+BROAD = {('m', 'Other pasta')}
 
 FN = 'tools/data/menu-audit.json'
 OUT = 'menu-audit-public.js'
@@ -38,27 +53,32 @@ if len(V) < 10:
     print(f'menu audit: {len(V)} venues, need 10 before publishing')
     raise SystemExit
 n = len(V)
-rows, groups, prices = [], [], []
+rows, groups, prices, cn = [], [], [], {}
 for c in PICK['courses']:
     k = c['k']
     if k not in 'smdp':
         continue
     has = lambda v, key, val: any(d.get('course') == k and d.get(key) == val for d in v['dishes'])
     med = st.median([i['p'] for i in c['items']])
+    VC = [v for v in V if any(d.get('course') == k for d in v['dishes'])]   # menus where this course was read
+    nc = len(VC) or 1
+    cn[c['label']] = len(VC)
+    q3 = st.quantiles([i['p'] for i in c['items']], n=4)[2]
     for i in c['items']:
-        pen = 100 * sum(1 for v in V if has(v, 'dish', i['l'])) / n
+        labs = ANY.get((k, i['l']), [i['l']])
+        pen = 100 * sum(1 for v in VC if any(has(v, 'dish', l) for l in labs)) / nc
         pr = [d['price'] for v in V for d in v['dishes'] if d.get('course') == k and d.get('dish') == i['l'] and d.get('price')]
-        hi_d, hi_s = i['p'] >= med, pen >= 25
-        read = 'Gap' if hi_d and not hi_s else 'Table stakes' if hi_d else 'Over-supplied' if hi_s else 'Niche'
+        hi_d, top_d, hi_s = i['p'] >= med, i['p'] >= q3, pen >= SUPPLY
+        read = 'Not comparable' if (k, i['l']) in BROAD else 'Gap' if top_d and not hi_s else 'Table stakes' if hi_d and hi_s else 'Over-supplied' if hi_s else 'Niche'
         rows.append(dict(course=c['label'], l=i['l'], demand=i['p'], menus=round(pen, 1), read=read, price=round(st.median(pr), 2) if len(pr) >= 3 else None))
     for g in P['trends'][k]['groups']:
-        groups.append(dict(course=c['label'], l=g['c'], demand=g['pct'], menus=round(100 * sum(1 for v in V if has(v, 'group', g['c'])) / n, 1)))
+        groups.append(dict(course=c['label'], l=g['c'], demand=g['pct'], menus=round(100 * sum(1 for v in VC if has(v, 'group', g['c'])) / nc, 1)))
     cp = [d['price'] for v in V for d in v['dishes'] if d.get('course') == k and d.get('price')]
     if len(cp) >= 10:
         prices.append(dict(course=c['label'], median=round(st.median(cp), 2), lo=round(st.quantiles(cp, n=4)[0], 2), hi=round(st.quantiles(cp, n=4)[2], 2), n=len(cp),
-                           count=round(st.mean([sum(1 for d in v['dishes'] if d.get('course') == k) for v in V]), 1)))
+                           count=round(st.mean([sum(1 for d in v['dishes'] if d.get('course') == k) for v in VC]), 1)))
 cities = {}
 for v in V:
     cities[v.get('city', '')] = cities.get(v.get('city', ''), 0) + 1
-write(dict(collected=A.get('collected'), n=n, cities=cities, rows=rows, groups=groups, prices=prices))
+write(dict(collected=A.get('collected'), n=n, cn=cn, cities=cities, rows=rows, groups=groups, prices=prices))
 print(f'menu audit: {n} venues, {len(rows)} dishes compared, {sum(1 for r in rows if r["read"] == "Gap")} gaps')
