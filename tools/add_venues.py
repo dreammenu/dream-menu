@@ -59,7 +59,9 @@ COARSE = {
     'Gin and tonic': 'Gin & tonic', 'IPA / craft beer': 'Beer / lager / ale',
 }
 CC = {'United Kingdom': 'GB', 'Ireland': 'IE', 'Netherlands': 'NL', 'Mexico': 'MX', 'Italy': 'IT', 'Australia': 'AU',
-      'United States': 'US', 'France': 'FR', 'Spain': 'ES', 'Greece': 'GR', 'Barbados': 'BB', 'New Zealand': 'NZ'}
+      'United States': 'US', 'France': 'FR', 'Spain': 'ES', 'Greece': 'GR', 'Barbados': 'BB', 'New Zealand': 'NZ',
+      'Czech Republic': 'CZ', 'Iceland': 'IS', 'Denmark': 'DK', 'Jamaica': 'JM', 'Thailand': 'TH', 'Japan': 'JP',
+      'India': 'IN', 'Portugal': 'PT', 'Singapore': 'SG', 'Germany': 'DE'}
 
 
 def load(fn, var):
@@ -111,6 +113,8 @@ def main(vfn, ifn, pcfn=None):
         if v['co'] and v['r']:
             region_of.setdefault(v['co'], v['r'])
     region_of.setdefault('Netherlands', 'Europe')
+    for _co, _r in (('Czech Republic', 'Europe'), ('Iceland', 'Europe'), ('Jamaica', 'North America')):
+        region_of.setdefault(_co, _r)
 
     # postcodes for exact addresses
     pcs = {}
@@ -121,6 +125,7 @@ def main(vfn, ifn, pcfn=None):
             if row[1] in want:
                 pcs[row[1]] = (float(row[2]), float(row[3]))
 
+    added = []
     for n in spec['new_venues']:
         if n['i'] in byid:
             continue
@@ -137,6 +142,7 @@ def main(vfn, ifn, pcfn=None):
         if n['no']:
             v['no'] = n['no']
         V.append(v); byid[v['i']] = v; vidx[v['i']] = len(V) - 1
+        added.append(v['i'])
 
     for vid, fix in spec.get('fix_venues', {}).items():
         v = byid[vid]
@@ -154,7 +160,7 @@ def main(vfn, ifn, pcfn=None):
 
     # apply mentions
     cat_list = C['c']
-    touched, guests = set(), defaultdict(set)
+    touched, guests = set(added), defaultdict(set)   # new venues count as touched so their markets exist and are counted
     market_new = defaultdict(lambda: dict(coarse=Counter(), fine=Counter(), guests=set(), q=Counter()))
     for mt in spec['mentions']:
         v = byid[mt['v']]
@@ -257,7 +263,8 @@ def main(vfn, ifn, pcfn=None):
     batch_n = len(dates)
     meta['interviews'] += batch_n - already
     meta['interviews_mapped'] += batch_n
-    meta['interviews_to'] = max(meta['interviews_to'], max(dates.values()))
+    if dates:
+        meta['interviews_to'] = max(meta['interviews_to'], max(dates.values()))
     meta['built'] = '2026-10-28'
     meta['venues'] = len(V)
     meta['pinned'] = sum(1 for v in V if 'la' in v)
@@ -267,6 +274,16 @@ def main(vfn, ifn, pcfn=None):
     meta['mentions'] = sum(v['m'] for v in V)
     meta['countries'] = sum(1 for mk in D['markets'] if mk['k'] == 'country')
     meta['cities'] = sum(1 for mk in D['markets'] if mk['k'] == 'city')
+    # Headline totals count venues guests have named. Places on the map only because they are on
+    # Dream Menu's own Google Maps list (m == 0) are counted separately as 'listed'.
+    named = [v for v in V if v['m'] > 0]
+    meta['on_map'] = len(V)
+    meta['on_map_pinned'] = meta['pinned']
+    meta['listed'] = len(V) - len(named)
+    meta['venues'] = len(named)
+    meta['pinned'] = sum(1 for v in named if 'la' in v)
+    meta['countries'] = len({v['co'] for v in named if v['co']})
+    meta['cities'] = sum(1 for mk in D['markets'] if mk['k'] == 'city' and mk['mn'] > 0)
     for mt in spec['mentions']:
         q = quarter(dates[mt['row']])
         meta['qtot'][q] = meta['qtot'].get(q, 0) + 1

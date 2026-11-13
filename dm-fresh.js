@@ -7,7 +7,7 @@
   var SETS = {
     interviews: { label: 'Dream Menu interviews', size: '1,256 interviews', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-13',
       note: 'Dish categories refined 24 Oct 2026. Interviews to 10 Nov added 13 Nov.' },
-    venues: { label: 'Venues named by guests', size: '1,935 venues, 1,722 pinned', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-13',
+    venues: { label: 'Venues named by guests', size: '1,695 venues, 1,482 pinned', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-13',
       note: 'Addresses researched 22 Oct 2026; new venues added 13 Nov.' },
     awards: { label: 'Awards and guides', size: '21,046 award winners', to: '2026-11-11', updated: '2026-11-11',
       note: 'MICHELIN extract of 11 Oct 2026 plus later editions: Philippines 2027 (29 Oct), South Australia 2027 (14 Oct), Beijing & Tianjin 2027 (28 Oct), Kuala Lumpur & Penang 2027 (4 Nov), Chengdu 2027; World 50 Best Restaurants 2026 in full (1-50 announced 4 Nov); SLTN Awards 2026 (5 Nov); AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },

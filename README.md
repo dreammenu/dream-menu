@@ -178,3 +178,11 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * On /analysis the counts in the "Can we trust it?" title and intro are `data-bn` spans that trend-charts.js rewrites from the comparisons the reader sees: 21 signed out, all of them for partners. Run order: build_benchmarks.py before build_partner, build_pages, build_home, build_press and build_venue_pages.
 * Rank and share claims in benchmark text (number 2 dessert, number 3 cocktail, menus listing sticky toffee pudding, one guest in N picking alcohol-free) are computed from the data, not typed in.
 * refresh_static.py no longer edits the retired awards entry in build_nav.py (that step would have stopped the Monday refresh).
+
+## 13 November 2026: Gordon's Google Maps list on the map
+
+* `tools/add_list_venues.py` reads the list as copied from Google Maps (`tools/data/gmaps/dream-menu-2025-26-list.txt`, 1,217 places) and `tools/data/gmaps/placements.py`, then calls add_venues.py. Result: 788 were already on the map, 30 are closed or gone (left off), 300 added, 99 still to place (`tools/data/gmaps/needs-location.md`). To place more, add a list number to PLACE (or SAME, for a venue already on the map under another name) and rerun.
+* The list carries names only, so new pins are placed at neighbourhood or city level from the branch name or the list cluster, marked approximate, with a note. Five stated addresses are placed on their street.
+* Totals now separate guests from the list: `meta.venues`, `pinned`, `countries` and `cities` count venues guests have named (1,695 venues, 30 countries, 122 cities); `meta.listed` (540) and `meta.on_map` / `on_map_pinned` (2,235 / 2,022) include list places. Before this, list-only places were counted as "venues named" (the old 1,935, 33 countries, 140 cities).
+* On /map a list place says "On the Dream Menu list" instead of showing zero mentions.
+* add_venues.py: new venues now create their city and country markets; runs with no interviews; more country codes.
