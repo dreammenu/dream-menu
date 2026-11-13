@@ -180,3 +180,34 @@ SAME = {
     753: None, 758: None, 774: None, 775: None, 781: None, 965: None, 979: None, 1032: None, 1046: None,
     1071: None, 1073: None, 1098: None, 1135: None, 1138: None, 1196: None, 1213: None, 1207: None,
 }
+
+# ---- 13 Nov 2026, Gordon: "use your best judgement to place them anyway".
+# Best guesses for the venues that had no city in the name and no clear list cluster. Where nothing
+# points elsewhere the default is Glasgow (most of the list is Glasgow). All are pinned at city level
+# and labelled on the map as a best guess to be confirmed.
+P.update({
+    'cologne': (50.9375, 6.9603, 'Cologne', 'Germany', '', ''),
+    'singapore': (1.2903, 103.8520, 'Singapore', 'Singapore', '', ''),
+    'nyc': (40.7484, -73.9857, 'New York', 'United States', 'New York', ''),
+    'amsterdam': (52.3676, 4.9041, 'Amsterdam', 'Netherlands', '', ''),
+    'haddington': (55.9560, -2.7810, 'East Lothian', 'United Kingdom', 'Scotland', ''),
+    'edi-ss': (55.9420, -3.1810, 'Edinburgh', 'United Kingdom', 'Scotland', 'Southside'),
+})
+_G = {
+    'gla': [184, 242, 508, 653, 654, 700, 717, 757, 776, 778, 780, 782, 784, 785, 787, 789, 964, 1000, 1023, 1025, 1026,
+            1027, 1028, 1029, 1048, 1072, 1075, 1077, 1078, 1082, 1083, 1090, 1113, 1115, 1119, 1120, 1121, 1129, 1130,
+            1131, 1132, 1133, 1134, 1136, 1140, 1142, 1215, 1217],
+    'gla-den': [1170],
+    'edi': [105, 393, 480, 967, 973, 976, 1137, 1146, 1148, 1169],
+    'edi-ss': [968], 'edi-leith': [1050, 1051],
+    'lon': [911, 1092, 1103, 1178, 1182, 1183, 1184, 1186, 1187, 1188, 1189, 1192, 1193, 1200, 1204],
+    'lon-cg': [980], 'lon-nh': [1093], 'lon-soho': [1206],
+    'singapore': [656], 'nyc': [755, 760], 'cologne': [792, 793], 'napa': [803], 'madrid': [966, 1070, 1108],
+    'lamanga': [1061, 1062, 1063], 'gale': [1065], 'amsterdam': [1104], 'bangkok': [1123], 'haddington': [1125],
+    'southsea': [1172, 1173, 1174],
+}
+GUESS = set()
+for _k, _ns in _G.items():
+    for _n in _ns:
+        PLACE[_n] = (_k, 'citycentre')
+        GUESS.add(_n)

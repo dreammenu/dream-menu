@@ -78,8 +78,9 @@ for r in rows:
     vid = slug(r['n']) + '-' + slug(city)
     if vid in byid or any(v['i'] == vid for v in out):
         vid += f"-{r['k']}"
-    note = ('From the Dream Menu 2025/26 list. ' +
-            (f'Placed on the street; exact door not checked.' if prec == 'street' else f'Placed in {where}; exact spot not known.'))
+    guess = r['k'] in getattr(PL, 'GUESS', set())
+    note = ('From the Dream Menu 2025/26 list. ' + (f'Best guess: placed in {where}; location to be confirmed.' if guess else '') +
+            ('' if guess else f'Placed on the street; exact door not checked.' if prec == 'street' else f'Placed in {where}; exact spot not known.'))
     out.append(dict(i=vid, n=r['n'], c=city, tw=area, co=co, na=na, p=prec, la=la, lo=lo,
                     ad=ADDR.get(r['k'], ('', ''))[1], no=note + (' Temporarily closed when saved.' if r['st'] == 'temp' else '')))
 
