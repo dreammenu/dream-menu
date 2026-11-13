@@ -335,7 +335,7 @@
 
   // ------------------------------------------------------------------ how Dream Menu compares (benchmarks)
   var VERD = { agrees: ['Agrees', '--v-s3', '<path d="M4.5 8.3 7 10.8l4.6-5.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'],
-    differs: ['Challenges', '--v-s2', '<path d="M4 6.2h8M4 9.8h8M10.2 3.8 5.8 12.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'],
+    differs: ['Local insight', '--v-s2', '<path d="M8 14s-4.2-4-4.2-7.1a4.2 4.2 0 0 1 8.4 0C12.2 10 8 14 8 14Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8" cy="6.9" r="1.4" fill="currentColor"/>'],
     context: ['Context', '--v-ns', '<circle cx="8" cy="4.6" r="1.1" fill="currentColor"/><path d="M8 7.2v5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>'] };
   function vchip(v) { var x = VERD[v]; return '<span class="bm-v bm-' + v + '"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' + x[2] + '</svg>' + x[0] + '</span>'; }
   var ARR = { up: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="rising" role="img"><path d="M8 13V3M3.8 7.2 8 3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -343,7 +343,7 @@
     flat: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="steady" role="img"><path d="M3 8h10M9.5 4.5 13 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
   function bench(host, D, partner) {
     var items = D.items;
-    var c = V.card(host, { id: 'bm-board', claim: 'Outside sources agree on ' + items.filter(function (b) { return b.verdict === 'agrees'; }).length + ' topics and push back on ' + items.filter(function (b) { return b.verdict === 'differs'; }).length, title: 'Dream Menu figures beside published outside figures on the same topic', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
+    var c = V.card(host, { id: 'bm-board', claim: 'Published research backs Dream Menu on ' + items.filter(function (b) { return b.verdict === 'agrees'; }).length + ' topics; ' + items.filter(function (b) { return b.verdict === 'differs'; }).length + ' more are local insights', title: 'Dream Menu figures beside published outside figures on the same topic', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
     var themes = ['All'].concat(items.map(function (b) { return b.theme; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
     function draw(th) {
       var list = items.filter(function (b) { return th === 'All' || b.theme === th; });

@@ -166,3 +166,8 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * `build_nav.py` now refuses to run (`check_coverage`) if an item has no interest, or if a page on disk is not in ITEMS (sign-in, errors, internal tools and redirect stubs are listed in `NOT_PAGES`). Add new pages to ITEMS and ITAGS, or the build stops.
 * The filter (interest.js) shows "Start here" (the hand-picked list in INTERESTS), then "Everything on <interest>" (all other tagged pages and sections, by site section, folded), and an "Every page" chip lists the whole site by section. The header drawer and the footer link to it ("Find what matters to you", "Find anything").
 * Duplicate entries removed from the page list: a second "Partner briefing", a second "Every city's appetite", "Award winners on the map" and the "Work with us" sub-entry.
+
+## 13 November 2026: "Can we trust it?" widened to 33 comparisons
+
+* tools/build_benchmarks.py now holds 33 comparisons (21 public): new ones test Italian food (YouGov), sticky toffee pudding (YouGov), takeaway pizza (YouGov), zero-sugar cola (BSDA), margaritas and martinis (Bacardi Cocktail Trends), alcohol-free (Drinkaware), word of mouth (YouGov), small plates (OpenTable), Scottish scallops (Seafood Scotland), steak against chicken (AHDB/Worldpanel); for partners, fish mains (Seafish), beer and lager (HEINEKEN/CGA), lighter plates (Bidfood/CGA) and Scottish trading conditions (SLTA).
+* Verdict labels: "Agrees", "Local insight" (stored as `differs`: the two disagree and the card explains the local reason) and "Context". Verdicts are set honestly per comparison; do not relabel a disagreement as agreement.
