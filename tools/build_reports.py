@@ -5,7 +5,7 @@ State of the Menu), kept apart from the live analysis at /analysis.
 Run from the repository root after build_case_studies.py and build_quarterly.py, before build_nav.py:
     python3 tools/build_reports.py
 
-The page shell (head, header, footer) is copied from explore.html; build_nav.py then refreshes the
+The page shell (head, header, footer) is copied from privacy.html; build_nav.py then refreshes the
 header and footer. Dates are read from the pages themselves, so they stay true after a rebuild.
 """
 import glob, html, os, re
@@ -25,7 +25,7 @@ def data_to(fn):
     return m.group(1) if m else ''
 
 
-T = text('explore.html')
+T = text('privacy.html')
 head = T[:T.index('</head>')]
 head = re.sub(r'<title>.*?</title>', '<title>Reports | Dream Menu</title>', head)
 DESC = 'Every Dream Menu publication in one place, each fixed at its data date: the Hospitality Intelligence Report 2026, the Insight Series and State of the Menu.'
@@ -92,20 +92,20 @@ body = f'''<main class="pg rp">
 <p class="rp-kick">Quarterly · Public</p>
 <h2><a href="/quarterly">State of the Menu</a></h2>
 <p>The public headlines each quarter: the dream menu right now, the debates, what guests want gone and the most-named venues.</p>
-<ul class="rp-list">{''.join(row(u, t, f'Data to {d}' if d else '') for u, t, d in q_items)}</ul>
+<ul class="rp-list">{row('/quarterly', 'Latest edition: ' + q_items[0][1], 'Data to ' + q_items[0][2] if q_items[0][2] else '')}</ul>
 </article>
-<article class="rp-col rp-wide">
-<p class="rp-kick">Commissioned reports · {len(cs_items)} reports · Built from data to {E(cs_date)}</p>
+<article class="rp-col">
+<p class="rp-kick">Commissioned reports · {len(cs_items)} reports · Data to {E(cs_date)}</p>
 <h2><a href="/case-studies">Insight Series</a></h2>
 <p>Reports that answer one commercial question each, for suppliers, operators, investors and the public sector. Most are provisional samples showing what a commissioned report looks like. One is free to read; the rest need the partner password. <a href="/for-business">Commission a report</a>.</p>
-<ul class="rp-list rp-grid">{''.join(row(u, (f"No. {n} · " if n else "") + t, 'Free to read' if u == FREE else '', u != FREE) for u, t, n in cs_items)}</ul>
+<ul class="rp-list">{row('/case-studies', f'Browse all {len(cs_items)} reports, by reader', '', True)}{row(FREE, next((('No. ' + n + ' · ') if n else '') + t for u, t, n in cs_items if u == FREE), 'Free to read')}</ul>
 </article>
 </div></section>
 </main>
 '''
 
 CSS = '''<style>
-.rp-sec .wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;padding-top:32px;padding-bottom:48px}
+.rp-sec .wrap{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:28px 36px;padding-top:32px;padding-bottom:48px}
 .rp-col{border-top:3px solid var(--ink);padding-top:14px;min-width:0}
 .rp-col.rp-wide{grid-column:1/-1}
 .rp-kick{font:700 12px/1.3 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#666);margin:0 0 6px}

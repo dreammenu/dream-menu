@@ -434,10 +434,7 @@ edit('onepager.html', [
     (r'<div class="facts"><div><b>[\d,]+</b> <span>interviews</span></div><div><b>[\d,]+</b> <span>venues named</span></div>',
      f'<div class="facts"><div><b>{N_ALL}</b> <span>interviews</span></div><div><b>{fmt(M["venues"])}</b> <span>venues named</span></div>'),
 ])
-edit('briefing.html', [
-    (r'(Partner briefing · data to )[^<]+', rf'\g<1>{LAST_H}'),
-    (r'<p class="lede">[\d,]+ interviews with dish answers\.', f'<p class="lede">{fmt(P["n"])} interviews with dish answers.'),
-])
+# briefing.html retired 13 Nov 2026: the partner briefing is the signed-in view of /analysis
 # partner.html is written by tools/build_partner.py
 edit('operators.html', [(r'(figures are from the live interviews to )[^,]+(, as shown)', rf'\g<1>{LAST_H}\g<2>')])
 edit('map.html', [(r"(dream-menu interviews to )[^.]+\. Venues mapped from (?:every )?interviews? to [^,]+,",
@@ -467,9 +464,7 @@ edit('tools/build_nav.py', [(r"'[\d,]+ MICHELIN, 50 Best and guide winners in on
                              f"'{AW_PLACES} MICHELIN, 50 Best and guide winners in one searchable list'")])
 edit('index.html', [(r'<h3>[\d,]+ award winners</h3>', f'<h3>{AW_PLACES} award winners</h3>'),
                     (r'(<span class="eyebrow">Awards</span> )[\d,]+( award winners)', rf'\g<1>{AW_PLACES}\g<2>')], required=False)
-edit('awards.html', [(r'<h1>[\d,]+ recognised <em>venues</em></h1>', f'<h1>{AW_PLACES} recognised <em>venues</em></h1>'),
-                     (r'[\d,]+ awards across \d+ countries\.', f"{AW_N} awards across {AWM['countries']} countries."),
-                     (r'<div class="facts"><div><b>[\d,]+</b> <span>MICHELIN Starred</span>.*?</div></div>', AW_FACTS)])
+# awards.html retired 13 Nov 2026: award winners are a layer on /map
 edit('how-it-works.html', [(r'[\d,]+ recognised venues and [\d,]+ awards\.', f'{AW_PLACES} recognised venues and {AW_N} awards.')])
 edit('analysis.js', [(r'Awards as listed on [^.]+\.', f'Awards as listed on {AW_H}.')])
 edit('onepager.html', [(r'<b>[\d,]+</b> <span>award venues mapped</span>', f'<b>{AW_PLACES}</b> <span>award venues mapped</span>')])

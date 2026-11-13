@@ -551,6 +551,38 @@ table{border-collapse:collapse}
 main table thead th{border-radius:0!important}
 .ccard .eyebrow::before,.card .eyebrow::before,.hf-card .eyebrow::before{display:none}
 /* /house */
+/* header: one obvious way in for partners (13 Nov 2026) */
+.signin{font:600 14px/1 var(--body);color:var(--ink);text-decoration:none;white-space:nowrap;padding:10px 6px;margin-right:4px}
+.signin:hover{text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
+@media (max-width:1100px){.signin{display:none}}
+/* "I'm interested in" filter (interest.js) */
+.int-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.int-l{font:700 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;margin-right:4px;color:var(--muted)}
+.int-chips button{font:600 14px/1 var(--body);padding:10px 14px;border-radius:999px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
+.int-chips button:hover{background:var(--panel)}
+.int-chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.int-out:empty{display:none}
+.int-h{margin:18px 0 10px;font:600 15px/1.45 var(--body);color:var(--ink)}
+.int-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 22px}
+.int-list li{border-top:1px solid var(--rule)}
+.int-list a{display:block;padding:11px 0 13px;text-decoration:none;color:var(--ink)}
+.int-list b{display:block;font:700 15px/1.3 var(--body);margin-bottom:4px}
+.int-list a:hover b{text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.int-list span{font:400 13.5px/1.45 var(--body);color:var(--muted)}
+.int-list .lock{vertical-align:-1px;opacity:.6}
+.int-go{margin:14px 0 0}.int-go a{font:700 15px/1 var(--body);color:var(--ink)}
+.int-note{margin:16px 0 0;font:500 14.5px/1.5 var(--body)}
+.int-all{font:700 14px/1 var(--body);background:none;border:0;padding:0;color:inherit;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer}
+/* on the navy analysis hero */
+.navy .int-box{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,.28)}
+.navy .int-l,.navy .int-note,.navy .int-h{color:#d9dbe8}
+.navy .int-chips button{background:transparent;border-color:rgba(255,255,255,.55);color:#fff}
+.navy .int-chips button:hover{background:rgba(255,255,255,.1)}
+.navy .int-chips button[aria-pressed="true"]{background:#debd1a;border-color:#debd1a;color:#0b0b0b}
+.navy .int-list li{border-color:rgba(255,255,255,.28)}.navy .int-list a{color:#fff}.navy .int-list span{color:#c9cbe0}
+.iv-sec[hidden],.iv-part[hidden],[data-i][hidden]{display:none!important}
+@media (max-width:900px){.int-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.int-list{grid-template-columns:1fr}.int-chips button{padding:9px 12px;font-size:13.5px}}
 /* home-find */
 .hf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
 .hf-card{background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--navy);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column}
@@ -569,7 +601,3 @@ main table thead th{border-radius:0!important}
 @media (max-width:1000px){.hf-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.hf-grid{grid-template-columns:1fr}}
 /* /home-find */
-/* header: one obvious way in for partners (13 Nov 2026) */
-.signin{font:600 14px/1 var(--body);color:var(--ink);text-decoration:none;white-space:nowrap;padding:10px 6px;margin-right:4px}
-.signin:hover{text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
-@media (max-width:1100px){.signin{display:none}}

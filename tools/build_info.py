@@ -29,10 +29,6 @@ RULES = [
      'The number of guests naming each trend they would happily see go, most named first. Read it as a ranking of fatigue.'),
     ('insights.html', r'<div class="qchart"', 'before',
      'Interviews received each quarter. The latest quarter is still running, so its column will keep growing; findings use quarters with enough answers to be reliable.'),
-    ('briefing.html', r'<div id="bf-groups">', 'before',
-     'Each card is one group of guests: its top food groups and dishes as a share of that group’s own answers. Compare the same item across cards to see which customer wants it most.'),
-    ('briefing.html', r'<div class="grid" style="margin-top:14px">(?=\s*<div class="card"><h3>Biggest pressures)', 'before',
-     'Each bar is the number of operators giving that answer. Most questions allowed several answers, so the bars in a card do not add up to the number who answered.\nWith 55 operators, a difference of two or three is not meaningful.'),
     # ---- operator pulse report and one-pager
     ('report/operator-pulse.html', r'<p>Share naming each as a most significant pressure\.</p>', 'after',
      'Each bar is the share of operators naming that pressure. Operators could name several, so the bars do not add up to 100%.'),

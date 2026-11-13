@@ -31,6 +31,26 @@
       "source": "/intelligence.html",
       "destination": "/analysis",
       "permanent": false
+    },
+    {
+      "source": "/explore",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/awards",
+      "destination": "/map",
+      "permanent": false
+    },
+    {
+      "source": "/briefing",
+      "destination": "/analysis#partner",
+      "permanent": false
+    },
+    {
+      "source": "/partner",
+      "destination": "/analysis#partner",
+      "permanent": false
     }
   ],
   "headers": [

@@ -31,6 +31,14 @@ AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best firs
  ('investor', 'Investor or developer', 'investors and developers', 'Where the evidence points for capital, concepts and sites.', ['r18', 'r16', 'f16', 'r2', 'r8', 'f6']),
  ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['a3', 'r2', 'f16', 'f4', 'f8', 'b17']),
 ]
+INTERESTS = [  # key, label, one line, item ids best first. Drives the "I'm interested in" filter on the home page and /analysis (interest.js)
+ ('food', 'Food', 'What guests want on every course, and how it is moving', ['f24', 'f19', 'f21', 'o30', 'b13', 'b12', 'b18', 'f13']),
+ ('drinks', 'Drinks', 'Cocktails, alcohol-free, soft drinks and the debates', ['f25', 'b14', 'f11', 'f4', 'f28', 'f19']),
+ ('sales', 'Growing sales', 'What brings guests in and gets venues recommended', ['f26', 'o8', 'o4', 'r9', 'o7', 'f28', 'r16', 'o13']),
+ ('costs', 'Cutting costs', 'Margins, prices, waste and what operators are feeling', ['o3', 'f29', 'o6', 'o5', 'b10', 'b20', 'o12', 'o8']),
+ ('menu', 'Planning a menu or range', 'What to add, protect and drop', ['f24', 'o30', 'f27', 'f21', 'r14', 'o4', 'b24', 'f19']),
+ ('places', 'Places and locations', 'Where guests go, by city and neighbourhood, and where to open', ['f6', 'f30', 'f17', 'f7', 'b16', 'r8', 'b11', 'f18']),
+]
 AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', 'chef': 'chefs', 'supplier': 'suppliers', 'investor': 'investors', 'press': 'press'}
 # extra search words, so people find things by the words they use
 KEYWORDS = {
@@ -79,7 +87,7 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
          'b1': 'partners', 'b2': 'partners',
          'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'about'}
-MENU = ['f16', 'f19', 'r0', 'r1', 'b9', 'f20', 'f6', 'f30', 'f7', 'f8', 'o30', 'o1', 'o12', 'o8', 'b1', 'a3', 'b2', 'f1', 'f31', 'f9']
+MENU = ['f16', 'f19', 'r0', 'r1', 'b9', 'f20', 'f6', 'f30', 'f7', 'o30', 'o1', 'o12', 'o8', 'b1', 'a3', 'b2', 'f1', 'f31', 'f9']
 RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
@@ -90,6 +98,12 @@ ITEMS = [
  ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
  ('f21', 'What changed', '/analysis#changed', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
  ('f22', 'How we compare', '/analysis#compare', 'Dream Menu against national polls, eating-out data, menu trackers and sales', 'food', 'food press investor supplier', 1, 'f16'),
+ ('f24', 'What guests want', '/analysis#demand', 'Each course by food group, the dish life cycle, the staples, and demand against what menus list', 'food', 'food chef supplier venue', 0, 'f16'),
+ ('f25', 'Drinks baseline', '/analysis#drinks', 'Soft and alcoholic drinks since August 2026, including the alcohol-free share', 'food', 'venue supplier', 0, 'f16'),
+ ('f26', 'What should I do?', '/analysis#actions', 'The evidence read for venues, investors, suppliers and press', 'food', 'venue new supplier investor press', 0, 'f16'),
+ ('f27', 'Category scorecard', '/analysis#category-sec', 'Partners: a grow, defend, trim, core or niche call for every food group', 'food', 'supplier', 0, 'f16'),
+ ('f28', 'Dish and drink scores', '/analysis#opportunity-sec', 'Partners: back, watch or review, with a score out of 10 for every dish and drink', 'food', 'supplier', 0, 'f16'),
+ ('f29', 'Operator pulse', '/analysis#segments-sec', 'Partners: what operators say about costs, prices and confidence', 'food', 'supplier investor', 0, 'f16'),
  ('f23', 'Partner briefing', '/analysis#category-sec', 'Signed-in partners: category scorecard, dish scores, confidence ranges, projections and who buys', 'food', 'supplier investor', 0, 'f16'),
  ('f2', 'The dishes people choose', '/#courses', 'The top dishes for every course and their share of guests', 'food', 'food chef supplier', 0, 'f1'),
  ('f3', "Every city's appetite", '/cities', 'What Glasgow, Edinburgh and every market names, and the venues behind it', 'food', 'food investor supplier', 0, 'f1'),
@@ -100,7 +114,7 @@ ITEMS = [
  ('f19', 'Dish trends', '/trends', 'A page for every dish and drink we track', 'food', 'food chef supplier press', 1, None),
  ('f30', 'City guides', '/cities', 'Where foodies eat in each city: most named, hidden gems, award holders', 'food', 'food venue press new', 0, None),
  ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
- ('f8', 'Award winners', '/awards', '21,046 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
+ ('f8', 'Award winners on the map', '/map', '21,046 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),
  ('f10', 'Dream Fringe', '/specials#fringe', 'Late-night food after the shows and the best Fringe venues', 'food', 'food', 0, 'f9'),
  ('f11', 'Dream Cocktail', '/specials#cocktail', 'The drinks guests and bartenders would order', 'food', 'food chef', 0, 'f9'),
@@ -165,7 +179,6 @@ ITEMS = [
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
  ('b2', 'Partner briefing', '/analysis#partner', 'Sign in to the analysis: clear movers, buying calls, dish scores, data downloads and your partnership dates', 'biz', 'supplier', 0, None),
- ('b3', 'Printable briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
  ('b5', 'Data extracts', '/analysis#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
 
@@ -180,7 +193,7 @@ for row in ITEMS:
     i, t, u, d, g, a, s, p = row
     g = PLACE[p or i] if (p or i) in PLACE else PLACE[_parent[p]]
     t = RETITLE.get(i, t)
-    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'b5'), k=KEYWORDS.get(i, ''))
+    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'b5', 'f27', 'f28', 'f29'), k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
 LOCK = '<svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'
@@ -220,7 +233,7 @@ def header(cur_group):
         for it in [IT[i] for i in ids]:
             out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
         out.append('</div></div></div></li>')
-    out.append('</ul><a class="mnav-all" href="/explore">Every page on the site ' + ARROW + '</a></nav>')
+    out.append('</ul></nav>')
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
     out.append('<a class="signin" href="/login?next=/analysis%23partner">Partner sign-in</a>')
     out.append('<a class="takepart" href="/take-part">Take part</a>')
@@ -238,7 +251,7 @@ def footer_links():
         for it in its:
             out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
         if g == 'about':
-            out.append('<a href="/explore">Explore everything</a><a href="/login?next=/analysis%23partner">Partner sign-in</a>')
+            out.append('<a href="/login?next=/analysis%23partner">Partner sign-in</a>')
         out.append('</div>')
     out.append('</nav>')
     return ''.join(out)
@@ -281,12 +294,13 @@ def main():
     os.chdir(root)
     data = dict(aud=[dict(k=k, l=l, p=p, sh=AUD_SHORT[k], b=b, picks=picks) for k, l, p, b, picks in AUD],
                 groups=[dict(k=g, l=l, u=u, d=d) for g, l, u, d in GROUPS],
+                ints=[dict(k=k, l=l, d=d, ids=ids) for k, l, d, ids in INTERESTS],
                 items=[dict(id=x['id'], t=x['t'], u=x['u'], d=x['d'], g=x['g'], a=x['a'], s=x['s'], p=x['p'], lock=x['lock'], k=x['k']) for x in IT.values()])
     with open('nav-data.js', 'w') as f:
         f.write('/* Generated by tools/build_nav.py: edit the list there, not this file. */\nwindow.DM_NAV=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n')
     foot = footer_links()
     changed = 0
-    for fn in sorted(glob.glob('*.html') + glob.glob('report/*.html') + glob.glob('case-studies/*.html') + glob.glob('venue/*.html') + glob.glob('city/*.html') + glob.glob('area/*.html') + glob.glob('trends/*.html') + glob.glob('quarterly/*.html')):
+    for fn in sorted([f for f in glob.glob('*.html') if open(f, encoding='utf-8').read().find('<header class="top">') >= 0] + glob.glob('report/*.html') + glob.glob('case-studies/*.html') + glob.glob('venue/*.html') + glob.glob('city/*.html') + glob.glob('area/*.html') + glob.glob('trends/*.html') + glob.glob('quarterly/*.html')):
         s = open(fn).read()
         o = s
         path = '/' + fn[:-5]
@@ -302,7 +316,7 @@ def main():
         if False and fn == 'index.html' and 'class="audband"' not in s:   # the home page no longer carries the audience band (tools/build_home.py)
             m = re.search(r'(<section class="h-stats".*?</section>)', s, re.S)
             s = s[:m.end()] + '\n' + aud_band() + s[m.end():]
-        if fn == 'explore.html':
+        if False and fn == 'explore.html':   # /explore retired 13 Nov 2026: the interest filter on the home page does its job
             s = re.sub(r'<!--cards-->.*?<!--/cards-->', lambda m: '<!--cards-->' + explore_cards() + '<!--/cards-->', s, flags=re.S)
         if s != o:
             open(fn, 'w').write(s)

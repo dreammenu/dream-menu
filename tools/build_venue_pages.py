@@ -398,7 +398,7 @@ for v in PUBLIC_V:
     lis = [f'<li>{E(a)}</li>' for a in (aw['a'] if aw else [])]
     lis += [f'<li>{E(t)}' + (f' <a class="pg-src-l" href="{E(u)}" rel="nofollow noopener" target="_blank">source</a>' if u.startswith('http') else '') + '</li>' for t, _, _, u in other]
     aw_html = ('<div class="card"><h2>Awards and guides</h2><ul class="pg-list">' + ''.join(lis) +
-               '</ul><p class="pg-mut"><a href="/awards">All award winners</a>' + (' · Includes Scottish, UK and bar awards matched by hand. Spotted something missing? <a href="mailto:contact.dreammenu@gmail.com">Tell us</a>' if other else '') + '</p></div>') if lis else ''
+               '</ul><p class="pg-mut"><a href="/map">All award winners</a>' + (' · Includes Scottish, UK and bar awards matched by hand. Spotted something missing? <a href="mailto:contact.dreammenu@gmail.com">Tell us</a>' if other else '') + '</p></div>') if lis else ''
     near = [x for x in city if x is not v][:6]
     near_html = ''.join(f'<li>{vlink(x)} <b>{x["m"]}</b></li>' for x in near)
     addr = E(v['ad']) if v.get('ad') and v.get('p') == 'exact' else E(place(v))
@@ -522,7 +522,7 @@ def city_page(c, co):
                     + ('<p class="pg-mut">Named less here: ' + ', '.join(f'{E(k).lower()} ({d:.1f} pts)' for d, k, s in dn) + '.</p>' if dn else '') + '</div>')
     awv = [v for v in vs if v['i'] in AW][:6]
     aw_html = ('<div class="card"><h2>Where guests and guides agree</h2><ol class="pg-list">' + ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E(AW[v["i"]]["a"][0])}</span></li>' for v in awv)
-               + '</ol><p class="pg-mut"><a href="/awards">All award winners</a></p></div>') if awv else ''
+               + '</ol><p class="pg-mut"><a href="/map">All award winners</a></p></div>') if awv else ''
     qs = []
     for v in vs[:12]:
         keys = [w for w in re.findall(r"[a-z0-9']+", slugify(v['n']).replace('-', ' ')) if len(w) >= 4 and w not in STOP]

@@ -145,11 +145,14 @@ secs['try'] = ('<section class="h-sec alt" id="try"><div class="wrap">\n'
     '<article class="hf-card"><div class="hf-tag">For a night out</div><h3>City and neighbourhood guides</h3><p>Where foodies eat in Glasgow, Edinburgh, London and beyond, down to Finnieston and Leith. No critics, no paid placements.</p><a class="hf-more" href="/cities">Find a guide &rarr;</a></article>'
     '<article class="hf-card"><div class="hf-tag">For venues</div><h3>Check my menu</h3><p>Tick the dishes you serve and see how much of what guests want you cover, the staples you are missing and the biggest gaps.</p><a class="hf-more" href="/menu-check">Check mine &rarr;</a></article>'
     '</div>\n</div></section>\n\n')
+secs['pick'] = ('<section class="h-sec" id="pick"><div class="wrap">\n'
+    '  <div class="h-head"><div class="eyebrow">Find what matters to you</div><h2>What are you <em>interested in?</em></h2></div>\n'
+    '  <div data-interest="home"></div>\n</div></section>\n\n')
 secs.pop('more', None)
 for _k in ('start', 'coverage', 'map', 'places'):   # trimmed 13 Nov 2026: the menu, the tools band, the city guides and the analysis already do these jobs
     secs.pop(_k, None)
 
-order = ['h-hero', 'h-stats', 'now', 'courses', 'try', 'debates', 'mood', 'rising']
+order = ['h-hero', 'h-stats', 'pick', 'now', 'courses', 'try', 'debates', 'mood', 'rising']
 missing = [k for k in secs if k not in order]
 if missing:
     raise SystemExit(f'home sections not in the order list: {missing}')
@@ -157,6 +160,8 @@ if 'mood' in secs and 'class="method">Source:' not in secs['mood']:
     secs['mood'] = re.sub(r'(</div></section>\n*)$', lambda m: METHOD_NOTE + '\n' + m.group(1), secs['mood'].rstrip('\n') + '\n', count=1) + '\n'
 body = ''.join(secs[k] for k in order if k in secs)
 s = head + body + tail
+if '/interest.js' not in s:
+    s = s.replace('</body>', '<script src="/interest.js" defer></script>\n</body>', 1)
 
 # hero buttons
 s = re.sub(r'<div class="h-ctas"><a class="btn gold" href="#[^"]+">[^<]+</a><a class="btn ghost" href="/map">[^<]+</a></div>',

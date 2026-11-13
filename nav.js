@@ -134,7 +134,7 @@ function buildDialog(){
     '<button type="button" class="sr-close" aria-label="Close search">Esc</button></div>'+
     '<div class="sr-filter"><label for="srAud">Sort for: I&rsquo;m a&hellip;</label><select id="srAud">'+opts+'</select></div>'+
     '<p class="sr-head" id="srHead" aria-live="polite"></p><ul class="sr-list" id="srList" role="listbox" aria-label="Results"></ul>'+
-    '<p class="sr-foot"><a href="/explore">Browse everything, sorted by who you are &rarr;</a><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> to move, <kbd>Enter</kbd> to open</span></p></div>';
+    '<p class="sr-foot"><a href="/#pick">Find what matters to you &rarr;</a><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> to move, <kbd>Enter</kbd> to open</span></p></div>';
   doc.body.appendChild(dlg);
   $('#srQ').addEventListener('input',runSearch);
   $('#srAud').addEventListener('change',function(){store('dm-aud',this.value||null);markAud(this.value);if(this.value)pickAud(this.value,false);runSearch();$('#srQ').focus();});

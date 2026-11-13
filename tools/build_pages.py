@@ -230,6 +230,7 @@ main = f"""<main class="iv-page">
 <p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week. Partners who sign in get the buying briefing and the data on this same page.</p>
 <p class="iv-also">Looking up one dish? <a href="/trends">Dish trends</a>. Need a dated publication? <a href="/reports">Reports</a>.</p>
 {toc}
+<div data-interest="analysis"></div>
 </div></section>
 {chap(1, 'The short version', 'What the data says this quarter', 'Each line is written from the numbers and rechecked at every refresh. The sections below show the evidence.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div><div data-fresh="interviews look"></div>', 'read')}
 {chap(2, 'What do guests want?', f"{_lead['s']['l']} to start, {_lead['m']['l'].lower()} for main, {_lead['d']['l'].lower()} on the side", f'Demand first. The chart shows what each course is made of, by food group. Below it is the life cycle that menu analysts use: a dish emerges, grows, becomes established and fades. {_n_stap} dishes are established staples that hold their share every quarter.{AU_SUB}', '<div id="th-demand"></div><div id="th-audit"></div><span id="life"></span><span id="settled-sec"></span><div id="th-life"></div>', 'demand', part='Question one')}
@@ -281,8 +282,15 @@ an = (head('The analysis | Dream Menu', 'How each city eats, how guests compare 
       '<script src="/partner/intel-data.js"></script>\n<script src="/partner/intel.js"></script>\n'
       '<script src="/partner/trend-data.js"></script><script src="/partner/category-data.js"></script>\n<script src="/partner/bench-data.js"></script>\n'
       '<script src="/trend-charts.js"></script>\n'
-      '<script src="/partner-data.js"></script><script src="/partner/hub.js"></script><script src="/partner/downloads.js"></script>\n'
+      '<script src="/partner-data.js"></script><script src="/partner/hub.js"></script><script src="/partner/briefing-extra.js"></script><script src="/partner/render.js"></script><script src="/partner/downloads.js"></script>\n'
+      '<script src="/interest.js" defer></script>\n'
       '<script>(function(){function o(){var t=location.hash&&document.getElementById(location.hash.slice(1));for(var e=t;e;e=e.parentElement)if(e.tagName==="DETAILS")e.open=true;if(t&&t.closest&&t.closest("details"))t.scrollIntoView();}addEventListener("hashchange",o);setTimeout(o,600);})();</script>\n</body>\n</html>\n')
+# interest tags (interest.js): which sections show when a reader picks an interest. "all" always shows.
+SECI = {'read': 'all', 'demand': 'food menu sales', 'changed': 'food drinks menu', 'cities': 'places food sales', 'compare': 'food drinks',
+        'actions': 'all', 'category-sec': 'menu food costs', 'opportunity-sec': 'sales menu food drinks', 'confidence-sec': 'menu food drinks',
+        'segments-sec': 'costs sales', 'reference': 'food drinks menu', 'method': 'all'}
+for _sid, _tags in SECI.items():
+    an = an.replace(f'<section class="iv-sec" id="{_sid}">', f'<section class="iv-sec" id="{_sid}" data-i="{_tags}">', 1)
 open('analysis.html', 'w', encoding='utf-8').write(an)
 
 # the old partner page now lives inside /analysis
