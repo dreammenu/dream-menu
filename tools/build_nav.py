@@ -75,7 +75,7 @@ PLACE = {'f1': 'trends', 'f19': 'trends', 'f9': 'trends', 'f31': 'trends', 'f13'
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
          'b1': 'partners', 'b2': 'partners',
          'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'about'}
-MENU = ['f1', 'f19', 'f31', 'f9', 'f13', 'f6', 'f30', 'f7', 'f8', 'f16', 'f20', 'r1', 'b9', 'o1', 'o30', 'o8', 'o13', 'o12', 'b1', 'a3', 'b2']
+MENU = ['f1', 'f19', 'f31', 'f9', 'f6', 'f30', 'f7', 'f8', 'f16', 'f20', 'r1', 'b9', 'o1', 'o30', 'o8', 'o13', 'o12', 'b1', 'a3', 'b2']
 RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner area', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series reports'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
@@ -161,7 +161,6 @@ ITEMS = [
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
  ('b2', 'Partner area', '/partner', 'Signed-in partners: this quarter, tools by job, the term and data downloads', 'biz', 'supplier', 0, None),
  ('b3', 'Partner briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
- ('b4', 'Insights', '/insights', 'Debates, dishes by group and how the trade feels, in full', 'biz', 'supplier chef press', 0, 'b2'),
  ('b5', 'Data extracts', '/partner#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
 
@@ -287,7 +286,7 @@ def main():
             s = s.replace('<link rel="stylesheet" href="/brand.css">', HEAD_TAGS + '\n<link rel="stylesheet" href="/brand.css">', 1)
         if '/_vercel/insights/script.js' not in s:   # Vercel Web Analytics (cookie-free); switch it on in the Vercel dashboard
             s = s.replace('</head>', '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1)
-        if fn == 'index.html' and 'class="audband"' not in s:
+        if False and fn == 'index.html' and 'class="audband"' not in s:   # the home page no longer carries the audience band (tools/build_home.py)
             m = re.search(r'(<section class="h-stats".*?</section>)', s, re.S)
             s = s[:m.end()] + '\n' + aud_band() + s[m.end():]
         if fn == 'explore.html':

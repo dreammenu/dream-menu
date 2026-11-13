@@ -18,6 +18,16 @@
       "permanent": false
     },
     {
+      "source": "/insights",
+      "destination": "/analysis",
+      "permanent": false
+    },
+    {
+      "source": "/insights.html",
+      "destination": "/analysis",
+      "permanent": false
+    },
+    {
       "source": "/intelligence.html",
       "destination": "/analysis",
       "permanent": false

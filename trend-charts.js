@@ -355,7 +355,7 @@
           return '<a class="bm-pill" href="#bm-' + b.id + '">' + esc(b.topic) + dir + '</a>';
         }).join('') : '<p class="tr-quiet">None in this theme.</p>') + '</div>';
       });
-      o += '</div><p class="bm-key"><span class="bm-dm">' + ARR.up + '</span> Dream Menu &nbsp; <span class="bm-ex">' + ARR.up + '</span> outside source &nbsp; · &nbsp; level comparisons show Dream Menu first</p><div class="bm-grid">';
+      o += '</div><p class="bm-key"><span class="bm-dm">' + ARR.up + '</span> Dream Menu &nbsp; <span class="bm-ex">' + ARR.up + '</span> outside source &nbsp; · &nbsp; level comparisons show Dream Menu first. Select a topic to open its evidence.</p><details class="iv-ref bm-more"><summary>Every comparison, with sources <small>Figures, dates and what each one means</small></summary><div class="bm-grid">';
       list.forEach(function (b) {
         o += '<article class="bm-card" id="bm-' + b.id + '"><header><h4>' + esc(b.topic) + '</h4>' + vchip(b.verdict) + '</header>';
         if (b.kind === 'level') {
@@ -365,7 +365,7 @@
           '<dt><span class="bm-ex">' + (b.ext.dir ? ARR[b.ext.dir] : '●') + '</span>Outside</dt><dd>' + esc(b.ext.text) + ' <small><a href="' + esc(b.ext.url) + '" rel="noopener" target="_blank">' + esc(b.ext.who) + ', ' + esc(b.ext.date) + '</a></small>' + (b.extra ? '<br><small>' + esc(b.extra) + '</small>' : '') + '</dd></dl>' +
           '<p class="bm-read"><b>What it means</b>' + esc(b.read) + '</p></article>';
       });
-      c.plot.innerHTML = o + '</div>';
+      c.plot.innerHTML = o + '</div></details>';
       c.setTable([{ l: 'Topic', k: 'topic' }, { l: 'Theme', k: 'theme' }, { l: 'Verdict', f: function (b) { return VERD[b.verdict][0]; } }, { l: 'Dream Menu', f: function (b) { return b.dm.text; } }, { l: 'Outside source figure', f: function (b) { return b.ext.text; } }, { l: 'Source', f: function (b) { return b.ext.who + ', ' + b.ext.date; } }, { l: 'Link', f: function (b) { return b.ext.url; } }, { l: 'What it means', k: 'read' }], list, 'dream-menu-benchmarks');
     }
     V.chips(c.filters, themes.map(function (t) { return [t, t]; }), 'All', draw); draw('All');
@@ -400,11 +400,45 @@
     });
   }
 
+  // ---------- demand mix: what each food course is made of (public shares)
+  function demandMix(host, M) {
+    var lead = M.courses.map(function (c) { return c.groups[0]; });
+    var c = V.card(host, { id: 'demand-mix', claim: (function () { var w = [], o = []; M.courses.forEach(function (co) { (co.groups[0].p >= 1.4 * co.groups[1].p ? w : o).push(co); }); return w.map(function (co, i) { var x = co.groups[0].l.split(' and ')[0]; return i ? x.toLowerCase() : x; }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' lead their courses' + (o.length ? '; ' + o.map(function (co) { return co.label.toLowerCase(); }).join(' and ') + ' is an open contest' : ''); })(), title: 'Share of each course’s answers by food group, top six shown',
+      src: 'Source: Dream Menu interviews, ' + M.n.toLocaleString('en-GB') + ' to ' + M.last.split('-').reverse().join('/') + '. Shares of answers coded to a food group within each course.' });
+    var max = Math.max.apply(null, lead.map(function (g) { return g.p; }));
+    c.plot.innerHTML = '<div class="dx-grid">' + M.courses.map(function (co) {
+      return '<div class="dx-col"><h4>' + esc(co.label) + '<small>' + co.base.toLocaleString('en-GB') + ' answers</small></h4>' + co.groups.map(function (g, i) {
+        return '<div class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers"><span>' + esc(g.l) + '</span><i><b style="width:' + (100 * g.p / max).toFixed(1) + '%"></b></i><em>' + g.p.toFixed(1) + '%</em></div>';
+      }).join('') + '</div>';
+    }).join('') + '</div>';
+    var rows = []; M.courses.forEach(function (co) { co.groups.forEach(function (g) { rows.push({ c: co.label, l: g.l, p: g.p }); }); });
+    c.setTable([{ l: 'Course', k: 'c' }, { l: 'Food group', k: 'l' }, { l: 'Share of answers', n: 1, f: function (r) { return r.p + '%'; } }], rows, 'demand-mix');
+  }
+
+  // ---------- category scorecard: every food group with its movement and a buying call (partners)
+  function scorecard(host, C) {
+    var order = { Grow: 0, Defend: 1, Trim: 2, Core: 3, Niche: 4 }, cur = 'Due';
+    var n = function (k) { return C.rows.filter(function (r) { return r.call === k; }).length; };
+    var c = V.card(host, { id: 'cat-score', claim: n('Grow') + ' to grow, ' + n('Defend') + ' to defend, ' + n('Trim') + ' to trim', title: 'Every food group by course: share of demand, change since late 2025 and a buying call',
+      src: 'Source: Dream Menu interviews to ' + C.last.split('-').reverse().join('/') + '. Change = recent quarters against late 2025, in percentage points of the course’s answers; “clear” passes a two-proportion test at p < 0.05.' });
+    function draw() {
+      var rows = C.rows.filter(function (r) { return cur === 'All' || (cur === 'Due' ? r.sig || r.p >= 15 : r.call === cur); }).sort(function (a, b) { return order[a.call] - order[b.call] || b.p - a.p; });
+      c.plot.innerHTML = '<div class="sc-wrap"><table class="sc"><thead><tr><th>Call</th><th>Food group</th><th>Course</th><th class="num">Share</th><th class="num">Change</th><th>What to do</th></tr></thead><tbody>' + rows.map(function (r) {
+        return '<tr><td><span class="sc-call sc-' + r.call.toLowerCase() + '">' + r.call + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.p * 2.5).toFixed(0) + '%"></b></i>' + r.p.toFixed(1) + '%</td><td class="num' + (r.sig ? ' sig' : '') + '">' + (r.move > 0 ? '+' : '') + r.move.toFixed(1) + ' pts' + (r.sig ? '' : '<small> within noise</small>') + '</td><td>' + esc(r.do) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+    }
+    V.chips(c.filters, [['Due', 'Decisions and big lines'], ['Grow', 'Grow'], ['Defend', 'Defend'], ['Trim', 'Trim'], ['Core', 'Core'], ['Niche', 'Niche'], ['All', 'All ' + C.rows.length]], cur, function (k) { cur = k; draw(); });
+    draw();
+    c.setTable([{ l: 'Food group', k: 'l' }, { l: 'Course', k: 'course' }, { l: 'Call', k: 'call' }, { l: 'Share', n: 1, f: function (r) { return r.p + '%'; } }, { l: 'Change (pts)', n: 1, k: 'move' }, { l: 'Clear move', f: function (r) { return r.sig ? 'yes' : 'no'; } }, { l: 'What to do', k: 'do' }], C.rows, 'category-scorecard');
+  }
+
   function start() {
     var P = window.DM_TRENDP, X = window.DM_TRENDX, g = function (id) { return document.getElementById(id); };
     if (X || window.DM_INTEL) document.documentElement.classList.add('dm-partner');
     var F = X || P;
     if (F && g('th-find')) findings(g('th-find'), F);
+    if (window.DM_MIX && g('th-demand')) demandMix(g('th-demand'), window.DM_MIX);
+    if (window.DM_CATS && g('th-cats')) scorecard(g('th-cats'), window.DM_CATS);
     if (P && g('th-churn')) { churn(g('th-churn'), P); if (X) flows(g('th-churn'), X); }
     if (P && g('th-conc')) { conc(g('th-conc'), P); if (X) mix(g('th-conc'), X); }
     if (P && g('th-life')) { stageBar(g('th-life'), P); staples(g('th-life'), P); if (X) { board(g('th-life'), X); slope(g('th-life'), X); } }

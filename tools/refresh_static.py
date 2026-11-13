@@ -271,7 +271,6 @@ edit('index.html', [
     (r'<div class="dgrid">.*?</article></div>', lambda m: debates_home()),
     (r'(<h3>Guilty pleasures</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['guilty'])),
     (r'(<h3>Bin it</h3><p class="sub">[^<]*</p>)<ol class="rk">.*?</ol>', lambda m: m.group(1) + rank_list(P['extra']['bin'])),
-    (r'<h2>[\d,]+ venues, <em>pinned</em></h2>', f'<h2>{fmt(M["pinned"])} venues, <em>pinned</em></h2>'),
 ])
 
 # ---------------------------------------------------------------- for-business.html: evidence cards and contact
@@ -297,7 +296,7 @@ def fb_cards():
         f'    <div class="card"><div class="eyebrow">The dream menu</div><h3 style="margin-top:6px">The top dish on every course</h3><ol class="menu">{rows}</ol>'
         f'<p class="note" style="margin-top:8px">Share of each course&rsquo;s answers, {N_ALL} interviews to {LAST_H}. <a href="/#courses">Every course in full</a></p></div>\n'
         f'    <div class="card"><div class="eyebrow">Where the evidence comes from</div><h3 style="margin-top:6px">Venue mentions by city</h3><ol class="menu">{mk_rows}</ol>'
-        f'<p class="note" style="margin-top:8px">{len(cities)} cities and towns so far; Glasgow and Edinburgh are each deep enough to read on their own. <a href="/#coverage">Every city</a></p></div>\n'
+        f'<p class="note" style="margin-top:8px">{len(cities)} cities and towns so far; Glasgow and Edinburgh are each deep enough to read on their own. <a href="/cities">Every city</a></p></div>\n'
         f'    <div class="card stat"><div class="eyebrow">What is moving</div><h3 style="margin-top:6px">{KPI["sig"]} clear movers</h3><p>Of {KPI["tests"]} dishes and groups tested, {KPI["sig"]} moved clearly between 2025 and 2026: {KPI["up"]} up and {KPI["down"]} down. '
         f'Partners see which ones, by course, market and guest type, with a score out of 10 for every trend.</p><a class="go" href="/login?next=/briefing">Partner briefing</a></div>\n'
         f'    <div class="card stat"><div class="eyebrow">Recognition</div><h3 style="margin-top:6px">Guests and guides</h3><p>{guest_award} venues guests name also hold a guide award; {guest_star_uk} of them are MICHELIN Starred venues in the UK. '

@@ -85,11 +85,12 @@ JOBS = [
     ('Buying and range', 'What to stock next', [
         ('/analysis#opportunity-sec', 'Opportunity score', 'Back, watch or review: a score for every dish and drink'),
         ('/analysis#next', 'Next three quarters', 'A planning range for every clear mover'),
+        ('/analysis#category-sec', 'Category scorecard', 'Every food group with a call: grow, defend, trim, core or niche'),
         ('/analysis#life', 'Life cycle', 'What is growing, mature or tiring'),
         ('/analysis#drinks', 'Drinks', 'The new drinks baseline since August'),
     ]),
     ('Marketing', 'Stories and campaigns', [
-        ('/insights', 'Debates and guilty pleasures', 'Irn-Bru or Coke, trends to bin, comfort food'),
+        ('/#debates', 'Debates and guilty pleasures', 'Irn-Bru or Coke, trends to bin, comfort food'),
         ('/analysis#compare', 'How we compare', 'Dream Menu against national polls and market data'),
         ('/specials', 'Themed rounds', 'Dream Cocktail, Sandwich and Fringe'),
     ]),

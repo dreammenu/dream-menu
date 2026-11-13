@@ -119,3 +119,11 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * Partner visits: sign-in sets a plain `dm_who` label cookie (main, partner-02, ...), and nav.js sends one extra page view to Vercel Web Analytics under /_partner/<label>/<page> on partner pages. The weekly task reads those counts. `partner_passwords.py list` rewrites the middleware block.
 * map.html loads awards.js after the map is usable (awInit / setFoot / the loader at the end of the boot block).
 * The home page has a "Try it yourself" band (tools/build_home.py, section id "try").
+
+## 13 November 2026 (later): analysis rebuilt around five questions; site trimmed
+
+* /analysis answers five questions in order (what do guests want, what is changing, where does it differ, can we trust it, what should I do), then a four-section partner briefing and folded reference charts. 12 sections, down from 15; about a quarter shorter.
+* New exhibits, modelled on trade practice: a demand mix per course (public; mix-public.js) in the manner of menu-tracker course analysis, and a category scorecard for buyers (partners; partner/category-data.js) that gives every food group a call: Grow, Defend, Trim, Core or Niche. Both are written by tools/build_pages.py (`MIX`, `CATS`, `_call`) and drawn in trend-charts.js (`demandMix`, `scorecard`). The life-cycle section is framed the way menu analysts frame adoption: emerging, growing, established, fading.
+* Benchmarks show the agree / challenge / context board; the 18 detail cards are folded under "Every comparison, with sources".
+* Retired or trimmed: /insights now redirects to /analysis (the file stays as the page template for build_pages.py); the home page lost the audience band, the coverage tiles and the map teaser (tools/build_home.py pops them); "From the kitchen" left the header menu (still on /explore and in search).
+* Vercel Web Analytics is NOT enabled on the project (checked 13 Nov). Until it is switched on in the Vercel dashboard, the per-partner visit counts cannot be collected.

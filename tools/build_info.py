@@ -22,8 +22,6 @@ RULES = [
      'Each bar splits every answer to one question and adds up to 100%. The large figure is the winning answer and the count beneath is how many guests answered.'),
     ('index.html', r'<div class="two">\s*<article class="lcard"><h3>Guilty pleasures', 'before',
      'Each figure is the share of all interviews naming that answer. Guests name one each and many skip the question, so the shares are small and do not add up to 100%.\nRead the order and the gaps between items rather than the size of any one figure.'),
-    ('index.html', r'<ol class="cv-cities">', 'before',
-     'Each tile is a city, with the venue mentions and guests behind it. It shows where the evidence is deepest, not where the food is best.\nFindings for early-signal cities rest on few guests, so treat them as pointers.'),
     # ---- partner insights and briefing
     ('insights.html', r'<div id="in-courses">', 'before',
      'Each card is one course: first the share of answers by food group, then by single dish. Bars are scaled to the top item and the figure is the true share.\nGroups and dishes are two cuts of the same answers, so their figures will not match.'),

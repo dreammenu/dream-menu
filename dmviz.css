@@ -314,3 +314,29 @@
 .iv-grid2:has(> div:empty){grid-template-columns:1fr}
 @media print{.iv-story,.iv-part{display:none}}
 /* /editorial */
+/* scorecard */
+.dx-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px 30px}
+@media (max-width:980px){.dx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.dx-grid{grid-template-columns:1fr}}
+.dx-col h4{font:700 14px/1.2 var(--body);margin:6px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--v-axis);display:flex;justify-content:space-between;align-items:baseline;color:var(--v-ink)}
+.dx-col h4 small{font-weight:400;font-size:11.5px;color:var(--v-muted)}
+.dx-row{display:grid;grid-template-columns:minmax(0,1fr) 54px 46px;gap:8px;align-items:center;font-size:13px;padding:3px 0;color:var(--v-ink2)}
+.dx-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dx-row i{height:10px;background:var(--v-plane);display:block}.dx-row i b{display:block;height:100%;background:var(--v-seq-3,#9cb8d8)}
+.dx-row.top{color:var(--v-ink);font-weight:600}.dx-row.top i b{background:var(--v-s1)}
+.dx-row em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+.sc-wrap{overflow-x:auto}
+.sc{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+.sc th{text-align:left;font:600 11.5px/1.2 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--v-muted);padding:8px 10px 8px 0;border-bottom:1px solid var(--v-ink)}
+.sc td{padding:9px 10px 9px 0;border-bottom:1px solid var(--v-grid);vertical-align:middle;color:var(--v-ink2)}
+.sc td b{color:var(--v-ink);font-weight:600}
+.sc .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc th.num{text-align:right}
+.sc td.sig{color:var(--v-ink);font-weight:700}.sc td small{font-weight:400;color:var(--v-muted)}
+.sc-bar{display:inline-block;width:60px;height:8px;background:var(--v-plane);margin-right:8px;vertical-align:middle}.sc-bar b{display:block;height:100%;background:var(--v-s1)}
+.sc-call{display:inline-block;min-width:58px;text-align:center;font:700 11.5px/1 var(--body);letter-spacing:.04em;padding:5px 8px;border:1.5px solid var(--v-ink);color:var(--v-ink)}
+.sc-grow{background:var(--v-ink);color:var(--v-surface)}
+.sc-defend{background:var(--v-gold);border-color:var(--v-gold);color:#0b0b0b}
+.sc-trim{border-style:dashed}
+.sc-core,.sc-niche{border-color:var(--v-axis);color:var(--v-ink2);font-weight:600}
+/* /scorecard */

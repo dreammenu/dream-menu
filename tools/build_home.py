@@ -127,20 +127,22 @@ secs['try'] = ('<section class="h-sec alt" id="try"><div class="wrap">\n'
     '<article class="hf-card"><div class="hf-tag">For venues</div><h3>Check my menu</h3><p>Tick the dishes you serve and see how much of what guests want you cover, the staples you are missing and the biggest gaps.</p><a class="hf-more" href="/menu-check">Check mine &rarr;</a></article>'
     '</div>\n</div></section>\n\n')
 secs.pop('more', None)
+for _k in ('start', 'coverage', 'map'):   # trimmed 13 Nov 2026: the menu, the tools band and the places section already do these jobs
+    secs.pop(_k, None)
 
 order = ['h-hero', 'h-stats', 'now', 'try', 'start', 'courses', 'places', 'debates', 'mood', 'map', 'coverage', 'rising']
 missing = [k for k in secs if k not in order]
 if missing:
     raise SystemExit(f'home sections not in the order list: {missing}')
-if 'coverage' in secs:
-    cv = re.sub(r'\s*<p class="method">Source:.*?</p>', '', secs['coverage'], flags=re.S)
-    secs['coverage'] = re.sub(r'(</div></section>\n*)$', METHOD_NOTE.replace('\\', '\\\\') + r'\n\1', cv.rstrip('\n') + '\n', count=1) + '\n'
+if 'mood' in secs and 'class="method">Source:' not in secs['mood']:
+    secs['mood'] = re.sub(r'(</div></section>\n*)$', lambda m: METHOD_NOTE + '\n' + m.group(1), secs['mood'].rstrip('\n') + '\n', count=1) + '\n'
 body = ''.join(secs[k] for k in order if k in secs)
 s = head + body + tail
 
 # hero buttons
 s = re.sub(r'<div class="h-ctas"><a class="btn gold" href="#[^"]+">[^<]+</a><a class="btn ghost" href="/map">[^<]+</a></div>',
            '<div class="h-ctas"><a class="btn gold" href="#now">This quarter&rsquo;s findings</a><a class="btn ghost" href="/map">Find a place to eat</a></div>', s)
+s = s.replace('href="#map"', 'href="/map"').replace('href="#start"', 'href="#try"').replace('href="#coverage"', 'href="/cities"')
 # comfort lists are shares of all interviews
 s = s.replace('<p class="sub">The comfort food guests admit to</p>', f'<p class="sub">Comfort food guests admit to, as a share of all interviews</p>')
 s = s.replace('<p class="sub">Food trends guests would happily see disappear</p>', f'<p class="sub">Trends guests would happily see go, as a share of all interviews</p>')
