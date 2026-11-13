@@ -405,7 +405,9 @@ for v in PUBLIC_V:
     near_html = ''.join(f'<li>{vlink(x)} <b>{x["m"]}</b></li>' for x in near)
     addr = E(v['ad']) if v.get('ad') and v.get('p') == 'exact' else E(place(v))
     closed = ' <span class="mk-tag early">Closed</span>' if v.get('s') == 'closed' else ''
-    lede = (f'Named {v["m"]} times by {v.get("g") or v["m"]} Dream Menu guests: number {rank} of {len(city)} venues named in {E(v["c"])}.')
+    _gn = v.get("g") or v["m"]
+    lede = (f'Named {v["m"]} time{"s" if v["m"] != 1 else ""} by {_gn} Dream Menu guest{"s" if _gn != 1 else ""}: '
+            + (f'number {rank} of {len(city)} venues named in {E(v["c"])}.' if len(city) > 1 else f'the only venue named in {E(v["c"])} so far.'))
     body = f'''<section class="pg-hero"><div class="wrap">
   <p class="eyebrow"><a href="/rankings">Venues</a> · {('<a href="' + city_url(v) + '">' + E(place(v)) + '</a>') if city_url(v) else E(place(v))}</p>
   <h1>{E(v["n"])}{closed}</h1>
@@ -484,6 +486,11 @@ _bc = {}
 for v in sorted(VENUES, key=lambda v: -(v.get('m') or 0)):
     if v.get('c') and v.get('m'):
         _bc.setdefault((v['c'], v['co']), []).append(v)
+# places on Dream Menu's own Google Maps list that no guest has named yet (shown on city guides, never counted)
+_bl = {}
+for v in sorted(VENUES, key=lambda v: v['n'].lower()):
+    if v.get('c') and not v.get('m') and v.get('s') != 'closed' and v.get('y') != 'area':
+        _bl.setdefault((v['c'], v['co']), []).append(v)
 cslug = lambda c, co: slugify(c if co == 'United Kingdom' else f'{c} {co}')
 CITIES = sorted([(c, co) for (c, co), lst in _bc.items() if c and (c, co) in _cm and len([v for v in lst if v.get('y') != 'area']) >= CITY_MIN_V],
                 key=lambda k: -_cm[k]['g'])
@@ -507,6 +514,11 @@ def city_page(c, co):
     top_html = bars([(vlink(v) + (' <span class="mk-tag">Award</span>' if v['i'] in AW else ''), v['m']) for v in top], fmtv=pc)
     gems = sorted([v for v in vs if v not in vs[:10] and (v.get('cs') or {}).get('h', 0) >= 2], key=lambda v: -(v['cs']['h']))[:8]
     gems_html = ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E((v.get("k") or [[""]])[0][0])}</span></li>' for v in gems)
+    _lv = _bl.get((c, co), [])
+    list_html = (f'<div class="card"><h2>Also on Dream Menu&rsquo;s list</h2><p class="pg-mut" style="margin-top:-4px">{fmt(len(_lv))} place{"s" if len(_lv) != 1 else ""} in {E(c)} {"are" if len(_lv) != 1 else "is"} saved on Dream Menu&rsquo;s list '
+                 f'but not yet named by a guest, so {"they are" if len(_lv) != 1 else "it is"} not counted above.</p><ul class="pg-list">'
+                 + ''.join(f'<li>{vlink(v)}</li>' for v in _lv[:12]) + '</ul>'
+                 + (f'<p class="pg-mut"><a href="/map">{fmt(len(_lv) - 12)} more on the map</a></p>' if len(_lv) > 12 else '') + '</div>') if _lv else ''
     # what this city names more than everywhere else (points of share), deep markets only
     over = ''
     if deep:
@@ -549,6 +561,7 @@ def city_page(c, co):
   {('<div class="card"><h2>Hidden gems and next stops</h2><p class="pg-mut" style="margin-top:-4px">Outside the top ten, named by guests as a gem or the place they want to try next.</p><ol class="pg-list">' + gems_html + '</ol></div>') if gems else ''}
   {over}
   {aw_html}
+  {list_html}
 </div></section>
 {('<section><div class="wrap"><h2 class="pg-h2">In guests&rsquo; words</h2><div class="pg-quotes">' + ''.join(qs[:4]) + '</div></div></section>') if qs else ''}
 <section><div class="wrap pg-grid">

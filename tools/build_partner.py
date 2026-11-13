@@ -104,7 +104,7 @@ SRC = open('tools/data/partner-static.html', encoding='utf-8').read()
 blk = lambda k: re.search(rf'<!--{k}-->(.*?)<!--/{k}-->', SRC, re.S).group(1)
 table = blk('table')
 mkt_rows = open('partner/data/market_activity_by_quarter.csv', encoding='utf-8-sig').read().count('\n') - 1
-table = re.sub(r'(guide awards\.</td><td class="num">)[\d,]+', rf'\g<1>{M["venues"]:,}', table)
+table = re.sub(r'(guide awards\.</td><td class="num">)[\d,]+', rf'\g<1>{M.get("on_map", M["venues"]):,}', table)   # the extract holds every place on the map
 table = re.sub(r'(plus counts and shares\.</td><td class="num">)[\d,]+', rf'\g<1>{sum(len(v) for v in C["m"].values()):,}', table)
 table = re.sub(r'(which cities and neighbourhoods are gaining momentum\.</td><td class="num">)[\d,]+', rf'\g<1>{mkt_rows:,}', table)
 DATA = (f'<section class="ph-sec ph-alt" id="data"><div class="wrap"><div class="ph-head"><h2>Data downloads</h2>'

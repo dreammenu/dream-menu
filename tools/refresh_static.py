@@ -426,8 +426,11 @@ edit('for-business.html', [(r'<!--fb-proof-->.*?<!--/fb-proof-->', lambda m: fb_
 edit('how-it-works.html', [
     (r'[\d,]+ interviews are included, up to [^.]+\. Venues on the map come from (?:the same [\d,]+ interviews\.|the [\d,]+ interviews up to [^;]+; newer answers join the map at the next update\.) The dish figures in the analysis use the [\d,]+ interviews',
      f'{N_ALL} interviews are included, up to {LAST_H}. Venues on the map come from the same {fmt(M["interviews_mapped"])} interviews. The dish figures in the analysis use the {fmt(P["n"])} interviews'),
-    (r'Of [\d,]+ venues named, [\d,]+ have a confirmed address and [\d,]+ an approximate one\.',
-     f'Of {fmt(M["venues"])} venues named, {fmt(M["located"])} have a confirmed address and {fmt(M["approximate"])} an approximate one.'),
+    (r'Of [\d,]+ venues named, [\d,]+ have a confirmed address and [\d,]+ an approximate one\.(?: The map also shows [^<]*)?',
+     f'Of {fmt(M["venues"])} venues named, {fmt(sum(1 for v in D["venues"] if v["m"] and v["t"] == "L"))} have a confirmed address and '
+     f'{fmt(sum(1 for v in D["venues"] if v["m"] and v["t"] == "A"))} an approximate one. The map also shows {fmt(M.get("listed", 0))} places from '
+     f'Dream Menu&rsquo;s own Google Maps list that no guest has named yet; they are labelled as list places, most are placed approximately, '
+     f'and they are never counted in the analysis.'),
 ])
 edit('onepager.html', [
     (r'(Dream Menu · partner summary · )[^<]+', rf'\g<1>{LAST_H}'),
