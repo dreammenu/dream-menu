@@ -16,8 +16,6 @@ RULES = [
      'The single most-named dish in each course, with its share of that course’s answers. Shares look small because guests name hundreds of different dishes, so a dish on 8% is a clear leader.'),
     ('index.html', r'<div class="cgrid">', 'before',
      'Each card is one course. The percentage is the share of that course’s answers naming the dish; bars are scaled so the leader fills its row.\nAnswers that fit no dish are left out, so shares are of answers we could code.'),
-    ('index.html', r'<div class="mtabs"', 'before',
-     'Pick a market. Every list is a share of that market’s own answers, so a city with 40 guests compares fairly with Glasgow. "vs" flags a dish whose share there clearly differs from its share everywhere.\nDeep markets have 30 or more guests behind them; early-signal markets are worth reading with care.'),
     ('index.html', r'<div class="dgrid">', 'before',
      'Each bar splits every answer to one question and adds up to 100%. The large figure is the winning answer and the count beneath is how many guests answered.'),
     ('index.html', r'<div class="two">\s*<article class="lcard"><h3>Guilty pleasures', 'before',

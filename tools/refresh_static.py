@@ -77,13 +77,20 @@ pc0 = lambda x: f'{round(x):d}%'
 w1 = lambda a, b: f'{100 * a / b:.1f}%' if b else '0%'
 
 
+# Home sections that may have been retired by tools/build_home.py (the market tabs left the home page on
+# 13 Nov 2026; the city guides and the analysis carry that view). Their patterns are applied only if present.
+OPTIONAL = {r'<div class="mpane" role="tabpanel" id="p0".*?See the world on the map →</a></div>\n</div>',
+            r'<div class="mtabs" role="tablist" aria-label="Market">.*?</div>',
+            r'<p class="lede">What guests name in each market[^<]*</p>'}
+
+
 def edit(fn, pairs, required=True):
     s = open(fn, encoding='utf-8').read()
     o = s
     s = re.sub(r'<details class="vinfo">.*?</details>', '', s, flags=re.S)  # chart notes are re-added by build_info.py
     for pat, rep in pairs:
         s2 = re.sub(pat, rep, s, flags=re.S)
-        if s2 == s and required and not re.search(pat, s, flags=re.S):
+        if s2 == s and required and pat not in OPTIONAL and not re.search(pat, s, flags=re.S):
             raise SystemExit(f'{fn}: pattern not found: {pat[:80]}')
         s = s2
     if s != o:

@@ -116,7 +116,7 @@ section = (
     + (f'The menus card sets those answers beside {AU["n"]} published menus read on {date.fromisoformat(AU["collected"]).day} {date.fromisoformat(AU["collected"]).strftime("%B %Y")}. ' if _gaps else '')
     + 'The fourth card is an outside source, kept separate as a challenge to our own data.</p></div>\n'
     f'  <div class="hf-grid">{"".join(cards)}</div>\n'
-    '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/report">Report 2026</a></p>\n'
+    '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/reports">All reports</a></p>\n'
     '</div></section>\n')
 METHOD_NOTE = (f'<p class="method">Source: {N_ALL:,} Dream Menu interviews, 1 September 2025 to {when}. Dish categories were made more specific on 24 October 2026: '
                'each answer is now coded to the dish itself (scallops, tiramisu, skinny fries) rather than a broad group such as seafood or ice cream. '
@@ -146,10 +146,10 @@ secs['try'] = ('<section class="h-sec alt" id="try"><div class="wrap">\n'
     '<article class="hf-card"><div class="hf-tag">For venues</div><h3>Check my menu</h3><p>Tick the dishes you serve and see how much of what guests want you cover, the staples you are missing and the biggest gaps.</p><a class="hf-more" href="/menu-check">Check mine &rarr;</a></article>'
     '</div>\n</div></section>\n\n')
 secs.pop('more', None)
-for _k in ('start', 'coverage', 'map'):   # trimmed 13 Nov 2026: the menu, the tools band and the places section already do these jobs
+for _k in ('start', 'coverage', 'map', 'places'):   # trimmed 13 Nov 2026: the menu, the tools band, the city guides and the analysis already do these jobs
     secs.pop(_k, None)
 
-order = ['h-hero', 'h-stats', 'now', 'try', 'start', 'courses', 'places', 'debates', 'mood', 'map', 'coverage', 'rising']
+order = ['h-hero', 'h-stats', 'now', 'courses', 'try', 'debates', 'mood', 'rising']
 missing = [k for k in secs if k not in order]
 if missing:
     raise SystemExit(f'home sections not in the order list: {missing}')

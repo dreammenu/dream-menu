@@ -170,7 +170,7 @@ doc.addEventListener('keydown',function(e){
   var hs=$$('h2',main).filter(function(h){return h.id||(h.closest('section')&&h.closest('section').id&&$('h2',h.closest('section'))===h)});
   if(hs.length<3)hs=$$('h3[id]',main);
   if(hs.length<3)return;
-  var links=hs.slice(0,18).map(function(h){var id=h.id||h.closest('section').id;return '<a href="#'+id+'">'+esc(label(h))+'</a>'}).join('');
+  var links=hs.slice(0,18).map(function(h){var id=h.id||h.closest('section').id;return '<a href="#'+id+'"'+(h.closest('.iv-pzone')?' class="jp-p"':'')+'>'+esc(label(h))+'</a>'}).join('');
   var bar=doc.createElement('nav'); bar.className='jump onpage'; bar.setAttribute('aria-label','On this page');
   bar.innerHTML='<div class="wrap"><span class="onpage-l">On this page</span>'+links+'</div>';
   var sub=$('.subnav',main), first=main.firstElementChild;
@@ -252,7 +252,7 @@ doc.addEventListener('keydown',function(e){
     Object.keys(map).forEach(function(id){var t=doc.getElementById(id); if(t)io.observe(t)});
   }
   // 3. breadcrumbs: where this page sits, taken from the menu itself
-  var PARENT={area:['Where to eat','/map','City guides','/cities'],city:['Where to eat','/map','City guides','/cities'],venue:['Where to eat','/map','Venue map','/map'],trends:['Food trends','/','Dish trends','/trends'],'case-studies':['Analysis & reports','/analysis','Insight Series reports','/case-studies'],report:['Analysis & reports','/analysis','Report 2026','/report'],quarterly:['Analysis & reports','/analysis','State of the Menu','/quarterly']};
+  var PARENT={area:['Where to eat','/map','City guides','/cities'],city:['Where to eat','/map','City guides','/cities'],venue:['Where to eat','/map','Venue map','/map'],trends:['Analysis','/analysis','Dish trends','/trends'],'case-studies':['Reports','/reports','Insight Series','/case-studies'],report:['Reports','/reports','Report 2026','/report'],quarterly:['Reports','/reports','State of the Menu','/quarterly']};
   var seg=path.split('/').filter(Boolean), trail=[], here=null, nextUp=null;
   var title=function(){var h=$('h1',main); return h?h.textContent.replace(/\s+/g,' ').trim():doc.title.split('|')[0].trim()};
   if(seg.length===2&&PARENT[seg[0]]){
@@ -265,7 +265,8 @@ doc.addEventListener('keydown',function(e){
       else trail=[[g.textContent.trim(),null]];
       here=$('b',a).textContent;
       if(n&&n.getAttribute('href')!==path&&n.getAttribute('href')!=='/')nextUp={k:n.closest('.mnav-item')===item?'Next':'Next: '+$('.mnav-top',n.closest('.mnav-item')).textContent.trim(),t:$('b',n).textContent,h:n.getAttribute('href'),d:($('span',n)||{}).textContent||''};
-    } else if(!/^\/(login|logout|404)$/.test(path)) here=title();
+    } else if($('.mnav-solo a[href="'+path+'"]',top)) here=$('.mnav-solo a[href="'+path+'"]',top).textContent.trim();
+    else if(!/^\/(login|logout|404)$/.test(path)){ var it=D.items.filter(function(x){return x.u===path})[0], gr=it&&GROUP[it.g]; if(gr&&gr.u!==path&&gr.u!=='/')trail=[[gr.l,gr.u]]; here=it?it.t:title(); }
   }
   if(here&&path!=='/'&&!isMap&&!$('.crumbs')){
     var c=doc.createElement('nav'); c.className='crumbs'; c.setAttribute('aria-label','Breadcrumb');

@@ -275,7 +275,7 @@
 .tr-find li{background:none;border:0;border-bottom:1px solid var(--v-grid);border-radius:0;padding:12px 0 12px 44px;font-size:16.5px;line-height:1.45}
 .tr-find li::before{left:0;top:11px;background:none;color:var(--v-ink);font:800 20px/1.2 var(--display);width:auto;height:auto;text-align:left}
 /* story furniture */
-.iv-story{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 22px;max-width:980px}
+.iv-story{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;max-width:980px}
 .iv-story a{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-top:1px solid rgba(255,255,255,.28);color:#fff;text-decoration:none;font:600 14.5px/1.25 var(--body)}
 .iv-story a:hover span{text-decoration:underline}
 .iv-story b{font:800 13px/1 var(--display);color:#debd1a;min-width:14px}
@@ -344,3 +344,12 @@
 
 /* menu audit table on a phone: keep read, dish and the two shares in view; course and price stay in the table view and CSV */
 @media (max-width:600px){.sc.sc-au{min-width:0;font-size:12.5px}.sc.sc-au th:nth-child(3),.sc.sc-au td:nth-child(3),.sc.sc-au th:nth-child(6),.sc.sc-au td:nth-child(6){display:none}.sc.sc-au .sc-bar{display:none}.sc.sc-au th{letter-spacing:.02em;font-size:10.5px}.sc.sc-au td,.sc.sc-au th{padding-right:6px}}
+/* analysis: the partner briefing is shown only to signed-in partners; everyone else sees one line */
+.iv-pzone{display:none}.dm-partner .iv-pzone{display:block}
+.iv-story .iv-story-p{display:none}.dm-partner .iv-story .iv-story-p{display:list-item}
+.iv-pteaser .iv-wrap{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;border-top:1px solid var(--v-grid);padding-top:18px;padding-bottom:18px}
+.iv-pteaser p{margin:0;max-width:70ch;font:500 14.5px/1.5 var(--body);color:var(--v-ink2)}.iv-pteaser p b{color:var(--v-ink)}
+.iv-pteaser a{font:700 14px/1 var(--body);white-space:nowrap;padding:10px 14px;background:var(--v-brand);color:#fff;text-decoration:none}
+.dm-partner .iv-pteaser{display:none}
+.iv-also{margin:10px 0 0;font:500 15px/1.5 var(--body);opacity:.9}.iv-also a{color:inherit;text-decoration-color:var(--v-gold);text-decoration-thickness:2px;text-underline-offset:3px}
+.jump .jp-p{display:none}.dm-partner .jump .jp-p{display:inline}

@@ -136,16 +136,13 @@ DO = {  # one direct use per section, shown under its introduction
 
 
 def chap(n, kicker, title, sub, body, sid, partner=False, preview='', tid='', sub_id='', part=''):
-    """One section of the story. Partner sections show a short preview with a sign-in link until partner data loads."""
+    """One section of the story. Partner sections sit in .iv-pzone, which stays hidden until partner data loads."""
     t = f'<h2 class="iv-title"{f" id={chr(34)}{tid}{chr(34)}" if tid else ""} data-short="{kicker}">{title}</h2>'
     sp = f'<p class="iv-sub"{f" id={chr(34)}{sub_id}{chr(34)}" if sub_id else ""}>{sub}</p>'
     if sid in DO:
         sp += f'<p class="iv-do"><b>Use it to</b>{DO[sid]}</p>'
     tag = '<span class="pv-tag">Partners</span>' if partner else ''
     inner = body
-    if partner:
-        inner = (f'<div class="pv-lock">{LOCKSVG}<p><b>For Dream Menu partners.</b> {preview}</p>'
-                 f'<a href="/login?next=/analysis">Partner sign-in</a></div><div class="pv-body">{body}</div>')
     ph = f'<div class="iv-part"><div class="iv-wrap"><span>{part}</span></div></div>' if part else ''
     return (f'{ph}<section class="iv-sec" id="{sid}"><div class="iv-wrap"><p class="iv-eyebrow"><span class="iv-num">{n}</span>{kicker}{tag}</p>'
             f'{t}{sp}{inner}</div></section>\n')
@@ -180,8 +177,8 @@ _lead = {c['k']: c['groups'][0] for c in MIX['courses']}
 PARTS = [  # the questions the page answers, in order: label, anchor, lock
     ('The short version', 'read', False), ('What do guests want?', 'demand', False), ('What is changing?', 'changed', False),
     ('Where does it differ?', 'cities', False), ('Can we trust it?', 'compare', False), ('What should I do?', 'actions', False),
-    ('Partner briefing', 'category-sec', True), ('Reference', 'reference', False)]
-toc = '<ol class="iv-story">' + ''.join(f'<li><a href="#{a}"><b>{i}</b><span>{t}{" " + LK if lock else ""}</span></a></li>' for i, (t, a, lock) in enumerate(PARTS, 1)) + '</ol>'
+    ('Partner briefing', 'category-sec', True)]
+toc = '<ol class="iv-story">' + ''.join(f'<li{" class=" + chr(34) + "iv-story-p" + chr(34) if lock else ""}><a href="#{a}"><b>{i}</b><span>{t}{" " + LK if lock else ""}</span></a></li>' for i, (t, a, lock) in enumerate(PARTS, 1)) + '</ol>'
 
 _ROLES = [
     ('Running a venue or a kitchen',
@@ -225,12 +222,13 @@ WHO = (f'<div class="who"><div class="dmv-card"><h3>Who answers</h3><p class="wh
        + _bars([(_GL.get(g['g'], g['g']), 100 * g['n'] / _gt) for g in P['groups']])
        + f'</div><div class="dmv-card"><h3>Where their venues are</h3><p class="who-s">Share of the {_uk:,} UK venue mentions, by nation. {100 * (_all - _uk) / _all:.0f}% of all {_all:,} mentions are outside the UK or not placed in a nation.</p>' + vinfo('Each bar is a nation’s share of the venues guests named in the UK. It shows where the evidence is strongest: findings lean towards Scotland because most venues named are there.')
        + _bars([(n, 100 * c / _uk) for n, c in sorted(_nat, key=lambda x: -x[1])])
-       + '</div></div><p class="iv-sub" style="max-width:80ch"><b>Read it as:</b> a large panel of food-led people, most of them in Scotland and many working in the trade. It leads the wider public on trends more than it mirrors it, which is why chapter 9 sets the findings against national sources. Age, home city and how often guests eat out are not collected yet.</p>')
+       + '</div></div><p class="iv-sub" style="max-width:80ch"><b>Read it as:</b> a large panel of food-led people, most of them in Scotland and many working in the trade. It leads the wider public on trends more than it mirrors it, which is why the &ldquo;Can we trust it?&rdquo; section sets the findings against national sources. Age, home city and how often guests eat out are not collected yet.</p>')
 main = f"""<main class="iv-page">
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">The analysis</span>
 <h1>What the UK’s foodies want, and where it’s heading</h1>
-<p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each. Partners also get a buying briefing.</p>
+<p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week.</p>
+<p class="iv-also">Looking up one dish? <a href="/trends">Dish trends</a>. Need a dated publication? <a href="/reports">Reports</a>.</p>
 {toc}
 </div></section>
 {chap(1, 'The short version', 'What the data says this quarter', 'Each line is written from the numbers and rechecked at every refresh. The sections below show the evidence.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div><div data-fresh="interviews look"></div>', 'read')}
@@ -244,28 +242,29 @@ main = f"""<main class="iv-page">
 <p class="iv-sub">Each recommendation follows from the sections above and is rewritten when the numbers change.</p>
 {ACTIONS}
 </div></section>
+<section class="iv-pteaser"><div class="iv-wrap"><p><b>Partners:</b> the buying briefing (category scorecard, a score for every dish, confidence ranges and who buys) continues here after you sign in.</p><a href="/login?next=/analysis%23category-sec">Partner sign-in</a></div></section>
+<div class="iv-pzone">
 {chap(6, 'Category scorecard', f'{_ngrow} categories to grow, {_ncut} to defend or trim', 'The buying view. Every food group in every course, with its share of demand, how that share has moved, and a call: Grow, Defend, Trim, Core or Niche. A move only earns a call when it passes a significance test.', '<div id="th-cats"></div>', 'category-sec', True, 'Every food group in every course with its share, its movement and a buying call: grow, defend, trim, core or niche.', part='Partner briefing')}
 {chap(7, 'What to back', 'A score for every dish and drink', 'From categories to single dishes. One ranking weighs size, momentum, strength of evidence and how open the field is: <b>Back</b>, <b>Watch</b> or <b>Review</b>. The matrix shows why a dish scores as it does.', '<div id="c-opp"></div><h3 class="iv-h3 iv-h3b" id="t2"></h3><div id="c-matrix"></div><span id="matrix-sec"></span>', 'opportunity-sec', True, 'A score out of 10 for every tracked dish and drink, with each one placed by size and momentum.', tid='t7')}
 {chap(8, 'How sure, and where next', 'Which moves are real, and how far they go', '', '<div id="c-forest"></div><span id="next"></span><div id="th-fan"></div>', 'confidence-sec', True, 'Every change with its 95% range, and a three-quarter planning range for the clear movers.', tid='t3', sub_id='s3')}
 {chap(9, 'Who buys', 'How guests differ, and how operators feel', 'Plan the range for the customer you sell to: trade, creators and enthusiasts answer differently. Then the people who buy: what operators feel, and where their response falls short of the pressure.', '<div id="c-seg"></div><span id="operators-sec"></span><h3 class="iv-h3 iv-h3b" id="t8"></h3><div id="c-ops"></div>', 'segments-sec', True, 'How industry, creators and enthusiasts differ on every course, and what 55 operators say about costs and confidence.', tid='t6')}
-<div class="iv-part"><div class="iv-wrap"><span>Reference</span></div></div>
-<section class="iv-sec" id="reference"><div class="iv-wrap"><p class="iv-eyebrow">Reference charts</p>
-<h2 class="iv-title" data-short="Reference">The detail behind the answers</h2>
-<p class="iv-sub">Supporting charts. Open the ones you need.</p>
-<details class="iv-ref" id="ref-settled"><summary>How settled is each course? <small>Share of answers in the top three food groups</small></summary><h3 class="iv-h3" id="tc"></h3><div id="c-conc"></div></details>
-<details class="iv-ref" id="converging"><summary>Are guests converging on the same favourites? <small>Top-five share by quarter</small></summary><div id="th-conc"></div></details>
-<details class="iv-ref" id="ref-concentration"><summary>How concentrated are recommendations? <small>Share of mentions held by the most-named venues</small></summary><div data-card="concentration"></div></details>
-<div class="pv-body">
-<details class="iv-ref" id="ref-board"><summary>Every tracked dish by life-cycle stage <small>Partners</small></summary><div data-card="tr-board"></div></details>
-<details class="iv-ref" id="ref-slope"><summary>Then and now: every dish, earlier share against recent <small>Partners</small></summary><div data-card="tr-slope"></div></details>
-<details class="iv-ref" id="wall-sec"><summary>Trend wall: the top six groups in every course <small>Partners</small></summary><h3 class="iv-h3" id="t4"></h3><div id="c-wall"></div></details>
-<details class="iv-ref" id="heat-sec"><summary>Dish heat: each dish against its own average <small>Partners</small></summary><h3 class="iv-h3" id="t5"></h3><div id="c-heat"></div></details>
-</div>
+<section class="iv-sec" id="reference"><div class="iv-wrap"><p class="iv-eyebrow">Partner reference</p>
+<h2 class="iv-title" data-short="Partner reference">Every dish, in detail</h2>
+<p class="iv-sub">The full tables behind the briefing. Open the ones you need.</p>
+<details class="iv-ref" id="ref-board"><summary>Every tracked dish by life-cycle stage</summary><div data-card="tr-board"></div></details>
+<details class="iv-ref" id="ref-slope"><summary>Then and now: every dish, earlier share against recent</summary><div data-card="tr-slope"></div></details>
+<details class="iv-ref" id="wall-sec"><summary>Trend wall: the top six groups in every course</summary><h3 class="iv-h3" id="t4"></h3><div id="c-wall"></div></details>
+<details class="iv-ref" id="heat-sec"><summary>Dish heat: each dish against its own average</summary><h3 class="iv-h3" id="t5"></h3><div id="c-heat"></div></details>
 </div></section>
+</div>
 <section class="iv-sec" id="method"><div class="iv-wrap prose">
 <p class="iv-eyebrow">Method</p>
 <h2 class="iv-title" data-short="Method">Who answers, and how these numbers are made</h2>
 {WHO}
+<h3 class="iv-h3 iv-h3b">Supporting charts</h3>
+<details class="iv-ref" id="ref-settled"><summary>How settled is each course? <small>Share of answers in the top three food groups</small></summary><h3 class="iv-h3" id="tc"></h3><div id="c-conc"></div></details>
+<details class="iv-ref" id="converging"><summary>Are guests converging on the same favourites? <small>Top-five share by quarter</small></summary><div id="th-conc"></div></details>
+<details class="iv-ref" id="ref-concentration"><summary>How concentrated are recommendations? <small>Share of mentions held by the most-named venues</small></summary><div data-card="concentration"></div></details>
 {METHOD}
 </div></section>
 </main>
