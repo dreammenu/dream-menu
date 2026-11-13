@@ -38,7 +38,31 @@ INTERESTS = [  # key, label, one line, item ids best first. Drives the "I'm inte
  ('costs', 'Cutting costs', 'Margins, prices, waste and what operators are feeling', ['o3', 'f29', 'o6', 'o5', 'b10', 'b20', 'o12', 'o8']),
  ('menu', 'Planning a menu or range', 'What to add, protect and drop', ['f24', 'o30', 'f27', 'f21', 'r14', 'o4', 'b24', 'f19']),
  ('places', 'Places and locations', 'Where guests go, by city and neighbourhood, and where to open', ['f6', 'f30', 'f17', 'f7', 'b16', 'r8', 'b11', 'f18']),
+ ('about', 'Working with Dream Menu', 'Partnerships, commissioned reports, press and how the data is made', ['b1', 'b2', 'r0', 'a3', 'a1', 'f15', 'o12', 'a2']),
 ]
+# Every page and section carries at least one interest, so the filter reaches the whole site.
+# build_nav.py stops with an error if an item has no interest, or if a page on disk is missing from ITEMS.
+ITAGS = {
+ 'f1': 'food drinks', 'f16': 'food drinks sales costs menu places', 'f17': 'places food', 'f18': 'places', 'f21': 'food drinks menu',
+ 'f22': 'food drinks', 'f24': 'food menu sales', 'f25': 'drinks', 'f26': 'sales costs menu', 'f27': 'menu food costs',
+ 'f28': 'sales menu drinks food', 'f29': 'costs sales', 'f2': 'food menu', 'f4': 'drinks food', 'f5': 'food menu',
+ 'f6': 'places', 'f20': 'food drinks', 'f19': 'food drinks menu', 'f30': 'places', 'f7': 'places sales',
+ 'f9': 'drinks food', 'f10': 'places food', 'f11': 'drinks', 'f12': 'food', 'f31': 'food drinks', 'f13': 'food menu',
+ 'f14': 'food menu costs', 'f15': 'about', 'r0': 'about',
+ 'r1': 'sales places costs', 'r2': 'sales places', 'r3': 'places sales', 'r4': 'costs', 'r5': 'costs', 'r6': 'costs',
+ 'r7': 'places', 'r8': 'places', 'r9': 'sales', 'r10': 'sales places', 'r11': 'places', 'r12': 'food menu drinks',
+ 'r13': 'menu food', 'r14': 'menu food', 'r15': 'sales places', 'r16': 'sales places menu', 'r17': 'sales menu',
+ 'r18': 'places sales', 'r19': 'menu food drinks',
+ 'o1': 'costs sales menu', 'o2': 'sales costs', 'o3': 'costs', 'o4': 'menu sales costs', 'o5': 'sales', 'o6': 'costs sales',
+ 'o7': 'sales', 'o30': 'menu food', 'o8': 'sales costs', 'o9': 'sales', 'o10': 'sales', 'o11': 'sales costs',
+ 'o13': 'sales', 'o12': 'sales costs menu about',
+ 'b1': 'about', 'b9': 'about sales', 'b10': 'costs drinks', 'b11': 'places', 'b12': 'food menu', 'b13': 'food menu',
+ 'b14': 'drinks', 'b15': 'menu food', 'b16': 'places', 'b17': 'places', 'b18': 'food menu', 'b19': 'food places',
+ 'b20': 'costs', 'b21': 'places sales', 'b22': 'places', 'b23': 'menu costs sales', 'b24': 'menu food drinks',
+ 'b2': 'about menu sales', 'b5': 'about', 'b6': 'about sales', 'a1': 'about', 'a3': 'about', 'a2': 'about',
+}
+# Pages that are not destinations (sign-in, errors, internal tools, redirects); everything else on disk must be in ITEMS.
+NOT_PAGES = {'/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
 AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', 'chef': 'chefs', 'supplier': 'suppliers', 'investor': 'investors', 'press': 'press'}
 # extra search words, so people find things by the words they use
 KEYWORDS = {
@@ -82,7 +106,7 @@ HMENU = {'analysis': ['f16'], 'reports': ['r0'], 'places': ['f6', 'f30', 'f7'], 
 # Where each top-level page sits (children follow their parent). MENU = the pages listed in the footer;
 # everything else is one click away on /explore and in search.
 PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f13': 'trends',
-         'f6': 'places', 'f30': 'places', 'f7': 'places', 'f8': 'places',
+         'f6': 'places', 'f30': 'places', 'f7': 'places',
          'f16': 'analysis', 'r0': 'reports', 'f20': 'reports', 'r1': 'reports', 'r4': 'reports', 'r7': 'reports', 'r12': 'reports', 'r15': 'reports', 'b9': 'reports',
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
          'b1': 'partners', 'b2': 'partners',
@@ -104,9 +128,7 @@ ITEMS = [
  ('f27', 'Category scorecard', '/analysis#category-sec', 'Partners: a grow, defend, trim, core or niche call for every food group', 'food', 'supplier', 0, 'f16'),
  ('f28', 'Dish and drink scores', '/analysis#opportunity-sec', 'Partners: back, watch or review, with a score out of 10 for every dish and drink', 'food', 'supplier', 0, 'f16'),
  ('f29', 'Operator pulse', '/analysis#segments-sec', 'Partners: what operators say about costs, prices and confidence', 'food', 'supplier investor', 0, 'f16'),
- ('f23', 'Partner briefing', '/analysis#category-sec', 'Signed-in partners: category scorecard, dish scores, confidence ranges, projections and who buys', 'food', 'supplier investor', 0, 'f16'),
  ('f2', 'The dishes people choose', '/#courses', 'The top dishes for every course and their share of guests', 'food', 'food chef supplier', 0, 'f1'),
- ('f3', "Every city's appetite", '/cities', 'What Glasgow, Edinburgh and every market names, and the venues behind it', 'food', 'food investor supplier', 0, 'f1'),
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
  ('f5', 'Guilty pleasures and Bin it', '/#mood', 'The comfort food guests admit to, and the trends they want gone', 'food', 'food chef venue', 1, 'f1'),
  ('f6', 'Venue map', '/map', f'{N_PINNED} venues guests have named in {N_COUNTRIES} countries, with award winners', 'food', 'food investor new supplier', 1, None),
@@ -114,7 +136,6 @@ ITEMS = [
  ('f19', 'Dish trends', '/trends', 'A page for every dish and drink we track', 'food', 'food chef supplier press', 1, None),
  ('f30', 'City guides', '/cities', 'Where foodies eat in each city: most named, hidden gems, award holders', 'food', 'food venue press new', 0, None),
  ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
- ('f8', 'Award winners on the map', '/map', '21,046 MICHELIN, 50 Best and guide winners in one searchable list', 'food', 'food press investor', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),
  ('f10', 'Dream Fringe', '/specials#fringe', 'Late-night food after the shows and the best Fringe venues', 'food', 'food', 0, 'f9'),
  ('f11', 'Dream Cocktail', '/specials#cocktail', 'The drinks guests and bartenders would order', 'food', 'food chef', 0, 'f9'),
@@ -161,7 +182,6 @@ ITEMS = [
  ('o12', 'Restaurant MOT', '/restaurant-mot', 'An independent four-week diagnostic of one venue', 'ops', 'venue new', 0, None),
 
  ('b1', 'For business', '/for-business', 'Partnerships, commissioned reports, the Restaurant MOT and data licences', 'biz', 'supplier investor venue', 0, None),
- ('b7', 'Work with us', '/for-business#work', 'Partnerships, commissioned research and sponsorship', 'biz', 'supplier investor', 0, 'b1'),
  ('b9', 'Insight Series', '/case-studies', 'Fifteen deep-dive reports, one free to read', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
  ('b11', 'Two cities, two appetites', '/case-studies/glasgow-edinburgh', 'How Glasgow and Edinburgh guests differ, for a group opening a second site', 'biz', 'new investor venue', 0, 'b9'),
@@ -193,7 +213,7 @@ for row in ITEMS:
     i, t, u, d, g, a, s, p = row
     g = PLACE[p or i] if (p or i) in PLACE else PLACE[_parent[p]]
     t = RETITLE.get(i, t)
-    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'b5', 'f27', 'f28', 'f29'), k=KEYWORDS.get(i, ''))
+    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, n=ITAGS.get(i, '').split(), lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'b5', 'f27', 'f28', 'f29'), k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
 LOCK = '<svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'
@@ -233,7 +253,7 @@ def header(cur_group):
         for it in [IT[i] for i in ids]:
             out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
         out.append('</div></div></div></li>')
-    out.append('</ul></nav>')
+    out.append('</ul><a class="mnav-all" href="/#pick">Find what matters to you ' + ARROW + '</a></nav>')
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
     out.append('<a class="signin" href="/login?next=/analysis%23partner">Partner sign-in</a>')
     out.append('<a class="takepart" href="/take-part">Take part</a>')
@@ -251,7 +271,7 @@ def footer_links():
         for it in its:
             out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
         if g == 'about':
-            out.append('<a href="/login?next=/analysis%23partner">Partner sign-in</a>')
+            out.append('<a href="/#pick">Find anything</a><a href="/login?next=/analysis%23partner">Partner sign-in</a>')
         out.append('</div>')
     out.append('</nav>')
     return ''.join(out)
@@ -289,13 +309,26 @@ def page_group(path):
 
 HEAD_TAGS = '<script>document.documentElement.classList.add("js")</script><script src="/nav-data.js" defer></script><script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>'
 
+def check_coverage():
+    keys = {k for k, *_ in INTERESTS}
+    bad = [i for i, x in IT.items() if not x['n'] or set(x['n']) - keys]
+    if bad:
+        raise SystemExit(f'items with no interest (or an unknown one) in ITAGS: {bad}')
+    urls = {x['u'].split('#')[0] for x in IT.values()}
+    pages = {'/' + f[:-5] for f in glob.glob('*.html')} | {'/' + f[:-5] for f in glob.glob('report/*.html') + glob.glob('case-studies/*.html')}
+    missing = sorted(pages - urls - NOT_PAGES)
+    if missing:
+        raise SystemExit(f'pages not reachable from the interest filter (add them to ITEMS and ITAGS): {missing}')
+
+
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.chdir(root)
+    check_coverage()
     data = dict(aud=[dict(k=k, l=l, p=p, sh=AUD_SHORT[k], b=b, picks=picks) for k, l, p, b, picks in AUD],
                 groups=[dict(k=g, l=l, u=u, d=d) for g, l, u, d in GROUPS],
                 ints=[dict(k=k, l=l, d=d, ids=ids) for k, l, d, ids in INTERESTS],
-                items=[dict(id=x['id'], t=x['t'], u=x['u'], d=x['d'], g=x['g'], a=x['a'], s=x['s'], p=x['p'], lock=x['lock'], k=x['k']) for x in IT.values()])
+                items=[dict(id=x['id'], t=x['t'], u=x['u'], d=x['d'], g=x['g'], a=x['a'], s=x['s'], p=x['p'], lock=x['lock'], k=x['k'], n=x['n']) for x in IT.values()])
     with open('nav-data.js', 'w') as f:
         f.write('/* Generated by tools/build_nav.py: edit the list there, not this file. */\nwindow.DM_NAV=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n')
     foot = footer_links()
