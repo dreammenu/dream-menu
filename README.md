@@ -127,3 +127,8 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * Benchmarks show the agree / challenge / context board; the 18 detail cards are folded under "Every comparison, with sources".
 * Retired or trimmed: /insights now redirects to /analysis (the file stays as the page template for build_pages.py); the home page lost the audience band, the coverage tiles and the map teaser (tools/build_home.py pops them); "From the kitchen" left the header menu (still on /explore and in search).
 * Vercel Web Analytics is NOT enabled on the project (checked 13 Nov). Until it is switched on in the Vercel dashboard, the per-partner visit counts cannot be collected.
+
+## 13 November 2026: one card style site-wide; menu audit pipeline
+
+* brand.css "house" block gives every card and tile on the site the same look as the charts (rule and gold tab, no boxes). Venue pages link to their city guide.
+* Menu audit: tools/data/menu-audit.json (venues' own published menus, each dish mapped to a tracked dish label and a food group) feeds tools/build_menu_audit.py, which build_venue_pages.py runs last. It writes menu-audit-public.js; the analysis page then shows "what guests ask for against what venues list" (Gap, Table stakes, Over-supplied, Niche) and median prices by course under "What do guests want?". Nothing shows until at least 10 venues are audited. The format is documented at the top of the script.

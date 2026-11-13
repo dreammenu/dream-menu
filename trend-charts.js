@@ -432,12 +432,34 @@
     c.setTable([{ l: 'Food group', k: 'l' }, { l: 'Course', k: 'course' }, { l: 'Call', k: 'call' }, { l: 'Share', n: 1, f: function (r) { return r.p + '%'; } }, { l: 'Change (pts)', n: 1, k: 'move' }, { l: 'Clear move', f: function (r) { return r.sig ? 'yes' : 'no'; } }, { l: 'What to do', k: 'do' }], C.rows, 'category-scorecard');
   }
 
+  // ---------- menu audit: what guests ask for against what venues list
+  function supplyGap(host, A) {
+    var order = { 'Gap': 0, 'Over-supplied': 1, 'Table stakes': 2, 'Niche': 3 }, cur = 'Gap', gaps = A.rows.filter(function (r) { return r.read === 'Gap'; }).sort(function (a, b) { return b.demand - a.demand; });
+    var c = V.card(host, { id: 'menu-gap', claim: gaps.length ? esc(gaps[0].l) + ' leads ' + gaps.length + ' dishes guests want more than menus offer' : 'Menus cover what guests ask for', title: 'Share of guests naming each dish, beside the share of ' + A.n + ' audited menus that list it',
+      src: 'Source: Dream Menu interviews, and the published menus of ' + A.n + ' of the most-named venues, read ' + String(A.collected || '').split('-').reverse().join('/') + '. A menu counts once however many versions of a dish it lists.' });
+    function draw() {
+      var rows = A.rows.filter(function (r) { return cur === 'All' || r.read === cur; }).sort(function (a, b) { return order[a.read] - order[b.read] || b.demand - a.demand; });
+      c.plot.innerHTML = '<div class="sc-wrap"><table class="sc"><thead><tr><th>Read</th><th>Dish</th><th>Course</th><th class="num">Guests naming it</th><th class="num">On menus</th><th class="num">Typical price</th></tr></thead><tbody>' + rows.map(function (r) {
+        return '<tr><td><span class="sc-call ' + (r.read === 'Gap' ? 'sc-grow' : r.read === 'Over-supplied' ? 'sc-trim' : 'sc-core') + '">' + r.read + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.demand * 7).toFixed(0) + '%"></b></i>' + r.demand.toFixed(1) + '%</td><td class="num"><i class="sc-bar"><b style="width:' + r.menus.toFixed(0) + '%;background:var(--v-ns,#b8b6ae)"></b></i>' + r.menus.toFixed(0) + '%</td><td class="num">' + (r.price ? '£' + r.price.toFixed(2) : '<small>too few</small>') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+    }
+    V.chips(c.filters, [['Gap', 'Gaps'], ['Over-supplied', 'Over-supplied'], ['Table stakes', 'Table stakes'], ['Niche', 'Niche'], ['All', 'All ' + A.rows.length]], cur, function (k) { cur = k; draw(); });
+    draw();
+    c.setTable([{ l: 'Dish', k: 'l' }, { l: 'Course', k: 'course' }, { l: 'Read', k: 'read' }, { l: 'Guests naming it', n: 1, f: function (r) { return r.demand + '%'; } }, { l: 'On menus', n: 1, f: function (r) { return r.menus + '%'; } }, { l: 'Typical price', n: 1, f: function (r) { return r.price ? '£' + r.price : ''; } }], A.rows, 'menu-audit');
+    if (A.prices && A.prices.length) {
+      var p = V.card(host, { id: 'menu-price', claim: 'What a course costs at the venues guests name most', title: 'Median printed price by course, with the middle half of prices and the average number of choices', src: 'Source: published menus of ' + A.n + ' venues. Prices as printed, in pounds.' });
+      p.plot.innerHTML = '<div class="dx-grid">' + A.prices.map(function (x) { return '<div class="dx-col"><h4>' + esc(x.course) + '<small>' + x.n + ' priced dishes</small></h4><div class="au-big">£' + x.median.toFixed(2) + '</div><p class="au-s">Middle half: £' + x.lo.toFixed(2) + ' to £' + x.hi.toFixed(2) + '<br>' + x.count + ' choices on an average menu</p></div>'; }).join('') + '</div>';
+      p.setTable([{ l: 'Course', k: 'course' }, { l: 'Median price', n: 1, k: 'median' }, { l: 'Lower quartile', n: 1, k: 'lo' }, { l: 'Upper quartile', n: 1, k: 'hi' }, { l: 'Choices per menu', n: 1, k: 'count' }], A.prices, 'menu-prices');
+    }
+  }
+
   function start() {
     var P = window.DM_TRENDP, X = window.DM_TRENDX, g = function (id) { return document.getElementById(id); };
     if (X || window.DM_INTEL) document.documentElement.classList.add('dm-partner');
     var F = X || P;
     if (F && g('th-find')) findings(g('th-find'), F);
     if (window.DM_MIX && g('th-demand')) demandMix(g('th-demand'), window.DM_MIX);
+    if (window.DM_AUDIT && g('th-audit')) supplyGap(g('th-audit'), window.DM_AUDIT);
     if (window.DM_CATS && g('th-cats')) scorecard(g('th-cats'), window.DM_CATS);
     if (P && g('th-churn')) { churn(g('th-churn'), P); if (X) flows(g('th-churn'), X); }
     if (P && g('th-conc')) { conc(g('th-conc'), P); if (X) mix(g('th-conc'), X); }
