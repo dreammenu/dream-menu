@@ -22,18 +22,18 @@ async function expected() {
   const pw = (typeof process !== 'undefined' && process.env && process.env.DM_PASSWORD) || '';
   return pw ? token(pw) : null;            // no main password configured: only individual keys work
 }
-const KEYS = new Set([
+const KEYS = new Map([
 // partner-keys:start
-  'f1d594f74bf0a60edf55906b3ecc05a0f7a428d6932a4229976cb0d5bbe42861', // Partner 02 (added 2026-11-12)
-  '0f4c7d20dcf1787f1dff494291d40ee4346303b7277790ad9f1b530e040b0b18', // Partner 03 (added 2026-11-12)
-  '5678754aa3472a39799b286cd68d56db1d50f5f836027043fee5f20242c8f9dd', // Partner 04 (added 2026-11-12)
-  '3079943a5bab563556fb5dff67827f97220eb22932664ad695c36b757dc434ec', // Partner 05 (added 2026-11-12)
-  'ce60c6d8c0e244b894609883307f258de0efea7a48056439f99a4ef9985c52db', // Partner 06 (added 2026-11-12)
-  '1239f12d7cf130d2a509a2bbeeda045bc01b56b2d6afb5f13a150d5edf96acf3', // Partner 07 (added 2026-11-12)
-  'd707c29b143b359094153343c5adebda7425956f576a42a030f4e7ca55f72881', // Partner 08 (added 2026-11-12)
-  '9c6b2ddfd9994d935cdd9dc155ae7a748126619f10c78c43b4272f81dc35dab9', // Partner 09 (added 2026-11-12)
-  'b90e62d9216c4eea5acd29da0fb3d643ac9bee2ac7b3ca2520b21e9d500b17ac', // Partner 10 (added 2026-11-12)
-  'f84fd8474f8877943d4d6fef5c2625c7fd5656fd24bfb2b492f06a5e1cca1feb', // Partner 11 (added 2026-11-12)
+  ['f1d594f74bf0a60edf55906b3ecc05a0f7a428d6932a4229976cb0d5bbe42861', 'partner-02'], // Partner 02 (added 2026-11-12)
+  ['0f4c7d20dcf1787f1dff494291d40ee4346303b7277790ad9f1b530e040b0b18', 'partner-03'], // Partner 03 (added 2026-11-12)
+  ['5678754aa3472a39799b286cd68d56db1d50f5f836027043fee5f20242c8f9dd', 'partner-04'], // Partner 04 (added 2026-11-12)
+  ['3079943a5bab563556fb5dff67827f97220eb22932664ad695c36b757dc434ec', 'partner-05'], // Partner 05 (added 2026-11-12)
+  ['ce60c6d8c0e244b894609883307f258de0efea7a48056439f99a4ef9985c52db', 'partner-06'], // Partner 06 (added 2026-11-12)
+  ['1239f12d7cf130d2a509a2bbeeda045bc01b56b2d6afb5f13a150d5edf96acf3', 'partner-07'], // Partner 07 (added 2026-11-12)
+  ['d707c29b143b359094153343c5adebda7425956f576a42a030f4e7ca55f72881', 'partner-08'], // Partner 08 (added 2026-11-12)
+  ['9c6b2ddfd9994d935cdd9dc155ae7a748126619f10c78c43b4272f81dc35dab9', 'partner-09'], // Partner 09 (added 2026-11-12)
+  ['b90e62d9216c4eea5acd29da0fb3d643ac9bee2ac7b3ca2520b21e9d500b17ac', 'partner-10'], // Partner 10 (added 2026-11-12)
+  ['f84fd8474f8877943d4d6fef5c2625c7fd5656fd24bfb2b492f06a5e1cca1feb', 'partner-11'], // Partner 11 (added 2026-11-12)
 // partner-keys:end
 ]);
 async function keyToken(pw) {              // PBKDF2, so the stored hashes cannot be guessed back into passwords
@@ -43,9 +43,11 @@ async function keyToken(pw) {              // PBKDF2, so the stored hashes canno
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 const next = () => new Response(null, { headers: { 'x-middleware-next': '1' } });
-const go = (url, cookie) => {
+const go = (url, cookie, who) => {
   const h = new Headers({ Location: url, 'Cache-Control': 'no-store' });
   if (cookie) h.append('Set-Cookie', cookie);
+  // dm_who is a plain label (never the password) so the site can count visits per partner; see nav.js
+  if (who !== undefined) h.append('Set-Cookie', `dm_who=${who}; Path=/; Max-Age=${who ? 2592000 : 0}; Secure; SameSite=Lax`);
   return new Response(null, { status: 303, headers: h });
 };
 const safe = p => (p && p.startsWith('/') && !p.startsWith('//')) ? p : '/partner';
@@ -54,17 +56,17 @@ export default async function middleware(request) {
   const url = new URL(request.url);
   const path = url.pathname;
   const want = await expected();
-  if (path === '/logout') return go('/', `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`);
+  if (path === '/logout') return go('/', `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`, '');
   if (path === '/login') {
     if (request.method === 'POST') {
       const form = await request.formData();
       const to = safe(form.get('next'));
       const pw = form.get('password') || '';
       if (want && (await token(pw)) === want)
-        return go(to, `${COOKIE}=${want}; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax`);
+        return go(to, `${COOKIE}=${want}; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax`, 'main');
       if (KEYS.size && String(pw).trim().length >= 12) {
         const kt = await keyToken(pw);
-        if (KEYS.has(kt)) return go(to, `${COOKIE}=${kt}; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax`);
+        if (KEYS.has(kt)) return go(to, `${COOKIE}=${kt}; Path=/; Max-Age=2592000; HttpOnly; Secure; SameSite=Lax`, KEYS.get(kt));
       }
       return go('/login?e=1&next=' + encodeURIComponent(to));
     }

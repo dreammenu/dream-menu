@@ -544,6 +544,7 @@ def city_page(c, co):
 {('<section><div class="wrap"><h2 class="pg-h2">In guests&rsquo; words</h2><div class="pg-quotes">' + ''.join(qs[:4]) + '</div></div></section>') if qs else ''}
 <section><div class="wrap pg-grid">
   <div class="card"><h2>Run a venue in {E(c)}?</h2><p>See how {E(c)}&rsquo;s taste differs from other cities, check whether your venue has a page, and get the free badge.</p><p><a class="go" href="/analysis#cities">Every city&rsquo;s appetite</a> · <a class="go" href="/badge">Get the badge</a> · <a class="go" href="/operators">Operator toolkit</a></p></div>
+  {('<div class="card"><h2>By neighbourhood</h2><div class="pg-chips">' + AREA_CHIPS[(c, co)] + '</div></div>') if AREA_CHIPS.get((c, co)) else ''}
   <div class="card"><h2>Other city guides</h2><div class="pg-chips">{others}</div></div>
 </div>{SRC}</section>'''
     ld = {'@context': 'https://schema.org', '@type': 'ItemList', 'name': f'Where {c}’s foodies eat', 'numberOfItems': len(top),
@@ -552,7 +553,64 @@ def city_page(c, co):
                 f'The restaurants, bars and cafes in {name} that {M["g"]} Dream Menu guests name most: the city’s dream menu course by course, hidden gems and award holders.', body, ld)
 
 
+# neighbourhoods: postcode districts grouped into the areas people actually use. Only venues with a confirmed address count.
+AREAS = {('Glasgow', 'United Kingdom'): [('City Centre and Merchant City', ['G1', 'G2']), ('Finnieston and Charing Cross', ['G3']), ('West End', ['G11', 'G12', 'G20']),
+                                         ('Woodlands and St George’s Cross', ['G4']), ('Southside', ['G41', 'G42', 'G43', 'G44', 'G46']), ('East End and Dennistoun', ['G31', 'G40'])],
+         ('Edinburgh', 'United Kingdom'): [('Old Town', ['EH1']), ('New Town', ['EH2']), ('Stockbridge and the West End', ['EH3']), ('Leith and Leith Walk', ['EH6', 'EH7']),
+                                           ('Southside, Bruntsfield and Morningside', ['EH8', 'EH9', 'EH10'])]}
+_pcd = lambda v: (re.search(r'\b((?:G|EH)\d{1,2})\s?\d[A-Z]{2}\b', v.get('ad') or '') or [None, None])[1]
+aslug = lambda c, a: slugify(f'{c} {a}')
+AREA_V = {}
+for _ck, _lst in AREAS.items():
+    for _an, _ds in _lst:
+        _vs = [v for v in _bc.get(_ck, []) if v.get('y') != 'area' and v.get('s') != 'closed' and v.get('p') == 'exact' and _pcd(v) in _ds]
+        if len(_vs) >= 8:
+            AREA_V[(_ck, _an)] = _vs
+AREA_CHIPS = {ck: ''.join(f'<a class="pg-chip" href="/area/{aslug(ck[0], an)}">{E(an)}</a>' for (c2, an) in AREA_V if c2 == ck) for ck in AREAS}
+
+
+def area_page(ck, an):
+    c, vs = ck[0], AREA_V[(ck, an)]
+    tot, ctot = sum(v['m'] for v in vs) or 1, sum(v['m'] for v in _bc[ck]) or 1
+    pc = lambda n: f'{100 * n / tot:.1f}%'
+    picks = []
+    for k, lab in CPICK[:4]:
+        best = max(vs, key=lambda v: ((v.get('cs') or {}).get(k, 0), v['m']))
+        n = (best.get('cs') or {}).get(k, 0)
+        if n >= 2:
+            picks.append(f'<article><span>{lab}</span><h3>{vlink(best)}</h3><p>Known for {E((best.get("k") or [["its cooking"]])[0][0].lower())}</p><small>named {n} times for this course</small></article>')
+    gems = sorted([v for v in vs[6:] if (v.get('cs') or {}).get('h', 0) >= 2], key=lambda v: -(v['cs']['h']))[:6]
+    kk = {}
+    for v in vs:
+        for k, n in v.get('k') or []:
+            kk[k] = kk.get(k, 0) + n
+    kt = sum(kk.values()) or 1
+    known = ', '.join(f'{E(k).lower()} ({100 * n / kt:.0f}%)' for k, n in sorted(kk.items(), key=lambda x: -x[1])[:4] if k != 'Other')
+    others = ''.join(f'<a class="pg-chip" href="/area/{aslug(c, a2)}">{E(a2)}</a>' for (c2, a2) in AREA_V if c2 == ck and a2 != an)
+    body = f"""<section class="pg-hero"><div class="wrap">
+  <p class="eyebrow"><a href="/city/{cslug(*ck)}">{E(c)}</a> · Neighbourhood guide</p>
+  <h1>{E(an)}: <em>where foodies eat</em></h1>
+  <p class="lede">The {len(vs)} places in {E(an)} that Dream Menu guests name most. What they name here: {known}.</p>
+  <div class="pg-facts"><div><b>{len(vs)}</b><span>venues named</span></div><div><b>{100 * tot / ctot:.1f}%</b><span>of {E(c)} mentions</span></div><div><b>{sum(1 for v in vs if v["i"] in AW)}</b><span>hold a guide award</span></div></div>
+  <p class="pg-mut">Areas follow postcode districts, so edges are approximate, and only venues with a confirmed address are counted.</p>
+</div></section>
+{('<section><div class="wrap"><h2 class="pg-h2">The ' + E(an) + ' dream menu</h2><div class="ct-menu">' + ''.join(picks) + '</div></div></section>') if len(picks) >= 2 else ''}
+<section><div class="wrap pg-grid">
+  <div class="card ct-wide"><h2>Most named in {E(an)}</h2>{_vi(f'Each bar is a venue’s share of all venue mentions in {an}. It measures how often a place comes to mind, not how good it is.')}{bars([(vlink(v) + (' <span class="mk-tag">Award</span>' if v['i'] in AW else ''), v['m']) for v in vs[:12]], fmtv=pc)}</div>
+  {('<div class="card"><h2>Hidden gems and next stops</h2><ol class="pg-list">' + ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E((v.get("k") or [[""]])[0][0])}</span></li>' for v in gems) + '</ol></div>') if gems else ''}
+  <div class="card"><h2>More of {E(c)}</h2><div class="pg-chips">{others}</div><p style="margin-top:12px"><a class="go" href="/city/{cslug(*ck)}">The full {E(c)} guide</a> · <a class="go" href="/map">Map</a></p></div>
+</div>{SRC}</section>"""
+    return page(f'/area/{aslug(c, an)}', f'{an}, {c}: where foodies eat | Dream Menu',
+                f'The {len(vs)} restaurants, bars and cafes in {an}, {c} that Dream Menu guests name most, with the area’s dream menu and hidden gems.', body,
+                {'@context': 'https://schema.org', '@type': 'ItemList', 'name': f'Where foodies eat in {an}, {c}',
+                 'itemListElement': [{'@type': 'ListItem', 'position': i, 'name': v['n']} for i, v in enumerate(vs[:12], 1)]})
+
+
 cwritten = [city_page(*k) for k in CITIES]
+cwritten += [area_page(ck, an) for (ck, an) in AREA_V]
+for fn in glob.glob('area/*.html'):
+    if fn not in cwritten:
+        os.remove(fn)
 for fn in glob.glob('city/*.html'):
     if fn not in cwritten:
         os.remove(fn)
@@ -586,9 +644,74 @@ _blk = """/* city */
 """
 open('pages.css', 'w', encoding='utf-8').write(re.sub(r'/\* city \*/.*?/\* /city \*/\n', '', _css, flags=re.S) + _blk)
 
+# ---------------------------------------------------------------- interactive tools: /menu-check and /my-dream-menu
+# Public data only: each tracked dish's overall share of its course, the steady staples, and the city index.
+def _jsload(fn):
+    t = open(fn, encoding='utf-8').read()
+    return json.JSONDecoder().raw_decode(t[t.index('{'):])[0]
+
+
+_TPUB, _AD = _jsload('trend-public.js'), _jsload('analysis-data.js')
+_stap = {(x['course'], x['l']) for x in _TPUB['staples']}
+_crow = {r['l']: [c['idx'] if not c['thin'] else None for c in r['cells']] for r in _AD['cities']['rows']}
+PICK = dict(n=P['n_all'], last=P['last'], markets=_AD['cities']['markets'], courses=[
+    dict(k=k, label=P['trends'][k]['label'], base=P['trends'][k]['n'],
+         items=[dict(s=slugify(it.get('l') or lab(it['c'])), l=it.get('l') or lab(it['c']), g=it.get('g') or grp(it['c']), p=it['pct'],
+                     st=1 if (k, it.get('l') or lab(it['c'])) in _stap else 0, ci=_crow.get(it.get('l') or lab(it['c'])))
+                for it in P['trends'][k]['cats'] if (it.get('l') or lab(it['c'])) != 'Other'])
+    for k in P['order']])
+open('pick-data.js', 'w', encoding='utf-8').write('/* Generated by tools/build_venue_pages.py for /menu-check and /my-dream-menu. Public shares only. */\nwindow.DM_PICK='
+                                                  + json.dumps(PICK, ensure_ascii=False, separators=(',', ':')) + ';\n')
+_TS = '<script src="/pick-data.js"></script>\n<script src="/tools.js" defer></script>'
+written.append(page('/menu-check', 'Check my menu against what guests want | Dream Menu',
+    f'A free tool for venues: tick the dishes on your menu and see how much of what {fmt(P["n_all"])} food-led guests ask for you already cover, which staples are missing and where the gaps are.',
+    f'''<section class="pg-hero"><div class="wrap"><p class="eyebrow">For venues · Free tool</p><h1>Check my menu <em>against what guests want</em></h1>
+<p class="lede">Tick what is on your menu. You will see how much of what guests name for each course you already cover, which steady staples are missing, and the biggest gaps. Nothing you tick leaves your browser.</p></div></section>
+<section><div class="wrap"><div id="mc" class="tl" data-tool="check"><noscript>This tool needs JavaScript.</noscript></div>{SRC}</div></section>
+{_TS}'''))
+written.append(page('/my-dream-menu', 'Build your dream menu and see who agrees | Dream Menu',
+    f'Pick your dream starter, main, side, dessert and drinks, then see what share of {fmt(P["n_all"])} guests chose the same, which city you eat like, and share your menu.',
+    f'''<section class="pg-hero"><div class="wrap"><p class="eyebrow">Food trends · Play</p><h1>Build your <em>dream menu</em></h1>
+<p class="lede">Six choices, no wrong answers. Pick one for each course and see how your taste compares with {fmt(P["n_all"])} guests who have answered the same question.</p></div></section>
+<section><div class="wrap"><div id="dm" class="tl" data-tool="dream"><noscript>This tool needs JavaScript.</noscript></div>{SRC}</div></section>
+{_TS}'''))
+_css = open('pages.css', encoding='utf-8').read()
+_blk = """/* tools */
+.tl{margin:26px 0 18px}
+.tl-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:34px;align-items:start}
+@media (max-width:900px){.tl-grid{grid-template-columns:1fr}}
+.tl-course{border-top:1px solid var(--ink);padding:12px 0 18px;position:relative}
+.tl-course::before{content:"";position:absolute;top:-1px;left:0;width:40px;height:5px;background:var(--gold)}
+.tl-course h2{font-size:19px;margin:6px 0 2px}.tl-course p{margin:0 0 10px;font-size:13.5px;color:var(--muted)}
+.tl-opts{display:flex;flex-wrap:wrap;gap:8px}
+.tl-opt{font:500 14.5px/1.2 var(--body);border:1.5px solid var(--rule-strong);background:var(--card);color:var(--ink);border-radius:4px;padding:9px 12px;cursor:pointer;display:inline-flex;gap:8px;align-items:baseline}
+.tl-opt small{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.tl-opt:hover{border-color:var(--ink)}
+.tl-opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.tl-opt[aria-pressed="true"] small{color:inherit;opacity:.7}
+.tl-opt:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.tl-out{position:sticky;top:calc(var(--hh,62px) + 14px);border-top:1px solid var(--ink);padding-top:14px}
+.tl-out h2{font-size:22px;line-height:1.2;margin:4px 0 6px}.tl-out h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+.tl-big{font:800 54px/1 var(--display);margin:6px 0 2px}.tl-big small{font-size:18px;color:var(--muted);font-weight:600}
+.tl-rows{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:7px}
+.tl-rows li{display:grid;grid-template-columns:78px minmax(0,1fr) 48px;gap:10px;align-items:center;font-size:14px}
+.tl-rows .t{height:9px;background:var(--rule);overflow:hidden}.tl-rows .t i{display:block;height:100%;background:var(--navy)}
+.tl-rows .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.tl-list{margin:0;padding-left:18px;font-size:14.5px;display:grid;gap:4px}
+.tl-mut{color:var(--muted);font-size:13.5px}
+.tl-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.tl-btn{font:700 14px/1 var(--body);border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:99px;padding:11px 16px;cursor:pointer;text-decoration:none}
+.tl-btn.alt{background:none;color:var(--ink)}
+.tl-lock{border-left:3px solid var(--gold);padding:2px 0 2px 12px;font-size:14px;margin-top:14px}
+.tl-picks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:0}
+.tl-picks li{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule);font-size:15px;align-items:baseline}
+.tl-picks span{font:800 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.tl-picks b{font-weight:600}.tl-picks em{font-style:normal;font-variant-numeric:tabular-nums;color:var(--muted);font-size:13.5px}
+/* /tools */
+"""
+open('pages.css', 'w', encoding='utf-8').write(re.sub(r'/\* tools \*/.*?/\* /tools \*/\n', '', _css, flags=re.S) + _blk)
+
 # ---------------------------------------------------------------- sitemap
 sm = open('sitemap.xml', encoding='utf-8').read()
-sm = re.sub(r'\s*<url><loc>https://www\.dream-menu\.com/(?:venue|trends|badge|city|cities)[^<]*</loc>[^\n]*</url>', '', sm)
+sm = re.sub(r'\s*<url><loc>https://www\.dream-menu\.com/(?:venue|trends|badge|city|cities|area|menu-check|my-dream-menu)[^<]*</loc>[^\n]*</url>', '', sm)
 add = ''.join(f'\n  <url><loc>{SITE}/{fn[:-5]}</loc><lastmod>{P["last"]}</lastmod></url>' for fn in sorted(written))
 sm = sm.replace('\n</urlset>', add + '\n</urlset>')
 open('sitemap.xml', 'w', encoding='utf-8').write(sm)

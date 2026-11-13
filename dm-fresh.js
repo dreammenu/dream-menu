@@ -5,10 +5,10 @@
 (function () {
   'use strict';
   var SETS = {
-    interviews: { label: 'Dream Menu interviews', size: '1,256 interviews', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-12',
-      note: 'Dish categories refined 24 Oct 2026. Interviews to 10 Nov added 12 Nov.' },
-    venues: { label: 'Venues named by guests', size: '1,935 venues, 1,722 pinned', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-12',
-      note: 'Addresses researched 22 Oct 2026; new venues added 12 Nov.' },
+    interviews: { label: 'Dream Menu interviews', size: '1,256 interviews', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-13',
+      note: 'Dish categories refined 24 Oct 2026. Interviews to 10 Nov added 13 Nov.' },
+    venues: { label: 'Venues named by guests', size: '1,935 venues, 1,722 pinned', from: '2025-09-01', to: '2026-11-10', updated: '2026-11-13',
+      note: 'Addresses researched 22 Oct 2026; new venues added 13 Nov.' },
     awards: { label: 'Awards and guides', size: '21,046 award winners', to: '2026-11-11', updated: '2026-11-11',
       note: 'MICHELIN extract of 11 Oct 2026 plus later editions: Philippines 2027 (29 Oct), South Australia 2027 (14 Oct), Beijing & Tianjin 2027 (28 Oct), Kuala Lumpur & Penang 2027 (4 Nov), Chengdu 2027; World 50 Best Restaurants 2026 in full (1-50 announced 4 Nov); SLTN Awards 2026 (5 Nov); AA, Good Food Guide, OAD, La Liste, Tabelog and Gault&Millau lists.' },
     look: { label: '2026 Look Ahead operator survey', size: '55 operators', from: '2026-04-02', to: '2026-05-03', updated: '2026-10-24', checked: '2026-11-11' },
@@ -19,7 +19,7 @@
     kitchen: { label: 'Venue interviews', size: '64 venues', from: '2025-09-03', to: '2026-07-31', updated: '2026-10-21', checked: '2026-11-11' },
     research: { label: 'Published research reviewed', size: '20 ideas scored', updated: '2026-10-26' },
     toolkit: { label: 'Operator toolkit', size: 'Benchmarks from the 2026 report', to: '2026-10-09', updated: '2026-10-26' },
-    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-11-10', updated: '2026-11-12' }
+    analysis: { label: 'Dream Menu analysis', size: 'Built from interviews and venues', to: '2026-11-10', updated: '2026-11-13' }
   };
   var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   function fmt(d) { if (!d) return ''; var p = d.split('-'); return (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0]; }

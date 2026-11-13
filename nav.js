@@ -252,7 +252,7 @@ doc.addEventListener('keydown',function(e){
     Object.keys(map).forEach(function(id){var t=doc.getElementById(id); if(t)io.observe(t)});
   }
   // 3. breadcrumbs: where this page sits, taken from the menu itself
-  var PARENT={city:['Where to eat','/map','City guides','/cities'],venue:['Where to eat','/map','Venue map','/map'],trends:['Food trends','/','Dish trends','/trends'],'case-studies':['Analysis & reports','/analysis','Insight Series reports','/case-studies'],report:['Analysis & reports','/analysis','Report 2026','/report'],quarterly:['Analysis & reports','/analysis','State of the Menu','/quarterly']};
+  var PARENT={area:['Where to eat','/map','City guides','/cities'],city:['Where to eat','/map','City guides','/cities'],venue:['Where to eat','/map','Venue map','/map'],trends:['Food trends','/','Dish trends','/trends'],'case-studies':['Analysis & reports','/analysis','Insight Series reports','/case-studies'],report:['Analysis & reports','/analysis','Report 2026','/report'],quarterly:['Analysis & reports','/analysis','State of the Menu','/quarterly']};
   var seg=path.split('/').filter(Boolean), trail=[], here=null, nextUp=null;
   var title=function(){var h=$('h1',main); return h?h.textContent.replace(/\s+/g,' ').trim():doc.title.split('|')[0].trim()};
   if(seg.length===2&&PARENT[seg[0]]){
@@ -285,5 +285,13 @@ doc.addEventListener('keydown',function(e){
     up.innerHTML='<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     up.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})}; doc.body.appendChild(up);
   }
+})();
+/* ---------- partner visits: one extra, labelled page view on partner pages, so usage can be reported per partner ---------- */
+(function(){
+  var m=doc.cookie.match(/(?:^|; )dm_who=([a-z0-9-]+)/); if(!m)return;
+  var p=location.pathname.replace(/\.html$/,'');
+  if(!/^\/(partner|briefing|insights|analysis|operators|tested-ideas|menu-check|case-studies|quarterly|onepager)/.test(p))return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};
+  try{window.va('pageview',{path:'/_partner/'+m[1]+p,route:'/_partner/'+m[1]})}catch(e){}
 })();
 })();

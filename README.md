@@ -110,3 +110,12 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 ## 13 November 2026: city guides
 
 * tools/build_venue_pages.py now also writes /cities and one /city/<name> page for every city where guests have named at least 5 venues (15 today). Cities with 30 or more guests get the full guide (dream menu by course, most named, hidden gems, what the city names more than elsewhere, award holders, quotes); smaller ones are marked "Early signal". All figures are shares of the city's own mentions. Pages are added to sitemap.xml and the Where to eat menu.
+
+## 13 November 2026: tools, neighbourhoods, digest, partner visits, faster map
+
+* /menu-check and /my-dream-menu: written by tools/build_venue_pages.py, driven by tools.js and pick-data.js (public shares, staples and the city index only). Choices live in the page link, nothing is stored. Signed-in partners also see clear movement on food courses in the menu check.
+* /area/<city>-<area>: neighbourhood guides for Glasgow and Edinburgh. Areas are groups of postcode districts (`AREAS` in build_venue_pages.py); only venues with a confirmed address count, and an area needs 8 venues to get a page.
+* tools/build_digest.py (after build_home.py) writes the public email digest to tools/data/digest/. The weekly task drafts it in Gmail with no recipients.
+* Partner visits: sign-in sets a plain `dm_who` label cookie (main, partner-02, ...), and nav.js sends one extra page view to Vercel Web Analytics under /_partner/<label>/<page> on partner pages. The weekly task reads those counts. `partner_passwords.py list` rewrites the middleware block.
+* map.html loads awards.js after the map is usable (awInit / setFoot / the loader at the end of the boot block).
+* The home page has a "Try it yourself" band (tools/build_home.py, section id "try").

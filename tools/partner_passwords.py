@@ -34,7 +34,8 @@ def load():
 def save(keys):
     json.dump(keys, open(FN, 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
     s = open(MW, encoding='utf-8').read()
-    body = ''.join(f"  '{k['hash']}', // {k['label']} (added {k['added']})\n" for k in keys)
+    slug = lambda t: re.sub(r'[^a-z0-9]+', '-', t.lower()).strip('-')
+    body = ''.join(f"  ['{k['hash']}', '{slug(k['label'])}'], // {k['label']} (added {k['added']})\n" for k in keys)
     s2, n = re.subn(r'(// partner-keys:start\n).*?(// partner-keys:end)', lambda m: m.group(1) + body + m.group(2), s, flags=re.S)
     if n != 1:
         raise SystemExit('middleware.js: partner-keys block not found')
@@ -46,6 +47,8 @@ def main(a):
     if not a or a[0] == 'list':
         for k in keys:
             print(f"{k['label']:<32} added {k['added']}")
+        if a and a[0] == 'list':
+            save(keys)   # keeps middleware.js in step with the list
         print(f'{len(keys)} individual passwords, plus the main password set in Vercel (DM_PASSWORD).')
     elif a[0] == 'add' and len(a) >= 2:
         label = a[1].replace('*/', '').replace('\n', ' ').strip()

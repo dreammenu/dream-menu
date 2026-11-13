@@ -119,9 +119,16 @@ gap = re.sub(r'<section class="[^"]+".*?</section>\n*', '', body, flags=re.S).st
 if gap:
     raise SystemExit(f'unexpected content between home sections: {gap[:200]}')
 secs['now'] = section + '\n'
+secs['try'] = ('<section class="h-sec alt" id="try"><div class="wrap">\n'
+    '  <div class="h-head"><div class="eyebrow">Try it yourself</div><h2>Put the data <em>to work</em></h2></div>\n'
+    '  <div class="hf-grid hf-three">'
+    '<article class="hf-card"><div class="hf-tag">For food lovers</div><h3>Build your dream menu</h3><p>Pick six courses, see what share of guests agree and which city you eat like. Share the result.</p><a class="hf-more" href="/my-dream-menu">Build mine &rarr;</a></article>'
+    '<article class="hf-card"><div class="hf-tag">For a night out</div><h3>City and neighbourhood guides</h3><p>Where foodies eat in Glasgow, Edinburgh, London and beyond, down to Finnieston and Leith. No critics, no paid placements.</p><a class="hf-more" href="/cities">Find a guide &rarr;</a></article>'
+    '<article class="hf-card"><div class="hf-tag">For venues</div><h3>Check my menu</h3><p>Tick the dishes you serve and see how much of what guests want you cover, the staples you are missing and the biggest gaps.</p><a class="hf-more" href="/menu-check">Check mine &rarr;</a></article>'
+    '</div>\n</div></section>\n\n')
 secs.pop('more', None)
 
-order = ['h-hero', 'h-stats', 'now', 'start', 'courses', 'places', 'debates', 'mood', 'map', 'coverage', 'rising']
+order = ['h-hero', 'h-stats', 'now', 'try', 'start', 'courses', 'places', 'debates', 'mood', 'map', 'coverage', 'rising']
 missing = [k for k in secs if k not in order]
 if missing:
     raise SystemExit(f'home sections not in the order list: {missing}')
@@ -154,6 +161,8 @@ block = """/* home-find */
 .hf-do{border-left:3px solid var(--gold);padding-left:10px}
 .hf-do b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 .hf-more{margin-top:auto;font-size:14px;font-weight:600}
+.hf-three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:1000px){.hf-three{grid-template-columns:1fr}}
 .hf-foot{margin-top:20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 @media (max-width:1000px){.hf-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.hf-grid{grid-template-columns:1fr}}
