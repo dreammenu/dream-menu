@@ -365,6 +365,13 @@ body = f'''<section class="pg-hero"><div class="wrap"><p class="eyebrow">Dish tr
 written.append(page('/trends', 'Dish trends: every dish we track | Dream Menu', f'{len(DISHES)} dishes and drinks from {fmt(P["n_all"])} Dream Menu interviews, course by course, with a page for each.', body))
 
 # ---------------------------------------------------------------- venue pages
+# city guides exist for cities with 5 or more venues named (see the city guides block below)
+_cnt = {}
+for _v in VENUES:
+    if _v.get('c') and _v.get('m') and _v.get('y') != 'area':
+        _cnt[(_v['c'], _v['co'])] = _cnt.get((_v['c'], _v['co']), 0) + 1
+_mk = {(m['n'], m['co']) for m in D['markets'] if m['k'] == 'city'}
+city_url = lambda v: (f"/city/{slugify(v['c'] if v['co'] == 'United Kingdom' else v['c'] + ' ' + v['co'])}" if _cnt.get((v['c'], v['co']), 0) >= 5 and (v['c'], v['co']) in _mk else '')
 by_city = {}
 for v in PUBLIC_V:
     by_city.setdefault((v['c'], v['co']), []).append(v)
@@ -398,7 +405,7 @@ for v in PUBLIC_V:
     closed = ' <span class="mk-tag early">Closed</span>' if v.get('s') == 'closed' else ''
     lede = (f'Named {v["m"]} times by {v.get("g") or v["m"]} Dream Menu guests: number {rank} of {len(city)} venues named in {E(v["c"])}.')
     body = f'''<section class="pg-hero"><div class="wrap">
-  <p class="eyebrow"><a href="/rankings">Venues</a> · {E(place(v))}</p>
+  <p class="eyebrow"><a href="/rankings">Venues</a> · {('<a href="' + city_url(v) + '">' + E(place(v)) + '</a>') if city_url(v) else E(place(v))}</p>
   <h1>{E(v["n"])}{closed}</h1>
   <p class="lede">{lede}</p>
   <p class="pg-mut">{addr} · <a href="/map#venue-{v["i"]}">See it on the map</a></p>
@@ -408,7 +415,7 @@ for v in PUBLIC_V:
   <div class="card"><h2>What guests name here</h2>{bars(cat_items) if cat_items else '<p class="pg-mut">No dish coded yet.</p>'}{('<div class="pg-chips" style="margin-top:12px">' + words + '</div>') if words else ''}</div>
   <div class="card"><h2>For which course</h2>{bars([(E(c), k) for c, k in courses]) if courses else '<p class="pg-mut">No course recorded.</p>'}</div>
   {aw_html}
-  <div class="card"><h2>Also named in {E(v["c"])}</h2><ol class="pg-list">{near_html}</ol><p class="pg-mut"><a href="/rankings">Full rankings</a></p></div>
+  <div class="card"><h2>Also named in {E(v["c"])}</h2><ol class="pg-list">{near_html}</ol><p class="pg-mut">{('<a href="' + city_url(v) + '">The ' + E(v["c"]) + ' guide</a> · ') if city_url(v) else ''}<a href="/rankings">Full rankings</a></p></div>
 </div></section>
 {('<section><div class="wrap"><h2 class="pg-h2">In guests&rsquo; words</h2><div class="pg-quotes">' + quotes + '</div></div></section>') if quotes else ''}
 <section><div class="wrap"><div class="card pg-badge"><div><h2>Run {E(v["n"])}?</h2><p>Show guests you made the list. Add the free &ldquo;Named on Dream Menu&rdquo; badge to your website; it links back to this page.</p>

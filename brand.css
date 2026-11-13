@@ -539,6 +539,18 @@ tr.bf-rfirst td{border-top:2px solid var(--ink)}
 @media (prefers-reduced-motion:reduce){.nav-sticky header.top,.totop,.nextstep i{transition:none}}
 @media print{.crumbs,.nextstep,.totop{display:none!important}}
 /* /wayfind */
+/* house: one look for every card and tile on the site, matching the charts. A rule and a gold tab above, no boxes. */
+.card,.hf-card,.pg-facts div,.lcard,.ccard,.dcard{border:0!important;border-top:1px solid var(--ink)!important;border-radius:0!important;box-shadow:none!important;position:relative}
+.card::before,.hf-card::before,.lcard::before,.ccard::before,.dcard::before{content:"";position:absolute;top:-1px;left:0;width:46px;height:5px;background:var(--gold)}
+.card.quote,.quote{border-top:0!important;border-left:3px solid var(--gold)!important}.card.quote::before{display:none}
+.navy .card,.navyband .card,.h-partner .card{border-top-color:rgba(255,255,255,.5)!important}
+.hf-card.hf-ext{background:var(--panel)}.hf-card.hf-ext::before{background:var(--rule-strong)}
+.pg-facts div{background:none;padding:10px 0 4px}
+.pg-chip,.mk-tag{border-radius:3px}
+table{border-collapse:collapse}
+main table thead th{border-radius:0!important}
+.ccard .eyebrow::before,.card .eyebrow::before,.hf-card .eyebrow::before{display:none}
+/* /house */
 /* home-find */
 .hf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
 .hf-card{background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--navy);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column}
