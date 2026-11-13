@@ -597,6 +597,18 @@ main table thead th{border-radius:0!important}
 .navy .int-more{border-color:rgba(255,255,255,.28)}.navy .int-more summary,.navy .int-mini a{color:#fff}.navy .int-gl,.navy .int-more summary small{color:#c9cbe0}.navy .int-mini li{border-color:rgba(255,255,255,.2)}
 @media (max-width:900px){.int-grps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.int-grps{grid-template-columns:1fr}}
+/* outside benchmarks shown on other pages (tools/benchlib.py) */
+.bx-v{display:inline-block;font:700 11.5px/1 var(--body);padding:4px 8px;border-radius:999px;background:var(--panel);color:var(--ink);vertical-align:1px}
+.bx-agrees{background:color-mix(in srgb,#2f8f6a 18%,transparent)}.bx-differs{background:color-mix(in srgb,#d9822b 22%,transparent)}
+.bx-item{border-top:1px solid var(--rule);padding-top:10px;margin-top:10px}.bx-item:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.bx-item p{margin:0 0 6px;font:400 14.5px/1.5 var(--body)}.bx-top b{margin-left:6px}
+.bx-l{display:inline-block;min-width:92px;font:700 12px/1 var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.bx-read{color:var(--ink);font-weight:500!important}
+.bx-list{list-style:none;margin:0 0 12px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.bx-list li{border-top:1px solid var(--rule);padding:11px 0;font:400 14.5px/1.5 var(--body)}
+.bx-by{color:var(--muted)}
+.hf-bench{margin:18px 0 0;font:600 15px/1.45 var(--body)}.hf-bench span{color:#2f8f6a;font-weight:800;margin-right:4px}
+@media (max-width:760px){.bx-list{grid-template-columns:1fr}.bx-l{display:block;margin-bottom:2px}}
 /* home-find */
 .hf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
 .hf-card{background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--navy);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column}

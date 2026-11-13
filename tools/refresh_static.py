@@ -424,8 +424,8 @@ edit('for-business.html', [(r'<!--fb-proof-->.*?<!--/fb-proof-->', lambda m: fb_
                            (r'<!--fb-cards-->.*?<!--/fb-cards-->', lambda m: fb_cards()),
                            (r'<!--fb-contact-->.*?<!--/fb-contact-->', lambda m: fb_contact())])
 edit('how-it-works.html', [
-    (r'[\d,]+ interviews are included, up to [^.]+\. Venues on the map come from (?:the same [\d,]+ interviews\.|the [\d,]+ interviews up to [^;]+; newer answers join the map at the next update\.) The dish figures on the Insights page use the [\d,]+ interviews',
-     f'{N_ALL} interviews are included, up to {LAST_H}. Venues on the map come from the same {fmt(M["interviews_mapped"])} interviews. The dish figures on the Insights page use the {fmt(P["n"])} interviews'),
+    (r'[\d,]+ interviews are included, up to [^.]+\. Venues on the map come from (?:the same [\d,]+ interviews\.|the [\d,]+ interviews up to [^;]+; newer answers join the map at the next update\.) The dish figures in the analysis use the [\d,]+ interviews',
+     f'{N_ALL} interviews are included, up to {LAST_H}. Venues on the map come from the same {fmt(M["interviews_mapped"])} interviews. The dish figures in the analysis use the {fmt(P["n"])} interviews'),
     (r'Of [\d,]+ venues named, [\d,]+ have a confirmed address and [\d,]+ an approximate one\.',
      f'Of {fmt(M["venues"])} venues named, {fmt(M["located"])} have a confirmed address and {fmt(M["approximate"])} an approximate one.'),
 ])
@@ -460,8 +460,7 @@ AW_FACTS = (f'<div class="facts"><div><b>{fmt(sum(1 for p in _PL if _star(p)))}<
             f'<div><b>{fmt(sum(1 for p in _PL if p[6] == "Scotland" and _star(p)))}</b> <span>starred in Scotland</span></div></div>')
 AW_PLACES, AW_N, AW_BUILT = fmt(AWM['places']), fmt(AWM['awards']), AWM['built']
 AW_H = dt.date.fromisoformat(AW_BUILT).strftime('%-d %b %Y')
-edit('tools/build_nav.py', [(r"'[\d,]+ MICHELIN, 50 Best and guide winners in one searchable list'",
-                             f"'{AW_PLACES} MICHELIN, 50 Best and guide winners in one searchable list'")])
+# (the awards list page and its menu entry were retired 13 Nov 2026)
 edit('index.html', [(r'<h3>[\d,]+ award winners</h3>', f'<h3>{AW_PLACES} award winners</h3>'),
                     (r'(<span class="eyebrow">Awards</span> )[\d,]+( award winners)', rf'\g<1>{AW_PLACES}\g<2>')], required=False)
 # awards.html retired 13 Nov 2026: award winners are a layer on /map

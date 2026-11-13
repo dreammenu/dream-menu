@@ -7,6 +7,7 @@ logo downloads and the contact. Every figure is read from the site's data files,
 Only public headline figures appear here (Heads of Terms: headlines public, depth locked). No quarterly movers.
 """
 import datetime as dt, html, json, os, re
+import benchlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -86,6 +87,12 @@ body = f'''<section class="navyband"><div class="wrap">
   <p class="lede" style="margin-bottom:14px">From {fmt(P["n_all"])} Dream Menu interviews, September 2025 to {LAST_H}. Each card copies the figure with its source line.</p>
   <div class="grid pr-grid">{cards}</div>
   <p class="note" style="margin-top:12px">Glasgow&rsquo;s most-named venue is {E(top_v["n"])} ({100 * top_v["m"] / MK['city:Glasgow|United Kingdom']['mn']:.1f}% of the city&rsquo;s venue mentions). {E(gla_dish)} takes {gla_sh:.1f}% of Glasgow&rsquo;s venue mentions, against {gla_all:.1f}% across all markets. More on the <a href="/">food trends page</a>, the <a href="/analysis">analysis</a> and the <a href="/rankings">rankings</a>.</p>
+</div></section>
+<section><div class="wrap">
+  <h2 id="checked">Checked against outside research</h2>
+  <p class="lede" style="margin-bottom:14px">{benchlib.headline()}. Each finding below is backed by a published source; quote both with their dates.</p>
+  {benchlib.agree_list()}
+  <p class="note"><a href="/analysis#compare">Every comparison, including the local insights</a></p>
 </div></section>
 <section><div class="wrap prose">
   <h2 id="credit">How to credit</h2>

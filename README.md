@@ -171,3 +171,10 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 
 * tools/build_benchmarks.py now holds 33 comparisons (21 public): new ones test Italian food (YouGov), sticky toffee pudding (YouGov), takeaway pizza (YouGov), zero-sugar cola (BSDA), margaritas and martinis (Bacardi Cocktail Trends), alcohol-free (Drinkaware), word of mouth (YouGov), small plates (OpenTable), Scottish scallops (Seafood Scotland), steak against chicken (AHDB/Worldpanel); for partners, fish mains (Seafish), beer and lager (HEINEKEN/CGA), lighter plates (Bidfood/CGA) and Scottish trading conditions (SLTA).
 * Verdict labels: "Agrees", "Local insight" (stored as `differs`: the two disagree and the card explains the local reason) and "Context". Verdicts are set honestly per comparison; do not relabel a disagreement as agreement.
+
+## 13 November 2026: benchmarks on every relevant page, one set of counts
+
+* `tools/benchlib.py` reads bench-public.js and supplies the same wording and counts everywhere: a "How it compares" card on the dish pages it covers (`DISH` map), a line under This quarter on the home page, "Checked against outside research" on /press, and "Checked against the wider market" on /for-business (between `<!--fb-bench-->` markers, written by build_partner.py). Public comparisons only.
+* On /analysis the counts in the "Can we trust it?" title and intro are `data-bn` spans that trend-charts.js rewrites from the comparisons the reader sees: 21 signed out, all of them for partners. Run order: build_benchmarks.py before build_partner, build_pages, build_home, build_press and build_venue_pages.
+* Rank and share claims in benchmark text (number 2 dessert, number 3 cocktail, menus listing sticky toffee pudding, one guest in N picking alcohol-free) are computed from the data, not typed in.
+* refresh_static.py no longer edits the retired awards entry in build_nav.py (that step would have stopped the Monday refresh).

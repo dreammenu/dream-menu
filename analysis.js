@@ -1,5 +1,5 @@
 /* analysis.js: draws /analysis from analysis-data.js. Public headline analysis only:
-   no quarter-by-quarter movement (that stays in the partner area). */
+   no quarter-by-quarter movement (that stays in the partner briefing). */
 (function () {
   'use strict';
   function start() {

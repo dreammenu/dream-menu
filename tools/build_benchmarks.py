@@ -211,14 +211,19 @@ add(id='italian', topic='Italian food', theme='Dishes', tier='public', verdict='
              url='https://yougov.com/en-gb/articles/41659-part-three-favourite-cuisines-and-junk-food'),
     read='The national favourite shows up across the whole dream menu, not just at the pizzeria. Glasgow’s Italian heritage makes it even stronger here: a safe anchor for any range or menu.')
 _stp = dish('p', 'Sticky toffee pudding')
+_AU = {}
+if os.path.exists('menu-audit-public.js'):
+    _AU = {r['l']: r for r in json.loads(open('menu-audit-public.js', encoding='utf-8').read().split('window.DM_AUDIT=', 1)[1].strip().rstrip(';'))['rows']}
+_stp_au = _AU.get('Sticky toffee pudding')
 add(id='stp', topic='Sticky toffee pudding', theme='Dishes', tier='public', verdict='agrees', kind='context',
-    dm=dict(text=f"The second most-named dessert, {_stp['pct']}% of dessert answers, and one of the steady staples", base='dessert answers'),
+    dm=dict(text=f"The number {1 + [c.get('l') or c['c'] for c in P['trends']['p']['cats']].index('Sticky toffee pudding')} dessert, {_stp['pct']}% of dessert answers" + (', and one of the steady staples' if staple('Sticky toffee pudding') else ''), base='dessert answers'),
     ext=dict(text='73% of Britons who have tried sticky toffee pudding like it, one of the best-liked British desserts', who='YouGov, classic British dishes ranked', date='June 2019',
              url='https://yougov.com/en-gb/articles/23758-classic-british-cuisine-ranked-britons'),
-    read='Widely liked by the public and a dream dessert for foodies: the rare dish that is both a crowd-pleaser and an aspiration. Yet fewer than one in four of the dessert menus we audited list it.')
+    read='Widely liked by the public and a dream dessert for foodies: the rare dish that is both a crowd-pleaser and an aspiration.'
+         + (f" Yet only {_stp_au['menus']:.0f}% of the dessert menus we audited list it." if _stp_au else ''))
 _pz = next((n for l, n in P['extra']['guilty'] if l == 'Takeaway pizza'), 0)
 add(id='pizza', topic='Takeaway pizza', theme='Debates', tier='public', verdict='agrees', kind='context',
-    dm=dict(text=f"The most-named guilty pleasure, by {100 * _pz / N_ALL:.1f}% of all interviews", base=f'{N_ALL:,} interviews'),
+    dm=dict(text=('The most-named guilty pleasure' if P['extra']['guilty'][0][0] == 'Takeaway pizza' else 'A top guilty pleasure') + f", named by {100 * _pz / N_ALL:.1f}% of all interviews", base=f'{N_ALL:,} interviews'),
     ext=dict(text='Takeaway pizza is one of Britain’s three favourite junk foods, picked by 31% (41 to 42% of under-40s)', who='YouGov, GB adults', date='April 2022',
              url='https://yougov.com/en-gb/articles/41659-part-three-favourite-cuisines-and-junk-food'),
     read='Foodies and the public share the same comfort food. Pizza is the treat people return to, which is why it sells on delivery even when it is nobody’s dream main.')
@@ -229,6 +234,8 @@ add(id='diet', topic='Diet and zero-sugar cola', theme='Drinks', tier='public', 
              url='https://www.beveragedaily.com/Article/2026/07/22/uk-soft-drinks-saw-record-value-in-2025-despite-global-challenges/'),
     read='The same shift in both: sugar-free is the default cola now. A soft drinks range should lead with zero-sugar, with full-sugar as the option.')
 _mg, _sm, _mt = dish('a', 'Margarita'), dish('a', 'Spicy margarita'), dish('a', 'Martini')
+_cocktails = sorted([c for c in P['trends']['a']['cats'] if c.get('g') == 'Cocktails'], key=lambda c: -c['pct'])
+_mt_rank = 1 + [c.get('l') or c['c'] for c in _cocktails].index('Martini')
 add(id='margarita', topic='Margaritas', theme='Drinks', tier='public', verdict='agrees', kind='context',
     dm=dict(text=f"Margarita and spicy margarita together take {_mg['pct'] + _sm['pct']:.1f}% of alcoholic drink answers, the biggest single cocktail family", base='alcoholic drink answers'),
     ext=dict(text='The Margarita is number one in the top 10 cocktails for 2026', who='Bacardi Cocktail Trends Report, via Morning Advertiser', date='December 2025',
@@ -236,7 +243,7 @@ add(id='margarita', topic='Margaritas', theme='Drinks', tier='public', verdict='
     extra='Dream Menu adds the twist: the spicy version is named more often than the classic.',
     read='Both put the margarita first. The local detail is heat: guests want the spicy one, so a menu with only a classic margarita is missing the version they ask for.')
 add(id='martini', topic='Martini', theme='Drinks', tier='public', verdict='agrees', kind='context',
-    dm=dict(text=f"{_mt['pct']}% of alcoholic drink answers, one of the three most-named cocktails", base='alcoholic drink answers'),
+    dm=dict(text=f"{_mt['pct']}% of alcoholic drink answers, the number {_mt_rank} cocktail", base='alcoholic drink answers'),
     ext=dict(text='The Dry Martini is in the top 10 cocktails for 2026', who='Bacardi Cocktail Trends Report, via Morning Advertiser', date='December 2025',
              url='https://www.morningadvertiser.co.uk/Article/2025/12/19/key-cocktail-trends-for-pubs-in-2026'),
     read='The martini revival the trade reports is visible in what foodies name: a classic that earns its place on a short list.')
@@ -246,7 +253,7 @@ if _af:
         dm=dict(text=f"{_af['pct']}% answer the alcoholic drink question with something alcohol-free", base=f"{DRK['alc']['n']:,} alcoholic drink answers since August 2026"),
         ext=dict(text='44% of UK adults choose no- or low-alcohol drinks to moderate (49% of young adults), up from 31% in 2018', who='Drinkaware Monitor', date='October 2025',
                  url='https://www.drinkaware.co.uk/news/half-of-young-adults-are-now-choosing-no-low-alcohol-drinks'),
-        read='Moderation is mainstream. Dream Menu shows how far it goes: about one guest in thirteen picks alcohol-free even when asked for their dream alcoholic drink. Give it its own priced section.')
+        read=f"Moderation is mainstream. Dream Menu shows how far it goes: about one guest in {round(100 / _af['pct'])} picks alcohol-free even when asked for their dream alcoholic drink. Give it its own priced section.")
 _t10 = AD['critics']['marks']['10']
 add(id='wom', topic='Word of mouth', theme='Places', tier='public', verdict='agrees', kind='context',
     dm=dict(text=f"The 10% most-named venues take {_t10:.0f}% of all venue mentions", base='venue mentions'),
@@ -261,7 +268,7 @@ add(id='smallplates', topic='Small plates', theme='Trends', tier='public', verdi
     read='Both point the same way: small-plate fatigue is real. Guests want a proper main they don’t have to share or order three of.')
 _sea, _sc = gp('s', 'Seafood'), dish('s', 'Scallops')
 add(id='scallops', topic='Scottish seafood', theme='Dishes', tier='public', verdict='agrees', kind='context',
-    dm=dict(text=f"Seafood is {_sea['pct']}% of dream starters; scallops are the most-named starter ({_sc['pct']}%)", base='starter answers'),
+    dm=dict(text=f"Seafood is {_sea['pct']}% of dream starters; scallops are " + ('the most-named starter' if P['trends']['s']['cats'][0].get('l') == 'Scallops' else 'a leading starter') + f" ({_sc['pct']}%)", base='starter answers'),
     ext=dict(text='Scallops are the most favoured Scottish seafood species in UK Michelin-starred restaurants; 80% of starred restaurants use Scottish seafood', who='Seafood Scotland, Making Waves', date='April 2025',
              url='https://www.seafoodscotland.org/wp-content/uploads/2025/06/SFS-Making-Waves-Report-2025_Web.pdf'),
     read='Chefs at the top of the guides and guests choosing a dream starter land on the same thing: Scottish scallops. The strongest local story in the data.')

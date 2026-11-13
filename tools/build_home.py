@@ -10,6 +10,7 @@ and before build_nav.py. Safe to rerun.
   * labels the comfort lists as shares of all interviews
 Only public, course-level figures are used here.
 """
+import benchlib
 import html, json, re
 
 ROOT = '.'
@@ -116,6 +117,7 @@ section = (
     + (f'The menus card sets those answers beside {AU["n"]} published menus read on {date.fromisoformat(AU["collected"]).day} {date.fromisoformat(AU["collected"]).strftime("%B %Y")}. ' if _gaps else '')
     + 'The fourth card is an outside source, kept separate as a challenge to our own data.</p></div>\n'
     f'  <div class="hf-grid">{"".join(cards)}</div>\n'
+    f'  <p class="hf-bench"><span aria-hidden="true">&#10003;</span> {benchlib.headline()}. <a href="/analysis#compare">See every comparison</a></p>\n'
     '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/reports">All reports</a></p>\n'
     '</div></section>\n')
 METHOD_NOTE = (f'<p class="method">Source: {N_ALL:,} Dream Menu interviews, 1 September 2025 to {when}. Dish categories were made more specific on 24 October 2026: '

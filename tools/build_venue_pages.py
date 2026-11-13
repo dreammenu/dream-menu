@@ -7,7 +7,7 @@
   /badge             the "Named on Dream Menu" badge for venues (badge.html, badge.svg)
 
 Public pages carry headline figures only (shares, counts, ranks, where each market over-indexes).
-Quarterly movement and trend scores stay in the partner area (Heads of Terms 3.3 and 3.4): the figures are
+Quarterly movement and trend scores stay in the partner briefing (Heads of Terms 3.3 and 3.4): the figures are
 written to partner/dish-moves.js (behind sign-in) and /dish-move.js fills the "Is it rising?" card on each
 dish page only when that file loads, i.e. for signed-in partners.
 Also rewrites the venue, trend and badge entries in sitemap.xml.
@@ -15,6 +15,7 @@ Also rewrites the venue, trend and badge entries in sitemap.xml.
 Run after refresh_static.py:  python3 tools/build_venue_pages.py && python3 tools/build_nav.py
 """
 import datetime as dt, glob, html, json, os, re
+import benchlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -229,6 +230,7 @@ for s, d in DISHES.items():
   <p class="pg-mut">Share of the guests who answered that course, all interviews.</p></div>
   <div class="card"><h2>By market</h2>{('<div class="tablewrap" style="border:0"><table><thead><tr><th>Market</th><th class="num">Share here</th><th class="num">All markets</th></tr></thead><tbody>' + mk_rows + '</tbody></table></div><p class="pg-mut">Share of each market&#39;s venue-linked dish mentions, so markets with fewer answers compare fairly; shown from three mentions. Markets outside Scotland are early signals.</p>') if mk_rows else '<p class="pg-mut">Not enough venue mentions to compare markets yet.</p>'}</div>
   <div class="card"><h2>Where guests go for it</h2>{('<ol class="pg-list">' + vl + '</ol>') if vl else '<p class="pg-mut">No venue named for this dish more than once yet.</p>'}</div>
+  {benchlib.dish_card(s)}
   <div class="card pg-lock" id="dm-move" data-slug="{s}"><h2>Is it rising?</h2><p>Quarter-by-quarter movement, a clear-move test and a trend score out of 10 for {E(d["l"])} are for Dream Menu partners.</p><p><a class="go" href="/login?next=/trends/{s}">Partner sign-in</a> · <a class="go" href="/for-business#work">Become a partner</a></p></div>
 </div></section>
 {('<section><div class="wrap"><h2 class="pg-h2">Also in ' + E(d["g"].lower()) + '</h2><div class="pg-chips">' + rel + '</div></div></section>') if rel else ''}

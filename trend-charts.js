@@ -343,7 +343,11 @@
     flat: '<svg viewBox="0 0 16 16" width="16" height="16" aria-label="steady" role="img"><path d="M3 8h10M9.5 4.5 13 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
   function bench(host, D, partner) {
     var items = D.items;
-    var c = V.card(host, { id: 'bm-board', claim: 'Published research backs Dream Menu on ' + items.filter(function (b) { return b.verdict === 'agrees'; }).length + ' topics; ' + items.filter(function (b) { return b.verdict === 'differs'; }).length + ' more are local insights', title: 'Dream Menu figures beside published outside figures on the same topic', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
+    // keep the section title and intro in step with the comparisons this reader sees
+    var cnt = { agree: items.filter(function (b) { return b.verdict === 'agrees'; }).length, local: items.filter(function (b) { return b.verdict === 'differs'; }).length, all: items.length };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-bn]'), function (el) { var k = el.getAttribute('data-bn'); if (cnt[k] != null) el.textContent = cnt[k]; });
+    if (partner) Array.prototype.forEach.call(document.querySelectorAll('.bn-pnote'), function (el) { el.textContent = ''; });
+    var c = V.card(host, { id: 'bm-board', claim: 'Published research backs Dream Menu on ' + items.filter(function (b) { return b.verdict === 'agrees'; }).length + ' of ' + items.length + ' topics; ' + items.filter(function (b) { return b.verdict === 'differs'; }).length + ' more are local insights', title: 'Dream Menu figures beside published outside figures on the same topic', sub: esc(D.meta.note), src: 'Outside sources as linked on each comparison. Dream Menu: ' + fmt(D.meta.n_all) + ' interviews to ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.last) : D.meta.last) + '.', fresh: ['interviews'], csv: 'dream-menu-benchmarks', filters: true });
     var themes = ['All'].concat(items.map(function (b) { return b.theme; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
     function draw(th) {
       var list = items.filter(function (b) { return th === 'All' || b.theme === th; });

@@ -15,6 +15,7 @@ partner.html is a redirect to /analysis#partner.
 /for-business gets one block that routes each kind of visitor to the offer that fits them.
 """
 import datetime as dt, html, json, os, re
+import benchlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -168,5 +169,12 @@ if '<!--fb-routes-->' in fb:
 else:
     fb = re.sub(r'<section><div class="wrap">\s*<h2 id="get">What partners get</h2>.*?</div></section>', lambda m: FB, fb, count=1, flags=re.S)
 fb = fb.replace('<div class="eyebrow">For suppliers, distributors and venues</div>', '<div class="eyebrow">For business</div>')
+BENCH = ('<!--fb-bench--><section><div class="wrap">\n  <h2 id="checked">Checked against the wider market</h2>\n'
+         f'  <p class="lede" style="margin-bottom:14px">{benchlib.headline()}. Some of the findings that agree with national research:</p>\n'
+         + benchlib.agree_list(6) + '\n  <p class="note"><a href="/analysis#compare">Every comparison, with sources and the local insights</a></p>\n</div></section><!--/fb-bench-->')
+if '<!--fb-bench-->' in fb:
+    fb = re.sub(r'<!--fb-bench-->.*?<!--/fb-bench-->', lambda m: BENCH, fb, count=1, flags=re.S)
+else:
+    fb = fb.replace('<!--/fb-routes-->', '<!--/fb-routes-->\n' + BENCH, 1)
 open('for-business.html', 'w', encoding='utf-8').write(fb)
 print('partner/hub.js, partner.html (redirect) and for-business.html written;', len(up), 'up,', len(dn), 'down; next review after', q_end)
