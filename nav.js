@@ -252,7 +252,7 @@ doc.addEventListener('keydown',function(e){
     Object.keys(map).forEach(function(id){var t=doc.getElementById(id); if(t)io.observe(t)});
   }
   // 3. breadcrumbs: where this page sits, taken from the menu itself
-  var PARENT={venue:['Where to eat','/map','Venue map','/map'],trends:['Food trends','/','Dish trends','/trends'],'case-studies':['Analysis & reports','/analysis','Insight Series reports','/case-studies'],report:['Analysis & reports','/analysis','Report 2026','/report'],quarterly:['Analysis & reports','/analysis','State of the Menu','/quarterly']};
+  var PARENT={city:['Where to eat','/map','City guides','/cities'],venue:['Where to eat','/map','Venue map','/map'],trends:['Food trends','/','Dish trends','/trends'],'case-studies':['Analysis & reports','/analysis','Insight Series reports','/case-studies'],report:['Analysis & reports','/analysis','Report 2026','/report'],quarterly:['Analysis & reports','/analysis','State of the Menu','/quarterly']};
   var seg=path.split('/').filter(Boolean), trail=[], here=null, nextUp=null;
   var title=function(){var h=$('h1',main); return h?h.textContent.replace(/\s+/g,' ').trim():doc.title.split('|')[0].trim()};
   if(seg.length===2&&PARENT[seg[0]]){

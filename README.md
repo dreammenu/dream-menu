@@ -106,3 +106,7 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * One chart style everywhere (rule and gold tab above, source and tools at the foot): the "editorial" block in dmviz.css and "editorial-ex" in case.css.
 * nav.js adds, on every page: a header that hides on the way down and returns on the way up, an "On this page" bar that follows the reader and marks the current section, breadcrumbs taken from the menu, one next step above the footer, and a back-to-top button. Styles: "wayfind" block in brand.css.
 * Individual partner passwords: `python3 tools/partner_passwords.py add "Name"` prints a new password once; `revoke "Name"` stops it; `list` shows who has one. Only slow hashes are stored (tools/data/partner-keys.json and the marked block in middleware.js). The main password (DM_PASSWORD in Vercel) is untouched and keeps working. Commit and push after any change.
+
+## 13 November 2026: city guides
+
+* tools/build_venue_pages.py now also writes /cities and one /city/<name> page for every city where guests have named at least 5 venues (15 today). Cities with 30 or more guests get the full guide (dream menu by course, most named, hidden gems, what the city names more than elsewhere, award holders, quotes); smaller ones are marked "Early signal". All figures are shares of the city's own mentions. Pages are added to sitemap.xml and the Where to eat menu.

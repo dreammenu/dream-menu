@@ -102,3 +102,17 @@ a.pg-chip:hover{border-color:var(--ink)}
 @media (max-width:860px){.pg-hero-ins.has-ins{grid-template-columns:minmax(0,1fr)}.dm-ins{margin-top:4px}}
 .pg-hero-main{min-width:0}
 .pg-src-l{font-size:12px;color:var(--muted)}
+/* city */
+.ct-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0 22px}
+.ct-menu article{border-top:1px solid var(--ink);padding:12px 0 14px;position:relative}
+.ct-menu article::before{content:"";position:absolute;top:-1px;left:0;width:40px;height:5px;background:var(--gold)}
+.ct-menu span{font:800 11px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ct-menu h3{font-size:19px;line-height:1.2;margin:8px 0 4px}.ct-menu p{margin:0;font-size:14.5px}.ct-menu small{color:var(--muted);font-size:12.5px}
+.ct-wide{grid-column:1/-1}.ct-wide .pg-bars li{grid-template-columns:minmax(0,1fr) 38% 52px}
+.pg-early{border-left:3px solid var(--gold);padding:2px 0 2px 12px;font-size:14.5px;max-width:720px}
+.ct-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0 22px;margin-bottom:18px}
+.ct-card{display:grid;gap:3px;border-top:1px solid var(--ink);padding:12px 0 16px;text-decoration:none;color:var(--ink);position:relative}
+.ct-card b{font:700 21px/1.15 var(--display)}.ct-card span,.ct-card em,.ct-card small{font-style:normal;font-size:13.5px;color:var(--muted)}
+.ct-card i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ct-card:hover b{text-decoration:underline}
+/* /city */
