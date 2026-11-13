@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""The partner area (/partner) and the "ways to work with us" block on /for-business.
+"""The partner part of /analysis and the "ways to work with us" block on /for-business.
 
 Run from the repository root after build_intel.py (it reads partner-data.js and partner/intel-data.js):
   python3 tools/build_partner.py
 
-/partner is organised around what partner teams do, not the contract:
-  1. This quarter: the headlines written from the data (clear movers, scores to back, operator mood)
-  2. Pick the tool for the job: sales, buying and range, marketing, strategy
-  3. Your partnership this term: dates and what is due, worked out from today's date
-  4. Data downloads (built live in the browser by partner/downloads.js)
-  5. Terms of use and sponsorship, folded away
+Since 13 Nov 2026 there is no separate partner area: the analysis IS the partner product. Partners sign in
+and the same page grows a partner briefing. This script writes partner/hub.js (behind sign-in), which
+fills two slots on /analysis:
+  top:    confidential line and This quarter (clear movers, scores to back, operator mood)
+  bottom: data downloads, the partnership this term, terms of use and sponsorship (folded)
+The scorecard, scores, confidence and segments in between are drawn by partner/intel.js and trend-charts.js.
+Source blocks (download table, terms, confidential line) live in tools/data/partner-static.html.
+partner.html is a redirect to /analysis#partner.
 /for-business gets one block that routes each kind of visitor to the offer that fits them.
 """
 import datetime as dt, html, json, os, re
@@ -71,41 +73,9 @@ QUARTER = f'''<section class="ph-sec"><div class="wrap">
       <li><b>See supplier prices rising</b><em>{ops["rising"]}%</em></li>
       <li><b>Biggest pressure</b><em>{E(ops["pressures"][0][0].split("/")[0].lower())}</em></li></ul></div>
   </div>
-  <p class="ph-actions"><a class="cta" href="/briefing">Open the full briefing</a> <a class="ph-ghost" href="/onepager">Print the one-pager for a sales meeting</a></p>
+  <p class="ph-actions"><a class="cta" href="/briefing">Open the printable briefing</a> <a class="ph-ghost" href="/onepager">Print the one-pager for a sales meeting</a> <a class="ph-ghost" href="#data">Download the data</a></p>
 </div></section>
 '''
-
-# ---------------------------------------------------------------- 2. tools by job
-JOBS = [
-    ('Sales', 'Conversations with kitchens', [
-        ('/onepager', 'One-pager', 'The quarter on one printable page'),
-        ('/map', 'Venue map with trend lines', 'Which venues guests name in a patch, and where demand is moving'),
-        ('/briefing#courses', 'Course by course', 'What to talk about with each kind of kitchen'),
-    ]),
-    ('Buying and range', 'What to stock next', [
-        ('/analysis#opportunity-sec', 'Opportunity score', 'Back, watch or review: a score for every dish and drink'),
-        ('/analysis#next', 'Next three quarters', 'A planning range for every clear mover'),
-        ('/analysis#category-sec', 'Category scorecard', 'Every food group with a call: grow, defend, trim, core or niche'),
-        ('/analysis#life', 'Life cycle', 'What is growing, mature or tiring'),
-        ('/analysis#drinks', 'Drinks', 'The new drinks baseline since August'),
-    ]),
-    ('Marketing', 'Stories and campaigns', [
-        ('/#debates', 'Debates and guilty pleasures', 'Irn-Bru or Coke, trends to bin, comfort food'),
-        ('/analysis#compare', 'How we compare', 'Dream Menu against national polls and market data'),
-        ('/specials', 'Themed rounds', 'Dream Cocktail, Sandwich and Fringe'),
-    ]),
-    ('Strategy', 'Management and planning', [
-        ('/analysis#segments-sec', 'Who wants what', 'Industry, creators and enthusiasts compared'),
-        ('/analysis#operators-sec', 'Operator pulse', 'Costs, confidence and the gaps a supplier can fill'),
-        ('/report', 'Report 2026', 'The Hospitality Intelligence Report'),
-        ('/case-studies', 'Insight Series', 'Fifteen deep-dive reports'),
-    ]),
-]
-TOOLS = ('<section class="ph-sec ph-alt"><div class="wrap"><div class="ph-head"><h2>Pick the tool for the job</h2>'
-         '<p>Everything in the partnership, sorted by what you are trying to do. Every chart downloads as CSV.</p></div><div class="ph-jobs">'
-         + ''.join(f'<div class="ph-job"><h3>{E(t)}</h3><p class="ph-sub">{E(s)}</p><ul>'
-                   + ''.join(f'<li><a href="{u}"><b>{E(a)}</b><span>{E(d)}</span>{ARROW}</a></li>' for u, a, d in items) + '</ul></div>' for t, s, items in JOBS)
-         + '</div></div></section>\n')
 
 # ---------------------------------------------------------------- 3. the term, from today's date
 qn = (TODAY.month - 1) // 3
@@ -114,7 +84,7 @@ q_end = (dt.date(TODAY.year + (qn == 3), (qn * 3 + 3) % 12 + 1, 1) - dt.timedelt
 nq_start = q_end + dt.timedelta(days=1)
 qlab = lambda d: f'Q{(d.month - 1) // 3 + 1} {d.year}'
 steps = [
-    (START, 'Partnership started', 'Partner area, map trend lines and data downloads opened.', 'done'),
+    (START, 'Partnership started', 'Partner briefing, map trend lines and data downloads opened.', 'done'),
     (TODAY, f'Now: {qlab(TODAY)} fieldwork', f'Interviews to {LAST} are already in every page. The site refreshes every Monday.', 'now'),
     (q_end + dt.timedelta(days=1), f'{qlab(q_start)} review and presentation', 'The written Quarterly Industry Insight Review and a presentation to management and sales teams, after the quarter closes.', 'next'),
     (nq_start + dt.timedelta(days=13), f'Questions for {qlab(nq_start)}', 'Send up to two commissioned questions from any department. Without them, Dream Menu sets the scope from the previous quarter.', 'next'),
@@ -129,8 +99,9 @@ TERM = ('<section class="ph-sec"><div class="wrap ph-term"><div><div class="ph-h
         f'<a href="mailto:{CONTACT}">{CONTACT}</a>.</p></aside></div></section>\n')
 
 # ---------------------------------------------------------------- 4. downloads (keep the table the download script binds to)
-old = open('partner.html', encoding='utf-8').read()
-table = re.search(r'<div class="tablewrap"><table>.*?</table></div>', old, re.S).group(0)
+SRC = open('tools/data/partner-static.html', encoding='utf-8').read()
+blk = lambda k: re.search(rf'<!--{k}-->(.*?)<!--/{k}-->', SRC, re.S).group(1)
+table = blk('table')
 mkt_rows = open('partner/data/market_activity_by_quarter.csv', encoding='utf-8-sig').read().count('\n') - 1
 table = re.sub(r'(guide awards\.</td><td class="num">)[\d,]+', rf'\g<1>{M["venues"]:,}', table)
 table = re.sub(r'(plus counts and shares\.</td><td class="num">)[\d,]+', rf'\g<1>{sum(len(v) for v in C["m"].values()):,}', table)
@@ -142,29 +113,25 @@ DATA = (f'<section class="ph-sec ph-alt" id="data"><div class="wrap"><div class=
         'neighbourhood or town; "not yet pinned" is counted in its city or country.</p></div></section>\n')
 
 # ---------------------------------------------------------------- 5. terms, folded
-terms = re.search(r'<div class="card"><h3>Terms of use</h3>(.*?)</div>\s*<div class="card"><h3>Sponsorship on Dream Menu output</h3>(.*?)</div>\s*</div></div></section>', old, re.S)
-if terms:
-    t_terms, t_spon = terms.group(1), terms.group(2)
-else:   # already rebuilt: read back from the folded block
-    t_terms = re.search(r'<!--terms-->(.*?)<!--/terms-->', old, re.S).group(1)
-    t_spon = re.search(r'<!--spon-->(.*?)<!--/spon-->', old, re.S).group(1)
+t_terms, t_spon = blk('terms'), blk('spon')
 FOLD = ('<section class="ph-sec"><div class="wrap"><details class="ph-fold"><summary>Terms of use and sponsorship</summary><div class="grid">'
         f'<div class="card"><h3>Terms of use</h3><!--terms-->{t_terms}<!--/terms--></div>'
         f'<div class="card"><h3>Sponsorship on Dream Menu output</h3><!--spon-->{t_spon}<!--/spon--></div></div></details></div></section>\n')
 
-conf = re.search(r'<div class="confidential">.*?</div></div>', old, re.S).group(0)
-HERO = f'''<section class="navyband"><div class="wrap">
-  <div class="eyebrow">Dunns Food &amp; Drinks · Partner area</div>
-  <h1>What is moving, and <em>what to do about it</em></h1>
-  <p class="lede">Market intelligence from {N_ALL} interviews with chefs, operators, suppliers and food lovers, to {LAST}. Start with this quarter, then pick the tool for the job.</p>
-</div></section>
-'''
-main = ('<main>\n' + conf + '\n' + HERO + QUARTER.replace('<section class="ph-sec">', '<section class="ph-sec" id="q">', 1)
-        + TOOLS.replace('<section class="ph-sec ph-alt">', '<section class="ph-sec ph-alt" id="tools">', 1)
-        + TERM.replace('<section class="ph-sec">', '<section class="ph-sec" id="term">', 1) + DATA + FOLD + '</main>')
-new = re.sub(r'<main>.*?</main>', lambda m: main, old, count=1, flags=re.S)
-new = new.replace('<title>Partner area | Dream Menu</title>', '<title>Partner area | Dream Menu</title>')
-open('partner.html', 'w', encoding='utf-8').write(new)
+conf = blk('conf')
+TOP = conf + '\n' + QUARTER.replace('<section class="ph-sec">', '<section class="ph-sec" id="p-quarter">', 1).replace('<h2>This quarter</h2>', '<h2 data-short="This quarter">This quarter, for partners</h2>', 1)
+BOTTOM = (DATA + TERM.replace('<section class="ph-sec">', '<section class="ph-sec" id="term">', 1)
+          + FOLD.replace('<section class="ph-sec">', '<section class="ph-sec" id="terms">', 1))
+HUB = ('/* Generated by tools/build_partner.py. Partner only (behind sign-in): fills the partner slots on /analysis. */\n'
+       'window.DM_HUB=' + json.dumps(dict(top=TOP, bottom=BOTTOM), ensure_ascii=False) + ';\n'
+       '(function(){var H=window.DM_HUB;[["p-hub-top",H.top],["p-hub-bottom",H.bottom]].forEach(function(x){var el=document.getElementById(x[0]);if(el)el.innerHTML=x[1]});})();\n')
+open('partner/hub.js', 'w', encoding='utf-8').write(HUB)
+
+# the old partner area now lives inside /analysis
+open('partner.html', 'w', encoding='utf-8').write('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Partner briefing | Dream Menu</title>'
+    '<meta name="robots" content="noindex"><link rel="canonical" href="https://www.dream-menu.com/analysis">'
+    '<meta http-equiv="refresh" content="0; url=/analysis#partner"><script>location.replace("/analysis"+(location.hash||"#partner"))</script></head>'
+    '<body><p>The partner area is now part of <a href="/analysis#partner">the analysis</a>.</p></body></html>\n')
 
 # ---------------------------------------------------------------- /for-business: route each visitor to the right offer
 ROUTES = [
@@ -188,4 +155,4 @@ else:
     fb = re.sub(r'<section><div class="wrap">\s*<h2 id="get">What partners get</h2>.*?</div></section>', lambda m: FB, fb, count=1, flags=re.S)
 fb = fb.replace('<div class="eyebrow">For suppliers, distributors and venues</div>', '<div class="eyebrow">For business</div>')
 open('for-business.html', 'w', encoding='utf-8').write(fb)
-print('partner.html and for-business.html written;', len(up), 'up,', len(dn), 'down; next review after', q_end)
+print('partner/hub.js, partner.html (redirect) and for-business.html written;', len(up), 'up,', len(dn), 'down; next review after', q_end)

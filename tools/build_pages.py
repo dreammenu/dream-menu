@@ -177,7 +177,7 @@ _lead = {c['k']: c['groups'][0] for c in MIX['courses']}
 PARTS = [  # the questions the page answers, in order: label, anchor, lock
     ('The short version', 'read', False), ('What do guests want?', 'demand', False), ('What is changing?', 'changed', False),
     ('Where does it differ?', 'cities', False), ('Can we trust it?', 'compare', False), ('What should I do?', 'actions', False),
-    ('Partner briefing', 'category-sec', True)]
+    ('Partner briefing', 'partner', True)]
 toc = '<ol class="iv-story">' + ''.join(f'<li{" class=" + chr(34) + "iv-story-p" + chr(34) if lock else ""}><a href="#{a}"><b>{i}</b><span>{t}{" " + LK if lock else ""}</span></a></li>' for i, (t, a, lock) in enumerate(PARTS, 1)) + '</ol>'
 
 _ROLES = [
@@ -227,7 +227,7 @@ main = f"""<main class="iv-page">
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">The analysis</span>
 <h1>What the UK’s foodies want, and where it’s heading</h1>
-<p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week.</p>
+<p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week. Partners who sign in get the buying briefing and the data on this same page.</p>
 <p class="iv-also">Looking up one dish? <a href="/trends">Dish trends</a>. Need a dated publication? <a href="/reports">Reports</a>.</p>
 {toc}
 </div></section>
@@ -242,12 +242,16 @@ main = f"""<main class="iv-page">
 <p class="iv-sub">Each recommendation follows from the sections above and is rewritten when the numbers change.</p>
 {ACTIONS}
 </div></section>
-<section class="iv-pteaser"><div class="iv-wrap"><p><b>Partners:</b> the buying briefing (category scorecard, a score for every dish, confidence ranges and who buys) continues here after you sign in.</p><a href="/login?next=/analysis%23category-sec">Partner sign-in</a></div></section>
+<div id="partner">
+<section class="iv-pteaser"><div class="iv-wrap"><p><b>For partners.</b> Sign in and this page becomes your partner briefing: this quarter&rsquo;s clear movers, a buying call for every category, a score for every dish, confidence ranges, who buys, the data downloads and your partnership dates. <a href="/for-business">Become a partner</a>.</p><a href="/login?next=/analysis%23partner">Partner sign-in</a></div></section>
 <div class="iv-pzone">
-{chap(6, 'Category scorecard', f'{_ngrow} categories to grow, {_ncut} to defend or trim', 'The buying view. Every food group in every course, with its share of demand, how that share has moved, and a call: Grow, Defend, Trim, Core or Niche. A move only earns a call when it passes a significance test.', '<div id="th-cats"></div>', 'category-sec', True, 'Every food group in every course with its share, its movement and a buying call: grow, defend, trim, core or niche.', part='Partner briefing')}
+<div class="iv-part"><div class="iv-wrap"><span>Partner briefing</span></div></div>
+<div id="p-hub-top"></div>
+{chap(6, 'Category scorecard', f'{_ngrow} categories to grow, {_ncut} to defend or trim', 'The buying view. Every food group in every course, with its share of demand, how that share has moved, and a call: Grow, Defend, Trim, Core or Niche. A move only earns a call when it passes a significance test.', '<div id="th-cats"></div>', 'category-sec', True, 'Every food group in every course with its share, its movement and a buying call: grow, defend, trim, core or niche.')}
 {chap(7, 'What to back', 'A score for every dish and drink', 'From categories to single dishes. One ranking weighs size, momentum, strength of evidence and how open the field is: <b>Back</b>, <b>Watch</b> or <b>Review</b>. The matrix shows why a dish scores as it does.', '<div id="c-opp"></div><h3 class="iv-h3 iv-h3b" id="t2"></h3><div id="c-matrix"></div><span id="matrix-sec"></span>', 'opportunity-sec', True, 'A score out of 10 for every tracked dish and drink, with each one placed by size and momentum.', tid='t7')}
 {chap(8, 'How sure, and where next', 'Which moves are real, and how far they go', '', '<div id="c-forest"></div><span id="next"></span><div id="th-fan"></div>', 'confidence-sec', True, 'Every change with its 95% range, and a three-quarter planning range for the clear movers.', tid='t3', sub_id='s3')}
 {chap(9, 'Who buys', 'How guests differ, and how operators feel', 'Plan the range for the customer you sell to: trade, creators and enthusiasts answer differently. Then the people who buy: what operators feel, and where their response falls short of the pressure.', '<div id="c-seg"></div><span id="operators-sec"></span><h3 class="iv-h3 iv-h3b" id="t8"></h3><div id="c-ops"></div>', 'segments-sec', True, 'How industry, creators and enthusiasts differ on every course, and what 55 operators say about costs and confidence.', tid='t6')}
+<div id="p-hub-bottom"></div>
 <section class="iv-sec" id="reference"><div class="iv-wrap"><p class="iv-eyebrow">Partner reference</p>
 <h2 class="iv-title" data-short="Partner reference">Every dish, in detail</h2>
 <p class="iv-sub">The full tables behind the briefing. Open the ones you need.</p>
@@ -256,6 +260,7 @@ main = f"""<main class="iv-page">
 <details class="iv-ref" id="wall-sec"><summary>Trend wall: the top six groups in every course</summary><h3 class="iv-h3" id="t4"></h3><div id="c-wall"></div></details>
 <details class="iv-ref" id="heat-sec"><summary>Dish heat: each dish against its own average</summary><h3 class="iv-h3" id="t5"></h3><div id="c-heat"></div></details>
 </div></section>
+</div>
 </div>
 <section class="iv-sec" id="method"><div class="iv-wrap prose">
 <p class="iv-eyebrow">Method</p>
@@ -276,6 +281,7 @@ an = (head('The analysis | Dream Menu', 'How each city eats, how guests compare 
       '<script src="/partner/intel-data.js"></script>\n<script src="/partner/intel.js"></script>\n'
       '<script src="/partner/trend-data.js"></script><script src="/partner/category-data.js"></script>\n<script src="/partner/bench-data.js"></script>\n'
       '<script src="/trend-charts.js"></script>\n'
+      '<script src="/partner-data.js"></script><script src="/partner/hub.js"></script><script src="/partner/downloads.js"></script>\n'
       '<script>(function(){function o(){var t=location.hash&&document.getElementById(location.hash.slice(1));for(var e=t;e;e=e.parentElement)if(e.tagName==="DETAILS")e.open=true;if(t&&t.closest&&t.closest("details"))t.scrollIntoView();}addEventListener("hashchange",o);setTimeout(o,600);})();</script>\n</body>\n</html>\n')
 open('analysis.html', 'w', encoding='utf-8').write(an)
 

@@ -146,3 +146,10 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * **/analysis is public-only for signed-out readers.** The partner briefing (scorecard, what to back, how sure, who buys, partner reference) sits in `.iv-pzone`, hidden until partner data loads; signed-out readers see one line with a sign-in link instead of five locked previews. The three public supporting charts moved into the Method section.
 * **Home page: eight sections.** The market tabs left the home page (the city guides and the analysis carry that view). refresh_static.py treats those patterns as optional (`OPTIONAL`).
 * Breadcrumbs come from the page list for pages not in the header (nav.js).
+
+## 13 November 2026 (later): the partner area is the analysis
+
+* There is no separate partner area. `/partner` redirects to `/analysis#partner` (partner.html is a stub written by build_partner.py). Sign-in sends partners to the analysis (middleware default and every "Partner sign-in" link).
+* On `/analysis`, signed-out readers see the five questions, what to do and the method, then one line inviting partners to sign in. Signed-in partners see, on the same page: This quarter (clear movers, scores to back, operator mood), the category scorecard, what to back, how sure, who buys, data downloads, the partnership this term, terms, and the partner reference charts.
+* `tools/build_partner.py` writes `partner/hub.js` (behind sign-in), which fills the `#p-hub-top` and `#p-hub-bottom` slots. Its source blocks (download table, terms, confidential line) are in `tools/data/partner-static.html`. "Pick the tool for the job" was dropped: the page itself is the toolbox.
+* Header: Analysis, Reports, Where to eat, For venues, Work with us, plus a "Partner sign-in" link (hidden below 1100px wide; on phones it is in Work with us and the footer).

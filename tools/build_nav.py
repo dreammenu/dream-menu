@@ -64,7 +64,7 @@ GROUPS = [  # key, label, landing page, one-line summary
  ('reports', 'Reports', '/reports', 'Dated publications: the 2026 report, the Insight Series and State of the Menu'),
  ('places', 'Where to eat', '/map', 'The venues guests name, mapped and ranked'),
  ('venues', 'For venues', '/menu-check', 'Tools and a diagnostic for people running a venue'),
- ('partners', 'Work with us', '/for-business', 'Partnerships, press, and the partner area for signed-in partners'),
+ ('partners', 'Work with us', '/for-business', 'Partnerships, commissioned reports and press. Partners sign in on the analysis'),
  ('trends', 'Food trends', '/', 'What guests dream of eating, dish by dish'),
  ('about', 'About', '/how-it-works', 'How Dream Menu works'),
 ]
@@ -80,7 +80,7 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'b1': 'partners', 'b2': 'partners',
          'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'about'}
 MENU = ['f16', 'f19', 'r0', 'r1', 'b9', 'f20', 'f6', 'f30', 'f7', 'f8', 'o30', 'o1', 'o12', 'o8', 'b1', 'a3', 'b2', 'f1', 'f31', 'f9']
-RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner area', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
+RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
@@ -164,9 +164,9 @@ ITEMS = [
  ('b22', 'Edinburgh and Scotland to 2030', '/case-studies/edinburgh-2030', 'The capital\'s appetite, Leith, the levy test and the coast', 'biz', 'investor press supplier new', 0, 'b9'),
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
- ('b2', 'Partner area', '/partner', 'Signed-in partners: this quarter, tools by job, the term and data downloads', 'biz', 'supplier', 0, None),
- ('b3', 'Partner briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
- ('b5', 'Data extracts', '/partner#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
+ ('b2', 'Partner briefing', '/analysis#partner', 'Sign in to the analysis: clear movers, buying calls, dish scores, data downloads and your partnership dates', 'biz', 'supplier', 0, None),
+ ('b3', 'Printable briefing', '/briefing', 'The quarterly market read: clear movers and what operators say', 'biz', 'supplier', 1, 'b2'),
+ ('b5', 'Data extracts', '/analysis#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
 
  ('a1', 'How it works', '/how-it-works', 'Where the data comes from, how venues are placed and which guides count', 'about', 'press', 0, None),
@@ -180,7 +180,7 @@ for row in ITEMS:
     i, t, u, d, g, a, s, p = row
     g = PLACE[p or i] if (p or i) in PLACE else PLACE[_parent[p]]
     t = RETITLE.get(i, t)
-    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23',), k=KEYWORDS.get(i, ''))
+    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'b5'), k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
 LOCK = '<svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'
@@ -222,6 +222,7 @@ def header(cur_group):
         out.append('</div></div></div></li>')
     out.append('</ul><a class="mnav-all" href="/explore">Every page on the site ' + ARROW + '</a></nav>')
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
+    out.append('<a class="signin" href="/login?next=/analysis%23partner">Partner sign-in</a>')
     out.append('<a class="takepart" href="/take-part">Take part</a>')
     out.append('<button type="button" class="mburger" aria-expanded="false" aria-controls="mnav"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr">Menu</span></button>')
     out.append('</div></header>')
@@ -237,7 +238,7 @@ def footer_links():
         for it in its:
             out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
         if g == 'about':
-            out.append('<a href="/explore">Explore everything</a><a href="/login">Partner sign-in</a>')
+            out.append('<a href="/explore">Explore everything</a><a href="/login?next=/analysis%23partner">Partner sign-in</a>')
         out.append('</div>')
     out.append('</nav>')
     return ''.join(out)

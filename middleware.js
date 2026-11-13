@@ -50,7 +50,7 @@ const go = (url, cookie, who) => {
   if (who !== undefined) h.append('Set-Cookie', `dm_who=${who}; Path=/; Max-Age=${who ? 2592000 : 0}; Secure; SameSite=Lax`);
   return new Response(null, { status: 303, headers: h });
 };
-const safe = p => (p && p.startsWith('/') && !p.startsWith('//')) ? p : '/partner';
+const safe = p => (p && p.startsWith('/') && !p.startsWith('//')) ? p : '/analysis';
 
 export default async function middleware(request) {
   const url = new URL(request.url);
