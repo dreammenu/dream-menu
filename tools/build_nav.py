@@ -122,7 +122,7 @@ ITEMS = [
  ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
  ('f21', 'What changed', '/analysis#changed', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
  ('f22', 'How we compare', '/analysis#compare', 'Dream Menu against national polls, eating-out data, menu trackers and sales', 'food', 'food press investor supplier', 1, 'f16'),
- ('f24', 'What guests want', '/analysis#demand', 'Each course by food group, the dish life cycle, the staples, and demand against what menus list', 'food', 'food chef supplier venue', 0, 'f16'),
+ ('f24', 'What guests want', '/analysis#demand', 'Each course ranked by food group with seafood dish by dish, the dish life cycle, the staples, and demand against what menus list', 'food', 'food chef supplier venue', 0, 'f16'),
  ('f25', 'Drinks baseline', '/analysis#drinks', 'Soft and alcoholic drinks since August 2026, including the alcohol-free share', 'food', 'venue supplier', 0, 'f16'),
  ('f26', 'What should I do?', '/analysis#actions', 'The evidence read for venues, investors, suppliers and press', 'food', 'venue new supplier investor press', 0, 'f16'),
  ('f27', 'Category scorecard', '/analysis#category-sec', 'Partners: a grow, defend, trim, core or niche call for every food group', 'food', 'supplier', 0, 'f16'),

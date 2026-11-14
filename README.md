@@ -192,7 +192,7 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 
 Seafood sub layers come from one source, `tools/sublayers.py`, and appear the same way everywhere Seafood is shown as a food group:
 
-- /analysis "What do guests want?": the Seafood row opens to every seafood dish, as a share of that course's answers.
+- /analysis "What do guests want?": a ranking, not a breakdown. Seafood is listed dish by dish (scallops, prawns, oysters, white fish...) among the other food groups, top eight per course, with a note giving seafood's combined share. Built in `build_pages.py` (MIX courses) and drawn by `demandMix` in `trend-charts.js`.
 - Partner category scorecard (/analysis chapter 6): each Seafood row (starter, main, side) has an "Inside" list.
 - Partner "By Dunns range": the Fish and seafood cells name the leading sub layers.
 - Partner course CSV download: one "sub layer" row per seafood dish and course.
