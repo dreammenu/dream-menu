@@ -82,7 +82,7 @@ if($('bf-score')){
 }
 if($('bf-ranges')){
   $('bf-ranges').innerHTML='<div class="tablewrap"><table><thead><tr><th>Range</th><th>Course</th><th class="num">Recent share</th><th class="num">Change (pts)</th><th>Clear movers inside</th></tr></thead><tbody>'+
-    X.ranges.map(function(r){return r.cells.map(function(c,i){return '<tr'+(i===0?' class="bf-rfirst"':'')+'>'+(i===0?'<td rowspan="'+r.cells.length+'"><b>'+esc(r.r)+'</b></td>':'')+'<td>'+esc(c.course)+'<small>'+esc(c.groups.join(', '))+'</small></td><td class="num">'+c.late.toFixed(1)+'%</td><td class="num">'+sg(c.move)+'</td><td>'+(c.clear.length?esc(c.clear.join('; ')):'<span class="bf-c">none</span>')+'</td></tr>'}).join('')}).join('')+'</tbody></table></div>'+
+    X.ranges.map(function(r){return r.cells.map(function(c,i){return '<tr'+(i===0?' class="bf-rfirst"':'')+'>'+(i===0?'<td rowspan="'+r.cells.length+'"><b>'+esc(r.r)+'</b></td>':'')+'<td>'+esc(c.course)+'<small>'+esc(c.groups.join(', '))+'</small>'+(function(){var S=window.DMSub&&c.groups.length===1&&DMSub.get(c.groups[0],c.course);return S?'<small class="bf-sub">'+DMSub.line(S,3)+'</small>':''})()+'</td><td class="num">'+c.late.toFixed(1)+'%</td><td class="num">'+sg(c.move)+'</td><td>'+(c.clear.length?esc(c.clear.join('; ')):'<span class="bf-c">none</span>')+'</td></tr>'}).join('')}).join('')+'</tbody></table></div>'+
     '<p class="note">A range&rsquo;s change is the sum of its groups&rsquo; changes on that course; only the groups listed under Clear movers inside passed the test on their own.</p>';
 }
 })();

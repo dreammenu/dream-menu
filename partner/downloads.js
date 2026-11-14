@@ -21,7 +21,8 @@ var B={
      rows.push([T.label,L[0],x.c,x.l||x.c,x.g||'',q,x.share[i]==null?'':f1(x.share[i]),T.n_q[i],T.low[i]?'yes':'no',f1(x.early),f1(x.late),f1(x.move),x.p,x.sig?'yes':'no'])})})})});return Promise.resolve(csv(rows))},
  course:function(){var P=window.DM_PARTNER,rows=[['course','level','category','label','parent_group','answers','share_pct','answers_in_course']];
    P.order.forEach(function(k){var T=P.trends[k];T.groups.forEach(function(x){rows.push([T.label,'group',x.c,x.c,'',x.n,f1(x.pct),T.n])});
-     T.cats.slice(0,10).forEach(function(x){rows.push([T.label,'dish',x.c,x.l,x.g,x.n,f1(x.pct),T.n])})});return Promise.resolve(csv(rows))}
+     T.cats.slice(0,10).forEach(function(x){rows.push([T.label,'dish',x.c,x.l,x.g,x.n,f1(x.pct),T.n])})});
+     if(window.DMSub)DMSub.rows().forEach(function(r){rows.push([r[0],'sub layer',r[2],r[2],r[1],r[3],r[4],r[5]])});return Promise.resolve(csv(rows))}
 };
 window.DMPartnerCSV=B;
 document.addEventListener('click',function(e){var a=e.target.closest('a[data-csv]');if(!a||!B[a.dataset.csv])return;e.preventDefault();

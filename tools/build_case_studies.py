@@ -31,6 +31,8 @@ def load(fn, var):
 
 
 P = load('partner-data.js', 'DM_PARTNER')
+from sublayers import sub_layers
+SUB = sub_layers(P)   # seafood sub layers, the same figures as /analysis
 AN = load('analysis-data.js', 'DM_ANALYSIS')
 DM = load('dm-data.js', 'DM')
 AW = load('awards.js', 'DM_AWARDS')
@@ -379,18 +381,22 @@ def r_seafood():
     ex = Ex()
     s_sea, m_sea = item('s', 'Seafood', 'groups'), item('m', 'Seafood', 'groups')
     cats = [it for it in s_t['cats'] if it.get('g') == 'Seafood'][:7]
+    sub_s, sub_m = SUB['Seafood']['s']['items'], SUB['Seafood']['m']['items']
     cod, scal_i = item('m', 'Cod, hake and white fish'), item('s', 'Scallops')
     others = [g for g in s_t['groups'] if g['c'] != 'Seafood'][:4]
     sea_v = sorted(DM['venues'], key=lambda v: -cat_count(v, 'Seafood'))[:10]
     grp = {g: dict(GROUPS[g]['top_groups']).get('Seafood', 0) for g in GROUPS}
-    top3 = sum(it['pct'] for it in cats[:3])
+    top3 = sum(it['p'] for it in sub_s[:3])
     db_rows = [('Seafood mains (group)', m_sea['early'], m_sea['late']), ('Cod, hake and white fish (main)', cod['early'], cod['late']), ('Seafood starters (group)', s_sea['early'], s_sea['late'])] + [(it['l'], it['early'], it['late']) for it in cats[:5]]
     ch1 = (ex('Seafood takes over a third of all dream starters, more than the next four groups combined', 'Share of dream starters by food group.',
               hbar([(s_sea['c'], s_sea['pct'])] + [(g['c'], g['pct']) for g in others], on={'Seafood'}, unit='%', dec=1),
               f'{DM_SRC}; {f0(s_t["n"])} starters', (['Group', 'Share', 'Answers'], [[g['c'], f'{g["pct"]}%', g['n']] for g in [s_sea] + others]))
-           + ex(f'Scallops lead, and the shellfish top three cover {top3:.0f}% of all starters', 'Dream seafood starters, number of mentions.',
-                hbar([(it['l'], it['n']) for it in cats], on={it['l'] for it in cats[:3]}),
-                DM_SRC, (['Dish', 'Mentions', 'Share of starters'], [[it['l'], it['n'], f'{it["pct"]}%'] for it in cats])))
+           + ex(f'Scallops lead, and the shellfish top three cover {top3:.0f}% of all starters', f'Every seafood starter guests named, as a share of all {f0(s_t["n"])} starters.',
+                hbar([(it['l'], it['p']) for it in sub_s], on={it['l'] for it in sub_s[:3]}, unit='%', dec=1),
+                DM_SRC, (['Dish', 'Mentions', 'Share of starters'], [[it['l'], it['n'], f'{it["p"]}%'] for it in sub_s]))
+           + ex(f'On the main course, white fish leads seafood at {f1(sub_m[0]["p"])}% of all mains', f'Every seafood main guests named, as a share of all {f0(m_t["n"])} mains.',
+                hbar([(it['l'], it['p']) for it in sub_m], on={sub_m[0]['l']}, unit='%', dec=1),
+                DM_SRC, (['Dish', 'Mentions', 'Share of mains'], [[it['l'], it['n'], f'{it["p"]}%'] for it in sub_m])))
     ch2 = (ex('White fish is the clear riser on the main course', 'Share of dream mains and starters, early against recent.',
               dumbbell(db_rows, sig={'Cod, hake and white fish (main)'}),
               f'{DM_SRC}. Clear move: two-proportion test, p < 0.05', (['Item', EARLY, RECENT, 'Change'], [[a, f'{b}%', f'{c}%', pts(c - b)] for a, b, c in db_rows]))

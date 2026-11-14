@@ -360,3 +360,5 @@
 .dx-subs{margin:2px 0 8px 10px;padding-left:10px;border-left:2px solid var(--v-axis)}
 .dx-srow{font-size:12px;padding:2px 0;font-weight:400;color:var(--v-ink2)}.dx-srow i{height:7px}.dx-srow i b{background:var(--v-s1);opacity:.55}
 .dx-note{font-size:11px;color:var(--v-muted);margin:4px 0 0}
+.dx-subd{margin:6px 0 0;font-size:12px}.dx-subd>summary{color:var(--v-muted);font-weight:600}.dx-subd>summary::before{content:"\25B8 "}.dx-subd[open]>summary::before{content:"\25BE "}
+.dx-srow a{color:inherit;text-decoration:underline;text-decoration-color:var(--v-axis);text-underline-offset:2px}

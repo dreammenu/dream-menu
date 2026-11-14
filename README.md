@@ -190,4 +190,12 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 
 ## Added 14 November 2026: seafood sub layers
 
-On /analysis, "What do guests want?", the Seafood row opens to show every refined seafood category (scallops, prawns and langoustines, oysters and so on) as a share of that course's answers. Counts live in `tools/data/seafood-sub-layers.json`, copied from the Charting pivot of the Responses sheet; refresh them there, then run `tools/build_pages.py`. Seafood shows sub layers wherever it is in a course's top six (starter and main today).
+Seafood sub layers come from one source, `tools/sublayers.py`, and appear the same way everywhere Seafood is shown as a food group:
+
+- /analysis "What do guests want?": the Seafood row opens to every seafood dish, as a share of that course's answers.
+- Partner category scorecard (/analysis chapter 6): each Seafood row (starter, main, side) has an "Inside" list.
+- Partner "By Dunns range": the Fish and seafood cells name the leading sub layers.
+- Partner course CSV download: one "sub layer" row per seafood dish and course.
+- Seafood case study (`/case-studies/seafood`): full starter and main breakdowns.
+
+Counts for dishes the site tracks come from `partner-data.js`, so they match the dish pages exactly; the rest come from `tools/data/seafood-sub-layers.json` (the Charting pivot of the Responses sheet). Any gap to the group total shows as "Other seafood". Sub layers link to a dish page where one exists. In the browser, `sublayers.js` reads `DM_MIX.sub` from `mix-public.js`. After a refresh, update the JSON from the pivot, then run `build_pages.py` and `build_case_studies.py`. To give another group sub layers, add its JSON to `FILES` in `tools/sublayers.py`.

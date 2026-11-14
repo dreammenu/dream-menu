@@ -413,14 +413,12 @@
     c.plot.innerHTML = '<div class="dx-grid">' + M.courses.map(function (co) {
       return '<div class="dx-col"><h4>' + esc(co.label) + '<small>' + co.base.toLocaleString('en-GB') + ' answers</small></h4>' + co.groups.map(function (g, i) {
         var row = '<span>' + esc(g.l) + '</span><i><b style="width:' + (100 * g.p / max).toFixed(1) + '%"></b></i><em>' + g.p.toFixed(1) + '%</em>';
-        if (!g.sub || !g.sub.length) return '<div class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers">' + row + '</div>';
-        var smax = g.sub[0].p;
-        return '<details class="dx-sub"><summary class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers. Open for the ' + g.sub.length + ' sub layers">' + row + '</summary><div class="dx-subs">' +
-          g.sub.map(function (s) { return '<div class="dx-row dx-srow" title="' + esc(s.l) + ': ' + s.p + '% of ' + co.label.toLowerCase() + ' answers, ' + Math.round(100 * s.n / g.n) + '% of seafood picks"><span>' + esc(s.l) + '</span><i><b style="width:' + (100 * s.p / smax).toFixed(1) + '%"></b></i><em>' + s.p.toFixed(1) + '%</em></div>'; }).join('') +
-          '<p class="dx-note">Share of all ' + co.label.toLowerCase() + ' answers. Every seafood dish guests named, ' + g.n + ' picks in all.</p></div></details>';
+        var S = window.DMSub && DMSub.get(g.l, co.k);
+        if (!S) return '<div class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers">' + row + '</div>';
+        return '<details class="dx-sub"><summary class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers. Open for the ' + S.items.length + ' sub layers">' + row + '</summary>' + DMSub.list(S) + '</details>';
       }).join('') + '</div>';
     }).join('') + '</div>';
-    var rows = []; M.courses.forEach(function (co) { co.groups.forEach(function (g) { rows.push({ c: co.label, l: g.l, s: '', p: g.p }); (g.sub || []).forEach(function (s) { rows.push({ c: co.label, l: g.l, s: s.l, p: s.p }); }); }); });
+    var rows = []; M.courses.forEach(function (co) { co.groups.forEach(function (g) { rows.push({ c: co.label, l: g.l, s: '', p: g.p }); var S = window.DMSub && DMSub.get(g.l, co.k); (S ? S.items : []).forEach(function (s) { rows.push({ c: co.label, l: g.l, s: s.l, p: s.p }); }); }); });
     c.setTable([{ l: 'Course', k: 'c' }, { l: 'Food group', k: 'l' }, { l: 'Sub layer', k: 's' }, { l: 'Share of answers', n: 1, f: function (r) { return r.p + '%'; } }], rows, 'demand-mix');
   }
 
@@ -433,7 +431,7 @@
     function draw() {
       var rows = C.rows.filter(function (r) { return cur === 'All' || (cur === 'Due' ? r.sig || r.p >= 15 : r.call === cur); }).sort(function (a, b) { return order[a.call] - order[b.call] || b.p - a.p; });
       c.plot.innerHTML = '<div class="sc-wrap"><table class="sc"><thead><tr><th>Call</th><th>Food group</th><th>Course</th><th class="num">Share</th><th class="num">Change</th><th>What to do</th></tr></thead><tbody>' + rows.map(function (r) {
-        return '<tr><td><span class="sc-call sc-' + r.call.toLowerCase() + '">' + r.call + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.p * 2.5).toFixed(0) + '%"></b></i>' + r.p.toFixed(1) + '%</td><td class="num' + (r.sig ? ' sig' : '') + '">' + (r.move > 0 ? '+' : '') + r.move.toFixed(1) + ' pts' + (r.sig ? '' : '<small> within noise</small>') + '</td><td>' + esc(r.do) + '</td></tr>';
+        return '<tr><td><span class="sc-call sc-' + r.call.toLowerCase() + '">' + r.call + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.p * 2.5).toFixed(0) + '%"></b></i>' + r.p.toFixed(1) + '%</td><td class="num' + (r.sig ? ' sig' : '') + '">' + (r.move > 0 ? '+' : '') + r.move.toFixed(1) + ' pts' + (r.sig ? '' : '<small> within noise</small>') + '</td><td>' + esc(r.do) + (function () { var S = window.DMSub && DMSub.get(r.l, r.course); return S ? DMSub.details(S, 'Inside: ' + S.items.length + ' seafood sub layers') : ''; })() + '</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
     V.chips(c.filters, [['Due', 'Decisions and big lines'], ['Grow', 'Grow'], ['Defend', 'Defend'], ['Trim', 'Trim'], ['Core', 'Core'], ['Niche', 'Niche'], ['All', 'All ' + C.rows.length]], cur, function (k) { cur = k; draw(); });
