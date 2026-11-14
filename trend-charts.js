@@ -407,16 +407,21 @@
   // ---------- demand mix: what each food course is made of (public shares)
   function demandMix(host, M) {
     var lead = M.courses.map(function (c) { return c.groups[0]; });
-    var c = V.card(host, { id: 'demand-mix', claim: (function () { var w = [], o = []; M.courses.forEach(function (co) { (co.groups[0].p >= 1.4 * co.groups[1].p ? w : o).push(co); }); return w.map(function (co, i) { var x = co.groups[0].l.split(' and ')[0]; return i ? x.toLowerCase() : x; }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' lead their courses' + (o.length ? '; ' + o.map(function (co) { return co.label.toLowerCase(); }).join(' and ') + ' is an open contest' : ''); })(), title: 'Share of each course’s answers by food group, top six shown',
+    var c = V.card(host, { id: 'demand-mix', claim: (function () { var w = [], o = []; M.courses.forEach(function (co) { (co.groups[0].p >= 1.4 * co.groups[1].p ? w : o).push(co); }); return w.map(function (co, i) { var x = co.groups[0].l.split(' and ')[0]; return i ? x.toLowerCase() : x; }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' lead their courses' + (o.length ? '; ' + o.map(function (co) { return co.label.toLowerCase(); }).join(' and ') + ' is an open contest' : ''); })(), title: 'Share of each course’s answers by food group, top six shown. Open Seafood for its sub layers',
       src: 'Source: Dream Menu interviews, ' + M.n.toLocaleString('en-GB') + ' to ' + M.last.split('-').reverse().join('/') + '. Shares of answers coded to a food group within each course.' });
     var max = Math.max.apply(null, lead.map(function (g) { return g.p; }));
     c.plot.innerHTML = '<div class="dx-grid">' + M.courses.map(function (co) {
       return '<div class="dx-col"><h4>' + esc(co.label) + '<small>' + co.base.toLocaleString('en-GB') + ' answers</small></h4>' + co.groups.map(function (g, i) {
-        return '<div class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers"><span>' + esc(g.l) + '</span><i><b style="width:' + (100 * g.p / max).toFixed(1) + '%"></b></i><em>' + g.p.toFixed(1) + '%</em></div>';
+        var row = '<span>' + esc(g.l) + '</span><i><b style="width:' + (100 * g.p / max).toFixed(1) + '%"></b></i><em>' + g.p.toFixed(1) + '%</em>';
+        if (!g.sub || !g.sub.length) return '<div class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers">' + row + '</div>';
+        var smax = g.sub[0].p;
+        return '<details class="dx-sub"><summary class="dx-row' + (i === 0 ? ' top' : '') + '" title="' + esc(g.l) + ': ' + g.p + '% of ' + co.label.toLowerCase() + ' answers. Open for the ' + g.sub.length + ' sub layers">' + row + '</summary><div class="dx-subs">' +
+          g.sub.map(function (s) { return '<div class="dx-row dx-srow" title="' + esc(s.l) + ': ' + s.p + '% of ' + co.label.toLowerCase() + ' answers, ' + Math.round(100 * s.n / g.n) + '% of seafood picks"><span>' + esc(s.l) + '</span><i><b style="width:' + (100 * s.p / smax).toFixed(1) + '%"></b></i><em>' + s.p.toFixed(1) + '%</em></div>'; }).join('') +
+          '<p class="dx-note">Share of all ' + co.label.toLowerCase() + ' answers. Every seafood dish guests named, ' + g.n + ' picks in all.</p></div></details>';
       }).join('') + '</div>';
     }).join('') + '</div>';
-    var rows = []; M.courses.forEach(function (co) { co.groups.forEach(function (g) { rows.push({ c: co.label, l: g.l, p: g.p }); }); });
-    c.setTable([{ l: 'Course', k: 'c' }, { l: 'Food group', k: 'l' }, { l: 'Share of answers', n: 1, f: function (r) { return r.p + '%'; } }], rows, 'demand-mix');
+    var rows = []; M.courses.forEach(function (co) { co.groups.forEach(function (g) { rows.push({ c: co.label, l: g.l, s: '', p: g.p }); (g.sub || []).forEach(function (s) { rows.push({ c: co.label, l: g.l, s: s.l, p: s.p }); }); }); });
+    c.setTable([{ l: 'Course', k: 'c' }, { l: 'Food group', k: 'l' }, { l: 'Sub layer', k: 's' }, { l: 'Share of answers', n: 1, f: function (r) { return r.p + '%'; } }], rows, 'demand-mix');
   }
 
   // ---------- category scorecard: every food group with its movement and a buying call (partners)

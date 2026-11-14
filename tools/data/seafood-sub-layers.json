@@ -1,0 +1,21 @@
+{
+  "_about": "Seafood sub layers for the 'What do guests want?' chart. Counts per refined category from the Charting pivot of the 'Dream Menu (Responses)' sheet (MENU RESPONSES columns J, M, P), read 14 Nov 2026. Parent group = Seafood in the sheet's Category list. Update the counts from the pivot at each data refresh; build_pages.py turns them into shares of the course's answers.",
+  "read": "2026-11-14",
+  "s": [
+    ["Scallops", 96], ["Prawns and langoustines", 76], ["Oysters", 57], ["Ceviche and crudo", 34],
+    ["Mussels and clams", 29], ["Crab", 29], ["Squid and octopus", 26], ["Prawn cocktail", 21],
+    ["Smoked salmon", 14], ["Cullen skink", 13], ["Other fish", 10], ["Sushi", 9],
+    ["Seafood soup, chowder and bisque", 5], ["Lobster", 5], ["Fish cakes and fish fritters", 5],
+    ["Caviar", 5], ["Prawn toast and sesame toast", 4]
+  ],
+  "m": [
+    ["Cod, hake and white fish", 53], ["Sushi and sashimi", 27], ["Lobster", 16], ["Seafood pasta", 14],
+    ["Fish and chips", 14], ["Prawns and langoustines", 13], ["Scallops", 10], ["Other fish", 9],
+    ["Seafood platter", 8], ["Crab", 8], ["Surf and turf", 4], ["Tuna and swordfish", 3],
+    ["Salmon", 3], ["Paella", 3], ["Mussels", 2]
+  ],
+  "d": [
+    ["Crab and lobster", 14], ["Fried fish, whitebait and seafood", 10], ["Prawns and langoustines", 8],
+    ["Oysters", 7], ["Sushi, sashimi and ceviche", 6], ["Calamari", 5], ["Mussels", 3], ["Scallops", 1]
+  ]
+}

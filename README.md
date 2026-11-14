@@ -187,3 +187,7 @@ Markets have very different numbers of answers (Glasgow holds most venue mention
 * On /map a list place says "On the Dream Menu list" instead of showing zero mentions.
 * add_venues.py: new venues now create their city and country markets; runs with no interviews; more country codes.
 * Site copy after the list import: city guides add "Also on Dream Menu's list" (list places in that city, not counted); /how-it-works explains list places (sentence kept current by refresh_static.py); the map intro and the Venue map entry mention the list; the partner venue extract counts every place on the map and says so. Venue pages use singular wording for one guest or one venue.
+
+## Added 14 November 2026: seafood sub layers
+
+On /analysis, "What do guests want?", the Seafood row opens to show every refined seafood category (scallops, prawns and langoustines, oysters and so on) as a share of that course's answers. Counts live in `tools/data/seafood-sub-layers.json`, copied from the Charting pivot of the Responses sheet; refresh them there, then run `tools/build_pages.py`. Seafood shows sub layers wherever it is in a course's top six (starter and main today).

@@ -354,3 +354,9 @@
 .iv-also{margin:10px 0 0;font:500 15px/1.5 var(--body);opacity:.9}.iv-also a{color:inherit;text-decoration-color:var(--v-gold);text-decoration-thickness:2px;text-underline-offset:3px}
 .jump .jp-p{display:none}.dm-partner .jump .jp-p{display:inline}
 .bm-v{white-space:nowrap}.bm-v svg{width:14px;height:14px;flex:0 0 14px}
+.dx-sub>summary{list-style:none;cursor:pointer}.dx-sub>summary::-webkit-details-marker{display:none}
+.dx-sub>summary span::after{content:" \25B8";color:var(--v-muted);font-weight:400}.dx-sub[open]>summary span::after{content:" \25BE"}
+.dx-sub>summary:focus-visible{outline:2px solid var(--v-s1);outline-offset:2px}
+.dx-subs{margin:2px 0 8px 10px;padding-left:10px;border-left:2px solid var(--v-axis)}
+.dx-srow{font-size:12px;padding:2px 0;font-weight:400;color:var(--v-ink2)}.dx-srow i{height:7px}.dx-srow i b{background:var(--v-s1);opacity:.55}
+.dx-note{font-size:11px;color:var(--v-muted);margin:4px 0 0}
