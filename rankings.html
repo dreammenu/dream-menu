@@ -30,7 +30,33 @@ table.rk .rk-h{min-width:150px}
 .rkbar i s{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0;text-decoration:none}
 .rkbar b{min-width:48px;text-align:right;font-variant-numeric:tabular-nums}
 table.rk tr:first-child .rkbar b{color:var(--ink)}
-@media (max-width:620px){.rk-stats{grid-template-columns:1fr 1fr 1fr;gap:6px}.rk-stats div{padding:9px 10px}.rk-stats span{font-size:12px}.rkbar i{max-width:60px}}
+@media (max-width:640px){
+.controls{display:grid!important;grid-template-columns:1fr 1fr;gap:10px}
+.controls label{min-width:0}.controls select{width:100%}
+.controls label:last-child{grid-column:1/-1}.controls .seg{display:flex}.controls .seg button{flex:1}
+.rk-stats{grid-template-columns:1fr;gap:0;border:1px solid var(--rule);border-radius:10px;background:var(--card);overflow:hidden}
+.rk-stats div{display:flex;align-items:baseline;gap:10px;border:0;border-radius:0;padding:9px 12px}
+.rk-stats div+div{border-top:1px solid var(--rule)}
+.rk-stats b{font-size:20px;min-width:62px}.rk-stats span{margin:0;font-size:13px}
+.tablewrap{overflow:visible;border:0;background:none}
+table.rk,table.rk tbody{display:block;width:100%}
+table.rk thead{display:none}
+table.rk tr{display:grid;grid-template-columns:30px minmax(0,1fr) auto;grid-template-areas:"n v s" "n c c";column-gap:10px;row-gap:6px;align-items:center;padding:12px;margin:0 0 8px;background:var(--card);border:1px solid var(--rule);border-radius:10px}
+table.rk td{display:block;padding:0;border:0;min-width:0}
+table.rk td:nth-child(1){grid-area:n;align-self:start;font:700 18px/1.2 var(--mono);color:var(--muted);text-align:left}
+table.rk tr:nth-child(-n+3) td:nth-child(1){color:var(--accent)}
+table.rk td:nth-child(2){grid-area:v;font-weight:600;line-height:1.25}
+table.rk td:nth-child(2) small{display:block;font-weight:400}
+table.rk td:nth-child(3){grid-area:c}
+table.rk td:nth-child(3) .chips{flex-wrap:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+table.rk td:nth-child(3) .chip{white-space:nowrap;flex:none;font-size:11.5px}
+table.rk td:nth-child(3) .chip.aw{order:-1}
+table.rk td:nth-child(4){grid-area:s;align-self:start}
+.rkbar{flex-direction:column;align-items:flex-end;gap:5px}
+.rkbar b{font-size:17px;min-width:0;order:-1}
+.rkbar i{width:64px;flex:none;height:6px}
+table.rk td[colspan]{grid-column:1/-1}
+}
 @media (forced-colors:active){.rkbar i s{background:CanvasText}}
 </style>
 </head>
