@@ -830,7 +830,9 @@ section.blk h3 small{font-weight:500;letter-spacing:.04em;text-transform:none}
 .rank button:hover .nm{text-decoration:underline;text-underline-offset:3px}
 .rank .nm{font-weight:600;overflow-wrap:anywhere}
 .rank .sub{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
-.rank .n{font:600 13px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.rank .n{font:600 13px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.rank .rkb{display:block;width:56px;height:6px;border-radius:3px;background:var(--panel);overflow:hidden}
+.rank .rkb s{display:block;height:100%;background:var(--accent);text-decoration:none}
 .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
 .dot.L{background:var(--pin)} .dot.A{border:2px dashed var(--accent);background:var(--accent-soft)} .dot.U{background:var(--area-fill);border:1.5px solid var(--area)}
 .kids{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
@@ -999,6 +1001,7 @@ var REGION_VIEW={'Europe':[[52,8],4],'North America':[[40,-96],3],'Asia':[[22,10
 var MK={},VN={},KIDS={},SLUG={};
 D.markets.forEach(function(m){MK[m.id]=m});
 D.venues.forEach(function(v){VN[v.i]=v});
+var CT={};D.venues.forEach(function(v){var k=v.c+'|'+v.co;CT[k]=(CT[k]||0)+(v.m||0)});
 function slug(s){return String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function parentOf(m){
   if(m.k==='world')return null;
@@ -1085,7 +1088,7 @@ function buildPins(){
   D.venues.forEach(function(v){
     if(v.la==null)return; if(v.t==='A'&&!showA)return; if(!passCourse(v))return;
     var mk=L.marker([v.la,v.lo],{icon:pinIcon(v,v.i===selected),title:v.n,keyboard:false});
-    mk.bindTooltip(esc(v.n)+(v.m?' · named '+v.m+'×':''),{direction:'top',offset:[0,-8]});
+    mk.bindTooltip(esc(v.n)+(v.m&&CT[v.c+'|'+v.co]?' · '+pctS(v.m/CT[v.c+'|'+v.co]*100)+' of '+esc(v.c)+' mentions':''),{direction:'top',offset:[0,-8]});
     mk.on('click',function(){showVenue(v.i,false)});
     markers[v.i]=mk; list.push(mk);
   });
@@ -1216,9 +1219,11 @@ function marketHTML(m){
   if(m.to)h+=sparkline(m);
   var top=(m.top||[]).map(function(id){return VN[id]}).filter(function(v){return v&&passCourse(v)});
   if(top.length){
-    h+='<section class="blk"><h3>Most named venues <small>times named</small></h3><ol class="rank">'+top.map(function(v){
+    var _c=fCourse.value, _den=0; D.venues.forEach(function(x){if(inMk(x,m))_den+=_c?((x.cs||{})[_c]||0):(x.m||0)});
+    var _sv=function(x){return _c?((x.cs||{})[_c]||0):(x.m||0)}, _top=top.length?_sv(top[0]):0;
+    h+='<section class="blk"><h3>Most named venues <small>share of '+(_c?COURSE[_c].toLowerCase()+' ':'')+'mentions in '+esc(m.n)+'</small></h3><ol class="rank">'+top.map(function(v){
       var sub=[v.tw||v.c,m.k==='city'?'':(v.co!=='United Kingdom'?v.co:'')].filter(Boolean).join(', ');
-      return '<li><button type="button" data-v="'+esc(v.i)+'"><i class="dot '+v.t+'" title="'+esc(PREC[v.p]||'')+'"></i><span class="nm">'+esc(v.n)+(sub?'<span class="sub">'+esc(sub)+(v.s==='closed'?' · closed':'')+'</span>':'')+'</span><span class="n">'+(v.m||'')+'</span></button></li>'}).join('')+'</ol></section>';
+      return '<li><button type="button" data-v="'+esc(v.i)+'"><i class="dot '+v.t+'" title="'+esc(PREC[v.p]||'')+'"></i><span class="nm">'+esc(v.n)+(sub?'<span class="sub">'+esc(sub)+(v.s==='closed'?' · closed':'')+'</span>':'')+'</span><span class="n"><span class="rkb" aria-hidden="true"><s style="width:'+(_top?Math.max(3,_sv(v)/_top*100):0).toFixed(0)+'%"></s></span>'+(_den?pctS(_sv(v)/_den*100):'')+'</span></button></li>'}).join('')+'</ol></section>';
   }
   h+=recognitionHTML(m);
   var kids=(KIDS[m.id]||[]).map(function(id){return MK[id]}).sort(function(a,b){return b.v-a.v||a.n.localeCompare(b.n)});
@@ -1240,9 +1245,9 @@ function venueHTML(v){
     '<h2>'+esc(v.n)+'</h2><p class="lede">'+esc(place||'Location not yet known')+'</p>'+
     '<div class="where"><i class="dot '+v.t+'" style="margin-top:4px;flex:none"></i><div><b>'+esc(where)+'</b>'+(v.ad?'<br>'+esc(v.ad):'')+(v.no?'<br><span style="color:var(--muted)">'+esc(v.no)+'</span>':'')+(v.su?'<br><a href="'+esc(v.su)+'" target="_blank" rel="noopener">Source for this location</a>':'')+'</div></div>'+
     awardsForVenueHTML(v)+
-    (v.m?'<div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><b>'+fmt(v.m)+'</b><span>times named</span></div><div><b>'+fmt(v.g)+'</b><span>guests</span></div></div>'
+    (v.m?venueShares(v)
         :'<p class="note"><b>On the Dream Menu list.</b> A place Dream Menu has saved; no guest has named it in an interview yet.</p>');
-  if(v.cs&&Object.keys(v.cs).length){h+='<section class="blk"><h3>Named for</h3><ol class="menu">'+Object.keys(COURSE).filter(function(k){return v.cs[k]}).map(function(k){return '<li><span class="dish">'+COURSE[k]+'</span><span class="dots"></span><span class="price">'+v.cs[k]+'</span></li>'}).join('')+'</ol></section>'}
+  if(v.cs&&Object.keys(v.cs).length){h+='<section class="blk"><h3>Named for</h3><ol class="menu">'+Object.keys(COURSE).filter(function(k){return v.cs[k]}).map(function(k){return '<li><span class="dish">'+COURSE[k]+'</span><span class="dots"></span><span class="price">'+pctS(v.cs[k]/(v.m||1)*100)+'</span></li>'}).join('')+'</ol></section>'}
   if(v.q&&v.q.length){h+='<section class="blk"><h3>In the guests\' words</h3>'+v.q.map(function(q){return '<blockquote class="quote"><small>'+esc(COURSE[q[0]]||'')+'</small>'+esc(q[1])+'</blockquote>'}).join('')+'</section>'}
   if(v.d&&v.d.length){h+='<section class="blk"><h3>On the Dream Menu map list</h3><div class="chips">'+v.d.map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('')+'</div></section>'}
   if(v.k&&v.k.length){h+='<section class="blk"><h3>Dish categories</h3><div class="chips">'+v.k.map(function(k){return '<span class="chip">'+esc(k[0])+' · '+k[1]+'</span>'}).join('')+'</div></section>'}
@@ -1259,6 +1264,14 @@ function showMarket(id,move,noHash){
   crumbs(id); jump.value=id; panel.innerHTML=marketHTML(m);
   if(move)focusMarket(m,!reduce);
   if(!noHash)setHash(m.slug);
+}
+function pctS(x){return x>=0.1?x.toFixed(1)+'%':x>0?'<0.1%':'0%'}
+function inMk(v,m){switch(m.k){case 'world':return true;case 'region':return v.r===m.n;case 'country':return v.co===m.n;case 'nation':return v.na===m.n;case 'city':return v.c===m.n&&v.co===m.co}return false}
+function venueShares(v){
+  var cm=MK['city:'+v.c+'|'+v.co], tot=0;
+  if(!cm)return '';
+  tot=CT[v.c+'|'+v.co]||0;
+  return '<div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><b>'+(tot?pctS(v.m/tot*100):'')+'</b><span>of '+esc(v.c)+' mentions</span></div><div><b>'+(cm.g?pctS((v.g||v.m)/cm.g*100):'')+'</b><span>of '+esc(v.c)+' guests name it</span></div></div>';
 }
 function showVenue(vid,fly,noHash){
   var v=VN[vid]; if(!v)return;

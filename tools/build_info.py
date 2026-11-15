@@ -36,9 +36,9 @@ RULES = [
      'Each bar is the dish’s share of all answers from guests naming Scottish venues, scaled so the leader fills the bar.'),
     # ---- venue pages
     ('venue/*.html', r'<h2>What guests name here</h2>', 'after',
-     'Each bar is a dish guests named at this venue, with how many times. With numbers this small, one or two mentions is a pointer, not a verdict.'),
+     'Each bar is a dish\'s share of everything guests named at this venue. Where a venue is named only a handful of times, read the shares as a pointer, not a verdict.'),
     ('venue/*.html', r'<h2>For which course</h2>', 'after',
-     'Which part of the dream menu guests chose this venue for. "Hidden gem or next stop" means it was named as a place to try, rather than for one dish.'),
+     'The share of this venue\'s mentions that came for each course. "Hidden gem or next stop" means it was named as a place to try, rather than for one dish.'),
 ]
 
 

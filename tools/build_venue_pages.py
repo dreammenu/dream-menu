@@ -382,11 +382,18 @@ for lst in by_city.values():
 AW = D.get('aw') or {}
 OA = load('other-awards.js', 'DM_OA')['v']   # tools/build_other_awards.py
 STOP = {'the', 'restaurant', 'kitchen', 'house', 'cafe', 'glasgow', 'edinburgh', 'london', 'grill', 'and', 'with', 'street', 'road'}
+_cm_v = {(m['n'], m['co']): m for m in D['markets'] if m['k'] == 'city'}
 for v in PUBLIC_V:
     s = vslug(v)
     n = VIDX[v['i']]
     city = by_city[(v['c'], v['co'])]
     rank = city.index(v) + 1
+    _ctot = (_cm_v.get((v['c'], v['co'])) or {}).get('mn') or sum(x.get('m') or 0 for x in city) or 1
+    _cg = (_cm_v.get((v['c'], v['co'])) or {}).get('g') or 0
+    _ms = 100 * (v['m'] or 0) / _ctot
+    _gs = 100 * (v.get('g') or v['m']) / _cg if _cg else 0
+    _pc = lambda x: f'{x:.1f}%' if x >= 0.1 else '<0.1%'
+    _vt = sum((v.get('cs') or {}).values()) or 1
     cats = sorted(C['v'].get(str(n)) or [], key=lambda x: -x[1])[:10]
     cat_items = [(f'<a href="/trends/{DISH_OF_CAT[C["c"][ci]]}">{E(lab(C["c"][ci]))}</a>' if C['c'][ci] in DISH_OF_CAT else E(lab(C['c'][ci])), k) for ci, k in cats]
     courses = sorted(((COURSE.get(c, c), k) for c, k in (v.get('cs') or {}).items()), key=lambda x: -x[1])
@@ -402,22 +409,23 @@ for v in PUBLIC_V:
     aw_html = ('<div class="card"><h2>Awards and guides</h2><ul class="pg-list">' + ''.join(lis) +
                '</ul><p class="pg-mut"><a href="/map">All award winners</a>' + (' · Includes Scottish, UK and bar awards matched by hand. Spotted something missing? <a href="mailto:contact.dreammenu@gmail.com">Tell us</a>' if other else '') + '</p></div>') if lis else ''
     near = [x for x in city if x is not v][:6]
-    near_html = ''.join(f'<li>{vlink(x)} <b>{x["m"]}</b></li>' for x in near)
+    near_html = ''.join(f'<li>{vlink(x)} <b>{_pc(100 * x["m"] / _ctot)}</b></li>' for x in near)
     addr = E(v['ad']) if v.get('ad') and v.get('p') == 'exact' else E(place(v))
     closed = ' <span class="mk-tag early">Closed</span>' if v.get('s') == 'closed' else ''
     _gn = v.get("g") or v["m"]
-    lede = (f'Named {v["m"]} time{"s" if v["m"] != 1 else ""} by {_gn} Dream Menu guest{"s" if _gn != 1 else ""}: '
+    lede = ((f'{_pc(_gs)} of Dream Menu guests in {E(v["c"])} name it, and it takes {_pc(_ms)} of all venue mentions there: '
+             if _cg else f'{_pc(_ms)} of all venue mentions in {E(v["c"])}: ')
             + (f'number {rank} of {len(city)} venues named in {E(v["c"])}.' if len(city) > 1 else f'the only venue named in {E(v["c"])} so far.'))
     body = f'''<section class="pg-hero"><div class="wrap">
   <p class="eyebrow"><a href="/rankings">Venues</a> · {('<a href="' + city_url(v) + '">' + E(place(v)) + '</a>') if city_url(v) else E(place(v))}</p>
   <h1>{E(v["n"])}{closed}</h1>
   <p class="lede">{lede}</p>
   <p class="pg-mut">{addr} · <a href="/map#venue-{v["i"]}">See it on the map</a></p>
-  <div class="pg-facts"><div><b>{v["m"]}</b><span>times named</span></div><div><b>{v.get("g") or v["m"]}</b><span>guests</span></div><div><b>#{rank}</b><span>in {E(v["c"])}</span></div><div><b>{sum((v.get("cs") or {}).values())}</b><span>dishes logged</span></div></div>
+  <div class="pg-facts"><div><b>{_pc(_ms)}</b><span>of {E(v["c"])} mentions</span></div>{f'<div><b>{_pc(_gs)}</b><span>of {E(v["c"])} guests name it</span></div>' if _cg else ''}<div><b>#{rank}</b><span>in {E(v["c"])}</span></div><div><b>{_pc(100 * courses[0][1] / _vt) if courses else '0%'}</b><span>of its mentions: {E(courses[0][0].lower()) if courses else 'no course'}</span></div></div>
 </div></section>
 <section><div class="wrap pg-grid">
-  <div class="card"><h2>What guests name here</h2>{bars(cat_items) if cat_items else '<p class="pg-mut">No dish coded yet.</p>'}{('<div class="pg-chips" style="margin-top:12px">' + words + '</div>') if words else ''}</div>
-  <div class="card"><h2>For which course</h2>{bars([(E(c), k) for c, k in courses]) if courses else '<p class="pg-mut">No course recorded.</p>'}</div>
+  <div class="card"><h2>What guests name here</h2>{bars(cat_items, fmtv=lambda k: _pc(100 * k / _vt)) if cat_items else '<p class="pg-mut">No dish coded yet.</p>'}{('<div class="pg-chips" style="margin-top:12px">' + words + '</div>') if words else ''}</div>
+  <div class="card"><h2>For which course</h2>{bars([(E(c), k) for c, k in courses], fmtv=lambda k: _pc(100 * k / _vt)) if courses else '<p class="pg-mut">No course recorded.</p>'}</div>
   {aw_html}
   <div class="card"><h2>Also named in {E(v["c"])}</h2><ol class="pg-list">{near_html}</ol><p class="pg-mut">{('<a href="' + city_url(v) + '">The ' + E(v["c"]) + ' guide</a> · ') if city_url(v) else ''}<a href="/rankings">Full rankings</a></p></div>
 </div></section>
@@ -431,7 +439,7 @@ for v in PUBLIC_V:
     if v.get('la') is not None and v.get('t') == 'L':
         ld['geo'] = {'@type': 'GeoCoordinates', 'latitude': v['la'], 'longitude': v['lo']}
     written.append(page(f'/venue/{s}', f'{v["n"]}, {place(v)} | Dream Menu',
-                        f'{v["n"]} in {place(v)}: named {v["m"]} times by Dream Menu guests, number {rank} in {v["c"]}. What guests order there and why.', body, ld))
+                        f'{v["n"]} in {place(v)}: ' + (f'named by {_pc(_gs)} of Dream Menu guests in {v["c"]}, ' if _cg else '') + f'number {rank} in {v["c"]}. What guests order there and why.', body, ld))
 
 # remove pages for venues that dropped below the threshold
 for fn in glob.glob('venue/*.html'):
@@ -509,7 +517,7 @@ def city_page(c, co):
         best = max(vs, key=lambda v: ((v.get('cs') or {}).get(k, 0), v['m']))
         n = (best.get('cs') or {}).get(k, 0)
         if n >= (2 if deep else 1):
-            picks.append(f'<article><span>{lab}</span><h3>{vlink(best)}</h3><p>Known for {E((best.get("k") or [["its cooking"]])[0][0].lower())}</p><small>named {n} time{"s" if n != 1 else ""} for this course</small></article>')
+            picks.append(f'<article><span>{lab}</span><h3>{vlink(best)}</h3><p>Known for {E((best.get("k") or [["its cooking"]])[0][0].lower())}</p><small>{100 * n / max(1, sum((x.get('cs') or {}).get(k, 0) for x in vs)):.1f}% of {lab.lower()} mentions here</small></article>')
     top = vs[:15 if deep else 10]
     top_html = bars([(vlink(v) + (' <span class="mk-tag">Award</span>' if v['i'] in AW else ''), v['m']) for v in top], fmtv=pc)
     gems = sorted([v for v in vs if v not in vs[:10] and (v.get('cs') or {}).get('h', 0) >= 2], key=lambda v: -(v['cs']['h']))[:8]
@@ -600,7 +608,7 @@ def area_page(ck, an):
         best = max(vs, key=lambda v: ((v.get('cs') or {}).get(k, 0), v['m']))
         n = (best.get('cs') or {}).get(k, 0)
         if n >= 2:
-            picks.append(f'<article><span>{lab}</span><h3>{vlink(best)}</h3><p>Known for {E((best.get("k") or [["its cooking"]])[0][0].lower())}</p><small>named {n} times for this course</small></article>')
+            picks.append(f'<article><span>{lab}</span><h3>{vlink(best)}</h3><p>Known for {E((best.get("k") or [["its cooking"]])[0][0].lower())}</p><small>{100 * n / max(1, sum((x.get('cs') or {}).get(k, 0) for x in vs)):.1f}% of {lab.lower()} mentions here</small></article>')
     gems = sorted([v for v in vs[6:] if (v.get('cs') or {}).get('h', 0) >= 2], key=lambda v: -(v['cs']['h']))[:6]
     kk = {}
     for v in vs:
