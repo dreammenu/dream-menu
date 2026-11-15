@@ -158,11 +158,32 @@
     '.dm-chip svg{flex:0 0 auto}.dm-chip b{font-weight:700}.dm-chip-set{opacity:.8;padding-left:14px;border-left:1px solid currentColor;line-height:1.1}' +
     '.dm-status{margin:0 auto;max-width:1180px;padding:6px 20px 14px;font:500 13px/1.5 var(--body,system-ui)}' +
     '.dm-status summary{cursor:pointer;display:inline-flex;gap:7px;align-items:center;opacity:.85}.dm-status summary:hover{opacity:1}' +
-    '.dm-status-in{overflow-x:auto;margin-top:10px}.dm-status table{border-collapse:collapse;width:100%;min-width:560px;font-size:12.5px}' +
+    '.dm-status-in{overflow-x:auto;margin-top:10px}.dm-status table{border-collapse:collapse;width:100%;min-width:560px;font-size:12.5px}@media (max-width:640px){.dm-status table{min-width:0}}' +
     '.dm-status th,.dm-status td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid rgba(127,127,127,.25);font-variant-numeric:tabular-nums;vertical-align:top}' +
     '.dm-status thead th{font-weight:700;opacity:.8}.dm-status tbody th{font-weight:600}' +
     '@media print{.dm-status{display:none}}';
   document.head.appendChild(css);
+  // phones: tables wider than their box become stacked cards (label: value rows)
+  function stack() {
+    if (window.innerWidth > 640) return;
+    var ts = document.querySelectorAll('table:not(.tstack):not(.rk):not(.nostack)');
+    for (var i = 0; i < ts.length; i++) {
+      var t = ts[i], box = t.parentElement;
+      if (!t.offsetParent || !box) continue;
+      if (t.scrollWidth <= box.clientWidth + 2 && t.getBoundingClientRect().right <= window.innerWidth + 1) continue;
+      if (t.closest('.heat-wrap,.leaflet-container')) continue;
+      var hr = t.tHead && t.tHead.rows.length ? t.tHead.rows[t.tHead.rows.length - 1] : null, labs = [];
+      if (hr) for (var c = 0, k = 0; c < hr.cells.length; c++) { var sp = hr.cells[c].colSpan || 1; for (var q = 0; q < sp; q++) labs[k++] = hr.cells[c].textContent.trim(); }
+      var rows = t.querySelectorAll('tbody tr, tfoot tr');
+      for (var r = 0; r < rows.length; r++) for (var c2 = 0, k2 = 0; c2 < rows[r].cells.length; c2++) { rows[r].cells[c2].setAttribute('data-l', labs[k2] || ''); if (c2 && rows[r].cells[c2].textContent.trim().length > 26) rows[r].cells[c2].classList.add('tlong'); k2 += rows[r].cells[c2].colSpan || 1; }
+      t.classList.add('tstack');
+      var w = t.parentElement; if (w && w !== document.body && getComputedStyle(w).overflowX !== 'visible') w.classList.add('tstack-wrap');
+    }
+  }
+  window.DM_STACK = stack;
+  var stT; window.addEventListener('resize', function () { clearTimeout(stT); stT = setTimeout(stack, 150); });
+  document.addEventListener('click', function () { setTimeout(stack, 60); }, true);
+  window.addEventListener('load', function () { setTimeout(stack, 120); setTimeout(stack, 1200); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(run, 0); });
   else setTimeout(run, 0);
   window.addEventListener('load', function () { setTimeout(run, 50); });

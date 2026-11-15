@@ -40,6 +40,16 @@ SC = json.load(open('tools/data/static-counts.json', encoding='utf-8'))
 LOOK = json.load(open('tools/data/look-ahead-2026-scores.json', encoding='utf-8'))['rows']
 MK = {m['n']: m for m in DM['markets']}
 VEN = {v['i']: v for v in DM['venues']}
+GL_MN = next((m['mn'] for m in DM['markets'] if m['id'] == 'city:Glasgow|United Kingdom'), 0)
+_CMN = {(m['n'], m['co']): m['mn'] for m in DM['markets'] if m['k'] == 'city'}
+_CMN_N = {}
+for (_n, _co), _mn in sorted(_CMN.items(), key=lambda x: x[1]):
+    _CMN_N[_n] = _mn
+def cshare(m, city, co=None):
+    """A venue's share of all venue mentions in its city, in %."""
+    tot = _CMN.get((city, co)) if co else None
+    tot = tot or _CMN_N.get(city) or 0
+    return 100 * m / tot if tot else 0
 LAST = dt.date.fromisoformat(P['last'])
 LAST_H = f'{LAST.day} {LAST:%B %Y}'
 TODAY = dt.date.today()
@@ -333,10 +343,10 @@ def r_two_cities():
               f'{DM_SRC}; dish mentions tied to a venue ({f0(CM["totals"][GI])} Glasgow, {f0(CM["totals"][EI])} Edinburgh)',
               (['Dish', 'Glasgow share', 'Glasgow index', 'Edinburgh share', 'Edinburgh index'], [[r['l'], f'{r["cells"][GI]["share"]}%', r['cells'][GI]['idx'], f'{r["cells"][EI]["share"]}%', r['cells'][EI]['idx']] for r in gap]))
            + sowhat('a second site', f'The bar list is the biggest change: Edinburgh names the negroni at {neg["cells"][EI]["idx"]} and the martini at {mar["cells"][EI]["idx"]} on the index; Glasgow at {neg["cells"][GI]["idx"]} and {mar["cells"][GI]["idx"]}. A margarita-led list needs a stirred section to travel east.'))
-    ch2 = ('<div class="ex-pair"><div>' + ex('Glasgow\'s favourites are spread across many venues', f'Times each venue is named, Glasgow top 10 ({f0(GL["mn"])} mentions in all).',
-              hbar([(vname(i), VEN[i]['m']) for i in GL['top'][:10]], on={vname(GL['top'][0])}), DM_SRC, (['Venue', 'Mentions'], [[vname(i), VEN[i]['m']] for i in GL['top'][:10]])) + '</div><div>'
-           + ex('Edinburgh\'s sit with fewer names', f'Times each venue is named, Edinburgh top 10 ({f0(ED["mn"])} mentions in all).',
-              hbar([(vname(i), VEN[i]['m']) for i in ED['top'][:10]], on={vname(ED['top'][0])}), DM_SRC, (['Venue', 'Mentions'], [[vname(i), VEN[i]['m']] for i in ED['top'][:10]])) + '</div></div>'
+    ch2 = ('<div class="ex-pair"><div>' + ex('Glasgow\'s favourites are spread across many venues', f'Each venue\'s share of all Glasgow venue mentions, top 10 ({f0(GL["mn"])} mentions in all).',
+              hbar([(vname(i), 100 * VEN[i]['m'] / GL['mn']) for i in GL['top'][:10]], on={vname(GL['top'][0])}, unit='%', dec=1), DM_SRC, (['Venue', 'Share of Glasgow mentions'], [[vname(i), f"{100 * VEN[i]['m'] / GL['mn']:.1f}%"] for i in GL['top'][:10]])) + '</div><div>'
+           + ex('Edinburgh\'s sit with fewer names', f'Each venue\'s share of all Edinburgh venue mentions, top 10 ({f0(ED["mn"])} mentions in all).',
+              hbar([(vname(i), 100 * VEN[i]['m'] / ED['mn']) for i in ED['top'][:10]], on={vname(ED['top'][0])}, unit='%', dec=1), DM_SRC, (['Venue', 'Share of Edinburgh mentions'], [[vname(i), f"{100 * VEN[i]['m'] / ED['mn']:.1f}%"] for i in ED['top'][:10]])) + '</div></div>'
            + ex(f'The top ten take {pc(et, ED["mn"])}% of Edinburgh\'s attention and {pc(gt, GL["mn"])}% of Glasgow\'s', 'Share of each city\'s venue mentions going to its ten most-named venues.',
                 stack([('Edinburgh', f'{f0(ED["mn"])} mentions', [('Top 10 venues', et, 'k1'), ('Every other venue', ED['mn'] - et, 'k0')]),
                        ('Glasgow', f'{f0(GL["mn"])} mentions', [('Top 10 venues', gt, 'k1'), ('Every other venue', GL['mn'] - gt, 'k0')])],
@@ -641,7 +651,7 @@ def r_neighbourhoods():
     hid = {n: 100 * agg[n]['h'] / agg[n]['m'] for n in areas if agg[n]['m'] >= 40}
     big = [n for n in areas if agg[n]['v'] >= 15]
     ch1 = (ex('Glasgow\'s food conversation runs along one line, from the Merchant City to Finnieston', f'Every Glasgow venue guests have named with a known address ({f0(tot_v)}), sized by mentions. Highlighted: Finnieston and the Southside. Hover for names.',
-              glasgow_map(pts_, zones), f'{DM_SRC}; venue locations from guest answers and address research. River line approximate; a few outlying venues fall outside the frame.',
+              glasgow_map(pts_, zones, tot=GL_MN), f'{DM_SRC}; venue locations from guest answers and address research. River line approximate; a few outlying venues fall outside the frame.',
               (['Neighbourhood', 'Venues', 'Mentions'], [[n, agg[n]['v'], agg[n]['m']] for n in areas]))
            + ex(f'Three districts hold {pc(top3, tot_m)}% of mentions', 'Share of venue mentions by neighbourhood; the note shows its share of venues.',
                 hbar([(n, 100 * agg[n]['m'] / tot_m, f'{agg[n]["v"]} venues, {pc(agg[n]["v"], tot_v)}% of all') for n in areas], on=set(areas[:3]), unit='%', dec=1),
@@ -651,7 +661,7 @@ def r_neighbourhoods():
               DM_SRC, (['Neighbourhood', 'Mentions per venue', 'Venues'], [[n, f'{ppv[n]:.1f}', agg[n]['v']] for n in sorted(areas, key=lambda n: -ppv[n])]))
            + ex('Destination venues make districts', 'Share of each neighbourhood\'s mentions held by its most-named venue.',
                 hbar([(n, 100 * anchor[n][0] / agg[n]['m'], anchor[n][1]) for n in sorted(big, key=lambda n: -anchor[n][0] / agg[n]['m'])], on={'Southside', 'West End'}, unit='%', dec=0),
-                DM_SRC, (['Neighbourhood', 'Anchor venue', 'Anchor mentions', 'Share'], [[n, anchor[n][1], anchor[n][0], f'{pc(anchor[n][0], agg[n]["m"])}%'] for n in areas]))
+                DM_SRC, (['Neighbourhood', 'Anchor venue', 'Share of Glasgow mentions', 'Share of neighbourhood mentions'], [[n, anchor[n][1], f'{100 * anchor[n][0] / GL_MN:.1f}%', f'{pc(anchor[n][0], agg[n]["m"])}%'] for n in areas]))
            + sowhat('a landlord or developer', f'High mentions per venue with a single strong anchor is the signature of a district on the way up. The Southside has both: {ppv["Southside"]:.1f} mentions per venue and {anchor["Southside"][1]} holding {pc(anchor["Southside"][0], agg["Southside"]["m"])}% of them.'))
     ch3 = (ex('The insider districts: where guests name their hidden gems', 'Hidden-gem and next-stop answers as a share of each area\'s mentions (40 or more mentions).',
               hbar(sorted(hid.items(), key=lambda x: -x[1]), on={n for n, v in hid.items() if v >= 30}, unit='%', dec=0),
@@ -701,7 +711,7 @@ def r_critics():
     OAM = load('other-awards.js', 'DM_OA')['meta']
     also = lambda p: ('<br>Also: ' + esc('; '.join(p.get('oa') or []))) if p.get('oa') else ''
     tiers = [('MICHELIN Star', 'k1'), ('Bib Gourmand', 'k1'), ('MICHELIN selected', 'k3'), ('Other guides', 'k3'), (OTH, 'k3'), (OUT, 'k2')]
-    rows = [(lbl, k, [(p['m'], f'<b>{esc(p["n"])}</b><br>{esc(p["c"])}<br>{p["m"]} mentions, rank {p["rank"]}<br>{esc(", ".join(p["aw"]) or ("Other awards and lists" if p.get("oa") else "Not on the lists we track"))}{also(p)}') for p in c['points'] if tier_of(p) == lbl]) for lbl, k in tiers]
+    rows = [(lbl, k, [(p['m'], f'<b>{esc(p["n"])}</b><br>{esc(p["c"])}<br>{cshare(p["m"], p["c"]):.1f}% of {esc(p["c"])} mentions, rank {p["rank"]}<br>{esc(", ".join(p["aw"]) or ("Other awards and lists" if p.get("oa") else "Not on the lists we track"))}{also(p)}') for p in c['points'] if tier_of(p) == lbl]) for lbl, k in tiers]
     un = [p for p in c['points'] if not p['aw']][:12]
     any100, oth100 = T['100']['any'], T['100']['other']
     stars = [p for p in c['points'] if any('Star' in a for a in p['aw'])]
@@ -718,7 +728,7 @@ def r_critics():
               DM_SRC, (['Status', 'Venues in the top ' + str(len(c['points'])), 'Highest-ranked'], [[lbl, len(px), next((p['n'] for p in c['points'] if tier_of(p) == lbl), '')] for lbl, _, px in rows]))
            + f'<div class="prose"><p>{len(bib_top)} of the 25 most-named venues hold a Bib Gourmand ({esc(", ".join(p["n"] for p in bib_top))}). The starred venues guests name ({esc(", ".join(p["n"] for p in stars))}) sit between ranks {min(p["rank"] for p in stars)} and {max(p["rank"] for p in stars)}: admired, but named less often than the city\'s casual favourites.</p></div>')
     ch3 = (ex('Favourites beyond the big guides', 'The most-named venues not in the guides we track. This is about guide coverage, not quality: many hold other awards.',
-              hbar([(p['n'], p['m'], p['c']) for p in un], on={un[0]['n']}), DM_SRC + f'; other awards from {OAM["lists"]} Scottish, UK and bar lists', (['Venue', 'City', 'Mentions', 'Rank', 'Other awards and lists'], [[p['n'], p['c'], p['m'], p['rank'], '; '.join(p.get('oa') or [])] for p in un]))
+              hbar([(p['n'], cshare(p['m'], p['c']), p['c']) for p in un], on={un[0]['n']}, unit='%', dec=1), DM_SRC + f'; other awards from {OAM["lists"]} Scottish, UK and bar lists. Bars show each venue\'s share of all venue mentions in its city', (['Venue', 'City', 'Share of city mentions', 'Rank', 'Other awards and lists'], [[p['n'], p['c'], f"{cshare(p['m'], p['c']):.1f}%", p['rank'], '; '.join(p.get('oa') or [])] for p in un]))
            + sowhat('press and city marketing', f'{un[0]["n"]} is the most-named venue in the archive and is not in the guides we track. A guest favourites list alongside the guides gives visitors and press the local view.'))
     recs = [('Publish a guest favourites trail beside the guides', f'{100 - T["100"]["award"]} of the top 100 named venues are outside the guides we track. A trail built from guest mentions fills the gap the big guides leave.', 'High', 'Medium', 'Next season'),
             ('Use Bib Gourmand as the bridge', f'{len(bib_top)} of the top 25 hold a Bib Gourmand: the award guests and inspectors agree on most. Lead visitor food campaigns with it.', 'High', 'Low', 'Now'),
@@ -828,9 +838,9 @@ def r_italian():
            + ex('Italian is also Scotland\'s comfort food', 'Guilty pleasures guests admit to. Highlighted: Italian.',
                 hbar([(n, v) for n, v in GUILTY[:8]], on={'Takeaway pizza', 'Spag bol and tomato pasta', "Domino's"}), f'{DM_SRC}; guilty pleasure question',
                 (['Guilty pleasure', 'Mentions'], [[n, v] for n, v in GUILTY[:8]])))
-    ch2 = (ex(f'{len(it_top)} of the 30 most-named venues in the archive are Italian', 'Guest mentions of Italian venues.',
-              hbar([(v['n'].replace(' Merchant City Glasgow', ''), v['m'], vloc(v)) for v in iv[:10]], on={iv[0]['n'], iv[1]['n']}), DM_SRC,
-              (['Venue', 'Place', 'Mentions'], [[v['n'], vloc(v), v['m']] for v in iv]))
+    ch2 = (ex(f'{len(it_top)} of the 30 most-named venues in the archive are Italian', 'Each Italian venue\'s share of all venue mentions in its city.',
+              hbar([(v['n'].replace(' Merchant City Glasgow', ''), cshare(v['m'], v['c'], v['co']), vloc(v)) for v in iv[:10]], on={iv[0]['n'], iv[1]['n']}, unit='%', dec=1), DM_SRC,
+              (['Venue', 'Place', 'Share of city mentions'], [[v['n'], vloc(v), f"{cshare(v['m'], v['c'], v['co']):.1f}%"] for v in iv]))
            + ex('Tiramisu is a Glasgow habit', 'Tiramisu index by market (100 = average), markets with enough mentions to read.',
                 hbar([(m, tg['cells'][i]['idx']) for i, m in enumerate(CM['markets']) if not tg['cells'][i]['thin']], on={'Glasgow'}),
                 DM_SRC, (['Market', 'Share', 'Index'], [[m, f'{tg["cells"][i]["share"]}%', tg['cells'][i]['idx']] for i, m in enumerate(CM['markets'])]))
@@ -839,7 +849,7 @@ def r_italian():
               dumbbell(db_rows, sig=sig_set('s') | sig_set('m')),
               DM_SRC, (['Dish', EARLY, RECENT, 'Change'], [[a, f'{b}%', f'{c}%', pts(c - b)] for a, b, c in db_rows]))
            + sowhat('an Italian operator', f'The Italian share is steady rather than growing ({f1(mi["early"])}% to {f1(mi["late"])}% of mains), so growth comes from taking share within it. The venues that win are specialists: fresh pasta (Sugo), one great tiramisu (Celino\'s), a clear point of view (Margo).'))
-    recs = [('Specialise: one thing done best', f'The Italian winners are specialists. {iv[0]["n"]} ({iv[0]["m"]} mentions) does fresh pasta; Celino\'s is named for tiramisu.', 'High', 'Medium', 'Concept stage'),
+    recs = [('Specialise: one thing done best', f'The Italian winners are specialists. {iv[0]["n"]} ({cshare(iv[0]["m"], iv[0]["c"], iv[0]["co"]):.1f}% of {esc(iv[0]["c"])} mentions) does fresh pasta; Celino\'s is named for tiramisu.', 'High', 'Medium', 'Concept stage'),
             ('Make the tiramisu famous', f'Tiramisu is {f1(tir["pct"])}% of all dream desserts and indexes {tg["cells"][GI]["idx"]} in Glasgow. A named signature tiramisu is the cheapest reputation an Italian venue can buy.', 'High', 'Low', 'Now'),
             ('Lift the cheque with small Italian starters', f'Bruschetta rose from {f1(br["early"])}% to {f1(br["late"])}% of starters.', 'Medium', 'Low', 'Next menu change'),
             ('Treat pizza as comfort, priced as such', f'Takeaway pizza is the top guilty pleasure ({G.get("Takeaway pizza", 0)}). Pizza wins on comfort and value, not on gourmet pricing.', 'Medium', 'Low', 'Now'),

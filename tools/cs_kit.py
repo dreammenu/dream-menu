@@ -198,7 +198,7 @@ def matrix(items, xl=('Lower effort', 'Higher effort'), yl=('Lower impact', 'Hig
 def small_multiples(panels, xlabels, unit='%', ymax=None, faded=(), w=300, h=170):
     """panels: (title, values, k). One shared y-scale so panels compare honestly."""
     top = ymax or max(v for _, vs, _ in panels for v in vs if v is not None) * 1.15
-    pl, pr, pt, pb = 34, 14, 26, 26
+    pl, pr, pt, pb = 34, 22, 26, 26
     iw, ih = w - pl - pr, h - pt - pb
     out = []
     for title, vs, k in panels:
@@ -224,25 +224,25 @@ def small_multiples(panels, xlabels, unit='%', ymax=None, faded=(), w=300, h=170
     return '<div class="ex-pair" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px 24px">' + ''.join(f'<div>{s}</div>' for s in out) + '</div>'
 
 
-def strip(rows, xmax, xlabel, w=680, seed=7):
+def strip(rows, xmax, xlabel, w=560, seed=7):
     """Dot strip: rows (label, k, [(x, tip)]). Square-root x from the smallest value; row height grows with its count."""
     rnd = random.Random(seed)
-    pl, pr, pt, pb = 150, 20, 8, 42
+    pl, pr, pt, pb = 14, 20, 8, 42
     iw = w - pl - pr
     xs = [x for _, _, px in rows for x, _ in px]
     xmin = max(1, min(xs) - 0.5)
     X = lambda v: pl + iw * (math.sqrt(v) - math.sqrt(xmin)) / (math.sqrt(xmax) - math.sqrt(xmin))
-    hs = [max(40, min(130, 26 + 0.85 * len(px))) for _, _, px in rows]
+    hs = [max(54, min(144, 40 + 0.85 * len(px))) for _, _, px in rows]
     h = pt + sum(hs) + pb
     ticks = [t for t in (5, 10, 15, 20, 30, 45) if xmin <= t <= xmax]
     g = ''.join(f'<line class="grid" x1="{X(t):.1f}" x2="{X(t):.1f}" y1="{pt}" y2="{h - pb}"/><text x="{X(t):.1f}" y="{h - pb + 18}" text-anchor="middle">{t}</text>' for t in ticks)
     body, y0 = '', pt
     for (lab, k, ptsx), rh in zip(rows, hs):
-        cy = y0 + rh / 2
+        cy = y0 + 18 + (rh - 18) / 2
         body += f'<line class="grid" x1="{pl}" x2="{w - pr}" y1="{y0 + rh:.1f}" y2="{y0 + rh:.1f}" opacity=".5"/>'
-        body += f'<text class="tx" x="{pl - 12}" y="{cy + 4:.1f}" text-anchor="end">{esc(lab)} ({len(ptsx)})</text>'
+        body += f'<text class="tx tb" x="{pl}" y="{y0 + 15:.1f}">{esc(lab)} ({len(ptsx)})</text>'
         for x, tip in ptsx:
-            jy = cy + rnd.uniform(-rh * .36, rh * .36)
+            jy = cy + rnd.uniform(-(rh - 18) * .36, (rh - 18) * .36)
             body += f'<circle class="{k} ring" cx="{X(x) + rnd.uniform(-2.5, 2.5):.1f}" cy="{jy:.1f}" r="5" tabindex="0" data-tip="{esc(tip)}"/>'
         y0 += rh
     return (f'<svg class="svgc strip" viewBox="0 0 {w} {h:.0f}" role="img" aria-label="{esc(xlabel)}">{g}{body}'
@@ -277,7 +277,7 @@ def waterfall(steps, total_label, unit='£', w=640, h=300):
     return f'<svg class="svgc wf-svg" viewBox="0 0 {w} {h}" role="img" aria-label="Budget build-up">{out}</svg>'
 
 
-def glasgow_map(points, labels, w=680, bbox=(55.822, 55.882, -4.330, -4.195)):
+def glasgow_map(points, labels, w=680, bbox=(55.822, 55.882, -4.330, -4.195), tot=0):
     """points: (lat, lon, mentions, name, area, on). labels: (name, lat, lon). Clipped to the bbox."""
     la0, la1, lo0, lo1 = bbox
     k = math.cos(math.radians((la0 + la1) / 2))
@@ -295,7 +295,7 @@ def glasgow_map(points, labels, w=680, bbox=(55.822, 55.882, -4.330, -4.195)):
     inside = [p for p in points if la0 < p[0] < la1 and lo0 < p[1] < lo1]
     for la, lo, m, name, area, on in sorted(inside, key=lambda p: -p[2]):
         r = 2.6 + 1.9 * math.sqrt(m)
-        out += f'<circle class="{"k1" if on else "k0"} ring" cx="{X(lo):.1f}" cy="{Y(la):.1f}" r="{r:.1f}" fill-opacity="{.9 if on else .75}" tabindex="0" data-tip="{esc("<b>" + esc(name) + "</b><br>" + esc(area) + "<br>" + str(m) + " mentions")}"/>'
+        out += f'<circle class="{"k1" if on else "k0"} ring" cx="{X(lo):.1f}" cy="{Y(la):.1f}" r="{r:.1f}" fill-opacity="{.9 if on else .75}" tabindex="0" data-tip="{esc("<b>" + esc(name) + "</b><br>" + esc(area) + "<br>" + (f"{100 * m / tot:.1f}% of Glasgow mentions" if tot else str(m) + " mentions"))}"/>'
     for name, la, lo in labels:
         out += f'<text class="lbl" x="{X(lo):.1f}" y="{Y(la):.1f}" text-anchor="middle">{esc(name)}</text>'
     out += '</g>'

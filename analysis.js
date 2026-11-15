@@ -26,8 +26,8 @@
       if (v < 60) return ['var(--v-r2)', 'b-r2']; if (v < 85) return ['var(--v-r1)', 'b-r1']; if (v <= 115) return ['var(--v-d0)', 'b-d0'];
       if (v <= 150) return ['var(--v-d1)', 'b-d1']; if (v <= 220) return ['var(--v-d2)', 'b-d2']; return ['var(--v-d3)', 'b-d3'];
     }
-    var cols = 'minmax(140px,1.7fr) ' + C.markets.map(function () { return 'minmax(64px,1fr)'; }).join(' ');
-    var o = '<div class="heat-scroll"><div class="heat" style="grid-template-columns:' + cols + '"><div class="hh" style="text-align:left">Dish · share of all</div>' + C.markets.map(function (m, i) { return '<div class="hh">' + esc(m) + '<br><span style="font-weight:400">base ' + fmt(C.totals[i]) + '</span></div>'; }).join('');
+    var nar = window.innerWidth <= 640, cols = (nar ? '' : 'minmax(140px,1.7fr) ') + C.markets.map(function () { return nar ? 'minmax(0,1fr)' : 'minmax(64px,1fr)'; }).join(' ');
+    var o = '<div class="heat-scroll"><div class="heat' + (nar ? ' heat-nar' : '') + '" style="grid-template-columns:' + cols + '"><div class="hh" style="text-align:left">Dish · share of all</div>' + C.markets.map(function (m, i) { return '<div class="hh">' + esc(m) + '<br><span style="font-weight:400">base ' + fmt(C.totals[i]) + '</span></div>'; }).join('');
     C.rows.forEach(function (r, ri) {
       o += '<div class="hl" title="' + esc(r.l) + '"><span style="overflow:hidden;text-overflow:ellipsis">' + esc(r.l) + '</span><span style="flex:none;font-weight:400;color:var(--v-muted);margin-left:6px">' + r.share + '%</span></div>';
       r.cells.forEach(function (cell, i) {
@@ -72,12 +72,12 @@
     });
     var c2 = V.card(b, { id: 'concentration', claim: 'A tenth of venues take ' + Math.round(K.marks['10']) + '% of all mentions', title: 'How concentrated guest recommendations are', sub: 'Venues ranked by mentions; the line shows the share of all mentions held by the top x% of venues.', src: SRC_V.replace('Counts are dish mentions tied to a named venue.', fmt(K.mentions) + ' venue mentions across ' + fmt(K.venues) + ' venues.'), fresh: ['venues'], csv: 'dream-menu-mention-concentration' });
     V.responsive(c2.plot, function (W) {
-      var H = 250, m = { t: 14, b: 34, l: 40, r: 14 }, s = V.svg(c2.plot, W, H, 'Concentration curve');
+      var mob = W < 520, H = 250, m = { t: 14, b: 34, l: 44, r: 20 }, s = V.svg(c2.plot, W, H, 'Concentration curve');
       var x = lin(0, 100, m.l, W - m.r), y = lin(0, 100, H - m.b, m.t);
       var g = el('g', { class: 'dmv-grid' }, s);
       [0, 25, 50, 75, 100].forEach(function (t) { el('line', { x1: m.l, x2: W - m.r, y1: y(t), y2: y(t) }, g); el('text', { x: m.l - 8, y: y(t) + 4, 'text-anchor': 'end', class: 't-num' }, s, t + '%'); el('text', { x: x(t), y: H - m.b + 18, 'text-anchor': 'middle', class: 't-num' }, s, t + '%'); });
       el('line', { x1: x(0), y1: y(0), x2: x(100), y2: y(100), stroke: 'var(--v-axis)', 'stroke-width': 1 }, s);
-      el('text', { x: x(62), y: y(56), 'font-size': 11, transform: 'rotate(' + (-Math.atan((y(0) - y(100)) / (x(100) - x(0))) * 180 / Math.PI) + ' ' + x(62) + ' ' + y(56) + ')' }, s, 'if every venue were named equally');
+      var ex = mob ? 44 : 62, ey = ex - 6; el('text', { x: x(ex), y: y(ey), 'font-size': mob ? 10 : 11, transform: 'rotate(' + (-Math.atan((y(0) - y(100)) / (x(100) - x(0))) * 180 / Math.PI) + ' ' + x(ex) + ' ' + y(ey) + ')' }, s, mob ? 'if all named equally' : 'if every venue were named equally');
       var pts = [[0, 0]].concat(K.curve);
       var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + y(p[1]).toFixed(1); }).join('');
       el('path', { d: d + 'L' + x(100) + ' ' + y(0) + 'Z', fill: 'var(--v-brand)', opacity: .08 }, s);
@@ -129,7 +129,7 @@
           cx += w;
         });
         el('text', { x: cx + 6, y: y0 + 13, class: 't-ink t-b t-num' }, gg, Math.round(r.top3) + '%');
-        el('text', { x: lw, y: y0 + 32, 'font-size': 11 }, gg, 'Top dish: ' + r.dish + ' ' + r.dishv.toFixed(1) + '%');
+        el('text', { x: mob ? 0 : lw, y: y0 + 32, 'font-size': 11 }, gg, 'Top dish: ' + r.dish + ' ' + r.dishv.toFixed(1) + '%');
       });
       c.setTable([{ l: 'Course', k: 'cl' }, { l: 'Answers', k: 'n', n: 1 }, { l: 'Top three groups %', k: 'top3', n: 1 }, { l: 'Biggest group', k: 'top1' }, { l: 'Its share %', k: 'top1v', n: 1 }, { l: 'Top dish', k: 'dish' }, { l: 'Its share %', k: 'dishv', n: 1 }], rows);
     });

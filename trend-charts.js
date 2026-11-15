@@ -75,7 +75,7 @@
       cell.appendChild(h('p', 'tr-cs', esc(r.early.toFixed(1)) + '% earlier → ' + esc(r.late.toFixed(1)) + '% recent · ' + esc(r.dishes.join(', '))));
       var plot = h('div'); cell.appendChild(plot);
       V.responsive(plot, function (W) {
-        var H = 150, m = { t: 10, b: 22, l: 30, r: 8 }, s = V.svg(plot, W, H, r.cl + ' top five share');
+        var H = 150, m = { t: 10, b: 22, l: 30, r: 16 }, s = V.svg(plot, W, H, r.cl + ' top five share');
         var top = Math.max(10, Math.ceil(Math.max.apply(null, r.q.map(function (x) { return x.hi || 0; })) / 10) * 10);
         var x = lin(0, r.q.length - 1, m.l + 6, W - m.r - 6), y = lin(0, top, H - m.b, m.t);
         var g = el('g', { class: 'dmv-grid' }, s);
@@ -134,15 +134,18 @@
     var order = D.meta.courses.map(function (x) { return x[1]; });
     var rows = list.slice().sort(function (a, b) { return a.cl === b.cl ? b.pct - a.pct : order.indexOf(a.cl) - order.indexOf(b.cl); });
     V.responsive(c.plot, function (W) {
-      var rowH = 26, m = { t: 8, b: 28, l: Math.min(250, W * 0.42), r: 46 }, H = m.t + m.b + rows.length * rowH;
+      var mob = W < 520, rowH = mob ? 44 : 26, m = { t: 8, b: 28, l: mob ? 14 : Math.min(250, W * 0.42), r: 46 }, H = m.t + m.b + rows.length * rowH;
       var s = V.svg(c.plot, W, H, 'Steady staples range');
       var top = Math.ceil(Math.max.apply(null, rows.map(function (r) { return r.hi; })) / 5) * 5;
       var x = lin(0, top, m.l, W - m.r), g = el('g', { class: 'dmv-grid' }, s);
       for (var t = 0; t <= top; t += 5) { el('line', { x1: x(t), x2: x(t), y1: m.t, y2: H - m.b }, g); el('text', { x: x(t), y: H - m.b + 18, 'text-anchor': 'middle' }, s, t + '%'); }
       rows.forEach(function (r, i) {
-        var y = m.t + i * rowH + rowH / 2;
-        el('text', { x: m.l - 10, y: y + 4, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
-        el('text', { x: 4, y: y + 4, fill: 'var(--v-muted)' }, s, (i === 0 || rows[i - 1].cl !== r.cl) ? r.cl + 's' : '');
+        var y = m.t + i * rowH + rowH / 2 + (mob ? 8 : 0), gs = i === 0 || rows[i - 1].cl !== r.cl;
+        if (mob) el('text', { x: 2, y: y - 11, fill: 'var(--v-ink)' }, s, (gs ? r.cl + 's · ' : '') + r.l);
+        else {
+          el('text', { x: m.l - 10, y: y + 4, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
+          el('text', { x: 4, y: y + 4, fill: 'var(--v-muted)' }, s, gs ? r.cl + 's' : '');
+        }
         el('line', { x1: x(r.lo), x2: x(r.hi), y1: y, y2: y, stroke: 'var(--v-s3)', 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0.45 }, s);
         el('circle', { cx: x(r.pct), cy: y, r: 5, fill: 'var(--v-s3)', stroke: 'var(--v-ring)', 'stroke-width': 2 }, s);
         el('text', { x: x(r.hi) + 8, y: y + 4, fill: 'var(--v-ink2)' }, s, r.pct.toFixed(1) + '%');
@@ -163,7 +166,7 @@
       (function () { var g = F.groups.filter(function (x) { return x.l !== 'Everything else'; }).sort(function (a, b) { return a.move - b.move; }), sig = g.filter(function (x) { return x.sig; }), h3 = c.el.querySelector('h3'); if (h3) h3.textContent = sig.length && g[0].move < 0 && g[g.length - 1].move > 0 ? 'In ' + F.cl.toLowerCase() + 's, ' + g[0].l.toLowerCase() + ' gave way to ' + g[g.length - 1].l.toLowerCase() : F.cl + 's: no food group has clearly gained or lost'; })();
       var rows = F.groups.slice().sort(function (a, b) { return a.move - b.move; });
       V.responsive(c.plot, function (W) {
-        var rowH = 30, m = { t: 30, b: 26, l: Math.min(210, W * 0.36), r: 20 }, H = m.t + m.b + rows.length * rowH;
+        var mob = W < 520, rowH = mob ? 48 : 30, m = { t: 30, b: 26, l: mob ? 16 : Math.min(210, W * 0.36), r: mob ? 16 : 20 }, H = m.t + m.b + rows.length * rowH;
         var s = V.svg(c.plot, W, H, 'Share flows');
         var mx = Math.max(4, Math.ceil(Math.max.apply(null, rows.map(function (r) { return Math.abs(r.move); }))));
         var x = lin(-mx, mx, m.l, W - m.r), g = el('g', { class: 'dmv-grid' }, s);
@@ -173,7 +176,8 @@
         el('line', { x1: x(0), x2: x(0), y1: m.t - 6, y2: H - m.b, class: 'dmv-axis' }, s);
         rows.forEach(function (r, i) {
           var y = m.t + i * rowH + 5, col = r.sig ? (r.move > 0 ? 'var(--v-up)' : 'var(--v-down)') : 'var(--v-ns)';
-          el('text', { x: m.l - 10, y: y + 14, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
+          if (mob) { el('text', { x: 2, y: y + 12, fill: 'var(--v-ink)' }, s, r.l); y += 18; }
+          else el('text', { x: m.l - 10, y: y + 14, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
           var x0 = x(Math.min(0, r.move)), x1 = x(Math.max(0, r.move));
           var bar = el('rect', { x: x0, y: y, width: Math.max(1, x1 - x0), height: 20, rx: 4, fill: col }, s);
           var inside = r.move < 0 ? x0 - m.l < 64 : W - m.r - x1 < 64;
@@ -194,7 +198,8 @@
     function draw(k) {
       cur = k; var rows = D.life.filter(function (r) { return r.course === k; });
       V.responsive(c.plot, function (W) {
-        var H = 420, lab = Math.min(200, W * 0.3), m = { t: 30, b: 16, l: lab, r: lab }, s = V.svg(c.plot, W, H, 'Then and now');
+        var mob = W < 520, H = 420, lab = mob ? W * 0.36 : Math.min(200, W * 0.3), m = { t: 30, b: 16, l: lab, r: lab }, s = V.svg(c.plot, W, H, 'Then and now');
+        var cut = function (t) { var n = Math.floor((lab - 34) / 5.6); return mob && t.length > n ? t.slice(0, n - 1) + '…' : t; }, fs = mob ? { style: 'font-size:10.5px' } : {};
         var top = Math.ceil(Math.max.apply(null, rows.map(function (r) { return Math.max(r.early, r.late); })) + 1);
         var y = lin(0, top, H - m.b, m.t), x0 = m.l, x1 = W - m.r;
         el('text', { x: x0, y: 16, 'text-anchor': 'middle', fill: 'var(--v-ink2)', 'font-weight': 700 }, s, 'Earlier');
@@ -215,8 +220,8 @@
           V.tip.bind(hit, '<b>' + esc(r.l) + '</b><div class="row"><span class="k">Earlier</span><span>' + r.early + '%</span></div><div class="row"><span class="k">Recent</span><span>' + r.late + '%</span></div><div class="row"><span class="k">Change</span><span>' + pp(r.move) + ', ' + pv(r.p) + '</span></div><div class="row"><span class="k">Stage</span><span>' + esc(r.stage) + '</span></div>');
           void ln;
         });
-        place(rows, 'early').forEach(function (o) { el('text', { x: x0 - 10, y: o.y + 4, 'text-anchor': 'end', fill: o.r.sig ? 'var(--v-ink)' : 'var(--v-muted)', 'font-weight': o.r.sig ? 700 : 400 }, s, o.r.l + ' ' + o.r.early.toFixed(1)); });
-        place(rows, 'late').forEach(function (o) { el('text', { x: x1 + 10, y: o.y + 4, fill: o.r.sig ? 'var(--v-ink)' : 'var(--v-muted)', 'font-weight': o.r.sig ? 700 : 400 }, s, o.r.late.toFixed(1) + ' ' + o.r.l); });
+        place(rows, 'early').forEach(function (o) { el('text', Object.assign({ x: x0 - 10, y: o.y + 4, 'text-anchor': 'end', fill: o.r.sig ? 'var(--v-ink)' : 'var(--v-muted)', 'font-weight': o.r.sig ? 700 : 400 }, fs), s, cut(o.r.l) + ' ' + o.r.early.toFixed(1)); });
+        place(rows, 'late').forEach(function (o) { el('text', Object.assign({ x: x1 + 10, y: o.y + 4, fill: o.r.sig ? 'var(--v-ink)' : 'var(--v-muted)', 'font-weight': o.r.sig ? 700 : 400 }, fs), s, o.r.late.toFixed(1) + ' ' + cut(o.r.l)); });
       });
       c.setTable([{ l: 'Dish', k: 'l' }, { l: 'Earlier %', k: 'early', n: 1 }, { l: 'Recent %', k: 'late', n: 1 }, { l: 'Change, pts', k: 'move', n: 1 }, { l: 'p', k: 'p', n: 1 }, { l: 'Stage', k: 'stage' }], rows, 'dream-menu-then-and-now-' + k);
     }
@@ -231,7 +236,7 @@
       cur = k; var M = D.mix.filter(function (x) { return x.course === k; })[0];
       V.legend(c.legend, M.rows.map(function (r, i) { return [r.l, MIX_COL[i]]; }));
       V.responsive(c.plot, function (W) {
-        var H = 330, m = { t: 10, b: 40, l: 36, r: Math.min(190, W * 0.26) }, s = V.svg(c.plot, W, H, 'Menu mix by quarter');
+        var mob = W < 520, H = 330, m = { t: 10, b: 40, l: 36, r: mob ? 6 : Math.min(190, W * 0.26) }, s = V.svg(c.plot, W, H, 'Menu mix by quarter');
         var n = M.q.length, bw = Math.min(70, (W - m.l - m.r) / n * 0.62), step = (W - m.l - m.r) / n;
         var y = lin(0, 100, H - m.b, m.t), g = el('g', { class: 'dmv-grid' }, s);
         [0, 25, 50, 75, 100].forEach(function (t) { el('line', { x1: m.l, x2: W - m.r, y1: y(t), y2: y(t) }, g); el('text', { x: m.l - 6, y: y(t) + 4, 'text-anchor': 'end' }, s, t + '%'); });
@@ -244,7 +249,7 @@
             var yt = y(acc + v), yb = y(acc); acc += v;
             var seg = el('rect', { x: cx - bw / 2, y: yt + 1, width: bw, height: Math.max(0, yb - yt - 2), rx: 3, fill: 'var(' + MIX_COL[j] + ')', opacity: M.low[i] ? 0.4 : 1 }, s);
             V.tip.bind(seg, '<b>' + esc(r.l) + '</b> <span class="k">' + ql(q) + '</span><div class="row"><span class="k">Share of answers</span><span>' + v.toFixed(1) + '%</span></div><div class="row"><span class="k">Answers that quarter</span><span>' + fmt(M.n_q[i]) + (M.low[i] ? ' (low base)' : '') + '</span></div>');
-            if (i === lastSolid && v >= 6) el('text', { x: W - m.r + 10, y: (yt + yb) / 2 + 4, fill: 'var(--v-ink2)' }, s, r.l.length > 24 ? r.l.slice(0, 23) + '…' : r.l);
+            if (!mob && i === lastSolid && v >= 6) el('text', { x: W - m.r + 10, y: (yt + yb) / 2 + 4, fill: 'var(--v-ink2)' }, s, r.l.length > 24 ? r.l.slice(0, 23) + '…' : r.l);
           });
           el('text', { x: cx, y: H - m.b + 16, 'text-anchor': 'middle' }, s, ql(q));
           el('text', { x: cx, y: H - m.b + 30, 'text-anchor': 'middle', fill: 'var(--v-muted)' }, s, fmt(M.n_q[i]) + ' ans.');
@@ -384,12 +389,13 @@
       var c = V.card(cell, { id: 'dr-' + pair[0], claim: esc(S.groups[0].l) + ' lead with ' + S.groups[0].pct + '% of answers', title: S.label + ': share of answers by type', sub: 'Bars show the share of ' + fmt(S.n) + ' answers since ' + (window.DM_FRESH ? window.DM_FRESH.fmt(D.meta.start) : D.meta.start) + '; the thin line is the 95% range. ' + (S.left_out ? S.left_out + ' answers that belonged to the other question are left out.' : ''), src: 'Source: Dream Menu interviews, new drink questions, ' + D.meta.q.map(function (q, i) { return ql(q) + ' (' + S.n_q[i] + ' answers)'; }).join(', ') + '. ' + esc(D.meta.note), fresh: ['interviews'], csv: 'dream-menu-drinks-' + pair[0] });
       var rows = S.groups;
       V.responsive(c.plot, function (W) {
-        var rowH = 34, m = { t: 6, b: 26, l: Math.min(190, W * 0.4), r: 52 }, H = m.t + m.b + rows.length * rowH, s = V.svg(c.plot, W, H, S.label + ' shares');
+        var mob = W < 520, rowH = mob ? 52 : 34, m = { t: 6, b: 26, l: mob ? 14 : Math.min(190, W * 0.4), r: 52 }, H = m.t + m.b + rows.length * rowH, s = V.svg(c.plot, W, H, S.label + ' shares');
         var top = Math.ceil(Math.max.apply(null, rows.map(function (r) { return r.hi; })) / 10) * 10, x = lin(0, top, m.l, W - m.r), g = el('g', { class: 'dmv-grid' }, s);
         for (var t = 0; t <= top; t += 10) { el('line', { x1: x(t), x2: x(t), y1: m.t, y2: H - m.b }, g); el('text', { x: x(t), y: H - m.b + 17, 'text-anchor': 'middle' }, s, t + '%'); }
         rows.forEach(function (r, i) {
           var y = m.t + i * rowH + 6;
-          el('text', { x: m.l - 10, y: y + 15, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
+          if (mob) { el('text', { x: 2, y: y + 11, fill: 'var(--v-ink)' }, s, r.l); y += 18; }
+          else el('text', { x: m.l - 10, y: y + 15, 'text-anchor': 'end', fill: 'var(--v-ink)' }, s, r.l);
           var bar = el('path', { d: 'M' + x(0) + ' ' + y + 'H' + (x(r.pct) - 4) + 'a4 4 0 0 1 4 4v14a4 4 0 0 1 -4 4H' + x(0) + 'Z', fill: col }, s);
           el('line', { x1: x(r.lo), x2: x(r.hi), y1: y + 11, y2: y + 11, stroke: 'var(--v-ink)', 'stroke-width': 1.5, opacity: 0.55 }, s);
           el('text', { x: x(r.hi) + 7, y: y + 15, fill: 'var(--v-ink)', 'font-weight': 700 }, s, r.pct.toFixed(1) + '%');

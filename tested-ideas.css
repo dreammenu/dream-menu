@@ -181,3 +181,4 @@
 @media print{.jump,.ti-filters,#planner{display:none!important}.idea{break-inside:avoid}}
 
 .tool label[hidden]{display:none}
+@media (max-width:480px){.idea footer{flex-wrap:wrap}.meters{flex:1 1 160px;min-width:0;grid-template-columns:1fr;max-width:200px}.idea h3{font-size:21px;overflow-wrap:anywhere}}
