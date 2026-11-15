@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Rankings | Dream Menu</title>
-<meta name="description" content="The venues Dream Menu guests name most, by market and by course, ranked by mentions, dishes logged or guests.">
+<meta name="description" content="The venues Dream Menu guests name most, by market and by course, ranked by share of mentions or share of guests.">
 <link rel="canonical" href="https://www.dream-menu.com/rankings">
 <meta property="og:title" content="Rankings | Dream Menu">
-<meta property="og:description" content="The venues Dream Menu guests name most, by market and by course, ranked by mentions, dishes logged or guests.">
+<meta property="og:description" content="The venues Dream Menu guests name most, by market and by course, ranked by share of mentions or share of guests.">
 <meta property="og:image" content="https://www.dream-menu.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/fonts/league-spartan-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -19,6 +19,20 @@
 <script>document.documentElement.classList.add("js")</script><script src="/nav-data.js" defer></script><script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>
 <link rel="stylesheet" href="/brand.css">
 <script defer src="/_vercel/insights/script.js"></script>
+<style>
+.rk-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.rk-stats div{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.rk-stats b{display:block;font-size:clamp(22px,4vw,30px);line-height:1.1;font-variant-numeric:tabular-nums}
+.rk-stats span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+table.rk .rk-h{min-width:150px}
+.rkbar{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.rkbar i{flex:1;max-width:120px;height:8px;background:var(--panel);border-radius:4px;overflow:hidden;display:block}
+.rkbar i s{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0;text-decoration:none}
+.rkbar b{min-width:48px;text-align:right;font-variant-numeric:tabular-nums}
+table.rk tr:first-child .rkbar b{color:var(--ink)}
+@media (max-width:620px){.rk-stats{grid-template-columns:1fr 1fr 1fr;gap:6px}.rk-stats div{padding:9px 10px}.rk-stats span{font-size:12px}.rkbar i{max-width:60px}}
+@media (forced-colors:active){.rkbar i s{background:CanvasText}}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap"><a class="mark" href="/"><img src="/logo-128.png" alt="" width="40" height="40">Dream Menu</a><nav class="mnav" id="mnav" aria-label="Site"><ul class="mnav-list"><li class="mnav-solo" data-g="analysis"><a class="mnav-top" href="/analysis"><span>Analysis</span></a></li><li class="mnav-solo" data-g="reports"><a class="mnav-top" href="/reports"><span>Reports</span></a></li><li class="mnav-item" data-g="places"><a class="mnav-top" href="/map" aria-expanded="false" aria-controls="mp-places" aria-current="true"><span>Where to eat</span><svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="mpanel mp-simple" id="mp-places"><div class="mp-inner"><p class="mp-sum">The venues guests name, mapped and ranked</p><div class="mp-links"><div class="mp-page"><a class="mp-p" href="/map"><b>Venue map</b><span>1,482 venues guests have named in 30 countries, plus Dream Menu’s own list and award winners</span></a></div><div class="mp-page"><a class="mp-p" href="/cities"><b>City guides</b><span>Where foodies eat in each city: most named, hidden gems, award holders</span></a></div><div class="mp-page"><a class="mp-p" href="/rankings"><b>Rankings</b><span>The venues guests name most, by market and by course</span></a></div></div></div></div></li><li class="mnav-item" data-g="venues"><a class="mnav-top" href="/menu-check" aria-expanded="false" aria-controls="mp-venues"><span>For venues</span><svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="mpanel mp-simple" id="mp-venues"><div class="mp-inner"><p class="mp-sum">Tools and a diagnostic for people running a venue</p><div class="mp-links"><div class="mp-page"><a class="mp-p" href="/menu-check"><b>Check my menu</b><span>Tick your dishes and see how much of what guests want you cover</span></a></div><div class="mp-page"><a class="mp-p" href="/operators"><b>Operator toolkit <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></b><span>Actions, calculators, a menu matrix and checklists</span></a></div><div class="mp-page"><a class="mp-p" href="/restaurant-mot"><b>Restaurant MOT</b><span>An independent four-week diagnostic of one venue</span></a></div></div></div></div></li><li class="mnav-item" data-g="partners"><a class="mnav-top" href="/for-business" aria-expanded="false" aria-controls="mp-partners"><span>Work with us</span><svg class="chev" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="mpanel mp-simple" id="mp-partners"><div class="mp-inner"><p class="mp-sum">Partnerships, commissioned reports and press. Partners sign in on the analysis</p><div class="mp-links"><div class="mp-page"><a class="mp-p" href="/for-business"><b>Ways to work with us</b><span>Partnerships, commissioned reports, the Restaurant MOT and data licences</span></a></div><div class="mp-page"><a class="mp-p" href="/press"><b>Press kit</b><span>Figures to quote, how to credit them and logos</span></a></div><div class="mp-page"><a class="mp-p" href="/analysis#partner"><b>Partner briefing <svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg></b><span>Sign in to the analysis: clear movers, buying calls, dish scores, data downloads and your partnership dates</span></a></div></div></div></div></li></ul><a class="mnav-all" href="/#pick">Find what matters to you <span class="arr" aria-hidden="true">→</span></a></nav><button type="button" class="msearch" data-search aria-label="Search the site"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Search</span><kbd>/</kbd></button><a class="signin" href="/login?next=/analysis%23partner">Partner sign-in</a><a class="takepart" href="/take-part">Take part</a><button type="button" class="mburger" aria-expanded="false" aria-controls="mnav"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr">Menu</span></button></div></header>
@@ -26,15 +40,16 @@
 <section class="hero"><div class="wrap">
   <div class="eyebrow">Find the best</div>
   <h1>The venues guests <em>name most</em></h1>
-  <p class="lede">Rank any market by how often guests name a venue, how many dishes they log there, or how many different guests name it. Pick a course to see where people go for a starter, a dessert or a drink.</p>
+  <p class="lede">Every figure is a share of its own market, so a city with 40 guests and a city with 700 are read on the same scale. Rank by share of all mentions, or by the share of guests who name a venue. Pick a course to see where people go for a starter, a dessert or a drink.</p>
 </div></section>
 <section><div class="wrap">
   <div class="controls">
     <label for="fMarket">Market<select id="fMarket"></select></label>
     <label for="fCourse">Course<select id="fCourse"><option value="">All courses</option></select></label>
-    <label><span>Rank by</span><span class="seg" role="group" aria-label="Rank by"><button type="button" data-by="m" aria-pressed="true">Mentions</button><button type="button" data-by="d" aria-pressed="false">Dishes logged</button><button type="button" data-by="g" aria-pressed="false">Guests</button></span></label>
+    <label><span>Rank by</span><span class="seg" role="group" aria-label="Rank by"><button type="button" data-by="m" aria-pressed="true">Share of mentions</button><button type="button" data-by="g" aria-pressed="false">Share of guests</button></span></label>
   </div>
-  <div class="tablewrap"><table><thead><tr><th class="num">#</th><th>Venue</th><th>What guests name</th><th class="num" id="hBy">Mentions</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="rk-stats" id="stats" aria-live="polite"></div>
+  <div class="tablewrap"><table class="rk"><thead><tr><th class="num">#</th><th>Venue</th><th>What guests name</th><th class="num rk-h" id="hBy">Share of mentions</th></tr></thead><tbody id="rows"></tbody></table></div>
   <p class="note" id="note"></p>
 </div></section>
 </main>
@@ -59,18 +74,35 @@ fC.innerHTML+=Object.keys(COURSE).map(function(k){return '<option value="'+k+'">
 var MK={};D.markets.forEach(function(m){MK[m.id]=m});
 function inM(v,m){switch(m.k){case 'world':return true;case 'region':return v.r===m.n;case 'country':return v.co===m.n;case 'nation':return v.na===m.n;case 'city':return v.c===m.n&&v.co===m.co}return false}
 function dishes(v,c){if(!v.cs)return 0;if(c)return v.cs[c]||0;var t=0;for(var k in v.cs)t+=v.cs[k];return t}
-function score(v,c){if(by==='d')return dishes(v,c);if(by==='g')return c?Math.min(v.g||0,dishes(v,c)):(v.g||0);return c?dishes(v,c):(v.m||0)}
+function count(v,c){if(by==='g')return c?Math.min(v.g||0,dishes(v,c)):(v.g||0);return c?dishes(v,c):(v.m||0)}
+function pct(x){return x>=99.95?'100%':x>=10?x.toFixed(1)+'%':x>=0.1?x.toFixed(1)+'%':x>0?'<0.1%':'0%'}
+function fmt(n){return Number(n).toLocaleString('en-GB')}
 function render(){
-  var m=MK[fM.value]||MK['world:World'], c=fC.value;
-  var list=D.venues.filter(function(v){return inM(v,m)&&v.y!=='area'&&score(v,c)>0}).sort(function(a,b){return score(b,c)-score(a,c)||(b.m||0)-(a.m||0)||a.n.localeCompare(b.n)}).slice(0,50);
-  document.getElementById('hBy').textContent=by==='d'?'Dishes':by==='g'?'Guests':'Mentions';
+  var m=MK[fM.value]||MK['world:World'], c=fC.value, cn=c?COURSE[c].toLowerCase():'';
+  var all=D.venues.filter(function(v){return inM(v,m)&&v.y!=='area'});
+  var tot=0; all.forEach(function(v){tot+=c?dishes(v,c):(v.m||0)});
+  var den=by==='g'?(m.g||0):tot;
+  var share=function(v){return den?count(v,c)/den*100:0};
+  var ranked=all.filter(function(v){return count(v,c)>0}).sort(function(a,b){return count(b,c)-count(a,c)||(b.m||0)-(a.m||0)||a.n.localeCompare(b.n)});
+  var list=ranked.slice(0,50), top=list.length?share(list[0]):0;
+  document.getElementById('hBy').textContent=by==='g'?'Share of guests':'Share of mentions';
+  var what=by==='g'?(c?'of guests in '+m.n+' name it for a '+cn:'of guests in '+m.n+' name it'):(c?'of '+cn+' mentions in '+m.n:'of all venue mentions in '+m.n);
   document.getElementById('rows').innerHTML=list.length?list.map(function(v,i){
     var place=[v.tw||v.c,m.k==='city'?'':(v.co!=='United Kingdom'?v.co:'')].filter(Boolean).join(', ');
     var aw=D.aw&&D.aw[v.i];
     var chips=(v.d||[]).slice(0,3).map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('')+(aw?'<span class="chip aw">'+esc(aw.a[0])+'</span>':'');
-    return '<tr><td class="num">'+(i+1)+'</td><td><a href="'+(v.pg?'/venue/'+v.i.replace(/-x$/,''):'/map#venue-'+slug(v.i))+'">'+esc(v.n)+'</a><small>'+esc(place)+(v.s==='closed'?' · closed':'')+'</small></td><td><div class="chips">'+(chips||'<span class="note">No dish recorded</span>')+'</div></td><td class="num">'+score(v,c)+'</td></tr>'}).join('')
+    var sh=share(v), w=top?Math.max(2,sh/top*100):0;
+    var tip=pct(sh)+' '+what+' ('+fmt(count(v,c))+' of '+fmt(den)+')';
+    return '<tr title="'+esc(tip)+'"><td class="num">'+(i+1)+'</td><td><a href="'+(v.pg?'/venue/'+v.i.replace(/-x$/,''):'/map#venue-'+slug(v.i))+'">'+esc(v.n)+'</a><small>'+esc(place)+(v.s==='closed'?' · closed':'')+'</small></td><td><div class="chips">'+(chips||'<span class="note">No dish recorded</span>')+'</div></td><td class="num"><span class="rkbar"><i aria-hidden="true"><s style="width:'+w.toFixed(1)+'%"></s></i><b>'+pct(sh)+'</b></span><span class="sr">'+esc(tip)+'</span></td></tr>'}).join('')
     :'<tr><td colspan="4">No venue in this market has been named for that course yet.</td></tr>';
-  document.getElementById('note').textContent=(m.so?'Deep market: ':'Early signal: ')+(m.g||0).toLocaleString('en-GB')+' guests have named venues in '+m.n+'. '+(m.so?'':'Rankings here can change quickly as more interviews come in.')+' Showing the top '+list.length+'.';
+  var t10=0; ranked.slice(0,10).forEach(function(v){t10+=c?dishes(v,c):(v.m||0)});
+  var st=list.length?[
+    [pct(top),(by==='g'?'of guests name ':'of mentions go to ')+esc(list[0].n)],
+    [tot?pct(t10/tot*100):'0%','of '+(c?cn+' ':'')+'mentions go to the top 10'],
+    [fmt(ranked.length),'venues named'+(c?' for a '+cn:'')+' in '+esc(m.n)]
+  ]:[];
+  document.getElementById('stats').innerHTML=st.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('');
+  document.getElementById('note').textContent=(m.so?'Deep market: ':'Early signal: ')+fmt(m.g||0)+' guests have named venues in '+m.n+'. Each share is '+(by==='g'?'the share of those guests who name the venue'+(c?' for a '+cn:''):'the venue\'s part of all '+(c?cn+' ':'venue ')+'mentions in this market')+', so markets of any size compare fairly. '+(m.so?'':'Rankings here can change quickly as more interviews come in. ')+'Bars are scaled to the leader. Showing the top '+list.length+'.';
   try{localStorage.setItem('dm-rank-market',fM.value)}catch(e){}
 }
 document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){by=b.dataset.by;document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});render()}});
