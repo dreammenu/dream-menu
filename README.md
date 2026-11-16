@@ -199,3 +199,13 @@ Seafood sub layers come from one source, `tools/sublayers.py`, and appear the sa
 - Seafood case study (`/case-studies/seafood`): full starter and main breakdowns.
 
 Counts for dishes the site tracks come from `partner-data.js`, so they match the dish pages exactly; the rest come from `tools/data/seafood-sub-layers.json` (the Charting pivot of the Responses sheet). Any gap to the group total shows as "Other seafood". Sub layers link to a dish page where one exists. In the browser, `sublayers.js` reads `DM_MIX.sub` from `mix-public.js`. After a refresh, update the JSON from the pivot, then run `build_pages.py` and `build_case_studies.py`. To give another group sub layers, add its JSON to `FILES` in `tools/sublayers.py`.
+
+## 16 November 2026: home page audit fixes
+
+* **One base for course shares.** The hero card, the course cards (refresh_static.py) and the press kit now use shares of answers coded to a dish, the same base as /analysis and the home findings. Before, they divided by every answer, so tiramisu read 11.8% on one card and 12.2% on the next.
+* **One scale and one decimal.** All five course cards share one bar scale (`hb_scale()`), so bar lengths compare across courses. Every share on the home page has one decimal place (`pc1`).
+* **Plain names on the home page** (`HOME_NAME` in refresh_static.py): Steak (cut not named) shows as Steak, with a line in the chart notes; Irn-Bru and Coca-Cola are spelled the same in every debate label. A debate whose top two answers are under 3 points apart reads "Too close to call". Debates asked in fewer interviews say so.
+* **build_home.py** now rewrites the source note on every run (before this it was added once and went stale), titles the band "Three findings and an outside check", words finding 1 in plain terms (`times()`), adds the "In their own words" section (anonymous guest answers chosen in `tools/data/home-quotes.json`, text read live from dm-data.js), puts the venue map with a picture (`map-card.webp`) in the Try it yourself band, adds a "The top five in every course" link to the hero card and the Report 2026 sponsor line under the hero buttons.
+* **Data stamps**: the home page shows one date under the hero and the footer status panel, not a stamp under every section (`'/'` in dm-fresh.js).
+* **Phones** (home.css, "audit fixes" block): shorter hero, the five numbers on one line, interest chips in one scrolling row, top three dishes per course, debates two to a row.
+* **Footer** (build_nav.py): Partner sign-in left the About column (it is in the header and under Work with us); the bottom line keeps only the email address and Instagram, as the columns already link to privacy and how it works; the footer logo is decorative.

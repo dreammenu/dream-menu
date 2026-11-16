@@ -32,6 +32,17 @@ def pct(v):
     return f'{v:.1f}%'
 
 
+def times(r):
+    """Plain words for a ratio: 2.3 -> 'more than twice', 3.1 -> 'three times'."""
+    words = {2: 'twice', 3: 'three times', 4: 'four times', 5: 'five times'}
+    w = int(r)
+    if w < 2:
+        return f'{r:.1f} times'
+    if w in words:
+        return ('more than ' if r - w >= 0.2 else 'about ') + words[w]
+    return f'about {round(r)} times'
+
+
 def card(n, tag, title, body, do, link, label, kind=''):
     return (f'<article class="hf-card{kind}"><div class="hf-n">{n}</div><div class="hf-tag">{tag}</div>'
             f'<h3>{title}</h3><p>{body}</p><p class="hf-do"><b>What to do</b>{do}</p>'
@@ -48,8 +59,8 @@ if moved:
     steady = [x['cl'].lower() + 's' for x in T['churn'] if x not in moved]
     rest = ', '.join(steady[:-1]) + ' and ' + steady[-1] if len(steady) > 1 else (steady[0] if steady else '')
     cards.append(card(1, 'Movement', f'{c["cl"]}s are where the menu is moving',
-        f'{pct(c["obs"])} of {c["cl"].lower()} answers now sit in a different food group than in late 2025. '
-        f'Sampling alone would move about {pct(c["chance"])}.' + (f' {rest.capitalize()} are within chance.' if rest else ''),
+        f'{c["cl"]}s are changing {times(c["obs"] / c["chance"])} as fast as chance would explain: {pct(c["obs"])} of {c["cl"].lower()} answers have moved to a different food group since late 2025, '
+        f'against about {pct(c["chance"])} you would expect from the luck of who was asked.' + (f' {rest.capitalize()} have moved no more than chance would explain.' if rest else ''),
         f'Review the {c["cl"].lower()} list first. ' + (f'Change {rest} for cost or quality, not to chase a trend.' if rest else ''),
         '/analysis#changed', 'What changed, course by course'))
 else:
@@ -72,9 +83,9 @@ if _gaps:
     same = [r for r in _gaps if r['course'] == g['course']]
     over = sorted([r for r in AU['rows'] if r['read'] == 'Over-supplied' and r['course'] == g['course']], key=lambda r: -r['menus'])
     cn = AU.get('cn', {}).get(g['course'], AU['n'])
-    cards.append(card(2, 'Menus', f'{g["l"]}: {pct(g["demand"])} of guests, {g["menus"]:.0f}% of menus',
-        f'We read the published menus of {AU["n"]} of the venues guests name most. {g["l"]} is the most-named {gc}, yet it is on {g["menus"]:.0f}% of the {cn} menus that print {gc}s.'
-        + (f' {over[0]["l"]} are on {over[0]["menus"]:.0f}%, for {pct(over[0]["demand"])} of guests.' if over else ''),
+    cards.append(card(2, 'Menus', f'{g["l"]}: {pct(g["demand"])} of guests, {pct(g["menus"])} of menus',
+        f'We read the published menus of {AU["n"]} of the venues guests name most. {g["l"]} is the most-named {gc}, yet it is on {pct(g["menus"])} of the {cn} menus that print {gc}s.'
+        + (f' {over[0]["l"]} are on {pct(over[0]["menus"])}, for {pct(over[0]["demand"])} of guests.' if over else ''),
         (f'Check your {gc} list against the {len(same)} most-named ({", ".join(r["l"].lower() for r in same)}) before adding anything new.' if len(same) > 1
          else f'If {g["l"].lower()} is not on your menu, trial it as a special.'),
         '/analysis#menu-gap', 'What guests ask for against what menus list'))
@@ -112,10 +123,10 @@ d = date.fromisoformat(last)
 when = f'{d.day} {d.strftime("%B %Y")}'
 section = (
     '<section class="h-sec" id="now"><div class="wrap">\n'
-    '  <div class="h-head"><div class="eyebrow">This quarter</div><h2>Three findings, and <em>what to do about them</em></h2>\n'
+    '  <div class="h-head"><div class="eyebrow">This quarter</div><h2>' + ('Three findings and <em>an outside check</em>' if dif else 'Three findings, and <em>what to do about them</em>') + '</h2>\n'
     f'  <p class="lede">Tested against chance, not just counted. Figures are shares of answers from {N_ALL:,} interviews to {when}. '
     + (f'The menus card sets those answers beside {AU["n"]} published menus read on {date.fromisoformat(AU["collected"]).day} {date.fromisoformat(AU["collected"]).strftime("%B %Y")}. ' if _gaps else '')
-    + 'The fourth card is an outside source, kept separate as a challenge to our own data.</p></div>\n'
+    + ('The grey card is an outside source, kept separate as a challenge to our own data. ' if dif else '') + 'Each card ends with what to do about it.</p></div>\n'
     f'  <div class="hf-grid">{"".join(cards)}</div>\n'
     f'  <p class="hf-bench"><span aria-hidden="true">&#10003;</span> {benchlib.headline()}. <a href="/analysis#compare">See every comparison</a></p>\n'
     '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/reports">All reports</a></p>\n'
@@ -140,30 +151,65 @@ gap = re.sub(r'<section class="[^"]+".*?</section>\n*', '', body, flags=re.S).st
 if gap:
     raise SystemExit(f'unexpected content between home sections: {gap[:200]}')
 secs['now'] = section + '\n'
+_DM = load('dm-data.js')
 secs['try'] = ('<section class="h-sec alt" id="try"><div class="wrap">\n'
     '  <div class="h-head"><div class="eyebrow">Try it yourself</div><h2>Put the data <em>to work</em></h2></div>\n'
     '  <div class="hf-grid hf-three">'
     '<article class="hf-card"><div class="hf-tag">For food lovers</div><h3>Build your dream menu</h3><p>Pick six courses, see what share of guests agree and which city you eat like. Share the result.</p><a class="hf-more" href="/my-dream-menu">Build mine &rarr;</a></article>'
-    '<article class="hf-card"><div class="hf-tag">For a night out</div><h3>City and neighbourhood guides</h3><p>Where foodies eat in Glasgow, Edinburgh, London and beyond, down to Finnieston and Leith. No critics, no paid placements.</p><a class="hf-more" href="/cities">Find a guide &rarr;</a></article>'
+    f'<article class="hf-card hf-map"><a class="hf-pic" href="/map" tabindex="-1" aria-hidden="true"><img src="/map-card.webp" alt="" width="640" height="431" loading="lazy"></a><div class="hf-tag">For a night out</div><h3>The venue map</h3><p>{_DM["meta"]["pinned"]:,} places guests have named, plus award winners, with city and neighbourhood guides from Glasgow to London. No critics, no paid placements.</p><a class="hf-more" href="/map">Open the map &rarr;</a> <a class="hf-more hf-2" href="/cities">City guides &rarr;</a></article>'
     '<article class="hf-card"><div class="hf-tag">For venues</div><h3>Check my menu</h3><p>Tick the dishes you serve and see how much of what guests want you cover, the staples you are missing and the biggest gaps.</p><a class="hf-more" href="/menu-check">Check mine &rarr;</a></article>'
     '</div>\n</div></section>\n\n')
 secs['pick'] = ('<section class="h-sec" id="pick"><div class="wrap">\n'
     '  <div class="h-head"><div class="eyebrow">Find what matters to you</div><h2>What are you <em>interested in?</em></h2></div>\n'
     '  <div data-interest="home"></div>\n</div></section>\n\n')
+# In their own words: three guest answers, anonymous (tools/data/home-quotes.json). Added 16 Nov 2026 (audit):
+# the headline promises foodies speaking for themselves, so the page should let them.
+_VI = {v['i']: v for v in _DM['venues']}
+_CN = {'s': 'starter', 'm': 'main', 'd': 'side', 'p': 'dessert', 'k': 'soft drink', 'a': 'drink'}
+_qs = []
+for q in json.load(open('tools/data/home-quotes.json', encoding='utf-8'))['quotes']:
+    v = _VI.get(q['venue'])
+    if not v:
+        continue
+    own = sorted([t for c, t in v.get('q') or [] if c == q['course']], key=len)
+    if not own:
+        continue
+    slug = re.sub(r'-x$', '', v['i'])
+    where = f'<a href="/venue/{slug}">{e(v["n"])}</a>' if os.path.exists(f'venue/{slug}.html') else e(v['n'])
+    _qs.append(f'<figure class="hq"><blockquote>&ldquo;{e(own[-1])}&rdquo;</blockquote>'
+               f'<figcaption>A guest&rsquo;s dream {_CN.get(q["course"], "dish")} &middot; {where}, {e(v["c"])}</figcaption></figure>')
+if _qs:
+    secs['voices'] = ('<section class="h-sec" id="voices"><div class="wrap">\n'
+        '  <div class="h-head"><div class="eyebrow">In their own words</div><h2>What the answers <em>sound like</em></h2>\n'
+        '  <p class="lede">Every figure on this site starts as an answer like these. Guests are not named unless they asked to be.</p></div>\n'
+        f'  <div class="hq-grid">{"".join(_qs)}</div>\n</div></section>\n\n')
+
 secs.pop('more', None)
 for _k in ('start', 'coverage', 'map', 'places'):   # trimmed 13 Nov 2026: the menu, the tools band, the city guides and the analysis already do these jobs
     secs.pop(_k, None)
 
-order = ['h-hero', 'h-stats', 'pick', 'now', 'courses', 'try', 'debates', 'mood', 'rising']
+order = ['h-hero', 'h-stats', 'pick', 'now', 'courses', 'voices', 'try', 'debates', 'mood', 'rising']
 missing = [k for k in secs if k not in order]
 if missing:
     raise SystemExit(f'home sections not in the order list: {missing}')
-if 'mood' in secs and 'class="method">Source:' not in secs['mood']:
+if 'mood' in secs:
+    secs['mood'] = re.sub(r'<p class="method">Source:.*?</p>\n?', '', secs['mood'], flags=re.S)
     secs['mood'] = re.sub(r'(</div></section>\n*)$', lambda m: METHOD_NOTE + '\n' + m.group(1), secs['mood'].rstrip('\n') + '\n', count=1) + '\n'
 body = ''.join(secs[k] for k in order if k in secs)
 s = head + body + tail
 if '/interest.js' not in s:
     s = s.replace('</body>', '<script src="/interest.js" defer></script>\n</body>', 1)
+
+# hero card: a teaser for the course section, not a second copy of it
+s = re.sub(r'\s*<a class="mlink"[^>]*>.*?</a>', '', s)
+s = s.replace('<div class="mf">Share of answers for each course</div>',
+              '<div class="mf">Share of answers for each course</div><a class="mlink" href="#courses">The top five in every course &rarr;</a>', 1)
+# report sponsor, under the hero buttons (Dunns is named as sponsor on /report; independence terms there)
+s = re.sub(r'\s*<p class="h-sponsor">.*?</p>', '', s)
+s = s.replace('</div>\n  </div>\n  <aside class="h-menu"',
+              '</div>\n    <p class="h-sponsor"><img src="/dunns.png" alt="" width="28" height="28"><span>Report 2026 produced in partnership with <a href="/report#sponsor">Dunns Food &amp; Drinks</a>. The findings are independent.</span></p>\n  </div>\n  <aside class="h-menu"', 1)
+if 'class="h-sponsor"' not in s:
+    raise SystemExit('hero sponsor line: insertion point not found')
 
 # hero buttons
 s = re.sub(r'<div class="h-ctas"><a class="btn gold" href="#[^"]+">[^<]+</a><a class="btn ghost" href="/map">[^<]+</a></div>',

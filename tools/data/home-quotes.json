@@ -1,0 +1,8 @@
+{
+  "note": "Guest answers shown on the home page under 'In their own words' (tools/build_home.py). Anonymous, as on venue pages: no guest names unless the guest opted in. Each entry: venue id from dm-data.js and course code (s starter, m main, d side, p dessert, k soft drink, a alcoholic drink). The text is read live from dm-data.js; an entry whose quote is no longer there is skipped.",
+  "quotes": [
+    {"venue": "crabshakk-finnieston-x", "course": "s"},
+    {"venue": "ardfern-x", "course": "d"},
+    {"venue": "gloriosa-x", "course": "p"}
+  ]
+}

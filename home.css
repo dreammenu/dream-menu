@@ -196,3 +196,61 @@
 .cv-cities .cv-s{font-size:12.5px;color:var(--muted)}
 .cv-cities .mk-tag{margin:6px 0 0;align-self:flex-start}
 .cv-cities li.more{background:var(--panel);border-style:dashed}
+/* audit fixes (16 Nov 2026): hero teaser link and sponsor line, quotes, map card, tighter phone layout */
+.h-menu .mlink{display:inline-block;margin-top:10px;font:700 13px/1.3 var(--body);color:#1c2152}
+.h-sponsor{display:flex;align-items:center;gap:10px;margin:26px 0 0;font:400 13.5px/1.45 var(--body);color:#c3c6da;max-width:52ch}
+.h-sponsor img{flex:none;border-radius:50%;background:#fff}
+.h-sponsor a{color:#fff}
+.deb .win.tie{font-size:22px;line-height:1.15}
+.deb .win.tie b{display:block;margin-top:4px}
+.hq-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.hq{margin:0;border-top:1px solid var(--ink);position:relative;padding:22px 0 0}
+.hq::before{content:"";position:absolute;left:0;top:-1px;width:46px;height:4px;background:var(--gold)}
+.hq blockquote{margin:0;font:600 19px/1.4 var(--body);color:var(--ink);text-wrap:pretty}
+.hq figcaption{margin-top:12px;font:400 13.5px/1.4 var(--body);color:var(--muted)}
+.hq figcaption a{color:var(--ink)}
+.hf-map .hf-pic{display:block;margin:-18px -18px 14px;border-radius:9px 9px 0 0;overflow:hidden;background:#eceef3}
+.hf-map .hf-pic img{display:block;width:100%;height:120px;object-fit:cover;object-position:50% 70%}
+.hf-map .hf-2{margin-top:6px}
+.hb li{grid-template-columns:minmax(0,1fr) 30% 56px}
+@media (max-width:900px){.hq-grid{grid-template-columns:1fr;gap:22px}}
+@media (max-width:560px){
+  .h-hero .wrap{gap:24px;padding-top:32px;padding-bottom:32px}
+  .h-hero .lede{font-size:16px}
+  .h-ctas{margin-top:18px}
+  .h-sponsor{margin-top:18px;font-size:13px}
+  .h-menu-in{padding:18px 18px 14px}
+  .h-menu-in img{display:none}
+  .h-menu .mt{font-size:21px}
+  .h-menu .ms{margin:4px 0 10px}
+  .h-menu li{padding:6px 0}
+  .h-menu .d{font-size:16px}
+  .h-menu details.vinfo{display:none}
+  /* the five numbers on one line */
+  .h-stats .wrap{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+  .h-stats div{padding:14px 2px;border-left:1px solid rgba(127,127,127,.35)!important;border-top:0!important;grid-column:auto!important}
+  .h-stats div:first-child{border-left:0!important}
+  .h-stats b{font-size:18px}
+  .h-stats span{font-size:9px;letter-spacing:.06em;margin-top:4px}
+  /* interest chips scroll in one row */
+  #pick .int-chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  #pick .int-chips::-webkit-scrollbar{display:none}
+  #pick .int-chips button{flex:none}
+  #pick .int-l{flex:none}
+  .h-sec .wrap{padding-top:40px;padding-bottom:40px}
+  .hb li{grid-template-columns:minmax(0,1fr) 26% 50px}
+  .hq blockquote{font-size:17px}
+  /* top three per course on phones; the analysis has the full list */
+  .cgrid .hb li:nth-child(n+4){display:none}
+  .cgrid{gap:14px}
+  .ccard{padding:14px 16px}
+  /* debates: two to a row; the figures stay, the bar goes */
+  .dgrid{grid-template-columns:1fr 1fr!important;gap:10px}
+  .deb{padding:14px}
+  .deb h3{font-size:15px}
+  .deb .win{font-size:20px;margin:8px 0 10px}
+  .deb .win.tie{font-size:15px}
+  .deb .stack{display:none}
+  .deb .sk li{font-size:13px;padding:3px 0}
+  .deb .n{font-size:11px}
+}

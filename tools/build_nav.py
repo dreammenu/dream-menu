@@ -271,7 +271,7 @@ def footer_links():
         for it in its:
             out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
         if g == 'about':
-            out.append('<a href="/#pick">Find anything</a><a href="/login?next=/analysis%23partner">Partner sign-in</a>')
+            out.append('<a href="/#pick">Find anything</a>')   # partner sign-in is in the header and under Work with us
         out.append('</div>')
     out.append('</nav>')
     return ''.join(out)
@@ -340,6 +340,11 @@ def main():
         path = '/' if path == '/index' else path
         s = re.sub(r'<header class="top">.*?</header>', lambda m: header(page_group(path)), s, count=1, flags=re.S)
         s = re.sub(r'<nav class="footlinks[^"]*" aria-label="All pages">.*?</nav>', lambda m: foot, s, count=1, flags=re.S)
+        # footer logo sits beside the words "Dream Menu", so it is decorative (screen readers would read the name twice)
+        s = s.replace('<div class="footband"><img src="/logo-128.png" alt="Dream Menu"', '<div class="footband"><img src="/logo-128.png" alt=""')
+        # bottom line: no repeats of links already in the columns above (audit, 16 Nov 2026)
+        s = s.replace('<a href="/privacy">Privacy</a> · <a href="/login?next=/analysis%23partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/"',
+                      '<a href="mailto:contact.dreammenu@gmail.com">contact.dreammenu@gmail.com</a> · <a href="https://www.instagram.com/dream.menu/"')
         if 'src="/nav.js"' in s and 'src="/dm-fresh.js"' not in s:
             s = s.replace('<script src="/nav.js" defer></script>', '<script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>', 1)
         if 'src="/nav.js"' not in s:

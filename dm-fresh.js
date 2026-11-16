@@ -48,7 +48,8 @@
 
   // Which dataset each page draws on. 'def' is the page default; 'rules' match a section by id or heading text.
   var PAGES = {
-    '/': { def: 'interviews', all: true, chip: ['interviews', 'venues'], rules: [['places', ['venues', 'interviews']], ['map', 'venues'], [/award/i, 'awards'], ['more', null], ['start', null], ['h-stats', null]] },
+    // home: one date under the hero and the footer status panel; no stamp under every section (audit, 16 Nov 2026)
+    '/': { chip: ['interviews'] },
     '/insights': { def: 'interviews', all: true, chip: ['interviews'], rules: [[/trade feels|hospitality/i, 'look']] },
     '/briefing': { def: 'interviews', all: true, chip: ['interviews', 'look'], rules: [[/Look Ahead|operators/i, 'look']] },
     '/onepager': { def: 'interviews', chip: ['interviews'] },

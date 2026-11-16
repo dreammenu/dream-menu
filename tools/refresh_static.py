@@ -74,6 +74,10 @@ N_ALL = f"{P['n_all']:,}"
 lab = lambda c: (L.get(c) or [c])[0]
 fmt = lambda n: f'{n:,}'
 pc0 = lambda x: f'{round(x):d}%'
+pc1 = lambda x: f'{x:.1f}%'   # the home page uses one decimal for every share (audit, 16 Nov 2026)
+# Home display names: data labels that read like database fields get a plain name on the home page only
+HOME_NAME = {'Steak (cut not named)': 'Steak', 'Irn Bru': 'Irn-Bru', 'Coca Cola': 'Coca-Cola'}
+hn = lambda l: HOME_NAME.get(l, l)
 w1 = lambda a, b: f'{100 * a / b:.1f}%' if b else '0%'
 
 
@@ -110,17 +114,24 @@ def debates_home():
             ('tea', 'Coffee or tea?', ['Coffee', 'Tea', 'Neither']),
             ('pineapple', 'Pineapple on pizza?', ['Yes', 'No']),
             ('water', 'Still, sparkling or tap?', ['Still', 'Tap', 'Sparkling'])]
+    most = max(SC['debates'][k]['n'] for k, _, _ in spec)
     for key, title, opts in spec:
         d = SC['debates'][key]
         n = d['n']
-        sh = [(o, 100 * dcount(d, o) / n) for o in opts]
-        win = max(sh, key=lambda x: x[1])
-        label = ', '.join(f'{o} {pc0(p)}' for o, p in sh)
-        bars = ''.join(f'<i class="s{i}" style="width:{p:.1f}%" title="{o} {pc0(p)}"></i>' for i, (o, p) in enumerate(sh))
-        keys = ''.join(f'<li><i class="s{i}"></i>{o} <b>{pc0(p)}</b></li>' for i, (o, p) in enumerate(sh))
-        out.append(f'<article class="deb"><h3>{title}</h3><p class="win">{win[0]} <b>{pc0(win[1])}</b></p>'
+        sh = [(hn(o), 100 * dcount(d, o) / n) for o in opts]
+        rk = sorted(sh, key=lambda x: -x[1])
+        win = rk[0]
+        # a lead under 3 points is a tie, not a win
+        winline = (f'Too close to call <b>{rk[0][0]} {pc1(rk[0][1])}, {rk[1][0]} {pc1(rk[1][1])}</b>' if rk[0][1] - rk[1][1] < 3
+                   else f'{win[0]} <b>{pc1(win[1])}</b>')
+        label = ', '.join(f'{o} {pc1(p)}' for o, p in sh)
+        bars = ''.join(f'<i class="s{i}" style="width:{p:.1f}%" title="{o} {pc1(p)}"></i>' for i, (o, p) in enumerate(sh))
+        keys = ''.join(f'<li><i class="s{i}"></i>{o} <b>{pc1(p)}</b></li>' for i, (o, p) in enumerate(sh))
+        tie = ' tie' if rk[0][1] - rk[1][1] < 3 else ''
+        few = ' (not asked in every interview)' if n < 0.9 * most else ''
+        out.append(f'<article class="deb"><h3>{title}</h3><p class="win{tie}">{winline}</p>'
                    f'<div class="stack" role="img" aria-label="{label}">{bars}</div><ul class="sk">{keys}</ul>'
-                   f'<p class="n">{fmt(n)} answers</p></article>')
+                   f'<p class="n">{fmt(n)} answers{few}</p></article>')
     return '<div class="dgrid">' + ''.join(out) + '</div>'
 
 
@@ -142,27 +153,41 @@ def debates_insights():
     return '<div class="grid">\n' + '\n'.join(out) + '\n  </div>'
 
 
-def hb(items):
-    """items: [(label, count, pct)] -> the home page horizontal bars"""
-    top = items[0][1] if items else 1
+def hb(items, top=None):
+    """items: [(label, count, pct)] -> the home page horizontal bars.
+    Every course card shares one scale (top = the largest share on any card), so bar lengths compare across courses."""
+    top = top or max((p for _, _, p in items), default=1)
     return '<ol class="hb">' + ''.join(
-        f'<li><span class="hb-l">{html.escape(l)}</span><span class="hb-t"><i style="width:{100 * c / top:.1f}%"></i></span>'
-        f'<span class="hb-v">{pc0(p)}</span></li>' for l, c, p in items) + '</ol>'
+        f'<li><span class="hb-l">{html.escape(hn(l))}</span><span class="hb-t"><i style="width:{100 * p / top:.1f}%"></i></span>'
+        f'<span class="hb-v">{pc1(p)}</span></li>' for l, c, p in items) + '</ol>'
+
+
+def _course_items(k):
+    # shares of answers coded to a dish, the same base as /analysis and the home findings (answers coded Other are left out,
+    # as the home method note says). Until 16 Nov 2026 these used every answer as the base, so tiramisu read 11.8% here and 12.2% elsewhere.
+    t = P['trends'][k]
+    return [(it.get('l') or lab(it['c']), it['n'], 100 * it['n'] / t['n']) for it in t['cats'][:5]]
+
+
+def _drink_items():
+    dc = SC['drink_card']
+    return [(l, c, 100 * c / dc['n']) for l, c in dc['c'][:5]]
+
+
+def hb_scale():
+    return max(p for items in [_course_items(k) for k in 'smdp'] + [_drink_items()] for _, _, p in items)
 
 
 def course_card(k, eyebrow):
-    t = P['trends'][k]
-    base = SC['course_card_answers'][k]
-    items = [(it.get('l') or lab(it['c']), it['n'], 100 * it['n'] / base) for it in t['cats'][:5]]
+    base = P['trends'][k]['n']
     return (f'<article class="ccard"><header><span class="eyebrow">{eyebrow}</span><span class="n">{fmt(base)} answers</span></header>'
-            + hb(items) + '</article>')
+            + hb(_course_items(k), hb_scale()) + '</article>')
 
 
 def drink_card():
     dc = SC['drink_card']
-    items = [(l, c, 100 * c / dc['n']) for l, c in dc['c'][:5]]
     return (f'<article class="ccard"><header><span class="eyebrow">Drink</span><span class="n">{fmt(dc["n"])} answers</span></header>'
-            + hb(items) + '</article>')
+            + hb(_drink_items(), hb_scale()) + '</article>')
 
 
 # Market tabs on the home page. Glasgow holds most of the evidence, so the tabs are Glasgow, Edinburgh,
@@ -249,10 +274,10 @@ def rank_list(lst, base=None):
 menu = []
 for k, c in (('s', 'Starter'), ('m', 'Main'), ('d', 'Side'), ('p', 'Dessert')):
     it = P['trends'][k]['cats'][0]
-    menu.append((c, it.get('l') or lab(it['c']), 100 * it['n'] / SC['course_card_answers'][k]))
+    menu.append((c, it.get('l') or lab(it['c']), 100 * it['n'] / P['trends'][k]['n']))
 dl, dn = SC['drink_card']['c'][0]
 menu.append(('Drink', dl, 100 * dn / SC['drink_card']['n']))
-menu_html = '<ol>' + ''.join(f'<li><span class="c">{c}</span><span class="d">{html.escape(d)}</span><span class="dots"></span><span class="p">{pc0(p)}</span></li>' for c, d, p in menu) + '</ol>'
+menu_html = '<ol>' + ''.join(f'<li><span class="c">{c}</span><span class="d">{html.escape(hn(d))}</span><span class="dots"></span><span class="p">{pc1(p)}</span></li>' for c, d, p in menu) + '</ol>'
 panes = '\n'.join(market_pane(i, t, pr, h, ht, mid, i > 0) for i, (t, pr, h, ht, mid) in enumerate(MARKET_SETS))
 tabs = ('<div class="mtabs" role="tablist" aria-label="Market">' + ''.join(
     f'<button type="button" role="tab" id="t{i}" aria-controls="p{i}" aria-selected="{"true" if i == 0 else "false"}">{n}</button>'

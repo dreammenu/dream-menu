@@ -37,7 +37,7 @@ tap = deb['water']['c']['Tap'] + deb['water']['c'].get('Scottish tap water', 0)
 top = {}
 for k in ('s', 'm', 'd', 'p'):
     it = P['trends'][k]['cats'][0]
-    top[k] = (it.get('l') or lab(it['c']), pc(it['n'], SC['course_card_answers'][k]))
+    top[k] = (it.get('l') or lab(it['c']), pc(it['n'], P['trends'][k]['n']))
 dl, dn = SC['drink_card']['c'][0]
 guest_award = sum(1 for p in A['places'] if p[15])
 MK = {m['id']: m for m in D['markets']}
