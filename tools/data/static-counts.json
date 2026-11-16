@@ -4,54 +4,55 @@
   "tools/data/new-interviews-2026-10-28.json",
   "tools/data/new-interviews-2026-10-28b.json",
   "tools/data/new-interviews-2026-10-29.json",
-  "tools/data/new-interviews-2026-11-11.json"
+  "tools/data/new-interviews-2026-11-11.json",
+  "tools/data/new-interviews-2026-11-16.json"
  ],
  "debates": {
   "coke": {
-   "n": 1229,
+   "n": 1239,
    "c": {
-    "Irn Bru": 566,
-    "Coca Cola": 410,
-    "Neither": 253
+    "Irn Bru": 570,
+    "Coca Cola": 415,
+    "Neither": 254
    }
   },
   "tea": {
-   "n": 957,
+   "n": 967,
    "c": {
-    "Coffee": 645,
-    "Tea": 243,
-    "Neither": 69
+    "Coffee": 652,
+    "Tea": 245,
+    "Neither": 70
    }
   },
   "pineapple": {
-   "n": 1230,
+   "n": 1240,
    "c": {
-    "Yes": 607,
-    "No": 623
+    "Yes": 612,
+    "No": 628
    }
   },
   "water": {
-   "n": 1230,
+   "n": 1240,
    "c": {
-    "Still": 461,
-    "Tap": 370,
-    "Sparkling": 342,
+    "Still": 464,
+    "Tap": 376,
+    "Sparkling": 343,
     "Scottish tap water": 57
    }
   }
  },
  "course_card_answers": {
-  "s": 1247,
-  "m": 1243,
-  "d": 1237,
-  "p": 1241
+  "s": 1257,
+  "m": 1253,
+  "d": 1247,
+  "p": 1251
  },
  "drink_card": {
-  "n": 1255,
+  "n": 1265,
   "c": [
    [
     "House cocktails",
-    55
+    58
    ],
    [
     "Spicy margarita",
@@ -63,7 +64,7 @@
    ],
    [
     "Mocktails and alcohol-free",
-    50
+    51
    ],
    [
     "Diet Coke and Coke Zero",
