@@ -1,39 +1,138 @@
 {
-  "note": "Venue clean-up applied by tools/clean_venues.py (17 Nov 2026). 'merge': [keep, duplicate] pairs that are the same place (same address, or the same venue spelled two ways); the duplicate's mentions, guests, courses, dishes and quotes move to the kept venue, its awards links point to the kept venue, and its old page redirects. 'rename': display names that came in as full Google listings. Safe to rerun: pairs and names already applied are skipped. Not merged on purpose: Cafe Andaluz (two branches), Cardosi's (two Paisley shops), Murphy's Pakora / The Pakora Bar and Trust by Modou / 111 by Modou (same address, could be the same place; Gordon to confirm), The Hoxton / The Hoxton Hound, Elderslie Butchers / Elderslie Coffee Shop.",
+  "note": "Venue clean-up applied by tools/clean_venues.py (17 Nov 2026). 'merge': [keep, duplicate] pairs that are the same place (same address, or the same venue spelled two ways); the duplicate's mentions, guests, courses, dishes and quotes move to the kept venue, its awards links point to the kept venue, and its old page redirects. 'rename': display names that came in as full Google listings. Safe to rerun: pairs and names already applied are skipped. Not merged on purpose: Cafe Andaluz (two branches), Cardosi's (two Paisley shops), Murphy's Pakora / The Pakora Bar and Trust by Modou / 111 by Modou (same address but different places, confirmed by Gordon 17 Nov 2026), The Hoxton / The Hoxton Hound, Elderslie Butchers / Elderslie Coffee Shop.",
   "merge": [
-    ["gleneagles-x", "the-gleneagles-hotel-x"],
-    ["lyla-x", "lyla-restaurant-rooms-x"],
-    ["ting-thai-caravan-glasgow", "ting-thai-byres-road-x"],
-    ["chaophraya-x", "chaophraya-thai-restaurant-x"],
-    ["frank-s-pizzeria-x", "franks-pizza-subs-x"],
-    ["ottoman-coffeehouse-x", "ottoman-coffee-house-x"],
-    ["coorie-inn-restaurant-rooms-x", "coorie-inn-restaurant-rooms-crieff-x"],
-    ["revolution-x", "revolution-glasgow-mitchell-street-x"],
-    ["cocktails-and-steak-uddingston", "cocktails-and-steaks-uddingston"],
-    ["cottonrake-cafe-x", "cottonrake-bakery-x"],
-    ["the-bonnie-badger-pub-x", "the-bonnie-badger-pub-restaurant-with-rooms-x"],
-    ["the-pizzaioli-ayr-x", "pizzaioli-italian-eatery-x"],
-    ["the-balmoral-x", "the-balmoral-a-rocco-forte-hotel-x"],
-    ["corinthian-x", "the-corinthian-club-x"],
-    ["heavenly-desserts-glasgow-x", "heavenly-desserts-glasgow-sauchiehall-street-x"],
-    ["vega-x", "vega-restaurant-bowling-glasgow-x"],
-    ["box-glasgow-x", "box-glasgow-live-music-venue-club-x"],
-    ["hajars-shawarma-king-x", "hajar-s-shawarma-sauchiehall-street-x"],
-    ["masala-twist-best-indian-restaurant-in-city-centre-x", "masala-twist-best-indian-restaurant-in-city-centre-glasgow-x"],
-    ["oki-doki-georgian-restaurant-x", "oki-doki-georgian-restaurant-signature-cuisine-from-georgia-take-away-sitting-in-x"],
-    ["ola-kala-x", "ola-kala-the-best-greek-grill-deli-x"],
-    ["padulas-x", "padulas-barra-island-stores-x"],
-    ["scorrybreac-guest-house-x", "scorrybreac-guest-house-glencoe-x"],
-    ["strip-joint-glasgow-cold-beer-x", "strip-joint-glasgow-cold-beer-pizza-vinyl-records-x"],
-    ["restaurant-andrew-fairlie-auchterarder", "andrew-fairlies-glasgow"],
-    ["himalayan-dine-glasgow", "himalayan-fine-glasgow"],
-    ["the-butchershop-x", "butchers-steak-grill-glasgow"],
-    ["haylynn-canteen-x", "haylynn-canteen-number-16-five-march-glasgow"],
-    ["17ngon-greenock-2", "17ngon-greenock"],
-    ["hitchen-s-barn-oakham", "hitchen-s-barn-x"],
-    ["fisher-donaldson-x", "fisher-donaldson-st-andrews"],
-    ["the-fox-willow-x", "the-fox-and-willow-ayr"],
-    ["pasticcio-glasgow-italia-street-food-x", "pasticcio-glasgow-fresh-pasta-arancini-glasgow"]
+    [
+      "gleneagles-x",
+      "the-gleneagles-hotel-x"
+    ],
+    [
+      "lyla-x",
+      "lyla-restaurant-rooms-x"
+    ],
+    [
+      "ting-thai-caravan-glasgow",
+      "ting-thai-byres-road-x"
+    ],
+    [
+      "chaophraya-x",
+      "chaophraya-thai-restaurant-x"
+    ],
+    [
+      "frank-s-pizzeria-x",
+      "franks-pizza-subs-x"
+    ],
+    [
+      "ottoman-coffeehouse-x",
+      "ottoman-coffee-house-x"
+    ],
+    [
+      "coorie-inn-restaurant-rooms-x",
+      "coorie-inn-restaurant-rooms-crieff-x"
+    ],
+    [
+      "revolution-x",
+      "revolution-glasgow-mitchell-street-x"
+    ],
+    [
+      "cocktails-and-steak-uddingston",
+      "cocktails-and-steaks-uddingston"
+    ],
+    [
+      "cottonrake-cafe-x",
+      "cottonrake-bakery-x"
+    ],
+    [
+      "the-bonnie-badger-pub-x",
+      "the-bonnie-badger-pub-restaurant-with-rooms-x"
+    ],
+    [
+      "the-pizzaioli-ayr-x",
+      "pizzaioli-italian-eatery-x"
+    ],
+    [
+      "the-balmoral-x",
+      "the-balmoral-a-rocco-forte-hotel-x"
+    ],
+    [
+      "corinthian-x",
+      "the-corinthian-club-x"
+    ],
+    [
+      "heavenly-desserts-glasgow-x",
+      "heavenly-desserts-glasgow-sauchiehall-street-x"
+    ],
+    [
+      "vega-x",
+      "vega-restaurant-bowling-glasgow-x"
+    ],
+    [
+      "box-glasgow-x",
+      "box-glasgow-live-music-venue-club-x"
+    ],
+    [
+      "hajars-shawarma-king-x",
+      "hajar-s-shawarma-sauchiehall-street-x"
+    ],
+    [
+      "masala-twist-best-indian-restaurant-in-city-centre-x",
+      "masala-twist-best-indian-restaurant-in-city-centre-glasgow-x"
+    ],
+    [
+      "oki-doki-georgian-restaurant-x",
+      "oki-doki-georgian-restaurant-signature-cuisine-from-georgia-take-away-sitting-in-x"
+    ],
+    [
+      "ola-kala-x",
+      "ola-kala-the-best-greek-grill-deli-x"
+    ],
+    [
+      "padulas-x",
+      "padulas-barra-island-stores-x"
+    ],
+    [
+      "scorrybreac-guest-house-x",
+      "scorrybreac-guest-house-glencoe-x"
+    ],
+    [
+      "strip-joint-glasgow-cold-beer-x",
+      "strip-joint-glasgow-cold-beer-pizza-vinyl-records-x"
+    ],
+    [
+      "restaurant-andrew-fairlie-auchterarder",
+      "andrew-fairlies-glasgow"
+    ],
+    [
+      "himalayan-dine-glasgow",
+      "himalayan-fine-glasgow"
+    ],
+    [
+      "the-butchershop-x",
+      "butchers-steak-grill-glasgow"
+    ],
+    [
+      "haylynn-canteen-x",
+      "haylynn-canteen-number-16-five-march-glasgow"
+    ],
+    [
+      "17ngon-greenock-2",
+      "17ngon-greenock"
+    ],
+    [
+      "hitchen-s-barn-oakham",
+      "hitchen-s-barn-x"
+    ],
+    [
+      "fisher-donaldson-x",
+      "fisher-donaldson-st-andrews"
+    ],
+    [
+      "the-fox-willow-x",
+      "the-fox-and-willow-ayr"
+    ],
+    [
+      "pasticcio-glasgow-italia-street-food-x",
+      "pasticcio-glasgow-fresh-pasta-arancini-glasgow"
+    ]
   ],
   "rename": {
     "la-gelatessa-gelato-coffee-x": "La Gelatessa",
