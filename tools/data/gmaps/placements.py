@@ -168,12 +168,12 @@ PLACE = {
 
 # list number -> id of the venue already on the map (same place, slightly different name)
 SAME = {
-    11: 'pica-luna-pizza-small-plates-x', 15: 'revolution-x', 76: 'finsbay-flatiron-glasgow', 83: 'franks-pizza-subs-x',
+    11: 'pica-luna-pizza-small-plates-x', 15: 'revolution-x', 76: 'finsbay-flatiron-glasgow', 83: 'frank-s-pizzeria-x',
     155: 'sannio-italian-restaurant-bar-x', 173: 'la-masa-x', 225: 'cassajojo-bakes-the-barras-glasgow',
     237: 'little-rock-cafe-wee-deli-x', 243: 'finsbay-flatiron-glasgow', 249: 'bantawala-by-masala-twist-x',
     298: 'the-noble-glasgow', 299: 'vroni-s-wine-bar-x', 300: 'piada-x', 305: 'macau-kitchen-progressive-macanese-cuisine-x',
-    370: 'sotto-edinburgh', 400: 'oh-my-buns-x', 422: 'bombay-blues-x', 441: 'franks-pizza-subs-x',
-    442: 'century-bar-gleneagles-auchterarder', 449: 'ting-thai-byres-road-x', 461: 'cuvee-glasgow-x',
+    370: 'sotto-edinburgh', 400: 'oh-my-buns-x', 422: 'bombay-blues-x', 441: 'frank-s-pizzeria-x',
+    442: 'century-bar-gleneagles-auchterarder', 449: 'ting-thai-caravan-glasgow', 461: 'cuvee-glasgow-x',
     485: 'the-coachman-x', 486: 'osaka-edinburgh', 536: 'the-redshank-inverness', 545: 'lannan-bakery-pantry-x',
     546: 'verveine-cambridge-ma', 551: 'elixir-glasgow', 567: 'jinty-mcguinty-s-irish-bar-x', 599: 'okome-bearsden-x',
     601: 'tennents-byres-rd-glasgow-x', 609: 'cafe-andaluz-x', 620: 'la-lanterna-x', 690: None, 696: None,

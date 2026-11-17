@@ -51,6 +51,171 @@
       "source": "/partner",
       "destination": "/analysis#partner",
       "permanent": false
+    },
+    {
+      "source": "/venue/the-gleneagles-hotel",
+      "destination": "/venue/gleneagles",
+      "permanent": true
+    },
+    {
+      "source": "/venue/lyla-restaurant-rooms",
+      "destination": "/venue/lyla",
+      "permanent": true
+    },
+    {
+      "source": "/venue/ting-thai-byres-road",
+      "destination": "/venue/ting-thai-caravan-glasgow",
+      "permanent": true
+    },
+    {
+      "source": "/venue/chaophraya-thai-restaurant",
+      "destination": "/venue/chaophraya",
+      "permanent": true
+    },
+    {
+      "source": "/venue/franks-pizza-subs",
+      "destination": "/venue/frank-s-pizzeria",
+      "permanent": true
+    },
+    {
+      "source": "/venue/ottoman-coffee-house",
+      "destination": "/venue/ottoman-coffeehouse",
+      "permanent": true
+    },
+    {
+      "source": "/venue/coorie-inn-restaurant-rooms-crieff",
+      "destination": "/venue/coorie-inn-restaurant-rooms",
+      "permanent": true
+    },
+    {
+      "source": "/venue/revolution-glasgow-mitchell-street",
+      "destination": "/venue/revolution",
+      "permanent": true
+    },
+    {
+      "source": "/venue/cocktails-and-steaks-uddingston",
+      "destination": "/venue/cocktails-and-steak-uddingston",
+      "permanent": true
+    },
+    {
+      "source": "/venue/cottonrake-bakery",
+      "destination": "/venue/cottonrake-cafe",
+      "permanent": true
+    },
+    {
+      "source": "/venue/the-bonnie-badger-pub-restaurant-with-rooms",
+      "destination": "/venue/the-bonnie-badger-pub",
+      "permanent": true
+    },
+    {
+      "source": "/venue/pizzaioli-italian-eatery",
+      "destination": "/venue/the-pizzaioli-ayr",
+      "permanent": true
+    },
+    {
+      "source": "/venue/the-balmoral-a-rocco-forte-hotel",
+      "destination": "/venue/the-balmoral",
+      "permanent": true
+    },
+    {
+      "source": "/venue/the-corinthian-club",
+      "destination": "/venue/corinthian",
+      "permanent": true
+    },
+    {
+      "source": "/venue/heavenly-desserts-glasgow-sauchiehall-street",
+      "destination": "/venue/heavenly-desserts-glasgow",
+      "permanent": true
+    },
+    {
+      "source": "/venue/vega-restaurant-bowling-glasgow",
+      "destination": "/venue/vega",
+      "permanent": true
+    },
+    {
+      "source": "/venue/box-glasgow-live-music-venue-club",
+      "destination": "/venue/box-glasgow",
+      "permanent": true
+    },
+    {
+      "source": "/venue/hajar-s-shawarma-sauchiehall-street",
+      "destination": "/venue/hajars-shawarma-king",
+      "permanent": true
+    },
+    {
+      "source": "/venue/masala-twist-best-indian-restaurant-in-city-centre-glasgow",
+      "destination": "/venue/masala-twist-best-indian-restaurant-in-city-centre",
+      "permanent": true
+    },
+    {
+      "source": "/venue/oki-doki-georgian-restaurant-signature-cuisine-from-georgia-take-away-sitting-in",
+      "destination": "/venue/oki-doki-georgian-restaurant",
+      "permanent": true
+    },
+    {
+      "source": "/venue/ola-kala-the-best-greek-grill-deli",
+      "destination": "/venue/ola-kala",
+      "permanent": true
+    },
+    {
+      "source": "/venue/padulas-barra-island-stores",
+      "destination": "/venue/padulas",
+      "permanent": true
+    },
+    {
+      "source": "/venue/scorrybreac-guest-house-glencoe",
+      "destination": "/venue/scorrybreac-guest-house",
+      "permanent": true
+    },
+    {
+      "source": "/venue/strip-joint-glasgow-cold-beer-pizza-vinyl-records",
+      "destination": "/venue/strip-joint-glasgow-cold-beer",
+      "permanent": true
+    },
+    {
+      "source": "/venue/andrew-fairlies-glasgow",
+      "destination": "/venue/restaurant-andrew-fairlie-auchterarder",
+      "permanent": true
+    },
+    {
+      "source": "/venue/himalayan-fine-glasgow",
+      "destination": "/venue/himalayan-dine-glasgow",
+      "permanent": true
+    },
+    {
+      "source": "/venue/butchers-steak-grill-glasgow",
+      "destination": "/venue/the-butchershop",
+      "permanent": true
+    },
+    {
+      "source": "/venue/haylynn-canteen-number-16-five-march-glasgow",
+      "destination": "/venue/haylynn-canteen",
+      "permanent": true
+    },
+    {
+      "source": "/venue/17ngon-greenock",
+      "destination": "/venue/17ngon-greenock-2",
+      "permanent": true
+    },
+    {
+      "source": "/venue/hitchen-s-barn",
+      "destination": "/venue/hitchen-s-barn-oakham",
+      "permanent": true
+    },
+    {
+      "source": "/venue/fisher-donaldson-st-andrews",
+      "destination": "/venue/fisher-donaldson",
+      "permanent": true
+    },
+    {
+      "source": "/venue/the-fox-and-willow-ayr",
+      "destination": "/venue/the-fox-willow",
+      "permanent": true
+    },
+    {
+      "source": "/venue/pasticcio-glasgow-fresh-pasta-arancini-glasgow",
+      "destination": "/venue/pasticcio-glasgow-italia-street-food",
+      "permanent": true
     }
   ],
   "headers": [

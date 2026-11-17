@@ -88,7 +88,7 @@ if _gaps:
         + (f' {over[0]["l"]} are on {pct(over[0]["menus"])}, for {pct(over[0]["demand"])} of guests.' if over else ''),
         (f'Check your {gc} list against the {len(same)} most-named ({", ".join(r["l"].lower() for r in same)}) before adding anything new.' if len(same) > 1
          else f'If {g["l"].lower()} is not on your menu, trial it as a special.'),
-        '/analysis#menu-gap', 'What guests ask for against what menus list'))
+        '/analysis#th-audit', 'What guests ask for against what menus list'))
 elif st:
     top = st[:3]
     names = ', '.join(s['l'].lower() for s in top[:-1]) + ' and ' + top[-1]['l'].lower()

@@ -23,8 +23,8 @@
     host.innerHTML =
       '<div class="kpi hero"><span class="lab">Clear movers this read</span><span class="val">' + k.sig + '<small>of ' + k.tests + ' tested</small></span><span class="del">' + k.up + ' rising, ' + k.down + ' falling, each passing p &lt; 0.05</span></div>' +
       '<div class="kpi"><span class="lab">Interviews by quarter</span><span class="val">' + fmt(k.n_all) + '</span><span class="del">' + iq[iq.length - 2] + ' in ' + k.quarters[k.quarters.length - 2] + '; ' + iq[iq.length - 1] + ' so far in ' + k.quarters[k.quarters.length - 1] + '</span><div class="kspark"></div></div>' +
-      '<div class="kpi"><span class="lab">Operator confidence, next 3 months</span><span class="val">' + o.conf3.toFixed(1) + '<small>/10</small></span><span class="del down">' + o.conf12.toFixed(1) + ' looking 12 months out</span></div>' +
-      '<div class="kpi"><span class="lab">Operators seeing supplier prices rise</span><span class="val">' + o.rising + '<small>%</small></span><span class="del">of ' + o.n + ' surveyed in the 2026 Look Ahead</span></div>';
+      '<div class="kpi"><span class="lab">Operator confidence, next 3 months (May 2026 survey)</span><span class="val">' + o.conf3.toFixed(1) + '<small>/10</small></span><span class="del down">' + o.conf12.toFixed(1) + ' looking 12 months out</span></div>' +
+      '<div class="kpi"><span class="lab">Operators seeing supplier prices rise (May 2026)</span><span class="val">' + o.rising + '<small>%</small></span><span class="del">of ' + o.n + ' surveyed in the 2026 Look Ahead</span></div>';
     V.spark(host.querySelector('.kspark'), iq, { color: 'var(--v-brand)', area: true, low: iq.map(function (n) { return n < 100; }) });
     var up = I.ci.filter(function (r) { return r.sig && r.move > 0; }).sort(function (a, b) { return b.move - a.move; });
     var dn = I.ci.filter(function (r) { return r.sig && r.move < 0; }).sort(function (a, b) { return a.move - b.move; });

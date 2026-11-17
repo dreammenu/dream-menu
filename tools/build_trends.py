@@ -296,15 +296,30 @@ def jn(xs):
     return ', '.join(xs[:-1]) + ' and ' + xs[-1] if len(xs) > 1 else (xs[0] if xs else '')
 
 
+def times(r):
+    """Plain words for a ratio: 2.3 -> 'more than twice', 3.1 -> 'about three times' (same as build_home.py)."""
+    words = {2: 'twice', 3: 'three times', 4: 'four times', 5: 'five times'}
+    w = int(r)
+    if w < 2:
+        return f'{r:.1f} times'
+    if w in words:
+        return ('more than ' if r - w >= 0.2 else 'about ') + words[w]
+    return f'about {round(r)} times'
+
+
+_ch = CH[most]['group']
 public_find = [
-    f"{LABEL[most]}s changed most: {CH[most]['group']['obs']}% of answers sit in a different food group than in late 2025, "
-    f"against {CH[most]['group']['chance']}% that sampling alone would produce.",
-    (f"{jn(LABEL[k] + 's' for k in real)} have moved beyond chance; "
-     f"{jn(LABEL[k].lower() + 's' for k in FOOD if k not in real)} are broadly where they were, which makes them safe ground for a range.")
-    if real else "No course has moved beyond what sampling alone would give.",
+    # 17 Nov 2026: plain words, and the sides point made once (it used to take three lines)
+    f"{LABEL[most]}s are changing {times(_ch['obs'] / _ch['chance'])} as fast as chance would explain: "
+    f"{_ch['obs']}% of {LABEL[most].lower()} answers have moved to a different food group since late 2025, against about {_ch['chance']}% "
+    f"you would expect from the luck of who was asked.",
+    (f"{jn(LABEL[k].lower() + 's' for k in FOOD if k not in real).capitalize()} are broadly where they were, which makes them safe ground for a range."
+     if any(k not in real for k in FOOD) else "Every course has moved beyond chance.")
+    if real else "No course has moved beyond what chance would explain.",
     (f"Guests are converging on favourites in {jn(LABEL[k].lower() for k in conv)}" + (f" and spreading out in {jn(LABEL[k].lower() for k in spread)}." if spread else '.'))
     if conv else (f"Guests are spreading out in {jn(LABEL[k].lower() for k in spread)}: the top five dishes there take a smaller share than they did." if spread
-                  else 'The five favourite dishes in each course hold the same share they did a year ago.'),
+                  else "Taken together, each course's five favourite dishes take about the same share as a year ago; "
+                       "what moves is which dishes make up the five."),
     f"{len(staples)} dishes are steady staples, holding their share in every full quarter, led by {names(staples)}." if staples else '',
 ]
 partner_find = public_find[:2] + [
