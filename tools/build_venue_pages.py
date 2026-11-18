@@ -752,3 +752,5 @@ import subprocess, sys
 subprocess.run([sys.executable, 'tools/build_menu_audit.py'], check=True)
 # the partner rep sheet and market watch read partner/dish-moves.js (written above), so they rebuild here too
 subprocess.run([sys.executable, 'tools/build_accounts.py'], check=True)
+# per-page share images: the pages above are rewritten without them, and the Monday refresh does not call build_og.py itself
+subprocess.run([sys.executable, 'tools/build_og.py'], check=True)
