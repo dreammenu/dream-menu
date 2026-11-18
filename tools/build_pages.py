@@ -83,6 +83,8 @@ _set = next(c for c in _food if not (_moved and c['course'] == _most['course']))
 _K = AD['critics']
 _t25 = round(100 * _K['tops']['25']['award'] / _K['tops']['25']['n'])
 _tall = round(100 * _K['tops'][str(_K['venues'])]['award'] / _K['venues'])
+_a25 = round(100 * _K['tops']['25']['any'] / _K['tops']['25']['n'])
+_aall = round(100 * _K['tops'][str(_K['venues'])]['any'] / _K['venues'])
 _alc = {g['l']: g for g in DRK['alc']['groups']}
 _af = _alc.get('Alcohol-free instead', {}).get('pct', 0)
 _stap3 = ', '.join(x['l'].lower() for x in TP['staples'][:2]) + ' and ' + TP['staples'][2]['l'].lower()
@@ -220,7 +222,7 @@ _ROLES = [
      'Partners see which food groups gained and lost, a score for every dish and a three-quarter planning range.' + AU_S,
      '/for-business', 'Ways to work with us'),
     ('Marketing, press and guides',
-     f'{_t25}% of the 25 most-named venues hold a guide award, against {_tall}% of all venues named: guests and critics agree at the very top and part ways below it. '
+     f'{_t25}% of the 25 most-named venues hold a current guide award ({_a25}% counting trade awards and other lists), against {_tall}% of all venues named ({_aall}%): guests and critics agree at the very top and part ways below it. '
      'The favourites beyond the guides are the stories nobody else has.' + AU_M,
      '/press', 'Press kit'),
 ]

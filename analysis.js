@@ -100,7 +100,7 @@
     c4.plot.innerHTML = '<ol class="rank-list">' + K.starred.map(function (v) { return '<li><div>' + esc(v.n) + '<span>' + esc(v.c) + ' · ' + esc(v.aw) + '</span></div><em>' + v.m + '</em></li>'; }).join('') + '</ol><p class="dmv-src" style="margin-top:8px">Number = times named by guests.</p>';
     c4.setTable([{ l: 'Venue', k: 'n' }, { l: 'City', k: 'c' }, { l: 'Recognition', k: 'aw' }, { l: 'Mentions', k: 'm', n: 1 }], K.starred);
     var t25 = K.tops['25'], all = K.tops[String(K.venues)];
-    setT('tb', 'The more guests name a venue, the likelier the critics agree: ' + Math.round(t25.award / t25.n * 100) + '% of the 25 most-named venues hold a guide award, against ' + Math.round(all.award / all.n * 100) + '% of all venues named');
+    setT('tb', 'The more guests name a venue, the likelier the critics agree: ' + Math.round(t25.award / t25.n * 100) + '% of the 25 most-named venues hold a current guide award, against ' + Math.round(all.award / all.n * 100) + '% of all venues named. Counting trade awards and other lists too: ' + Math.round(t25.any / t25.n * 100) + '% against ' + Math.round(all.any / all.n * 100) + '%');
     setT('sb', 'Recommendation is concentrated: the top 10% of venues collect <b>' + Math.round(K.marks[10]) + '%</b> of every mention, while <b>' + K.once_pct + '%</b> of venues are named only once. The venues guests love most are mostly not the ones the guides list. That gap is where a guest-led index earns its place.');
   })();
 

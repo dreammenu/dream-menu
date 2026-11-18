@@ -18,6 +18,19 @@
     if (s.t === 'Watch') return d + ' named here ' + times(s.k) + ': one to watch (' + s.sc.toFixed(1) + '/10)';
     return d + ' named here ' + times(s.k) + ': part of ' + esc(low(s.g)) + ', a food group to grow';
   }
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function mon(d) { return d ? MON[+d.slice(5, 7) - 1] + ' ' + d.slice(0, 4) : ''; }
+  function status(v, plain) {
+    var t = v.st || {}, out = [];
+    if (t.s === 'new') out.push(['new', 'New or re-registered ' + mon(t.lg && (!t.d || t.lg > t.d) ? t.lg : t.d) + (t.r === 'Awaiting Inspection' ? ', not yet inspected' : '')]);
+    else if (t.s === 'check') out.push(['check', 'Not found on the hygiene register: check it still trades']);
+    else if (t.r === 'Improvement Required') out.push(['warn', 'Hygiene: improvement required (' + mon(t.d) + ')']);
+    else if (t.r && t.r !== 'Awaiting Inspection') out.push(['ok', 'Hygiene: ' + t.r.toLowerCase() + (t.d ? ' (' + mon(t.d) + ')' : '')]);
+    if (t.ch) out.push(['new', 'Licence holder changed (spotted ' + mon(t.ch) + ')']);
+    if (t.cap) out.push(['', 'Licensed for ' + t.cap]);
+    if (plain) return out.map(function (x) { return x[1]; }).join('; ');
+    return out.map(function (x) { return '<small class="sell-st ' + x[0] + '">' + esc(x[1]) + '</small>'; }).join('');
+  }
   function tier(t) { return '<span class="sc-call ' + (t === 'Watch' ? 'sc-core' : 'sc-grow') + '">' + t + '</span>'; }
   function costOf(r) { var R = S.ranges.filter(function (x) { return x.r === r; })[0]; return R && R.cost.length ? R.cost.join('; ') : ''; }
 
@@ -41,7 +54,7 @@
           var b = v.r[cur.r], lead = b.s[0], more = b.s.slice(1, 3);
           return '<tr>' + (o.full ? '<td class="sell-own"><input type="checkbox" aria-label="' + esc(v.n) + ' is already our customer" data-p="' + v.p + '"' + (mine[v.p] ? ' checked' : '') + '></td>' : '') +
             '<td><b><a href="/venue/' + v.p + '">' + esc(v.n) + '</a></b>' + (v.aw ? '<small class="sell-aw">' + esc(v.aw) + '</small>' : '') + (v.ch ? '<small class="sell-aw">Chain</small>' : '') + '</td>' +
-            '<td>' + esc(v.c) + (o.full && v.ad ? '<small>' + esc(v.ad) + '</small>' : '') + '</td><td class="num sell-g">' + v.g + '</td>' +
+            '<td>' + esc(v.c) + (o.full && v.ad ? '<small>' + esc(v.ad) + '</small>' : '') + status(v) + '</td><td class="num sell-g">' + v.g + '</td>' +
             '<td>' + tier(lead.t) + ' ' + why(lead) + (more.length ? '<small>Also: ' + more.map(function (s) { return (s.s ? '<a href="/trends/' + s.s + '">' + esc(s.d) + '</a>' : esc(s.d)) + ' (' + s.t.toLowerCase() + ')'; }).join(', ') + '</small>' : '') + '</td>' +
             '<td class="sell-w">' + (v.w.length ? v.w.map(function (w) { return esc(w.d) + (w.mv != null ? ' ' + pts(w.mv) : '') + ' <small>' + esc(w.g) + ' falling</small>'; }).join('<br>') : '<small>Nothing falling</small>') + '</td></tr>';
         }).join('') : '<tr><td colspan="6"><small>No venues match.</small></td></tr>') + '</tbody></table></div>' +
@@ -52,7 +65,7 @@
         { l: 'Times named here', n: 1, f: function (v) { return v.r[cur.r].s[0].k; } },
         { l: 'Other dishes', f: function (v) { return v.r[cur.r].s.slice(1).map(function (s) { return s.d + ' (' + s.t + ')'; }).join('; '); } },
         { l: 'Watch out', f: function (v) { return v.w.map(function (w) { return w.d; }).join('; '); } },
-        { l: 'Guide award', k: 'aw' }, { l: 'Our customer', f: function (v) { return mine[v.p] ? 'yes' : ''; } }], all, 'dream-menu-where-to-sell-' + cur.r.toLowerCase().replace(/[^a-z]+/g, '-'));
+        { l: 'Award or listing', k: 'aw' }, { l: 'Status', f: function (v) { return status(v, true); } }, { l: 'Licensed capacity', n: 1, f: function (v) { return (v.st || {}).cap || ''; } }, { l: 'Our customer', f: function (v) { return mine[v.p] ? 'yes' : ''; } }], all, 'dream-menu-where-to-sell-' + cur.r.toLowerCase().replace(/[^a-z]+/g, '-'));
       var hd = c.el.querySelector('.dmv-head h3'); if (hd && rows.length) hd.textContent = o.full ? 'Where to sell it: ' + cur.r.toLowerCase() + ', ' + (cur.m === 'All' ? 'all Scotland' : cur.m) : all[0].n + ' leads for ' + cur.r.toLowerCase() + (cur.m === 'All' ? '' : ' in ' + cur.m);
       if (o.full) c.plot.querySelectorAll('input[data-p]').forEach(function (i) { i.onchange = function () { if (i.checked) mine[i.dataset.p] = 1; else delete mine[i.dataset.p]; setOwn(mine); }; });
       if (o.onDraw) o.onDraw(cur, all.length);
@@ -65,6 +78,22 @@
       var m = document.createElement('div'); m.className = 'sell-mine'; f2.appendChild(m);
       V.chips(m, [['all', 'Every venue'], ['new', 'Not yet ours'], ['ours', 'Ours']], 'all', function (k) { cur.mine = k; draw(); });
     }
+    draw();
+  }
+
+  function leads(host) {
+    var L = S.leads || [], cur = 'All';
+    if (!L.length) { host.innerHTML = '<p class="note">No new registrations to show.</p>'; return; }
+    var c = V.card(host, { id: 'new-leads', filters: true, claim: L.length + ' new restaurants, cafés and bars to get in early with', title: 'Registered for food in Glasgow and Edinburgh in the last 12 months and not yet inspected, plus Glasgow premises licences granted in that time. Newest first.',
+      src: 'Source: Food Standards Agency food hygiene register (Open Government Licence), extract ' + (S.status ? S.status.extract.split('-').reverse().join('/') : '') + '; Glasgow City Council licensed premises open data. Dream Menu has not visited or checked these; some are kitchens inside other businesses.' });
+    function draw() {
+      var rows = L.filter(function (x) { return cur === 'All' || x.mk === cur; });
+      c.plot.innerHTML = '<div class="sc-wrap"><table class="sc sell"><thead><tr><th>Name</th><th>Type</th><th>Address</th><th class="num">Registered</th><th class="num sell-g">Capacity</th></tr></thead><tbody>' + rows.slice(0, 120).map(function (x) {
+        return '<tr><td><b>' + esc(x.n) + '</b></td><td>' + esc(x.t) + '</td><td>' + esc(x.a) + ' <small>' + esc(x.pc) + '</small></td><td class="num">' + mon(x.d) + '</td><td class="num sell-g">' + (x.cap || '') + '</td></tr>';
+      }).join('') + '</tbody></table></div>' + (rows.length > 120 ? '<p class="sell-more">Showing the newest 120 of ' + rows.length + '. The CSV has them all.</p>' : '');
+      c.setTable([{ l: 'Name', k: 'n' }, { l: 'Type', k: 't' }, { l: 'Market', k: 'mk' }, { l: 'Address', k: 'a' }, { l: 'Postcode', k: 'pc' }, { l: 'Registered', k: 'd' }, { l: 'Licence granted', k: 'lic' }, { l: 'Licensed capacity', n: 1, k: 'cap' }], rows, 'dream-menu-new-openings');
+    }
+    V.chips(c.filters, [['All', 'Both cities'], ['Glasgow', 'Glasgow'], ['Edinburgh', 'Edinburgh']], cur, function (k) { cur = k; draw(); });
     draw();
   }
 
@@ -84,6 +113,7 @@
         title: S.v.length + ' Scottish venues guests name for dishes worth backing. Tick your own customers to see who is not yet one (kept in this browser only).',
         onDraw: function (cur, n) { var t = g('acct-print-h'); if (t) t.textContent = cur.r + ' · ' + (cur.m === 'All' ? 'All Scotland' : cur.m) + ' · ' + n + ' venues'; } });
     }
+    if (g('acct-leads')) leads(g('acct-leads'));
     var tries = 0;
     (function w() { var el = g('p-watch'); if (el) watch(el); else if (tries++ < 40) setTimeout(w, 150); })();
   }

@@ -393,4 +393,5 @@
 .mw-ext a{color:var(--v-muted);font-size:12.5px}.mw-dm b,.mw-do b{color:var(--v-ink)}
 @media (max-width:720px){.sell{min-width:0}.sell .sell-g,.sell .sell-w{display:none}}
 @media print{.sell-own input{width:14px;height:14px}.dmv-tools,.dmv-filters,.sell-q,.acct-noprint,header,footer,.wayfind,nav{display:none!important}.sc{min-width:0;font-size:11px}.sell .sell-g,.sell .sell-w{display:table-cell}}
+.sell-st{display:block;margin-top:3px;font-size:11.5px}.sell-st.ok{color:var(--v-muted)}.sell-st.warn{color:var(--v-down);font-weight:600}.sell-st.check{color:var(--v-ink);font-weight:600}.sell-st.new{color:var(--v-up);font-weight:600}
 /* /where to sell it */

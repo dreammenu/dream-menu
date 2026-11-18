@@ -37,6 +37,8 @@ MV = load('partner/dish-moves.js', 'DM_DISHMOVES')
 CATS = load('partner/category-data.js', 'DM_CATS')
 P = load('partner-data.js', 'DM_PARTNER')
 W = json.load(open('tools/data/market-watch.json', encoding='utf-8'))
+ST = json.load(open('tools/data/venue-status.json', encoding='utf-8')) if os.path.exists('tools/data/venue-status.json') else None
+OA = load('other-awards.js', 'DM_OA')['v']
 MIN_M = D['meta']['thresholds'].get('min_public_mentions', 2)
 
 # weights: a Back dish counts in full, a Watch dish half, a dish in a Grow food group (not itself scored) a third,
@@ -93,8 +95,11 @@ for n, v in enumerate(D['venues']):
         b['x'] = round(b['x'], 2)
         b['s'].sort(key=lambda s: (-(s['k'] * (WT.get(s['t'], 0.2) * (s.get('sc') or 6) / 10)), s['d']))
     aw = D['aw'].get(v['i'])
+    o = (ST or {}).get('v', {}).get(v['i']) or {}
+    lic = o.get('lic') or {}
+    st = {k: x for k, x in dict(s=o.get('s'), r=o.get('r'), d=o.get('d'), cap=lic.get('cap'), lg=lic.get('g'), ch=lic.get('ch')).items() if x}
     rows.append(dict(n=v['n'], p=re.sub(r'-x$', '', v['i']), mk=market(v), c=v.get('tw') or v['c'], ad=v.get('ad') or '',
-                     m=v['m'], g=v.get('g') or v['m'], aw=(aw['a'][0] if aw and aw.get('a') else ''), ch=v.get('y') == 'chain',
+                     m=v['m'], g=v.get('g') or v['m'], aw=(aw['a'][0] if aw and aw.get('a') else (OA[v['i']][0][0] if OA.get(v['i']) else '')), st=st, ch=v.get('y') == 'chain',
                      r=sell, w=sorted(risk, key=lambda r: -r['k'])[:2]))
 rows.sort(key=lambda r: -sum(b['x'] for b in r['r'].values()))
 
@@ -114,7 +119,9 @@ vs, fm, ck, bc = gp('d', 'Vegetables and salad'), gp('p', 'Fruit and meringue'),
 sea_s, sea_m, pot = gp('s', 'Seafood'), gp('m', 'Seafood'), gp('d', 'Potatoes and fries')
 pc = lambda x: f'{x:.1f}%'
 DMR = {
-    'churn': f"Guests name {sum(1 for v in sc_v if (v.get('m') or 0) >= MIN_M):,} Scottish venues two or more times. {len(rows)} of them are named for dishes worth backing and make up the rep sheet; {aw_n} hold a guide award.",
+    'churn': (f"Guests name {sum(1 for v in sc_v if (v.get('m') or 0) >= MIN_M):,} Scottish venues two or more times; {len(rows)} are named for dishes worth backing and make up the rep sheet."
+              + (f" On the food hygiene register, {ST['n_new']} named venues registered in the last year and {ST['n_check']} of the {ST['n_exact']} with a full address could not be found: some have closed, others trade under another name. "
+                 f"{len(ST['leads'])} restaurants, cafés and bars in Glasgow and Edinburgh registered in the last 12 months and are not yet inspected." if ST else '')),
     'cities': f"Glasgow and Edinburgh hold {100 * city_m / sc_m:.0f}% of Scottish venue mentions: the two places Dream Menu can read in depth.",
     'costs': f"Seafood is {pc(sea_s['pct'])} of dream starters and {pc(sea_m['pct'])} of mains; potatoes and fries are {pc(pot['pct'])} of sides.",
     'value': (f"The median main on the menus of the {AU['n']} most-named venues is £{main_p['median']:.2f} (middle half £{main_p['lo']:.2f} to £{main_p['hi']:.2f})."
@@ -128,6 +135,8 @@ watch = [dict(w, dm=DMR[w['id']]) for w in W['watch']]
 out = dict(built=dt.date.today().isoformat(), last=P['last'], n=P['n_all'], outside=W['updated'],
            ranges=[dict(r=r, cost=sorted({f"{g}: {W['cost'][g]['level'].lower()}" for g in gs if g in W['cost']})) for r, gs in RANGES],
            cost=W['cost'], watch=watch, v=rows,
+           status=(dict(extract=ST['extract'], lic=ST.get('lic'), n_new=ST['n_new'], n_check=ST['n_check'], ir_named=ST['ir_named'], ir_all=ST['ir_all']) if ST else None),
+           leads=(ST['leads'] if ST else []),
            how=('A venue\'s score in a range adds up the times guests name it for dishes in that range, '
                 'weighted by each dish\'s call: Back counts in full and Watch half, scaled by the trend score; a dish in a food group to grow counts a fifth. '
                 'It shows proven demand at the venue, not who supplies it today.'))
@@ -163,14 +172,17 @@ BODY = f'''<main class="pg">
 <p class="pg-src" id="acct-print-h"></p>
 <div id="acct-sheet"></div>
 <div class="acct-noprint">
+<h2 id="new-openings">New openings to call</h2>
+<div id="acct-leads"></div>
 <h2>How to use it</h2>
 <ul>
 <li><b>Pick a range and a market</b>, then work down the list. The first dish in each row is the one to open with; &ldquo;also&rdquo; lists the next two.</li>
 <li><b>Tick the venues that already buy from you.</b> &ldquo;Not yet ours&rdquo; then shows the prospects. The ticks stay in this browser only; nothing is sent to Dream Menu.</li>
 <li><b>Read it as proven demand at the venue</b>, not as who supplies it today. A venue named for scallops sells scallops guests remember; whether it buys them from you is your list, not ours.</li>
+<li><b>Check the status line</b> under each venue: the latest food hygiene result, &ldquo;new&rdquo; for a venue registered in the last year, a licence that changed hands, and for Glasgow the licensed capacity, a rough guide to account size. &ldquo;Not found on the hygiene register&rdquo; usually means closed or renamed, but sometimes a venue is registered under a company or sister name, so check before you strike it off.</li>
 <li><b>Mind the cost watch</b> line above the table: where input costs are rising, pitch the spec that protects the operator&rsquo;s margin.</li>
 </ul>
-<p class="pg-src">Source: Dream Menu, {P["n_all"]:,} interviews to {LAST_H}; {len(rows)} Scottish venues. Calls (Back, Watch, Grow) come from the partner briefing and are rechecked at every Monday refresh. Partner only: please do not share outside your organisation.</p>
+<p class="pg-src">Source: Dream Menu, {P["n_all"]:,} interviews to {LAST_H}; {len(rows)} Scottish venues. Calls (Back, Watch, Grow) come from the partner briefing and are rechecked at every Monday refresh. Status: Food Standards Agency food hygiene register and Glasgow City Council licensed premises data, both Open Government Licence; venues are matched by postcode and name, and any match we were not sure of is left blank. Partner only: please do not share outside your organisation.</p>
 </div>
 </div></section>
 </main>'''

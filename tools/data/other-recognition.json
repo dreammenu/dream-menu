@@ -1,5 +1,5 @@
 {
- "note": "Recognition outside the guides in awards.js, checked by hand on 31 Oct 2026 for venues the Guests and critics report names. Examples only, not a complete record. Shown as 'Also recognised' so no venue reads as unrecognised.",
+ "note": "Recognition outside the guides in awards.js, checked by hand on 31 Oct 2026 for venues the Guests and critics report names. Examples only, not a complete record. Shown as 'Also recognised' so no venue reads as unrecognised. Extended 18 Nov 2026 for the most-named venues with no listed recognition (Crabshakk Finnieston, Celino’s Partick, Suissi Vegan Kitchen); searches found none for Sugo Pasta, Malocchio (opened Aug 2025) or Royâ.",
  "venues": {
   "Porter & Rye": [
    "World's 101 Best Steak Restaurants (#85, 2025)"
@@ -68,6 +68,17 @@
   "The Spanish Butcher Glasgow": [
    "Scottish Style Awards, Most Stylish Restaurant (2018)",
    "CIS Excellence Awards, Restaurant Newcomer of the Year (2018)"
+  ],
+  "Crabshakk Finnieston": [
+   "Listed in Harden's guide, food rated Very Good",
+   "SquareMeal Silver Award (review rating)"
+  ],
+  "Celino's Partick": [
+   "Scottish Italian Awards 2022: Scotland's Best Pizza and Best Barista"
+  ],
+  "Suissi Vegan Kitchen": [
+   "HappyCow top 10 vegan restaurants in the world",
+   "Listed in The Good Food Guide"
   ]
  },
  "sources": {
@@ -87,6 +98,9 @@
   "Meze Meze": "https://www.scottishdailyexpress.co.uk/lifestyle/glasgow-restaurants-won-big-scottish-32401160",
   "GaGa kitchen + bar": "https://foodanddrink.scotsman.com/?p=71283",
   "FIN & GRAPE": "https://www.scotsman.com/lifestyle/food-and-drink/good-food-guide-2025-top-restaurants-5225763",
-  "L'Escargot Bleu": "https://www.stirlingnews.co.uk/news/trendingacrossscotland/24469426.scotlands-best-restaurants-named-good-food-guide"
+  "L'Escargot Bleu": "https://www.stirlingnews.co.uk/news/trendingacrossscotland/24469426.scotlands-best-restaurants-named-good-food-guide",
+  "Crabshakk Finnieston": "https://www.hardens.com/az/restaurants/glasgow/g3/crabshakk.htm",
+  "Celino's Partick": "https://www.carlukegazette.co.uk/lifestyle/food-and-drink/glasgow-restaurant-wins-scotlands-best-pizza-award-3933423",
+  "Suissi Vegan Kitchen": "https://glasgowworld.com/lifestyle/food-and-drink/partick-restaurant-named-amidst-the-top-10-vegan-restaurants-in-the-world-glasgow-4492892"
  }
 }
