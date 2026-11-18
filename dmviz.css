@@ -377,3 +377,20 @@
   .heat .hh{font-size:10.5px;line-height:1.15}
   .heat-scroll{overflow-x:visible}
 }
+/* where to sell it, cost watch and market watch (partners; partner/sell.js) */
+.sc td small.sc-cost{display:block;margin-top:5px;color:var(--v-ink2)}.sc-cost b{color:var(--v-ink);font-weight:700}
+.sell td{vertical-align:top}.sell td small{display:block;margin-top:3px}.sell td a{color:inherit;text-decoration-color:var(--v-axis)}
+.sell .sc-call{min-width:50px;margin-right:4px;padding:3px 6px;font-size:10.5px}
+.sell small.sell-aw{display:inline-block;margin:4px 6px 0 0;padding:2px 6px;border:1px solid var(--v-grid);font-size:11px}
+.sell-own{width:44px;text-align:center}.sell-own input{width:18px;height:18px;accent-color:var(--v-ink)}
+.sell-cost{margin:0 0 10px;padding:8px 12px;border-left:3px solid var(--v-gold);background:var(--v-plane);font-size:13.5px;color:var(--v-ink2)}
+.sell-more{margin:10px 0 0;font-size:13.5px}.sell-f2{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sell-q{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--v-axis);background:var(--v-surface);color:var(--v-ink);min-width:220px}
+.sell-mine{display:inline-flex}
+.mw{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px 28px;margin:6px 0 12px}
+.mw-tile{border-top:1px solid var(--v-ink);position:relative;padding-top:12px}.mw-tile::before{content:"";position:absolute;top:-1px;left:0;width:46px;height:5px;background:var(--v-gold)}
+.mw-tile h3{margin:0 0 8px;font:800 16px/1.25 var(--display)}.mw-tile p{margin:0 0 7px;font-size:14px;line-height:1.45;color:var(--v-ink2)}
+.mw-ext a{color:var(--v-muted);font-size:12.5px}.mw-dm b,.mw-do b{color:var(--v-ink)}
+@media (max-width:720px){.sell{min-width:0}.sell .sell-g,.sell .sell-w{display:none}}
+@media print{.sell-own input{width:14px;height:14px}.dmv-tools,.dmv-filters,.sell-q,.acct-noprint,header,footer,.wayfind,nav{display:none!important}.sc{min-width:0;font-size:11px}.sell .sell-g,.sell .sell-w{display:table-cell}}
+/* /where to sell it */

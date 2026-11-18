@@ -299,6 +299,31 @@ add(id='healthier', topic='Lighter, fresher plates', theme='Dishes', tier='partn
     ext=dict(dir='up', text='48% of diners have tried nutrient-dense foods out of home and want them again; 47% are cutting back on ultra-processed food when eating out', who='Bidfood and CGA by NIQ, 2,000 UK adults', date='May 2025',
              url='https://www.bidfood.co.uk/food-and-drink-trends-2026/whole-lotta-goodness-2'),
     read='The health shift the wholesalers predict is already in the answers: greens and fruit up, loaded and fried sides down.')
+# added 18 Nov 2026 from the research brief: the 2026 trend calls, checked against Scottish answers
+med_d, med_s, med_m = mv('d', 'Mediterranean and Middle Eastern'), mv('s', 'Mediterranean and Middle Eastern'), mv('m', 'Mediterranean and Middle Eastern')
+add(id='mediterranean', topic='Mediterranean food', theme='Dishes', tier='partner', verdict='agrees', kind='direction',
+    dm=dict(dir='up', text=f"Mediterranean and Middle Eastern sides {med_d['early']}% → {med_d['late']}%{' (a clear move)' if med_d['sig'] else ''}; starters {med_s['early']}% → {med_s['late']}%; mains {med_m['early']}% → {med_m['late']}%", base='side, starter and main answers'),
+    ext=dict(dir='up', text='Mediterranean, Greek and contemporary Asian restaurants had the biggest increases in UK dining in 2025', who='OpenTable, 2026 Dining Trends', date='late 2025',
+             url='https://www.opentable.co.uk/restaurant-solutions/2026-diner-trends/'),
+    read='Both see Mediterranean food rising, but in Scotland it rises as dips, flatbreads and salads beside the main, not as the main itself. Sell it as sides and starters.')
+as_d, as_m = mv('d', 'Asian'), mv('m', 'Asian')
+add(id='asian', topic='Asian flavours', theme='Trends', tier='partner', verdict='agrees', kind='direction',
+    dm=dict(dir='up', text=f"Asian sides {as_d['early']}% → {as_d['late']}%{' (a clear move)' if as_d['sig'] else ''}; Asian mains {as_m['early']}% → {as_m['late']}% (within noise)", base='side and main answers'),
+    ext=dict(dir='up', text='“Flavours less travelled” (Korean, Malaysian) and fast-forward flavours such as gochujang and chilli jam named as 2026 trends', who='Bidfood with CGA by NIQ, 2,000 UK adults', date='survey May 2025, published October 2025',
+             url='https://www.bidfood.co.uk/bidfood-food-and-drink-trends-2026/'),
+    read='The wholesaler call is showing up first on the side of the plate: Asian sides are a clear riser while Asian mains hold. Lead with sauces, pickles and small sides.')
+lat_d = mv('d', 'Mexican and Latin')
+add(id='latin', topic='Latin American food', theme='Trends', tier='partner', verdict='differs', kind='direction',
+    dm=dict(dir='down', text=f"Mexican and Latin sides {lat_d['early']}% → {lat_d['late']}%{' (a clear move)' if lat_d['sig'] else ''}", base='side answers'),
+    ext=dict(dir='up', text='South American dishes such as arepas, patacones and ceviche named among 2026’s rising flavours', who='Bidfood with CGA by NIQ, 2,000 UK adults', date='survey May 2025, published October 2025',
+             url='https://www.bidfood.co.uk/bidfood-food-and-drink-trends-2026/'),
+    read='Not here yet. Scottish foodies are moving away from Mexican sides such as nachos and corn ribs. Stock Latin lines to order and watch the next two quarters before ranging them.')
+st_m, vg_d = mv('m', 'Steak and beef'), mv('d', 'Vegetables and salad')
+add(id='meatveg', topic='Meat back, vegetables beside it', theme='Dishes', tier='partner', verdict='agrees', kind='direction',
+    dm=dict(dir='up', text=f"Steak and beef mains {st_m['early']}% → {st_m['late']}%{' (a clear move)' if st_m['sig'] else ' (within noise)'}; vegetable and salad sides {vg_d['early']}% → {vg_d['late']}%{' (a clear move)' if vg_d['sig'] else ''}", base='main and side answers'),
+    ext=dict(dir='up', text='Meat is back at the centre of the plate as plant-based meat stalls; fibre is “the new protein”', who='Datassential 2026 Trends (US menus)', date='November 2025',
+             url='https://datassential.com/resource/datassential-2026-food-and-beverage-trends-report/'),
+    read='The same shape in Scotland: guests dream of a proper steak and want vegetables beside it, not meat substitutes. Range real meat and better veg, not plant-based copies.')
 add(id='scotland-trade', topic='Scottish trading conditions', theme='Market', tier='partner', verdict='agrees', kind='context',
     dm=dict(text=f"{next(v for k, v in o['signals'] if k == 'More closures nearby')}% of operators see more closures nearby; {o['call'][0][2]}% call trading deteriorating; energy and food costs are each named by {o['pressures'][0][1]}%", base=f"{o['n']} operators, mostly micro and small"),
     ext=dict(text='75% of Scottish licensed businesses saw profitability fall; 14% were considering closure; nearly 90% expect a further downturn', who='Scottish Licensed Trade Association survey, 350+ venues', date='August 2025',

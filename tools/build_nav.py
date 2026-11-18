@@ -59,7 +59,7 @@ ITAGS = {
  'b1': 'about', 'b9': 'about sales', 'b10': 'costs drinks', 'b11': 'places', 'b12': 'food menu', 'b13': 'food menu',
  'b14': 'drinks', 'b15': 'menu food', 'b16': 'places', 'b17': 'places', 'b18': 'food menu', 'b19': 'food places',
  'b20': 'costs', 'b21': 'places sales', 'b22': 'places', 'b23': 'menu costs sales', 'b24': 'menu food drinks',
- 'b2': 'about menu sales', 'b5': 'about', 'b6': 'about sales', 'a1': 'about', 'a3': 'about', 'a2': 'about',
+ 'b2': 'about menu sales', 'b5': 'about', 'b6': 'about sales', 'b7': 'sales places about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
 }
 # Pages that are not destinations (sign-in, errors, internal tools, redirects); everything else on disk must be in ITEMS.
 NOT_PAGES = {'/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
@@ -201,6 +201,7 @@ ITEMS = [
  ('b2', 'Partner briefing', '/analysis#partner', 'Sign in to the analysis: clear movers, buying calls, dish scores, data downloads and your partnership dates', 'biz', 'supplier', 0, None),
  ('b5', 'Data extracts', '/analysis#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
+ ('b7', 'Rep sheet: venues to call', '/partner/accounts', 'Scottish venues guests name for rising dishes, by range, with the dish to lead with', 'biz', 'supplier', 0, 'b2'),
 
  ('a1', 'How it works', '/how-it-works', 'Where the data comes from, how venues are placed and which guides count', 'about', 'press', 0, None),
  ('a3', 'Press kit', '/press', 'Figures to quote, how to credit them and logos', 'about', 'press', 0, None),

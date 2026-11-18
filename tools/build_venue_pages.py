@@ -750,3 +750,5 @@ print(f'wrote {len(written)} pages: {len(PUBLIC_V)} venues, {len(DISHES)} dishes
 # the menu audit compares pick-data.js (written above) with tools/data/menu-audit.json, so it runs last
 import subprocess, sys
 subprocess.run([sys.executable, 'tools/build_menu_audit.py'], check=True)
+# the partner rep sheet and market watch read partner/dish-moves.js (written above), so they rebuild here too
+subprocess.run([sys.executable, 'tools/build_accounts.py'], check=True)

@@ -430,17 +430,17 @@
   function scorecard(host, C) {
     var order = { Grow: 0, Defend: 1, Trim: 2, Core: 3, Niche: 4 }, cur = 'Due';
     var n = function (k) { return C.rows.filter(function (r) { return r.call === k; }).length; };
-    var c = V.card(host, { id: 'cat-score', claim: n('Grow') + ' to grow, ' + n('Defend') + ' to defend, ' + n('Trim') + ' to trim', title: 'Every food group by course: share of demand, change since late 2025 and a buying call',
+    var c = V.card(host, { id: 'cat-score', claim: n('Grow') + ' to grow, ' + n('Defend') + ' to defend, ' + n('Trim') + ' to trim', title: 'Every food group by course: share of demand, change since late 2025, a buying call and, where input costs are rising, a cost watch',
       src: 'Source: Dream Menu interviews to ' + C.last.split('-').reverse().join('/') + '. Change = recent quarters against late 2025, in percentage points of the course’s answers; “clear” passes a two-proportion test at p < 0.05.' });
     function draw() {
       var rows = C.rows.filter(function (r) { return cur === 'All' || (cur === 'Due' ? r.sig || r.p >= 15 : r.call === cur); }).sort(function (a, b) { return order[a.call] - order[b.call] || b.p - a.p; });
       c.plot.innerHTML = '<div class="sc-wrap"><table class="sc"><thead><tr><th>Call</th><th>Food group</th><th>Course</th><th class="num">Share</th><th class="num">Change</th><th>What to do</th></tr></thead><tbody>' + rows.map(function (r) {
-        return '<tr><td><span class="sc-call sc-' + r.call.toLowerCase() + '">' + r.call + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.p * 2.5).toFixed(0) + '%"></b></i>' + r.p.toFixed(1) + '%</td><td class="num' + (r.sig ? ' sig' : '') + '">' + (r.move > 0 ? '+' : '') + r.move.toFixed(1) + ' pts' + (r.sig ? '' : '<small> within noise</small>') + '</td><td>' + esc(r.do) + (function () { var S = window.DMSub && DMSub.get(r.l, r.course); return S ? DMSub.details(S, 'Inside: ' + S.items.length + ' seafood sub layers') : ''; })() + '</td></tr>';
+        return '<tr><td><span class="sc-call sc-' + r.call.toLowerCase() + '">' + r.call + '</span></td><td><b>' + esc(r.l) + '</b></td><td>' + esc(r.course) + '</td><td class="num"><i class="sc-bar"><b style="width:' + Math.min(100, r.p * 2.5).toFixed(0) + '%"></b></i>' + r.p.toFixed(1) + '%</td><td class="num' + (r.sig ? ' sig' : '') + '">' + (r.move > 0 ? '+' : '') + r.move.toFixed(1) + ' pts' + (r.sig ? '' : '<small> within noise</small>') + '</td><td>' + esc(r.do) + (r.cost ? '<small class="sc-cost"><b>Cost watch: ' + esc(r.cost.level.toLowerCase()) + '.</b> ' + esc(r.cost.text) + ' (' + esc(r.cost.who) + ', ' + esc(r.cost.date) + ')</small>' : '') + (function () { var S = window.DMSub && DMSub.get(r.l, r.course); return S ? DMSub.details(S, 'Inside: ' + S.items.length + ' seafood sub layers') : ''; })() + '</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
     V.chips(c.filters, [['Due', 'Decisions and big lines'], ['Grow', 'Grow'], ['Defend', 'Defend'], ['Trim', 'Trim'], ['Core', 'Core'], ['Niche', 'Niche'], ['All', 'All ' + C.rows.length]], cur, function (k) { cur = k; draw(); });
     draw();
-    c.setTable([{ l: 'Food group', k: 'l' }, { l: 'Course', k: 'course' }, { l: 'Call', k: 'call' }, { l: 'Share', n: 1, f: function (r) { return r.p + '%'; } }, { l: 'Change (pts)', n: 1, k: 'move' }, { l: 'Clear move', f: function (r) { return r.sig ? 'yes' : 'no'; } }, { l: 'What to do', k: 'do' }], C.rows, 'category-scorecard');
+    c.setTable([{ l: 'Food group', k: 'l' }, { l: 'Course', k: 'course' }, { l: 'Call', k: 'call' }, { l: 'Share', n: 1, f: function (r) { return r.p + '%'; } }, { l: 'Change (pts)', n: 1, k: 'move' }, { l: 'Clear move', f: function (r) { return r.sig ? 'yes' : 'no'; } }, { l: 'What to do', k: 'do' }, { l: 'Cost watch', f: function (r) { return r.cost ? r.cost.level + ': ' + r.cost.text + ' (' + r.cost.who + ', ' + r.cost.date + ')' : ''; } }], C.rows, 'category-scorecard');
   }
 
   // ---------- menu audit: what guests ask for against what venues list

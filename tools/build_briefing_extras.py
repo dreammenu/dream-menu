@@ -59,19 +59,7 @@ score = [dict(l=o['l'], cl=o['cl'], s10=round(o['score'] / 10, 1), tier=o['tier'
               where=o.get('topv') or '', bin=bool(o.get('fatigue'))) for o in I['opp']]
 
 # ---------------------------------------------------------------- 3. by Dunns range
-RANGES = [
-    ('Fish and seafood', ['Seafood']),
-    ('Meat and poultry', ['Steak and beef', 'Chicken', 'Pork', 'Game and duck', 'Lamb']),
-    ('Potatoes, vegetables and salad', ['Potatoes and fries', 'Vegetables and salad']),
-    ('World foods, pasta and rice', ['Pasta and Italian', 'Asian', 'Indian', 'Mexican and Latin', 'Mediterranean and Middle Eastern']),
-    ('Bakery, desserts and puddings', ['Bread', 'Tiramisu and creamy desserts', 'Cakes and bakes', 'Puddings', 'Chocolate desserts',
-                                       'Cheesecake', 'Tarts and pies', 'Fruit and meringue']),
-    ('Dairy, cheese and frozen', ['Ice cream and frozen', 'Cheese']),
-    ('Soft drinks and low/no', ['Soft drinks', 'No and low alcohol']),
-    ('Coffee and tea', ['Coffee and tea']),
-    ('Beer, wine and spirits', ['Cocktails', 'Wine and fizz', 'Beer and cider', 'Spirits']),
-    ('Pub classics, burgers and sharing', ['Burgers and fried food', 'Scottish and British classics', 'Sharing and tasting']),
-]
+from ranges import RANGES  # one list, shared with build_accounts.py
 mapped = {g for _, gs in RANGES for g in gs}
 ranges = []
 for name, groups in RANGES:

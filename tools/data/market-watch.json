@@ -1,0 +1,39 @@
+{
+ "note": "Outside findings for the partner briefing, from the Dream Menu research brief of 18 Nov 2026 (trade press and publisher pages). Figures as reported there; check an original before Dunns quotes it externally. Outside figures sit beside Dream Menu figures and are never mixed into them. Update when a new edition is published.",
+ "updated": "2026-11-18",
+ "cost": {
+  "Seafood": {"level": "Rising", "text": "Seafood is structurally inflationary as fishing quotas are cut", "who": "NIQ and Prestige Purchasing, Foodservice Price Index", "date": "2026", "url": "https://nielseniq.com/global/en/news-center/2026/foodservice-price-inflation-accelerates-in-september-as-global-energy-and-crop-pressures-mount/"},
+  "Potatoes and fries": {"level": "Tight", "text": "Potato supply expected to be tighter for 2026/27", "who": "Brakes Summer 2026 Market Report", "date": "Summer 2026", "url": "https://www.brake.co.uk/inspirational-food/insights-and-trends/menu-plan"},
+  "Chicken": {"level": "Firm", "text": "Chicken prices firming", "who": "Brakes Summer 2026 Market Report", "date": "Summer 2026", "url": "https://www.brake.co.uk/inspirational-food/insights-and-trends/menu-plan"},
+  "Tiramisu and creamy desserts": {"level": "Rising", "text": "Dairy and sugar prices rose over summer 2026", "who": "NIQ and Prestige Purchasing, Foodservice Price Index", "date": "2026", "url": "https://nielseniq.com/global/en/news-center/2026/foodservice-price-inflation-persists-as-costs-rise-again/"},
+  "Cheesecake": {"level": "Rising", "text": "Dairy and sugar prices rose over summer 2026", "who": "NIQ and Prestige Purchasing, Foodservice Price Index", "date": "2026", "url": "https://nielseniq.com/global/en/news-center/2026/foodservice-price-inflation-persists-as-costs-rise-again/"},
+  "Ice cream and frozen": {"level": "Rising", "text": "Dairy and sugar prices rose over summer 2026", "who": "NIQ and Prestige Purchasing, Foodservice Price Index", "date": "2026", "url": "https://nielseniq.com/global/en/news-center/2026/foodservice-price-inflation-persists-as-costs-rise-again/"},
+  "Cheese": {"level": "Rising", "text": "Dairy prices rose over summer 2026", "who": "NIQ and Prestige Purchasing, Foodservice Price Index", "date": "2026", "url": "https://nielseniq.com/global/en/news-center/2026/foodservice-price-inflation-persists-as-costs-rise-again/"}
+ },
+ "watch": [
+  {"id": "churn", "title": "The market is churning, not just shrinking",
+   "ext": "Britain had 98,319 licensed venues at the end of September 2026, 977 fewer than a year before. In the third quarter alone 2,436 closed and 2,191 opened.",
+   "who": "NIQ Hospitality Market Monitor", "date": "October 2026", "url": "https://nielseniq.com/global/en/news-center/2026/hospitality-loses-19-licensed-premises-a-week-ahead-of-crunch-christmas/",
+   "do": "Every opening is a new account to win. The venues guests name are the ones with a reason to visit that outlasts a squeeze, so they are the safer accounts to grow."},
+  {"id": "cities", "title": "Cities are holding up; towns are not",
+   "ext": "City centres grew 0.4% in the year to June 2026 while the whole market shrank 0.2%. Since 2010 Edinburgh has kept its pub count and Glasgow has lost 3.6%; South Lanarkshire has lost 34.3%.",
+   "who": "NIQ Hospitality Market Monitor (June 2026); ONS figures analysed by Deadline News", "date": "July and October 2026", "url": "https://www.deadlinenews.co.uk/2026/10/17/one-in-five-scottish-pubs-has-closed-since-2010/",
+   "do": "Put growth effort into the two cities, where demand is deep. In the towns, sell to the venues guests name and watch credit terms on the rest."},
+  {"id": "costs", "title": "Costs are rising unevenly by category",
+   "ext": "The Foodservice Price Index rose 0.9% in September 2026 after 0.4% in August. Seafood is structurally inflationary; dairy and sugar rose over the summer; Brakes expects tighter potatoes and firmer chicken.",
+   "who": "NIQ and Prestige Purchasing; Brakes", "date": "September 2026", "url": "https://nielseniq.com/global/en/news-center/2026/foodservice-price-inflation-accelerates-in-september-as-global-energy-and-crop-pressures-mount/",
+   "do": "Pair each demand story with a cost answer: a fish spec that holds the price, portion-controlled chips, a dessert base that uses less dairy. The scorecard now flags these categories."},
+  {"id": "value", "title": "Guests have price lines",
+   "ext": "About £6 for a pint, £4 for a coffee and £15 for a pizza: past these, guests switch or come less often rather than spend more.",
+   "who": "Future Foodservice, at KAM Insights' Informants event", "date": "January 2026", "url": "https://kaminsight.com/kam-hospitality-trends-for-2026/",
+   "do": "Help customers keep the dishes guests love near the line through spec, yield and portion, rather than swapping to a cheaper dish."},
+  {"id": "lighter", "title": "Appetites are getting smaller",
+   "ext": "6.1% of UK adults take a GLP-1 weight-loss drug, more than are vegetarian or vegan. 57% of European users buy smaller portions or small plates.",
+   "who": "Lumina Intelligence, Out of Home GLP-1 Navigator", "date": "October 2026", "url": "https://www.morningadvertiser.co.uk/Article/2026/10/05/glp-1-users-could-reshape-pub-menus-and-drinks-lists/",
+   "do": "Sell lighter and smaller versions of proper dishes (half portions, greens, fruit desserts), not more sharing plates: guests want small plates binned."},
+  {"id": "drinks", "title": "Drinking less, not stopping",
+   "ext": "44% of consumers drink less than a year ago. The on-trade cocktail market was worth £733m in the year to March 2026, up 3.0%, roughly in line with prices.",
+   "who": "NIQ Mixed Drinks Report", "date": "August 2026", "url": "https://nielseniq.com/global/en/insights/analysis/2026/moderation-and-mixed-drinks-adapting-to-changing-cocktail-demand/",
+   "do": "Lead with alcohol-free and lower-strength serves, and with the lager and whisky that are taking share from cocktails."}
+ ]
+}

@@ -74,7 +74,7 @@ QUARTER = f'''<section class="ph-sec"><div class="wrap">
       <li><b>See supplier prices rising</b><em>{ops["rising"]}%</em></li>
       <li><b>Biggest pressure</b><em>{E(ops["pressures"][0][0].split("/")[0].lower())}</em></li></ul></div>
   </div>
-  <p class="ph-actions"><a class="cta" href="/onepager">Print the one-pager for a sales meeting</a> <a class="ph-ghost" href="#data">Download the data</a></p>
+  <p class="ph-actions"><a class="cta" href="/partner/accounts">Open the rep sheet: venues to call</a> <a class="ph-ghost" href="/onepager">Print the one-pager</a> <a class="ph-ghost" href="#data">Download the data</a></p>
 </div></section>
 '''
 
@@ -121,10 +121,14 @@ FOLD = ('<section class="ph-sec"><div class="wrap"><details class="ph-fold"><sum
 
 conf = blk('conf')
 TOP = conf + '\n' + QUARTER.replace('<section class="ph-sec">', '<section class="ph-sec" id="p-quarter">', 1).replace('<h2>This quarter</h2>', '<h2 data-short="This quarter">This quarter, for partners</h2>', 1)
+# market watch (outside findings beside live Dream Menu figures): drawn by partner/sell.js from partner/sell-data.js
+TOP += ('<section class="ph-sec ph-alt" id="market-watch"><div class="wrap"><div class="ph-head"><h2 data-short="Market watch">The market around you</h2>'
+        '<p>Six findings from this year&rsquo;s trade research, each set beside what Dream Menu shows and what to do about it.</p></div>'
+        '<div id="p-watch"><p class="note">Loading.</p></div></div></section>\n')
 # formerly on /briefing (retired 13 Nov 2026): drawn by partner/render.js from partner/briefing-extra.js
-TOP += ('<section class="ph-sec ph-alt" id="changed-since"><div class="wrap"><div class="ph-head"><h2 data-short="Since last time">What changed since the last update</h2>'
+TOP += ('<section class="ph-sec" id="changed-since"><div class="wrap"><div class="ph-head"><h2 data-short="Since last time">What changed since the last update</h2>'
         '<p>Movers that are new, no longer clear, or still clear against the last saved snapshot.</p></div><div id="bf-changes"><p class="note">Loading.</p></div></div></section>\n'
-        '<section class="ph-sec" id="ranges"><div class="wrap"><div class="ph-head"><h2 data-short="By Dunns range">By Dunns range</h2>'
+        '<section class="ph-sec ph-alt" id="ranges"><div class="wrap"><div class="ph-head"><h2 data-short="By Dunns range">By Dunns range</h2>'
         '<p>Food groups rolled up into supplier ranges, so each trend reads as a range call. The grouping is Dream Menu&rsquo;s and will be matched to Dunns&rsquo; own category list.</p></div>'
         '<div id="bf-ranges"><p class="note">Loading.</p></div></div></section>\n')
 BOTTOM = (DATA + TERM.replace('<section class="ph-sec">', '<section class="ph-sec" id="term">', 1)
