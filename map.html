@@ -774,6 +774,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .crumbs .sep{color:var(--rule-strong)}
 .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
 .search{position:relative}
+.tools .fl{display:grid;gap:2px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.tools .fl select{max-width:none;min-width:0}
+.tools .fl-dish select{border-color:var(--accent);font-weight:600}
+.tools .search{align-self:end}
+@media (max-width:640px){
+  .tools{display:grid;grid-template-columns:1fr 1fr;width:100%;margin-left:0}
+  .tools .fl select,.tools .search input{width:100%}
+  .tools .search{grid-column:1/-1}
+}
 .search input{width:min(300px,78vw);padding:8px 12px;border:1px solid var(--rule-strong);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:14px}
 .results{position:absolute;right:0;top:calc(100% + 4px);width:min(360px,90vw);background:var(--card);border:1px solid var(--rule-strong);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:4px;z-index:1000;max-height:60vh;overflow:auto}
 .results button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:14px}
@@ -922,15 +931,16 @@ section.blk h3 small{font-weight:500;letter-spacing:.04em;text-transform:none}
 <section class="hero"><div class="wrap">
   <div class="eyebrow">The venue map, worldwide</div>
   <h1 id="headline">Named by guests in <em id="hCountries">32</em> countries</h1>
-  <p id="hLede">Every venue Dream Menu guests have named for their dream menu, from Glasgow side streets to Singapore hawker centres, plus the places on Dream Menu&rsquo;s own list. Pick a city to see what people order there, course by course, and the venues they name most. Award winners from the MICHELIN Guide, the 50 Best lists and other guides sit on a secondary layer you can switch on.</p>
+  <p id="hLede">Every venue Dream Menu guests have named for their dream menu, from Glasgow side streets to Singapore hawker centres, plus the places on Dream Menu&rsquo;s own list. Pick a dish or drink and a location to find where guests go for it, from seafood in Glasgow to cocktails in London, or pick a city to see what people order there and the venues they name most. Award winners from the MICHELIN Guide, the 50 Best lists and other guides sit on a secondary layer you can switch on.</p>
   <div class="facts" id="facts"></div>
 </div></section>
 
 <nav class="bar" aria-label="Market"><div class="wrap">
   <div class="crumbs" id="crumbs"></div>
   <div class="tools">
-    <label for="jump" class="eyebrow" style="position:absolute;left:-9999px">Jump to a market</label>
-    <select id="jump"></select>
+    <label class="fl fl-dish" for="fDish"><span>Dish or drink</span><select id="fDish"><option value="">Any dish or drink</option></select></label>
+    <label class="fl fl-course" for="fCourse"><span>Course</span><select id="fCourse"><option value="">All courses</option></select></label>
+    <label class="fl fl-loc" for="jump"><span>Location</span><select id="jump"></select></label>
     <div class="search">
       <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Search venues and places</label>
       <input id="q" type="search" placeholder="Search a venue, city or country" autocomplete="off">
@@ -946,10 +956,6 @@ section.blk h3 small{font-weight:500;letter-spacing:.04em;text-transform:none}
       <span><i class="key l"></i> Address confirmed</span>
       <label><input type="checkbox" id="fApprox" checked> <i class="key a"></i> Approximate pin</label>
       <label><input type="checkbox" id="fArea" checked> <i class="key u"></i> Named, not yet pinned</label>
-      <label for="fCourse">Course</label>
-      <select id="fCourse"><option value="">All courses</option></select>
-      <label for="fDish">Dish or drink</label>
-      <select id="fDish"><option value="">Any dish or drink</option></select>
     </div>
     <div class="awbar" id="awbar">
       <label><input type="checkbox" id="fAw"> <i class="key aw"></i> Awards and guides</label>

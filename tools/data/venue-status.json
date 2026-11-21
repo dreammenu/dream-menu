@@ -1,21 +1,21 @@
 {
-"extract": "2026-11-18",
-"built": "2026-11-18",
+"extract": "2026-11-21",
+"built": "2026-11-21",
 "source": "Food Standards Agency, Food Hygiene Information Scheme open data (Open Government Licence v3.0)",
-"n_scot": 1396,
+"n_scot": 1394,
 "n_exact": 854,
-"n_listed": 791,
-"n_new": 28,
+"n_listed": 794,
+"n_new": 25,
 "n_check": 153,
-"ir_named": 10.6,
+"ir_named": 10.7,
 "ir_all": 9.0,
 "lic": {
 "n": 1306,
 "matched": 172,
 "latest": "2026-05-27"
 },
-"n_rated": 733,
-"n_pool": 13131,
+"n_rated": 737,
+"n_pool": 13157,
 "v": {
 "crabshakk-finnieston-x": {
 "s": "listed",
@@ -431,8 +431,8 @@
 },
 "brett-x": {
 "s": "listed",
-"r": "Pass",
-"d": "2025-12-04",
+"r": "Improvement Required",
+"d": "2026-11-04",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1231179",
 "q": "postcode",
@@ -596,6 +596,13 @@
 },
 "sannio-italian-restaurant-bar-x": {
 "s": "listed",
+"r": "Improvement Required",
+"d": "2026-11-11",
+"t": "Restaurant/Cafe/Canteen",
+"f": "2016308",
+"q": "postcode",
+"c": 1.0,
+"rn": "Sannio Italian Restaurant And Bar",
 "lic": {
 "no": "GC0026",
 "cap": 58,
@@ -936,8 +943,8 @@
 },
 "outlier-x": {
 "s": "listed",
-"r": "Improvement Required",
-"d": "2026-10-12",
+"r": "Pass",
+"d": "2026-11-11",
 "t": "Takeaway/sandwich shop",
 "f": "1414897",
 "q": "postcode",
@@ -2069,7 +2076,7 @@
 "barolo-italian-bar-kitchen-x": {
 "s": "listed",
 "r": "Pass",
-"d": "2025-04-10",
+"d": "2026-10-05",
 "t": "Restaurant/Cafe/Canteen",
 "f": "48941",
 "q": "postcode",
@@ -2691,9 +2698,9 @@
 "rn": "The Glenturret Lalique Restaurant"
 },
 "the-keelson-edinburgh": {
-"s": "new",
-"r": "Awaiting Inspection",
-"d": "2026-08-14",
+"s": "listed",
+"r": "Pass",
+"d": "2026-11-05",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1980511",
 "q": "near",
@@ -3070,8 +3077,8 @@
 },
 "damasqino-restaurant-cafe-x": {
 "s": "listed",
-"r": "Improvement Required",
-"d": "2026-10-23",
+"r": "Pass",
+"d": "2026-11-10",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1124859",
 "q": "postcode",
@@ -4089,18 +4096,18 @@
 },
 "afternoon-glasgow": {
 "s": "listed",
-"r": "Pass",
-"d": "2019-10-07",
+"r": "Awaiting Inspection",
+"d": "2021-04-30",
 "t": "Other catering premises",
-"f": "1202861",
+"f": "1434604",
 "q": "shared",
 "c": 0.9,
-"rn": "Heathers Afternoon Tea To You"
+"rn": "Swan Afternoon Tea's"
 },
 "akiko-glasgow": {
 "s": "listed",
-"r": "Pass",
-"d": "2025-10-20",
+"r": "Improvement Required",
+"d": "2026-11-12",
 "t": "Takeaway/sandwich shop",
 "f": "1302986",
 "q": "postcode",
@@ -4899,12 +4906,12 @@
 "dough-glasgow": {
 "s": "listed",
 "r": "Pass",
-"d": "2026-08-21",
+"d": "2024-06-18",
 "t": "Mobile caterer",
-"f": "1760690",
+"f": "1734724",
 "q": "postcode",
 "c": 0.9,
-"rn": "Dough - Trailer"
+"rn": "Dough La La"
 },
 "dropshot-glasgow-x": {
 "s": "listed",
@@ -6200,8 +6207,8 @@
 },
 "pine-trees-hotel-x": {
 "s": "listed",
-"r": "Awaiting Inspection",
-"d": "2024-11-22",
+"r": "Pass",
+"d": "2026-11-03",
 "t": "Hotel/bed & breakfast/guest house",
 "f": "1954506",
 "q": "postcode",
@@ -6486,7 +6493,7 @@
 "shish-mahal-glasgow": {
 "s": "listed",
 "r": "Improvement Required",
-"d": "2026-07-18",
+"d": "2026-11-13",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1941332",
 "q": "near",
@@ -6687,9 +6694,9 @@
 "rn": "Tasty Buns Bakery"
 },
 "tatties-x": {
-"s": "new",
-"r": "Awaiting Inspection",
-"d": "2026-07-21",
+"s": "listed",
+"r": "Improvement Required",
+"d": "2026-10-22",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1971910",
 "q": "postcode",
@@ -7611,8 +7618,8 @@
 },
 "andiamo-x": {
 "s": "listed",
-"r": "Pass",
-"d": "2025-10-13",
+"r": "Improvement Required",
+"d": "2026-10-22",
 "t": "Restaurant/Cafe/Canteen",
 "f": "635186",
 "q": "postcode",
@@ -9039,7 +9046,7 @@
 "the-tudor-hotel-x": {
 "s": "listed",
 "r": "Pass",
-"d": "2025-11-26",
+"d": "2026-11-18",
 "t": "Hotel/bed & breakfast/guest house",
 "f": "1780610",
 "q": "postcode",
@@ -9123,8 +9130,8 @@
 },
 "youngs-kitchen-x": {
 "s": "listed",
-"r": "Improvement Required",
-"d": "2025-02-11",
+"r": "Pass",
+"d": "2026-10-29",
 "t": "Takeaway/sandwich shop",
 "f": "117535",
 "q": "postcode",
@@ -9325,9 +9332,9 @@
 "rn": "Storries Bakery"
 },
 "slurpers-fountainbridge-edinburgh": {
-"s": "new",
-"r": "Awaiting Inspection",
-"d": "2026-10-21",
+"s": "listed",
+"r": "Pass",
+"d": "2026-11-09",
 "t": "Restaurant/Cafe/Canteen",
 "f": "2007257",
 "q": "postcode",
@@ -9357,12 +9364,12 @@
 "the-larder-west-lothian": {
 "s": "new",
 "r": "Awaiting Inspection",
-"d": "2026-10-27",
-"t": "Takeaway/sandwich shop",
-"f": "2008405",
-"q": "shared",
-"c": 0.9,
-"rn": "Hudson's Larder"
+"d": "2026-11-06",
+"t": "Other catering premises",
+"f": "2016271",
+"q": "postcode",
+"c": 1.0,
+"rn": "The Kitchen Larder"
 },
 "wilson-street-pantry-glasgow": {
 "s": "listed",
@@ -9396,8 +9403,8 @@
 },
 "vera-strathbungo-glasgow": {
 "s": "listed",
-"r": "Improvement Required",
-"d": "2026-10-22",
+"r": "Pass",
+"d": "2026-11-05",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1985095",
 "q": "postcode",
@@ -9447,12 +9454,12 @@
 "curry-house-glasgow-glasgow": {
 "s": "listed",
 "r": "Pass",
-"d": "2026-05-28",
-"t": "Takeaway/sandwich shop",
-"f": "971772",
+"d": "2023-02-14",
+"t": "Other catering premises",
+"f": "1013936",
 "q": "shared",
 "c": 0.9,
-"rn": "The Curry Leaf / SIP 'N' SNACK"
+"rn": "Must-Have-A-Curry"
 },
 "51-bell-st-glasgow": {
 "s": "check"
@@ -9587,6 +9594,106 @@
 }
 },
 "leads": [
+{
+"n": "Mumbai Times",
+"t": "Restaurant or café",
+"a": "8 Montagu Terrace, Edinburgh",
+"pc": "EH3 5QX",
+"mk": "Edinburgh",
+"d": "2026-11-20",
+"f": "2017771",
+"dm": false
+},
+{
+"n": "Old town Roaster",
+"t": "Restaurant or café",
+"a": "West Parliament Square, Edinburgh",
+"pc": "EH1 1RN",
+"mk": "Edinburgh",
+"d": "2026-11-20",
+"f": "2017770",
+"dm": false
+},
+{
+"n": "Edinburgh Communities Climate Action Network (ECCAN)",
+"t": "Restaurant or café",
+"a": "7-13 Dublin Street Lane South, Edinburgh",
+"pc": "EH1 3PX",
+"mk": "Edinburgh",
+"d": "2026-11-19",
+"f": "2017768",
+"dm": false
+},
+{
+"n": "eteaket Limited",
+"t": "Restaurant or café",
+"a": "99 Giles Street, Edinburgh",
+"pc": "EH6 6BZ",
+"mk": "Edinburgh",
+"d": "2026-11-19",
+"f": "2000123",
+"dm": false
+},
+{
+"n": "Kalpna Vegetarian Restaurant",
+"t": "Restaurant or café",
+"a": "2-3 St Patrick Square, Edinburgh",
+"pc": "EH8 9EZ",
+"mk": "Edinburgh",
+"d": "2026-11-19",
+"f": "2017769",
+"dm": false
+},
+{
+"n": "Banshee Drinks Ltd",
+"t": "Restaurant or café",
+"a": "1 Gibson Terrace, Edinburgh",
+"pc": "EH11 1AU",
+"mk": "Edinburgh",
+"d": "2026-11-18",
+"f": "2017766",
+"dm": false
+},
+{
+"n": "The Author's Wand",
+"t": "Restaurant or café",
+"a": "92 Hanover Street, Edinburgh",
+"pc": "EH2 1DR",
+"mk": "Edinburgh",
+"d": "2026-11-18",
+"f": "2017765",
+"dm": false
+},
+{
+"n": "Lavender Lounge Events",
+"t": "Restaurant or café",
+"a": "130 Trongate, Glasgow",
+"pc": "",
+"mk": "Glasgow",
+"d": "2026-11-16",
+"f": "2016315",
+"dm": false
+},
+{
+"n": "Laura's Deli",
+"t": "Restaurant or café",
+"a": "514 Tollcross Road, Glasgow",
+"pc": "G31 4XX",
+"mk": "Glasgow",
+"d": "2026-11-11",
+"f": "2016303",
+"dm": false
+},
+{
+"n": "Nanas Kitchen",
+"t": "Restaurant or café",
+"a": "525 Carntyne Road, Glasgow",
+"pc": "G32 6JL",
+"mk": "Glasgow",
+"d": "2026-11-11",
+"f": "2016301",
+"dm": false
+},
 {
 "n": "FIVEWAKE",
 "t": "Restaurant or café",
@@ -9898,16 +10005,6 @@
 "dm": false
 },
 {
-"n": "Cobblestone Café",
-"t": "Restaurant or café",
-"a": "69 Elm Row, Edinburgh",
-"pc": "EH7 4AQ",
-"mk": "Edinburgh",
-"d": "2026-10-16",
-"f": "2001941",
-"dm": false
-},
-{
 "n": "Arsemia Cafe",
 "t": "Restaurant or café",
 "a": "26 Morningside Road, Edinburgh",
@@ -10068,16 +10165,6 @@
 "dm": false
 },
 {
-"n": "FINE",
-"t": "Restaurant or café",
-"a": "40 Kilmarnock Road, Glasgow",
-"pc": "G41 3NH",
-"mk": "Glasgow",
-"d": "2026-10-09",
-"f": "2000636",
-"dm": false
-},
-{
 "n": "BIG BENNYS",
 "t": "Restaurant or café",
 "a": "10 Straiton Place, Edinburgh",
@@ -10128,16 +10215,6 @@
 "dm": false
 },
 {
-"n": "Brunch Manifesto",
-"t": "Restaurant or café",
-"a": "5 West Tollcross, Edinburgh",
-"pc": "",
-"mk": "Edinburgh",
-"d": "2026-10-07",
-"f": "2000145",
-"dm": false
-},
-{
 "n": "Little Green Van Portobello Promenade",
 "t": "Restaurant or café",
 "a": "C/O City of Edinburgh Council, Edinburgh",
@@ -10185,16 +10262,6 @@
 "mk": "Edinburgh",
 "d": "2026-10-06",
 "f": "2000139",
-"dm": false
-},
-{
-"n": "McDonald's",
-"t": "Restaurant or café",
-"a": "74a Telford Road, Edinburgh",
-"pc": "EH4 2NF",
-"mk": "Edinburgh",
-"d": "2026-10-06",
-"f": "2000137",
 "dm": false
 },
 {
@@ -10358,16 +10425,6 @@
 "dm": false
 },
 {
-"n": "eteaket Limited",
-"t": "Restaurant or café",
-"a": "99 Giles Street, Edinburgh",
-"pc": "EH6 6BZ",
-"mk": "Edinburgh",
-"d": "2026-09-28",
-"f": "2000123",
-"dm": false
-},
-{
 "n": "Papii",
 "t": "Restaurant or café",
 "a": "7 East Market Street, Edinburgh",
@@ -10438,26 +10495,6 @@
 "dm": false
 },
 {
-"n": "Kezban Restaurant",
-"t": "Restaurant or café",
-"a": "9-10 Commercial Street, Edinburgh",
-"pc": "EH6 6JA",
-"mk": "Edinburgh",
-"d": "2026-09-18",
-"f": "1989385",
-"dm": false
-},
-{
-"n": "Kultura",
-"t": "Restaurant or café",
-"a": "196 Bath Street, Glasgow",
-"pc": "G2 4HG",
-"mk": "Glasgow",
-"d": "2026-09-17",
-"f": "1993240",
-"dm": false
-},
-{
 "n": "Eat Coffee & Breakfast",
 "t": "Restaurant or café",
 "a": "22 Salamander Street, Edinburgh",
@@ -10495,16 +10532,6 @@
 "mk": "Edinburgh",
 "d": "2026-09-10",
 "f": "1987170",
-"dm": false
-},
-{
-"n": "Black Sheep Coffee",
-"t": "Restaurant or café",
-"a": "92 Gordon Street, Glasgow",
-"pc": "G1 3RP",
-"mk": "Glasgow",
-"d": "2026-09-10",
-"f": "1993227",
 "dm": false
 },
 {
@@ -10568,16 +10595,6 @@
 "dm": false
 },
 {
-"n": "Pat's Deli",
-"t": "Restaurant or café",
-"a": "125 Portobello High Street, Edinburgh",
-"pc": "EH15 1AF",
-"mk": "Edinburgh",
-"d": "2026-09-09",
-"f": "1987163",
-"dm": false
-},
-{
 "n": "Elliot's Eats",
 "t": "Restaurant or café",
 "a": "1028 Shettleston Road, Glasgow",
@@ -10595,16 +10612,6 @@
 "mk": "Glasgow",
 "d": "2026-09-09",
 "f": "1993226",
-"dm": false
-},
-{
-"n": "The Realm VR Gaming",
-"t": "Restaurant or café",
-"a": "Roddinglaw Road, Edinburgh",
-"pc": "EH12 9DB",
-"mk": "Edinburgh",
-"d": "2026-09-08",
-"f": "1987160",
 "dm": false
 },
 {
@@ -10638,13 +10645,13 @@
 "dm": false
 },
 {
-"n": "Olivia's",
+"n": "Oh! Honey_Cakes",
 "t": "Restaurant or café",
-"a": "348 Crow Road, Glasgow",
-"pc": "G11 7HT",
+"a": "95 Micklehouse Road, Glasgow",
+"pc": "G69 6TG",
 "mk": "Glasgow",
 "d": "2026-09-03",
-"f": "1985102",
+"f": "1985103",
 "dm": false
 },
 {
@@ -10665,26 +10672,6 @@
 "mk": "Glasgow",
 "d": "2026-09-02",
 "f": "1985098",
-"dm": false
-},
-{
-"n": "Kirk n Kettle",
-"t": "Restaurant or café",
-"a": "12 Newkirkgate, Edinburgh",
-"pc": "EH6 6AD",
-"mk": "Edinburgh",
-"d": "2026-08-31",
-"f": "1984937",
-"dm": false
-},
-{
-"n": "Winging it",
-"t": "Restaurant or café",
-"a": "133-135 Lothian Road, Edinburgh",
-"pc": "EH3 9AD",
-"mk": "Edinburgh",
-"d": "2026-08-27",
-"f": "1983170",
 "dm": false
 },
 {
@@ -10828,6 +10815,16 @@
 "dm": false
 },
 {
+"n": "Lava Mood Ltd",
+"t": "Restaurant or café",
+"a": "23 Forth Street, Glasgow",
+"pc": "G41 2SP",
+"mk": "Glasgow",
+"d": "2026-08-17",
+"f": "2016294",
+"dm": false
+},
+{
 "n": "Brioche Coffee Limited",
 "t": "Restaurant or café",
 "a": "10b Queensferry Street, Edinburgh",
@@ -10835,16 +10832,6 @@
 "mk": "Edinburgh",
 "d": "2026-08-14",
 "f": "1978513",
-"dm": false
-},
-{
-"n": "The Strathmore Bar",
-"t": "Pub or bar",
-"a": "17 Iona Street, Edinburgh",
-"pc": "EH6 8SG",
-"mk": "Edinburgh",
-"d": "2026-08-14",
-"f": "1978514",
 "dm": false
 },
 {
@@ -10898,16 +10885,6 @@
 "dm": false
 },
 {
-"n": "Patisserie Valerie",
-"t": "Restaurant or café",
-"a": "98 Ocean Drive, Edinburgh",
-"pc": "",
-"mk": "Edinburgh",
-"d": "2026-08-12",
-"f": "1978509",
-"dm": false
-},
-{
 "n": "Xuzhou Chicken Soup Rice Noodle Edinburgh",
 "t": "Restaurant or café",
 "a": "51-53 West Nicolson Street, Edinburgh",
@@ -10935,16 +10912,6 @@
 "mk": "Edinburgh",
 "d": "2026-08-11",
 "f": "1978507",
-"dm": false
-},
-{
-"n": "Porto Pier",
-"t": "Restaurant or café",
-"a": "132 Portobello High Street, Edinburgh",
-"pc": "EH15 1AH",
-"mk": "Edinburgh",
-"d": "2026-08-10",
-"f": "1978506",
 "dm": false
 },
 {
@@ -11055,16 +11022,6 @@
 "mk": "Glasgow",
 "d": "2026-07-29",
 "f": "1973423",
-"dm": false
-},
-{
-"n": "Wingstop Fort Kinnaird",
-"t": "Restaurant or café",
-"a": "32-34 Kinnaird Park, Edinburgh",
-"pc": "EH15 3RD",
-"mk": "Edinburgh",
-"d": "2026-07-28",
-"f": "1973488",
 "dm": false
 },
 {
@@ -11285,16 +11242,6 @@
 "mk": "Edinburgh",
 "d": "2026-07-09",
 "f": "1969825",
-"dm": false
-},
-{
-"n": "A Real Saint Listens",
-"t": "Restaurant or café",
-"a": "83 Clerk Street, Edinburgh",
-"pc": "EH8 9JG",
-"mk": "Edinburgh",
-"d": "2026-07-08",
-"f": "1969824",
 "dm": false
 },
 {
@@ -11666,16 +11613,6 @@
 "mk": "Glasgow",
 "d": "2026-05-26",
 "f": "1952556",
-"dm": false
-},
-{
-"n": "CH&Co Bailie Gifford",
-"t": "Restaurant or café",
-"a": "3 Haymarket Square, Edinburgh",
-"pc": "EH3 8RY",
-"mk": "Edinburgh",
-"d": "2026-05-14",
-"f": "1945716",
 "dm": false
 },
 {
@@ -12534,16 +12471,6 @@
 "mk": "Edinburgh",
 "d": "2025-11-24",
 "f": "1895502",
-"dm": false
-},
-{
-"n": "Earthy Vegan Cheese",
-"t": "Restaurant or café",
-"a": "48 Watson Crescent, Edinburgh",
-"pc": "EH11 1EP",
-"mk": "Edinburgh",
-"d": "2025-11-18",
-"f": "1893048",
 "dm": false
 }
 ]

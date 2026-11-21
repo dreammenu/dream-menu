@@ -216,6 +216,16 @@
       "source": "/venue/pasticcio-glasgow-fresh-pasta-arancini-glasgow",
       "destination": "/venue/pasticcio-glasgow-italia-street-food",
       "permanent": true
+    },
+    {
+      "source": "/venue/sebb-glasgow",
+      "destination": "/venue/sebb-s",
+      "permanent": true
+    },
+    {
+      "source": "/venue/sebb-ayr",
+      "destination": "/venue/sebb-s",
+      "permanent": true
     }
   ],
   "headers": [

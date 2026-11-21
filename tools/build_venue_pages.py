@@ -504,6 +504,56 @@ CITIES = sorted([(c, co) for (c, co), lst in _bc.items() if c and (c, co) in _cm
                 key=lambda k: -_cm[k]['g'])
 CPICK = [('s', 'Starter'), ('m', 'Main'), ('d', 'Side'), ('p', 'Dessert'), ('k', 'Soft drink'), ('a', 'Drink')]
 
+# "Best for": the venues guests name most for each dish or drink group. The groups live in dish-groups.js,
+# shared with /rankings and /map, so the three always agree.
+import ast as _ast
+from urllib.parse import quote
+_DGT = open('dish-groups.js', encoding='utf-8').read()
+DGROUPS = _ast.literal_eval(re.search(r'var G=(\[.*?\n\]);', _DGT, re.S).group(1))
+_DGEX = {r.lower(): g[1] for g in DGROUPS for r in g[3]}
+_DGK = list(_DGEX)
+
+
+def dgroup(raw):
+    k = str(raw or '').lower().strip()
+    if k in _DGEX:
+        return _DGEX[k]
+    if len(k) >= 6:
+        return next((_DGEX[x] for x in _DGK if x.startswith(k)), None)
+    return None
+
+
+def dcounts(v):
+    o = {}
+    for k, n in v.get('k') or []:
+        g = dgroup(k)
+        if g:
+            o[g] = o.get(g, 0) + (n or 0)
+    return o
+
+
+def best_for(vs, place, market_id, min_v=2, n_show=5):
+    # One panel per group with at least min_v venues named for it; tabs switch panels (best-for.js), and without
+    # JavaScript every panel shows in turn.
+    vc = [(v, dcounts(v)) for v in vs]
+    panels, tabs = [], []
+    for side, gid, lab, _raw in DGROUPS:
+        rows = sorted(((v, c[gid]) for v, c in vc if c.get(gid)), key=lambda x: (-x[1], -(x[0].get('m') or 0), x[0]['n'].lower()))
+        if len(rows) < min_v:
+            continue
+        gt = sum(n for _, n in rows) or 1
+        lis = ''.join(f'<li>{vlink(v)}<span class="bf-n">{100 * n / gt:.0f}%</span></li>' for v, n in rows[:n_show])
+        more = f'/rankings?dish={gid}&amp;market={quote(market_id)}'
+        tabs.append(f'<button type="button" class="pg-chip" data-bf="{gid}" aria-pressed="false">{E(lab)}</button>')
+        panels.append(f'<div class="bf-p" id="bf-{gid}" data-bf="{gid}"><h3>{E(lab)}</h3><p class="pg-mut">Share of {fmt(gt)} {E(lab.lower())} mention{"s" if gt != 1 else ""} in {E(place)}, across {fmt(len(rows))} venue{"s" if len(rows) != 1 else ""}.</p>'
+                      f'<ol class="pg-list bf-list">{lis}</ol><p class="pg-mut"><a href="{more}">Full ranking</a> · <a href="/map?dish={gid}">On the map</a></p></div>')
+    if len(panels) < 3:
+        return ''
+    return (f'<section id="best-for"><div class="wrap"><h2 class="pg-h2">Best for&hellip;</h2><p class="pg-mut" style="margin:-6px 0 12px">Pick a dish or drink to see where guests in {E(place)} go for it.</p>'
+            f'<div class="bf"><div class="bf-tabs pg-chips" role="group" aria-label="Dish or drink">{"".join(tabs)}</div>{"".join(panels)}</div></div></section>'
+            '<script src="/best-for.js" defer></script>')
+
+
 
 def city_page(c, co):
     M, vs = _cm[(c, co)], [v for v in _bc[(c, co)] if v.get('y') != 'area' and v.get('s') != 'closed']
@@ -561,9 +611,10 @@ def city_page(c, co):
   <h1>Where {E(c)}&rsquo;s foodies <em>eat</em></h1>
   <p class="lede">{lede}</p>{early}
   <div class="pg-facts"><div><b>{fmt(M["g"])}</b><span>guests</span></div><div><b>{fmt(len(vs))}</b><span>venues named</span></div><div><b>{100 * tot / max(1, D["meta"]["mentions"]):.1f}%</b><span>of all mentions</span></div><div><b>{aw_n}</b><span>hold a guide award</span></div></div>
-  <p class="pg-mut"><a href="/map">Open {E(c)} on the map</a> · <a href="/rankings">Rankings by course</a></p>
+  <p class="pg-mut"><a href="#best-for">Best for seafood, cocktails and more</a> · <a href="/map">Open {E(c)} on the map</a> · <a href="/rankings?market={quote(M['id'])}">Rankings</a></p>
 </div></section>
 {('<section><div class="wrap"><h2 class="pg-h2">The ' + E(c) + ' dream menu</h2><p class="pg-mut" style="margin:-6px 0 12px">The venue guests name most for each course.</p><div class="ct-menu">' + ''.join(picks) + '</div></div></section>') if len(picks) >= 3 else ''}
+{best_for(vs, c, M['id'], min_v=2 if deep else 1)}
 <section><div class="wrap pg-grid">
   <div class="card ct-wide"><h2>Most named in {E(c)}</h2>{_vi(f'Each bar is a venue’s share of all venue mentions in {c}. One guest can name several venues, so this measures how often a place comes to mind, not how good it is.' + ('' if deep else chr(10) + 'With few guests so far, the order can change with a handful of interviews.'))}{top_html}</div>
   {('<div class="card"><h2>Hidden gems and next stops</h2><p class="pg-mut" style="margin-top:-4px">Outside the top ten, named by guests as a gem or the place they want to try next.</p><ol class="pg-list">' + gems_html + '</ol></div>') if gems else ''}
@@ -625,6 +676,7 @@ def area_page(ck, an):
   <p class="pg-mut">Areas follow postcode districts, so edges are approximate, and only venues with a confirmed address are counted.</p>
 </div></section>
 {('<section><div class="wrap"><h2 class="pg-h2">The ' + E(an) + ' dream menu</h2><div class="ct-menu">' + ''.join(picks) + '</div></div></section>') if len(picks) >= 2 else ''}
+{best_for(vs, an, _cm[ck]['id'], min_v=2, n_show=4)}
 <section><div class="wrap pg-grid">
   <div class="card ct-wide"><h2>Most named in {E(an)}</h2>{_vi(f'Each bar is a venue’s share of all venue mentions in {an}. It measures how often a place comes to mind, not how good it is.')}{bars([(vlink(v) + (' <span class="mk-tag">Award</span>' if v['i'] in AW else ''), v['m']) for v in vs[:12]], fmtv=pc)}</div>
   {('<div class="card"><h2>Hidden gems and next stops</h2><ol class="pg-list">' + ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E((v.get("k") or [[""]])[0][0])}</span></li>' for v in gems) + '</ol></div>') if gems else ''}
@@ -670,6 +722,12 @@ _blk = """/* city */
 .ct-card b{font:700 21px/1.15 var(--display)}.ct-card span,.ct-card em,.ct-card small{font-style:normal;font-size:13.5px;color:var(--muted)}
 .ct-card i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .ct-card:hover b{text-decoration:underline}
+.bf-tabs{display:none;margin-bottom:12px}.js .bf-tabs{display:flex}
+.bf-tabs .pg-chip{cursor:pointer;font:inherit;font-size:13.5px;background:none}
+.bf-tabs .pg-chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bf-p{border-top:1px solid var(--ink);padding:12px 0 6px;max-width:720px}.js .bf-p:not(.on){display:none}
+.bf-p h3{margin:0 0 2px;font-size:19px}
+.bf-list li{display:flex;justify-content:space-between;gap:12px}.bf-n{color:var(--muted);font-variant-numeric:tabular-nums}
 /* /city */
 """
 open('pages.css', 'w', encoding='utf-8').write(re.sub(r'/\* city \*/.*?/\* /city \*/\n', '', _css, flags=re.S) + _blk)

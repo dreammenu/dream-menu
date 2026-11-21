@@ -139,10 +139,10 @@ function render(){
   document.getElementById('stats').innerHTML=st.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('');
   document.getElementById('note').textContent=(m.so?'Deep market: ':'Early signal: ')+fmt(m.g||0)+' guests have named venues '+inm(m)+'. Each share is '+(by==='g'?'the share of those guests who name the venue'+(cn?' for '+cna:''):'the venue\'s part of all '+(cn?cn+' ':'venue ')+'mentions in this market')+', so markets of any size compare fairly. '+(m.so?'':'Rankings here can change quickly as more interviews come in. ')+'Bars are scaled to the leader. Showing the top '+list.length+'.';
   try{localStorage.setItem('dm-rank-market',fM.value)}catch(e){}
-  try{var q=new URLSearchParams(location.search);g?q.set('dish',g):q.delete('dish');c?q.set('course',c):q.delete('course');var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash)}catch(e){}
+  try{var q=new URLSearchParams(location.search);g?q.set('dish',g):q.delete('dish');q.has('market')&&q.set('market',fM.value);c?q.set('course',c):q.delete('course');var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash)}catch(e){}
 }
 document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){by=b.dataset.by;document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});render()}});
-try{var q0=new URLSearchParams(location.search),d0=q0.get('dish'),c0=q0.get('course');if(d0&&fG.querySelector('option[value="'+d0.replace(/"/g,'')+'"]'))fG.value=d0;else if(c0&&COURSE[c0])fC.value=c0}catch(e){}
+try{var q0=new URLSearchParams(location.search),d0=q0.get('dish'),c0=q0.get('course'),m0=q0.get('market');if(m0&&MK[m0]&&fM.querySelector('option[value="'+m0.replace(/"/g,'')+'"]'))fM.value=m0;if(d0&&fG.querySelector('option[value="'+d0.replace(/"/g,'')+'"]'))fG.value=d0;else if(c0&&COURSE[c0])fC.value=c0}catch(e){}
 fM.onchange=render; fC.onchange=function(){if(fC.value)fG.value='';render()}; fG.onchange=function(){if(fG.value)fC.value='';render()}; render();
 })();
 </script>
