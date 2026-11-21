@@ -135,7 +135,7 @@ ITEMS = [
  ('f20', 'State of the Menu', '/quarterly', 'The quarter in food, with an email edition', 'food', 'food press supplier chef', 1, None),
  ('f19', 'Dish trends', '/trends', 'A page for every dish and drink we track', 'food', 'food chef supplier press', 1, None),
  ('f30', 'City guides', '/cities', 'Where foodies eat in each city: most named, hidden gems, award holders', 'food', 'food venue press new', 0, None),
- ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market and by course', 'food', 'food venue press', 0, None),
+ ('f7', 'Rankings', '/rankings', 'The venues guests name most, by market, course, dish and drink', 'food', 'food venue press', 0, None),
  ('f9', 'Specials', '/specials', 'Themed editions: Dream Fringe, Dream Cocktail and Dream Sandwich', 'food', 'food chef', 0, None),
  ('f10', 'Dream Fringe', '/specials#fringe', 'Late-night food after the shows and the best Fringe venues', 'food', 'food', 0, 'f9'),
  ('f11', 'Dream Cocktail', '/specials#cocktail', 'The drinks guests and bartenders would order', 'food', 'food chef', 0, 'f9'),

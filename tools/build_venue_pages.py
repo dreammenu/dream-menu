@@ -472,7 +472,7 @@ document.getElementById('bcopy').onclick=function(){{c.select();(navigator.clipb
 written.append(page('/badge', 'Named on Dream Menu: badge for venues | Dream Menu', 'A free badge for venues Dream Menu guests have named, linking to the venue page.', body))
 
 # ---------------------------------------------------------------- rankings data: only the fields /rankings uses (dm-data.js is ~830 KB)
-KEEP_V = ('i', 'n', 'c', 'co', 'r', 'na', 'tw', 'y', 's', 'm', 'g', 'cs', 'd')
+KEEP_V = ('i', 'n', 'c', 'co', 'r', 'na', 'tw', 'y', 's', 'm', 'g', 'cs', 'k', 'd')
 KEEP_M = ('id', 'k', 'n', 'co', 'v', 'g', 'so')
 rk = dict(markets=[{k: m[k] for k in KEEP_M if k in m} for m in D['markets']],
           venues=[dict({k: v[k] for k in KEEP_V if k in v and v[k] not in (None, '', [])}, **({'pg': 1} if v['i'] in HAS_PAGE else {}))
