@@ -1217,7 +1217,14 @@ function marketHTML(m){
       Object.keys(COURSE).filter(function(k){return cs[k]}).map(function(k){return '<li><span class="dish">'+COURSE[k]+'</span><span class="dots"></span><span class="price">'+fmt(cs[k])+(deep?' <small>'+Math.round(100*cs[k]/ctot)+'%</small>':'')+'</span></li>'}).join('')+'</ol></section>';
   }
   if(m.to)h+=sparkline(m);
-  var top=(m.top||[]).map(function(id){return VN[id]}).filter(function(v){return v&&passCourse(v)});
+  var top;
+  if(c){
+    /* A course is picked: rank this market's venues by mentions for that course, not the overall order. */
+    top=D.venues.filter(function(v){return inMk(v,m)&&v.cs&&v.cs[c]>0}).sort(function(a,b){
+      return b.cs[c]-a.cs[c]||(b.m||0)-(a.m||0)||(b.g||0)-(a.g||0)||a.n.localeCompare(b.n)}).slice(0,10);
+  }else{
+    top=(m.top||[]).map(function(id){return VN[id]}).filter(Boolean);
+  }
   if(top.length){
     var _c=fCourse.value, _den=0; D.venues.forEach(function(x){if(inMk(x,m))_den+=_c?((x.cs||{})[_c]||0):(x.m||0)});
     var _sv=function(x){return _c?((x.cs||{})[_c]||0):(x.m||0)}, _top=top.length?_sv(top[0]):0;
