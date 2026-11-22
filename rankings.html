@@ -123,9 +123,8 @@ function render(){
   var what=by==='g'?(cn?'of guests '+inm(m)+' name it for '+cna:'of guests '+inm(m)+' name it'):(cn?'of '+cn+' mentions '+inm(m):'of all venue mentions '+inm(m));
   document.getElementById('rows').innerHTML=list.length?list.map(function(v,i){
     var place=[v.tw||v.c,m.k==='city'?'':(v.co!=='United Kingdom'?v.co:'')].filter(Boolean).join(', ');
-    var aw=D.aw&&D.aw[v.i];
     var gc=g?'<span class="chip gp">'+esc(DG.label(g))+' · '+fmt(raw(v,c))+'</span>':'';
-    var chips=gc+(v.d||[]).slice(0,g?2:3).map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('')+(aw?'<span class="chip aw">'+esc(aw.a[0])+'</span>':'');
+    var chips=gc+(v.d||[]).slice(0,g?2:3).map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('');
     var sh=share(v), w=top?Math.max(2,sh/top*100):0;
     var tip=pct(sh)+' '+what+' ('+fmt(count(v,c))+' of '+fmt(den)+')';
     return '<tr title="'+esc(tip)+'"><td class="num">'+(i+1)+'</td><td><a href="'+(v.pg?'/venue/'+v.i.replace(/-x$/,''):'/map#venue-'+slug(v.i))+'">'+esc(v.n)+'</a><small>'+esc(place)+(v.s==='closed'?' · closed':'')+'</small></td><td><div class="chips">'+(chips||'<span class="note">No dish recorded</span>')+'</div></td><td class="num"><span class="rkbar"><i aria-hidden="true"><s style="width:'+w.toFixed(1)+'%"></s></i><b>'+pct(sh)+'</b></span><span class="sr">'+esc(tip)+'</span></td></tr>'}).join('')
