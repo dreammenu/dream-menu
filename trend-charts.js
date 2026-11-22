@@ -448,8 +448,8 @@
     var order = { 'Gap': 0, 'Over-supplied': 1, 'Table stakes': 2, 'Niche': 3, 'Not comparable': 4 }, cur = 'Gap', gaps = A.rows.filter(function (r) { return r.read === 'Gap'; }).sort(function (a, b) { return b.demand - a.demand; });
     var c = V.card(host, { id: 'menu-gap', claim: gaps.length ? esc(gaps[0].l) + ' leads ' + gaps.length + ' dishes guests want more than menus offer' : 'Menus cover what guests ask for', title: 'Share of guests naming each dish, beside the share of ' + A.n + ' audited menus that list it',
       src: 'Source: Dream Menu interviews, and the published menus of ' + A.n + ' of the most-named venues, read ' + String(A.collected || '').split('-').reverse().join('/') + '. A menu counts once however many versions of a dish it lists; each share is of the menus that print that course.' });
-    // one scale for both bars, so a guest share and a menu share of the same size draw the same length
-    var top = Math.ceil(Math.max.apply(null, A.rows.map(function (r) { return Math.max(r.demand, r.menus); }).concat([10])) / 10) * 10;
+    // both bars on a 0 to 100% scale, so a guest share and a menu share of the same size draw the same length
+    var top = 100;
     var w = function (v) { return v > 0 ? Math.max(1.5, 100 * v / top).toFixed(1) : '0'; };
     function draw() {
       var rows = A.rows.filter(function (r) { return cur === 'All' || r.read === cur; }).sort(function (a, b) { return order[a.read] - order[b.read] || b.demand - a.demand; });
