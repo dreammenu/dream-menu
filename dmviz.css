@@ -333,7 +333,7 @@
 .sc .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .sc th.num{text-align:right}
 .sc td.sig{color:var(--v-ink);font-weight:700}.sc td small{font-weight:400;color:var(--v-muted)}
-.sc-bar{display:inline-block;width:60px;height:8px;background:var(--v-plane);margin-right:8px;vertical-align:middle}.sc-bar b{display:block;height:100%;background:var(--v-s1)}.sc-au .sc-bar{width:96px}.au-scale{margin:0 0 8px;font-size:12.5px;color:var(--v-muted)}
+.sc-bar{display:inline-block;width:60px;height:8px;background:var(--v-plane);margin-right:8px;vertical-align:middle}.sc-bar b{display:block;height:100%;background:var(--v-s1)}.sc-au th.au-sh,.sc-au td.au-sh{width:200px}.sc-au .au-v{display:grid;grid-template-columns:140px 3.4em;align-items:center;gap:10px;font-variant-numeric:tabular-nums;white-space:nowrap}.sc-au .au-v .sc-bar{width:140px;margin:0}.sc-au .au-v em{font-style:normal;text-align:right}.au-scale{margin:0 0 8px;font-size:12.5px;color:var(--v-muted)}
 .sc-call{display:inline-block;min-width:58px;text-align:center;font:700 11.5px/1 var(--body);letter-spacing:.04em;padding:5px 8px;border:1.5px solid var(--v-ink);color:var(--v-ink)}
 .sc-grow{background:var(--v-ink);color:var(--v-surface)}
 .sc-defend{background:var(--v-gold);border-color:var(--v-gold);color:#0b0b0b}
@@ -343,7 +343,7 @@
 /* /scorecard */
 
 /* menu audit table on a phone: keep read, dish and the two shares in view; course and price stay in the table view and CSV */
-@media (max-width:600px){.sc.sc-au{min-width:0;font-size:12.5px}.sc.sc-au th:nth-child(3),.sc.sc-au td:nth-child(3),.sc.sc-au th:nth-child(6),.sc.sc-au td:nth-child(6){display:none}.sc.sc-au .sc-bar{display:none}.sc.sc-au th{letter-spacing:.02em;font-size:10.5px}.sc.sc-au td,.sc.sc-au th{padding-right:6px}}
+@media (max-width:600px){.sc.sc-au{min-width:0;font-size:12.5px}.sc.sc-au th:nth-child(3),.sc.sc-au td:nth-child(3),.sc.sc-au th:nth-child(6),.sc.sc-au td:nth-child(6){display:none}.sc.sc-au .sc-bar{display:none}.sc.sc-au .au-v{display:block;text-align:right}.sc.sc-au th.au-sh,.sc.sc-au td.au-sh{width:auto;text-align:right}.sc.sc-au th{letter-spacing:.02em;font-size:10.5px}.sc.sc-au td,.sc.sc-au th{padding-right:6px}}
 /* analysis: the partner briefing is shown only to signed-in partners; everyone else sees one line */
 .iv-pzone{display:none}.dm-partner .iv-pzone{display:block}
 .iv-story .iv-story-p{display:none}.dm-partner .iv-story .iv-story-p{display:list-item}
