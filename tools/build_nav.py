@@ -100,9 +100,9 @@ GROUPS = [  # key, label, landing page, one-line summary
  ('partners', 'Work with us', '/for-business', 'Partnerships, commissioned reports and press. Partners sign in on the analysis'),
  ('about', 'About', '/about', 'Why Dream Menu exists, what it does, how it works and how to take part'),
 ]
-# Header: six items. A group with one entry is a plain link (no dropdown); the rest have at most three entries.
+# Header: six items. A group with one entry is a plain link (no dropdown); Reports has four entries, the rest three.
 # For foodies (the home page) is reached from the logo and the footer. About is a plain link to /about (22 Nov 2026).
-HMENU = {'analysis': ['f16', 'f19', 'f22'], 'reports': ['r0'], 'places': ['f6', 'f30', 'f7'], 'venues': ['o30', 'o1', 'o12'], 'partners': ['b1', 'a3', 'b2'], 'about': ['a0']}
+HMENU = {'analysis': ['f16', 'f19', 'f22'], 'reports': ['r0', 'r1', 'b9', 'f20'], 'places': ['f6', 'f30', 'f7'], 'venues': ['o30', 'o1', 'o12'], 'partners': ['b1', 'a3', 'b2'], 'about': ['a0']}
 # Where each top-level page sits (children follow their parent). MENU = the pages listed in the footer;
 # everything else is one click away on /explore and in search.
 PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f13': 'trends',
@@ -112,7 +112,7 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'b1': 'partners', 'b2': 'partners',
          'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
 MENU = ['f16', 'f19', 'r0', 'r1', 'b9', 'f20', 'f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f15', 'o30', 'o1', 'o12', 'o8', 'b1', 'a3', 'b2']
-RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
+RETITLE = {'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [

@@ -307,7 +307,8 @@ details.cl>p:last-child{margin-bottom:16px}
 .top .takepart{margin-left:0}
 .mburger{display:none}
 .msearch span,.msearch kbd{display:none}.msearch{padding:9px}
-@media (min-width:1081px) and (max-width:1320px){.mnav-top{padding:10px 9px}}
+@media (min-width:1081px){.mnav-top{padding:10px 10px}}
+@media (min-width:1081px) and (max-width:1320px){.mnav-top{padding:10px 8px}}
 @media (max-width:1080px){
   .top .wrap{gap:8px}
   .msearch{margin-left:auto}
