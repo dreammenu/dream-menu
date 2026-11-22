@@ -103,6 +103,8 @@ body = f'''<section class="navyband"><div class="wrap">
   <p><a href="/logo-256.png" download>Dream Menu badge (PNG, 256 px)</a> · <a href="/og.png" download>Share image (PNG)</a> · <a href="/map-preview.png" download>Venue map preview (PNG)</a></p>
   <h2 id="contact">Contact</h2>
   <p>Gordon Best, founder. <a href="mailto:{CONTACT}?subject=Press%20enquiry">{CONTACT}</a> · <a href="https://www.instagram.com/dream.menu/" rel="noopener" target="_blank">@dream.menu</a>. Interviews, custom cuts of the data and comment on Scottish hospitality on request.</p>
+  <h2 id="podcast">Podcast</h2>
+  <p><b>Napkin Pitch</b> is the Dream Menu podcast, filmed at Anxious Pete's with Denis Fisher. Guests pitch their fantasy restaurant and get a verdict: Rare, Medium or Well Done. Watch on <a href="https://www.youtube.com/@NapkinPitchPodcast" rel="noopener" target="_blank">YouTube</a> or listen on <a href="https://open.spotify.com/show/73JUCHe4JtVNfbvh6VyUuU" rel="noopener" target="_blank">Spotify</a>.</p>
 </div></section>
 <!--signup--><!--/signup-->
 <script>document.querySelectorAll('.pr-copy').forEach(function(b){{b.addEventListener('click',function(){{var t=b.getAttribute('data-q');

@@ -306,7 +306,8 @@ details.cl>p:last-child{margin-bottom:16px}
 .msearch kbd{font:600 11px/1.4 var(--body);border:1px solid var(--rule-strong);border-radius:4px;padding:0 5px}
 .top .takepart{margin-left:0}
 .mburger{display:none}
-@media (max-width:1240px){.msearch span,.msearch kbd{display:none}.msearch{padding:9px}}
+.msearch span,.msearch kbd{display:none}.msearch{padding:9px}
+@media (min-width:1081px) and (max-width:1320px){.mnav-top{padding:10px 9px}}
 @media (max-width:1080px){
   .top .wrap{gap:8px}
   .msearch{margin-left:auto}
@@ -554,7 +555,7 @@ main table thead th{border-radius:0!important}
 /* header: one obvious way in for partners (13 Nov 2026) */
 .signin{font:600 14px/1 var(--body);color:var(--ink);text-decoration:none;white-space:nowrap;padding:10px 6px;margin-right:4px}
 .signin:hover{text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
-@media (max-width:1100px){.signin{display:none}}
+@media (max-width:1180px){.signin{display:none}}
 /* "I'm interested in" filter (interest.js) */
 .int-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .int-l{font:700 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;margin-right:4px;color:var(--muted)}

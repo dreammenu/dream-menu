@@ -38,7 +38,7 @@ INTERESTS = [  # key, label, one line, item ids best first. Drives the "I'm inte
  ('costs', 'Cutting costs', 'Margins, prices, waste and what operators are feeling', ['o3', 'f29', 'o6', 'o5', 'b10', 'b20', 'o12', 'o8']),
  ('menu', 'Planning a menu or range', 'What to add, protect and drop', ['f24', 'o30', 'f27', 'f21', 'r14', 'o4', 'b24', 'f19']),
  ('places', 'Places and locations', 'Where guests go, by city and neighbourhood, and where to open', ['f6', 'f30', 'f17', 'f7', 'b16', 'r8', 'b11', 'f18']),
- ('about', 'Working with Dream Menu', 'Partnerships, commissioned reports, press and how the data is made', ['b1', 'b2', 'r0', 'a3', 'a1', 'f15', 'o12', 'a2']),
+ ('about', 'About and working with us', 'Who we are, partnerships, commissioned reports, press and how the data is made', ['a0', 'b1', 'b2', 'r0', 'a3', 'a1', 'f15', 'o12']),
 ]
 # Every page and section carries at least one interest, so the filter reaches the whole site.
 # build_nav.py stops with an error if an item has no interest, or if a page on disk is missing from ITEMS.
@@ -59,7 +59,7 @@ ITAGS = {
  'b1': 'about', 'b9': 'about sales', 'b10': 'costs drinks', 'b11': 'places', 'b12': 'food menu', 'b13': 'food menu',
  'b14': 'drinks', 'b15': 'menu food', 'b16': 'places', 'b17': 'places', 'b18': 'food menu', 'b19': 'food places',
  'b20': 'costs', 'b21': 'places sales', 'b22': 'places', 'b23': 'menu costs sales', 'b24': 'menu food drinks',
- 'b2': 'about menu sales', 'b5': 'about', 'b6': 'about sales', 'b7': 'sales places about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
+ 'b2': 'about menu sales', 'b5': 'about', 'b6': 'about sales', 'b7': 'sales places about', 'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
 }
 # Pages that are not destinations (sign-in, errors, internal tools, redirects); everything else on disk must be in ITEMS.
 NOT_PAGES = {'/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
@@ -79,7 +79,7 @@ KEYWORDS = {
  'o5': 'behavioural psychology nudges bread decoy wait', 'o6': 'checklist bathroom sunday festive christmas january quiet season price rise supplier solo diners celebration',
  'o7': 'instagram tiktok reviews google tripadvisor reply', 'o8': 'research evidence studies nudges menu psychology pricing no-shows reminder texts loyalty cards buffet plates music cutlery wine glass', 'o10': 'myths choice overload mints wansink',
  'o11': 'test trial experiment a/b sample size', 'o12': 'audit review consultancy diagnostic mystery', 'b3': 'quarterly briefing sales team movers', 'b5': 'csv download data export spreadsheet',
- 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies', 'a3': 'press media journalist quote statistics logo credit',
+ 'a0': 'about us mission why who founder gordon best story contact podcast napkin pitch youtube spotify', 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies', 'a3': 'press media journalist quote statistics logo credit',
 }
 AUD_ICON = {
  'food': '<path d="M7 3v7a2 2 0 0 0 4 0V3M9 3v18M17 3c-2 2-2.5 4-2.5 7H17v11"/>',
@@ -95,14 +95,14 @@ GROUPS = [  # key, label, landing page, one-line summary
  ('analysis', 'Analysis', '/analysis', 'What the data says now: demand, change, cities and what to do. Refreshed weekly'),
  ('reports', 'Reports', '/reports', 'Dated publications: the 2026 report, the Insight Series and State of the Menu'),
  ('places', 'Where to eat', '/map', 'The venues guests name, mapped and ranked'),
+ ('trends', 'For foodies', '/', 'The dream menu, dish by dish, and ways to join in'),
  ('venues', 'For venues', '/menu-check', 'Tools and a diagnostic for people running a venue'),
  ('partners', 'Work with us', '/for-business', 'Partnerships, commissioned reports and press. Partners sign in on the analysis'),
- ('trends', 'Food trends', '/', 'What guests dream of eating, dish by dish'),
- ('about', 'About', '/how-it-works', 'How Dream Menu works'),
+ ('about', 'About', '/about', 'Why Dream Menu exists, what it does, how it works and how to take part'),
 ]
-# Header: five items. A group with one entry is a plain link (no dropdown); the rest have at most three entries.
-# Food trends (the home page) is reached from the logo; it and About appear in the footer only.
-HMENU = {'analysis': ['f16'], 'reports': ['r0'], 'places': ['f6', 'f30', 'f7'], 'venues': ['o30', 'o1', 'o12'], 'partners': ['b1', 'a3', 'b2']}
+# Header: six items. A group with one entry is a plain link (no dropdown); the rest have at most three entries.
+# For foodies (the home page) is reached from the logo and the footer. About is a plain link to /about (22 Nov 2026).
+HMENU = {'analysis': ['f16'], 'reports': ['r0'], 'places': ['f6', 'f30', 'f7'], 'venues': ['o30', 'o1', 'o12'], 'partners': ['b1', 'a3', 'b2'], 'about': ['a0']}
 # Where each top-level page sits (children follow their parent). MENU = the pages listed in the footer;
 # everything else is one click away on /explore and in search.
 PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f13': 'trends',
@@ -110,8 +110,8 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'f16': 'analysis', 'r0': 'reports', 'f20': 'reports', 'r1': 'reports', 'r4': 'reports', 'r7': 'reports', 'r12': 'reports', 'r15': 'reports', 'b9': 'reports',
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
          'b1': 'partners', 'b2': 'partners',
-         'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'about'}
-MENU = ['f16', 'f19', 'r0', 'r1', 'b9', 'f20', 'f6', 'f30', 'f7', 'o30', 'o1', 'o12', 'o8', 'b1', 'a3', 'b2', 'f1', 'f31', 'f9']
+         'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
+MENU = ['f16', 'f19', 'r0', 'r1', 'b9', 'f20', 'f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f15', 'o30', 'o1', 'o12', 'o8', 'b1', 'a3', 'b2']
 RETITLE = {'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
@@ -203,6 +203,7 @@ ITEMS = [
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
  ('b7', 'Rep sheet: venues to call', '/partner/accounts', 'Scottish venues guests name for rising dishes, by range, with the dish to lead with', 'biz', 'supplier', 0, 'b2'),
 
+ ('a0', 'About Dream Menu', '/about', 'Why we do it, what we do and who is behind it, including the Napkin Pitch podcast', 'about', 'food venue new chef supplier investor press', 1, None),
  ('a1', 'How it works', '/how-it-works', 'Where the data comes from, how venues are placed and which guides count', 'about', 'press', 0, None),
  ('a3', 'Press kit', '/press', 'Figures to quote, how to credit them and logos', 'about', 'press', 0, None),
  ('a2', 'Privacy', '/privacy', 'How interview answers and site visits are used', 'about', 'press', 0, None),

@@ -457,6 +457,10 @@ edit('how-it-works.html', [
      f'Dream Menu&rsquo;s own Google Maps list that no guest has named yet; they are labelled as list places, most are placed approximately, '
      f'and they are never counted in the analysis.'),
 ])
+edit('about.html', [
+    (r'<div class="facts"><div><b>[\d,]+</b> <span>interviews</span></div><div><b>[\d,]+</b> <span>venues named</span></div><div><b>\d+</b> <span>countries</span></div></div>',
+     f'<div class="facts"><div><b>{N_ALL}</b> <span>interviews</span></div><div><b>{fmt(M["venues"])}</b> <span>venues named</span></div><div><b>{M["countries"]}</b> <span>countries</span></div></div>'),
+])
 edit('onepager.html', [
     (r'(Dream Menu · partner summary · )[^<]+', rf'\g<1>{LAST_H}'),
     (r'<div class="facts"><div><b>[\d,]+</b> <span>interviews</span></div><div><b>[\d,]+</b> <span>venues named</span></div>',
