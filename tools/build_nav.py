@@ -102,7 +102,7 @@ GROUPS = [  # key, label, landing page, one-line summary
 ]
 # Header: six items. A group with one entry is a plain link (no dropdown); the rest have at most three entries.
 # For foodies (the home page) is reached from the logo and the footer. About is a plain link to /about (22 Nov 2026).
-HMENU = {'analysis': ['f16'], 'reports': ['r0'], 'places': ['f6', 'f30', 'f7'], 'venues': ['o30', 'o1', 'o12'], 'partners': ['b1', 'a3', 'b2'], 'about': ['a0']}
+HMENU = {'analysis': ['f16', 'f19', 'f22'], 'reports': ['r0'], 'places': ['f6', 'f30', 'f7'], 'venues': ['o30', 'o1', 'o12'], 'partners': ['b1', 'a3', 'b2'], 'about': ['a0']}
 # Where each top-level page sits (children follow their parent). MENU = the pages listed in the footer;
 # everything else is one click away on /explore and in search.
 PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f13': 'trends',
