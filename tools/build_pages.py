@@ -239,7 +239,7 @@ _gt = sum(g['n'] for g in P['groups'])
 _nat = [(m['n'], m['mn']) for m in DMD['markets'] if m['k'] == 'nation']
 _uk = sum(n for _, n in _nat) or 1
 _all = DMD['meta']['mentions']
-_GL = {'Industry': 'Industry (chefs, operators, front of house)', 'Creators': 'Creators (food pages and writers)', 'Enthusiasts': 'Enthusiasts (people who love eating out)'}
+_GL = {'Industry': 'Industry (chefs, operators, front of house)', 'Creators': 'Creators (food pages and writers)', 'Enthusiasts': 'Enthusiasts (foodies outside the trade)'}
 
 
 def _bars(rows):
