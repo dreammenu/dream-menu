@@ -333,7 +333,7 @@
 .sc .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .sc th.num{text-align:right}
 .sc td.sig{color:var(--v-ink);font-weight:700}.sc td small{font-weight:400;color:var(--v-muted)}
-.sc-bar{display:inline-block;width:60px;height:8px;background:var(--v-plane);margin-right:8px;vertical-align:middle}.sc-bar b{display:block;height:100%;background:var(--v-s1)}
+.sc-bar{display:inline-block;width:60px;height:8px;background:var(--v-plane);margin-right:8px;vertical-align:middle}.sc-bar b{display:block;height:100%;background:var(--v-s1)}.sc-au .sc-bar{width:96px}.au-scale{margin:0 0 8px;font-size:12.5px;color:var(--v-muted)}
 .sc-call{display:inline-block;min-width:58px;text-align:center;font:700 11.5px/1 var(--body);letter-spacing:.04em;padding:5px 8px;border:1.5px solid var(--v-ink);color:var(--v-ink)}
 .sc-grow{background:var(--v-ink);color:var(--v-surface)}
 .sc-defend{background:var(--v-gold);border-color:var(--v-gold);color:#0b0b0b}
