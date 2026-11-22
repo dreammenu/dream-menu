@@ -652,3 +652,10 @@ main table thead th{border-radius:0!important}
 @media (max-width:1000px){.hf-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.hf-grid{grid-template-columns:1fr}}
 /* /home-find */
+
+/* section tab bar: the pages of the current section, same names as the header menu and footer (22 Nov 2026) */
+.secnav{position:static;background:var(--paper)}
+.secnav .wrap,.subnav .wrap{align-items:center}
+.secnav-l{font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);padding-right:6px;flex:none}
+.secnav a[aria-current="page"]{color:var(--ink)}
+@media (min-width:1024px){.mp-simple .mp-links{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}}

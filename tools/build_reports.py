@@ -83,8 +83,8 @@ body = f'''<main class="pg rp">
 </div></section>
 <section class="rp-sec"><div class="wrap">
 <article class="rp-col">
-<p class="rp-kick">Annual report · Edition 6 · Data to {E(rep_date)}</p>
-<h2><a href="/report">Hospitality Intelligence Report 2026</a></h2>
+<p class="rp-kick">Hospitality Intelligence Report · Edition 6 · Data to {E(rep_date)}</p>
+<h2><a href="/report">Report 2026</a></h2>
 <p>The community view, a survey of 54 operators and five quarters of tracked demand, produced in partnership with Dunns Food &amp; Drinks. The overview is open; the four chapters need the partner password.</p>
 <ul class="rp-list">{''.join(row(u, t, n, l) for u, t, n, l in REPORT)}</ul>
 </article>

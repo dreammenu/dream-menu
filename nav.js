@@ -173,7 +173,8 @@ doc.addEventListener('keydown',function(e){
   var links=hs.slice(0,18).map(function(h){var id=h.id||h.closest('section').id;return '<a href="#'+id+'"'+(h.closest('.iv-pzone')?' class="jp-p"':'')+'>'+esc(label(h))+'</a>'}).join('');
   var bar=doc.createElement('nav'); bar.className='jump onpage'; bar.setAttribute('aria-label','On this page');
   bar.innerHTML='<div class="wrap"><span class="onpage-l">On this page</span>'+links+'</div>';
-  var sub=$('.subnav',main), first=main.firstElementChild;
+  var sub=$('.subnav:not(.secnav)',main), first=main.firstElementChild;
+  while(first&&first.classList.contains('secnav'))first=first.nextElementSibling;
   var after=sub||(first&&first.tagName==='SECTION'?first:null);
   if(!after&&first&&first.classList.contains('confidential')){var nx=first.nextElementSibling;after=nx&&nx.tagName==='SECTION'?nx:first;}
   if(after&&after.nextElementSibling&&after.nextElementSibling.classList.contains('h-stats'))after=after.nextElementSibling;
@@ -268,7 +269,7 @@ doc.addEventListener('keydown',function(e){
     } else if($('.mnav-solo a[href="'+path+'"]',top)) here=$('.mnav-solo a[href="'+path+'"]',top).textContent.trim();
     else if(!/^\/(login|logout|404)$/.test(path)){ var it=D.items.filter(function(x){return x.u===path})[0], gr=it&&GROUP[it.g]; if(gr&&gr.u!==path&&gr.u!=='/')trail=[[gr.l,gr.u]]; here=it?it.t:title(); }
   }
-  if(here&&path!=='/'&&!isMap&&!$('.crumbs')){
+  if(here&&path!=='/'&&!isMap&&!$('.crumbs')&&!$('.secnav')){   // a section tab bar already says where you are
     var c=doc.createElement('nav'); c.className='crumbs'; c.setAttribute('aria-label','Breadcrumb');
     c.innerHTML='<div class="wrap"><a href="/">Home</a>'+trail.map(function(t){return '<i aria-hidden="true">/</i>'+(t[1]?'<a href="'+t[1]+'">'+esc(t[0])+'</a>':'<span>'+esc(t[0])+'</span>')}).join('')+'<i aria-hidden="true">/</i><b aria-current="page">'+esc(here.length>48?here.slice(0,46)+'…':here)+'</b></div>';
     top.insertAdjacentElement('afterend',c);
