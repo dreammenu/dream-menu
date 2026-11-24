@@ -248,3 +248,10 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 - Header right side: Search and Partner sign-in only (sign-in is also at the foot of the phone menu). Take part sits under For foodies.
 - /reports is merged into /report: tools/build_reports.py writes the library (Report 2026 chapters, State of the Menu, Insight Series) into report.html under its hero, id="library"; /reports redirects there.
 - The analysis hero no longer repeats its parts as a numbered list; the "On this page" bar does that.
+
+## Audit rework (24 Nov 2026)
+- Header grouped by reader: Findings (analysis, dish trends, Report 2026, State of the Menu, Insight Series, all reports), For partners (briefing, venues to call, data downloads, ways to work with us, press kit), For venues, For foodies, About. SEC in build_nav.py.
+- Partner briefing on /analysis is visible to everyone: its sections and words show, and each chart slot is a greyed placeholder with "Sign in to see it" (nav.js SLOTS). Headlines that carry partner figures fall back to their data-short label when signed out.
+- Partner sign-in returns to the page you were on (nav.js).
+- Home: hero, numbers, findings, three doors (partners, venues, foodies), the dishes, guest voices, the debates. The interest filter, tools band, crave/over lists and risers left the home page (build_home.py).
+- Headline interview count = latest interview number; % of interviews uses n_sheet (add_interviews.py).

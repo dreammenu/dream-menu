@@ -188,7 +188,19 @@ secs.pop('more', None)
 for _k in ('start', 'coverage', 'map', 'places'):   # trimmed 13 Nov 2026: the menu, the tools band, the city guides and the analysis already do these jobs
     secs.pop(_k, None)
 
-order = ['h-hero', 'h-stats', 'pick', 'now', 'courses', 'voices', 'try', 'debates', 'mood', 'rising']
+# Home (24 Nov 2026 audit): findings first, then one door per reader, then the dream menu itself.
+# The interest filter, the tools band, the crave/over lists and the risers left the home page: the header
+# menus, the three doors and the analysis already do those jobs.
+secs['doors'] = ('<section class="h-sec alt" id="doors"><div class="wrap">\n'
+    '  <div class="h-head"><div class="eyebrow">Where next</div><h2>Pick your <em>way in</em></h2></div>\n'
+    '  <div class="hf-grid hf-three">'
+    '<article class="hf-card"><div class="hf-tag">For partners</div><h3>The partner briefing</h3><p>Clear movers, a buying call for every category, the venues to call and a score for every dish, refreshed every quarter. Charts unlock when you sign in.</p><a class="hf-more" href="/analysis#partner">See the briefing &rarr;</a></article>'
+    '<article class="hf-card"><div class="hf-tag">For venues</div><h3>Check your menu</h3><p>Tick the dishes you serve and see how much of what guests want you cover, then the toolkit, tested ideas and the Restaurant MOT.</p><a class="hf-more" href="/menu-check">Check my menu &rarr;</a></article>'
+    '<article class="hf-card hf-map"><a class="hf-pic" href="/map" tabindex="-1" aria-hidden="true"><img src="/map-card.webp" alt="" width="640" height="431" loading="lazy"></a><div class="hf-tag">For foodies</div><h3>Where to eat</h3><p>The venues guests name, mapped and ranked, with city guides and your own dream menu to build.</p><a class="hf-more" href="/map">Open the map &rarr;</a></article>'
+    '</div>\n</div></section>\n\n')
+for _k in ('pick', 'try', 'mood', 'rising'):
+    secs.pop(_k, None)
+order = ['h-hero', 'h-stats', 'now', 'doors', 'courses', 'voices', 'debates']
 missing = [k for k in secs if k not in order]
 if missing:
     raise SystemExit(f'home sections not in the order list: {missing}')
@@ -214,7 +226,7 @@ if 'class="h-sponsor"' not in s:
 # hero buttons
 s = re.sub(r'<div class="h-ctas"><a class="btn gold" href="#[^"]+">[^<]+</a><a class="btn ghost" href="/map">[^<]+</a></div>',
            '<div class="h-ctas"><a class="btn gold" href="#now">This quarter&rsquo;s findings</a><a class="btn ghost" href="/map">Find a place to eat</a></div>', s)
-s = s.replace('href="#map"', 'href="/map"').replace('href="#start"', 'href="#try"').replace('href="#coverage"', 'href="/cities"')
+s = s.replace('href="#map"', 'href="/map"').replace('href="#start"', 'href="#doors"').replace('href="#try"', 'href="#doors"').replace('href="#pick"', 'href="#doors"').replace('href="#coverage"', 'href="/cities"')
 # comfort lists are shares of all interviews
 s = s.replace('<p class="sub">The comfort food guests admit to</p>', f'<p class="sub">Comfort food guests admit to, as a share of all interviews</p>')
 s = s.replace('<p class="sub">Food trends guests would happily see disappear</p>', f'<p class="sub">Trends guests would happily see go, as a share of all interviews</p>')

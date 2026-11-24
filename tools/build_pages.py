@@ -272,7 +272,7 @@ main = f"""<main class="iv-page">
 {ACTIONS}
 </div></section>
 <div id="partner">
-<section class="iv-pteaser"><div class="iv-wrap"><p><b>For partners.</b> Sign in and this page becomes your partner briefing: this quarter&rsquo;s clear movers, a buying call for every category with cost watch, the venues to call range by range, a score for every dish, confidence ranges, who buys, the data downloads and your partnership dates. <a href="/for-business">Become a partner</a>.</p><a href="/login?next=/analysis%23partner">Partner sign-in</a></div></section>
+<section class="iv-pteaser"><div class="iv-wrap"><p><b>The partner briefing.</b> Below is everything partners get each quarter: the clear movers, a buying call for every category, the venues to call, a score for every dish, confidence ranges, who buys, data downloads and partnership dates. The charts and figures unlock when you sign in. <a href="/for-business">Become a partner</a>.</p><a href="/login?next=/analysis%23partner">Partner sign-in</a></div></section>
 <div class="iv-pzone">
 <div class="iv-part"><div class="iv-wrap"><span>Partner briefing</span></div></div>
 <div id="p-hub-top"></div>

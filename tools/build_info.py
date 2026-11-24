@@ -18,8 +18,7 @@ RULES = [
      'Each card is one course. The percentage is the share of that course’s answers naming the dish; every bar on every card uses the same scale, so a longer bar is a bigger share whichever course it is in.\n“Steak” means guests who named steak without a cut; fillet steak is counted on its own. Answers that fit no dish are left out, so shares are of answers we could code.'),
     ('index.html', r'<div class="dgrid">', 'before',
      'Each bar splits every answer to one question and adds up to 100%. The large figure is the winning answer, or “too close to call” when the top two are under 3 points apart. The count beneath is how many guests answered.'),
-    ('index.html', r'<div class="two">\s*<article class="lcard"><h3>Guilty pleasures', 'before',
-     'Each figure is the share of all interviews naming that answer. Guests name one each and many skip the question, so the shares are small and do not add up to 100%.\nRead the order and the gaps between items rather than the size of any one figure.'),
+    # (the guilty pleasures and bin-it lists left the home page on 24 Nov 2026)
     # ---- partner insights and briefing
     ('insights.html', r'<div id="in-courses">', 'before',
      'Each card is one course: first the share of answers by food group, then by single dish. Bars are scaled to the top item and the figure is the true share.\nGroups and dishes are two cuts of the same answers, so their figures will not match.'),

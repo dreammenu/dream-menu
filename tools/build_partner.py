@@ -144,7 +144,7 @@ def _stub(fn, title, to, msg):
         f'<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url={to}"><script>location.replace("{to}")</script></head>'
         f'<body><p>{msg} <a href="{to}">Continue</a>.</p></body></html>\n')
 _stub('briefing.html', 'Partner briefing', '/analysis#partner', 'The partner briefing is now part of the analysis.')
-_stub('explore.html', 'Find your way', '/#pick', 'Pick what you are interested in on the home page.')
+_stub('explore.html', 'Find your way', '/#doors', 'Pick your way in on the home page.')
 _stub('awards.html', 'Award winners', '/map', 'Award winners are a layer on the venue map.')
 # the old partner area now lives inside /analysis
 open('partner.html', 'w', encoding='utf-8').write('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Partner briefing | Dream Menu</title>'

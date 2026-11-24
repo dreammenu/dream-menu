@@ -345,14 +345,14 @@
 /* menu audit table on a phone: keep read, dish and the two shares in view; course and price stay in the table view and CSV */
 @media (max-width:600px){.sc.sc-au{min-width:0;font-size:12.5px}.sc.sc-au th:nth-child(3),.sc.sc-au td:nth-child(3),.sc.sc-au th:nth-child(6),.sc.sc-au td:nth-child(6){display:none}.sc.sc-au .sc-bar{display:none}.sc.sc-au th{letter-spacing:.02em;font-size:10.5px}.sc.sc-au td,.sc.sc-au th{padding-right:6px}}
 /* analysis: the partner briefing is shown only to signed-in partners; everyone else sees one line */
-.iv-pzone{display:none}.dm-partner .iv-pzone{display:block}
+.iv-pzone{display:block}   /* shown to everyone (24 Nov 2026): signed out, its charts are greyed placeholders (nav.js) */
 .iv-story .iv-story-p{display:none}.dm-partner .iv-story .iv-story-p{display:list-item}
 .iv-pteaser .iv-wrap{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;border-top:1px solid var(--v-grid);padding-top:18px;padding-bottom:18px}
 .iv-pteaser p{margin:0;max-width:70ch;font:500 14.5px/1.5 var(--body);color:var(--v-ink2)}.iv-pteaser p b{color:var(--v-ink)}
 .iv-pteaser a{font:700 14px/1 var(--body);white-space:nowrap;padding:10px 14px;background:var(--v-brand);color:#fff;text-decoration:none}
 .dm-partner .iv-pteaser{display:none}
 .iv-also{margin:10px 0 0;font:500 15px/1.5 var(--body);opacity:.9}.iv-also a{color:inherit;text-decoration-color:var(--v-gold);text-decoration-thickness:2px;text-underline-offset:3px}
-.jump .jp-p{display:none}.dm-partner .jump .jp-p{display:inline}
+.jump .jp-p{display:inline}
 .bm-v{white-space:nowrap}.bm-v svg{width:14px;height:14px;flex:0 0 14px}
 .dx-sub>summary{list-style:none;cursor:pointer}.dx-sub>summary::-webkit-details-marker{display:none}
 .dx-sub>summary span::after{content:" \25B8";color:var(--v-muted);font-weight:400}.dx-sub[open]>summary span::after{content:" \25BE"}

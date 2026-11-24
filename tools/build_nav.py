@@ -91,12 +91,12 @@ AUD_ICON = {
  'press': '<path d="M4 5h13v14H6a2 2 0 0 1-2-2Z"/><path d="M17 9h3v8a2 2 0 0 1-2 2M7 9h7M7 12h7M7 15h4"/>',
 }
 
-GROUPS = [  # key, label, landing page, one-line summary
- ('analysis', 'Analysis', '/analysis', 'What the data says now: demand, change, cities and what to do. Refreshed weekly'),
- ('reports', 'Reports', '/report', 'Dated publications: the 2026 report, the Insight Series and State of the Menu'),
- ('trends', 'For foodies', '/map', 'Where to eat, the dream menu and ways to join in'),
+GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 Nov 2026 audit)
+ ('analysis', 'Findings', '/analysis', 'What foodies want, what is changing and what to do, plus the dated reports'),
+ ('partners', 'For partners', '/for-business', 'The partner briefing, data and ways to work with us. Charts unlock when you sign in'),
  ('venues', 'For venues', '/menu-check', 'Tools and a diagnostic for people running a venue'),
- ('about', 'About', '/about', 'Who we are, how the data works, and how to work with us'),
+ ('trends', 'For foodies', '/map', 'Where to eat, the dream menu and ways to join in'),
+ ('about', 'About', '/about', 'Who we are, how the data works and how it is used'),
 ]
 # Header: six items. A group with one entry is a plain link (no dropdown); Reports has four entries, the rest three.
 # For foodies (the home page) is reached from the logo and the footer. About is a plain link to /about (22 Nov 2026).
@@ -104,14 +104,13 @@ GROUPS = [  # key, label, landing page, one-line summary
 # use exactly this list, with the same names, so the menus, the footer and the pages tell one story (22 Nov 2026).
 # One structure, used three times (24 Nov 2026): the header dropdowns, the footer columns and the tab bar on short
 # pages all list the same pages, with the same names, in the same order. Five sections.
-SEC = {'analysis': ['f16', 'f19'],
-       'reports': ['r1', 'f20', 'b9', 'r0'],
-       'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
+SEC = {'analysis': ['f16', 'f19', 'r1', 'f20', 'b9', 'r0'],
+       'partners': ['b2', 'b7', 'b5', 'b1', 'a3'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
-       'about': ['a0', 'a1', 'b1', 'a3', 'a2']}
-# The Analysis dropdown lists the page's own parts (it is one long page), then Dish trends.
-HMENU = {'analysis': ['f32', 'f24', 'f21', 'f17', 'f22', 'f26', 'b2', 'f19'],
-         'reports': SEC['reports'], 'trends': SEC['trends'], 'venues': SEC['venues'], 'about': SEC['about']}
+       'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
+       'about': ['a0', 'a1', 'a2']}
+# Header dropdowns = the section lists. The analysis page's own parts are in its "On this page" bar.
+HMENU = {g: SEC[g] for g in SEC}
 FOOT = [(lab, SEC[g]) for g, lab, *_ in GROUPS if g in SEC]
 NO_SECNAV = {'/', '/map'}   # the home page and the full-screen map carry no tab bar
 # Page labels (the small line above each headline) use the same name as the page's tab
@@ -123,12 +122,12 @@ EYEBROW = {'/report': 'Reports · Report 2026, edition 6', '/cities': 'City guid
 # everything else is one click away on /explore and in search.
 PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f13': 'trends',
          'f6': 'trends', 'f30': 'trends', 'f7': 'trends',
-         'f16': 'analysis', 'r0': 'reports', 'f20': 'reports', 'r1': 'reports', 'r4': 'reports', 'r7': 'reports', 'r12': 'reports', 'r15': 'reports', 'b9': 'reports',
+         'f16': 'analysis', 'r0': 'analysis', 'f20': 'analysis', 'r1': 'analysis', 'r4': 'analysis', 'r7': 'analysis', 'r12': 'analysis', 'r15': 'analysis', 'b9': 'analysis',
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
-         'b1': 'about', 'b2': 'analysis',
-         'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about', 'f15': 'trends'}
+         'b1': 'partners', 'b2': 'partners',
+         'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
 MENU = [i for g in SEC.values() for i in g]
-RETITLE = {'f24': 'What do guests want?', 'f21': 'What is changing?', 'f17': 'Where does it differ?', 'f22': 'Can we trust it?',
+RETITLE = {'b5': 'Data downloads', 'b7': 'Venues to call', 'f24': 'What do guests want?', 'f21': 'What is changing?', 'f17': 'Where does it differ?', 'f22': 'Can we trust it?',
            'o13': 'Venue badge', 'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
@@ -216,7 +215,7 @@ ITEMS = [
  ('b22', 'Edinburgh and Scotland to 2030', '/case-studies/edinburgh-2030', 'The capital\'s appetite, Leith, the levy test and the coast', 'biz', 'investor press supplier new', 0, 'b9'),
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
- ('b2', 'Partner briefing', '/analysis#partner', 'Sign in to the analysis: clear movers, buying calls, dish scores, data downloads and your partnership dates', 'biz', 'supplier', 0, None),
+ ('b2', 'Partner briefing', '/analysis#partner', 'Clear movers, buying calls, dish scores and partnership dates. Open to read; charts unlock at sign-in', 'biz', 'supplier', 0, None),
  ('b5', 'Data extracts', '/analysis#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
  ('b7', 'Rep sheet: venues to call', '/partner/accounts', 'Scottish venues guests name for rising dishes, by range, with the dish to lead with', 'biz', 'supplier', 0, 'b2'),
@@ -341,7 +340,7 @@ def page_group(path):
             return it['g']
     # child pages light up their section in the header too
     for pre, g in (('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
-                   ('/case-studies/', 'reports'), ('/report/', 'reports'), ('/quarterly/', 'reports')):
+                   ('/case-studies/', 'analysis'), ('/report/', 'analysis'), ('/quarterly/', 'analysis')):
         if path.startswith(pre):
             return g
     return {'/explore': 'start'}.get(path)
