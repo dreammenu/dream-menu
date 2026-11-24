@@ -256,8 +256,8 @@ main = f"""<main class="iv-page">
 <span class="iv-kick">The analysis</span>
 <h1>What the UK’s foodies want, and where it’s heading</h1>
 <p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week. Partners who sign in get the buying briefing and the data on this same page.</p>
-<p class="iv-also">Looking up one dish? <a href="/trends">Dish trends</a>. Need a dated publication? <a href="/reports">Reports</a>.</p>
-{toc}
+<p class="iv-also">Looking up one dish? <a href="/trends">Dish trends</a>. Need a dated publication? <a href="/report#library">Reports</a>.</p>
+<!-- the numbered story list was dropped (24 Nov 2026): the "On this page" bar below the hero does that job -->
 <div data-interest="analysis"></div>
 </div></section>
 {chap(1, 'The short version', 'What the data says this quarter', 'Each line is written from the numbers and rechecked at every refresh. The sections below show the evidence.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div><div data-fresh="interviews look"></div>', 'read')}

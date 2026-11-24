@@ -41,7 +41,7 @@ FOOTER = T[T.index('</main>') + len('</main>'):]
 
 # ---- the three collections
 rep_date = data_to('report.html') or '9 October 2026'
-REPORT = [('/report', 'Overview and seven key findings', 'Open to everyone', False),
+REPORT = [('#findings', 'Overview and seven key findings', 'On this page', False),
           ('/report/operator-pulse', 'Operator pulse: what 54 operators said about costs and confidence', 'Charts for partners', False),
           ('/report/glasgow', "Glasgow's dining landscape: neighbourhoods, corridors and case studies", 'Charts for partners', False),
           ('/report/whats-on-the-menu', "What's on the menu: demand course by course, and trend fatigue", 'Charts for partners', False),
@@ -75,17 +75,11 @@ def row(u, t, note='', lock=False):
     return f'<li><a href="{u}"><span>{E(t)}{" " + LOCK if lock else ""}</span>{f"<em>{E(note)}</em>" if note else ""}</a></li>'
 
 
-body = f'''<main class="pg rp">
-<section class="pg-hero"><div class="wrap">
-<div class="eyebrow">Reports</div>
-<h1>Dream Menu publications</h1>
-<p class="lede">Each report is fixed at the date its data was drawn, so the figures inside will not match the live numbers. For what the data says today, read <a href="/analysis">the analysis</a>, which is refreshed every week.</p>
-</div></section>
-<section class="rp-sec"><div class="wrap">
+body = f'''<!--library--><section class="rp-sec" id="library" aria-label="All reports"><div class="wrap">
 <article class="rp-col">
 <p class="rp-kick">Hospitality Intelligence Report · Edition 6 · Data to {E(rep_date)}</p>
-<h2><a href="/report">Report 2026</a></h2>
-<p>The community view, a survey of 54 operators and five quarters of tracked demand, produced in partnership with Dunns Food &amp; Drinks. The overview is open; the four chapters need the partner password.</p>
+<h2>Report 2026</h2>
+<p>The community view, a survey of 54 operators and five quarters of tracked demand, produced in partnership with Dunns Food &amp; Drinks. Every chapter is free to read; the charts and data tables are for partners.</p>
 <ul class="rp-list">{''.join(row(u, t, n, l) for u, t, n, l in REPORT)}</ul>
 </article>
 <article class="rp-col">
@@ -100,9 +94,7 @@ body = f'''<main class="pg rp">
 <p>Reports that answer one commercial question each, for suppliers, operators, investors and the public sector. Most are provisional samples showing what a commissioned report looks like. All are free to read; the charts and data tables are for partners, so sign in to see them. <a href="/for-business">Commission a report</a>.</p>
 <ul class="rp-list">{row('/case-studies', f'Browse all {len(cs_items)} reports, by reader', '')}{row(FREE, next((('No. ' + n + ' · ') if n else '') + t for u, t, n in cs_items if u == FREE), 'Free to read')}</ul>
 </article>
-</div></section>
-</main>
-'''
+</div></section><!--/library-->'''
 
 CSS = '''<style>
 .rp-sec .wrap{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:28px 36px;padding-top:32px;padding-bottom:48px}
@@ -122,5 +114,13 @@ CSS = '''<style>
 @media (max-width:760px){.rp-sec .wrap,.rp-grid{grid-template-columns:1fr}.rp-list a{flex-direction:column;gap:2px}}
 </style>
 '''
-open('reports.html', 'w', encoding='utf-8').write(head + CSS + '</head>\n' + HEADER + body + FOOTER)
-print('wrote reports.html |', len(REPORT), 'report pages,', len(q_items), 'quarterly editions,', len(cs_items), 'Insight Series reports')
+# One Reports page (24 Nov 2026): the library sits at the top of /report, under its hero; /reports redirects there.
+rp = open('report.html', encoding='utf-8').read()
+rp = re.sub(r'<!--library-->.*?<!--/library-->\s*', '', rp, flags=re.S)
+rp = re.sub(r'<section><div class="wrap"><div class="callout signin">.*?</section>\s*', '', rp, count=1, flags=re.S)   # old "chapters need the password" note
+rp = re.sub(r'<style id="rp-css">.*?</style>\s*', '', rp, flags=re.S)
+rp = rp.replace('</head>', CSS.replace('<style>', '<style id="rp-css">', 1) + '</head>', 1)
+m = re.search(r'<section class="navyband">.*?</section>\s*', rp, re.S)
+rp = rp[:m.end()] + body + '\n' + rp[m.end():]
+open('report.html', 'w', encoding='utf-8').write(rp)
+print('library written into report.html |', len(REPORT), 'report pages,', len(q_items), 'quarterly editions,', len(cs_items), 'Insight Series reports')

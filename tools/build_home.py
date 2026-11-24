@@ -129,7 +129,7 @@ section = (
     + ('The grey card is an outside source, kept separate as a challenge to our own data. ' if dif else '') + 'Each card ends with what to do about it.</p></div>\n'
     f'  <div class="hf-grid">{"".join(cards)}</div>\n'
     f'  <p class="hf-bench"><span aria-hidden="true">&#10003;</span> {benchlib.headline()}. <a href="/analysis#compare">See every comparison</a></p>\n'
-    '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/reports">All reports</a></p>\n'
+    '  <p class="hf-foot"><a class="btn gold" href="/analysis">Read the full analysis</a> <a class="hf-link" href="/report#library">All reports</a></p>\n'
     '</div></section>\n')
 METHOD_NOTE = (f'<p class="method">Source: {N_ALL:,} Dream Menu interviews, 1 September 2025 to {when}. Dish categories were made more specific on 24 October 2026: '
                'each answer is now coded to the dish itself (scallops, tiramisu, skinny fries) rather than a broad group such as seafood or ice cream. '

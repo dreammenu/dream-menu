@@ -3,6 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/reports",
+      "destination": "/report#library",
+      "permanent": false
+    },
+    {
       "source": "/world",
       "destination": "/map",
       "permanent": true

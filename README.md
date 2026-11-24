@@ -241,3 +241,10 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 - `middleware.js` (OPENTEXT) serves the `/open/` copy to signed-out visitors and the full page to partners, at the same address. `/open/` is noindex and disallowed in robots; the real addresses are in the sitemap.
 - On /analysis, `nav.js` greys out the public charts for signed-out visitors (GATE list), except the samples in OPEN. The partner briefing stays fully locked.
 - `/case-studies/guests-and-critics` stays fully open, charts included.
+
+## Navigation (24 Nov 2026)
+- Five sections, one list (SEC in tools/build_nav.py): Analysis, Reports, For foodies, For venues, About. The header dropdowns, the footer columns and the tab bar on short pages list the same pages, with the same names, in the same order. The Analysis dropdown lists the page's parts, then Dish trends.
+- One bar under the header per page: long pages (3+ titled sections, or their own contents list) get only the "On this page" bar; short pages get only the section tab bar (is_long in build_nav.py, the same test nav.js uses). Breadcrumbs only on deep pages (venue, city, area, dish, report chapter, Insight Series report).
+- Header right side: Search and Partner sign-in only (sign-in is also at the foot of the phone menu). Take part sits under For foodies.
+- /reports is merged into /report: tools/build_reports.py writes the library (Report 2026 chapters, State of the Menu, Insight Series) into report.html under its hero, id="library"; /reports redirects there.
+- The analysis hero no longer repeats its parts as a numbered list; the "On this page" bar does that.

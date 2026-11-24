@@ -93,42 +93,40 @@ AUD_ICON = {
 
 GROUPS = [  # key, label, landing page, one-line summary
  ('analysis', 'Analysis', '/analysis', 'What the data says now: demand, change, cities and what to do. Refreshed weekly'),
- ('reports', 'Reports', '/reports', 'Dated publications: the 2026 report, the Insight Series and State of the Menu'),
- ('places', 'Where to eat', '/map', 'The venues guests name, mapped and ranked'),
- ('trends', 'For foodies', '/', 'The dream menu, dish by dish, and ways to join in'),
+ ('reports', 'Reports', '/report', 'Dated publications: the 2026 report, the Insight Series and State of the Menu'),
+ ('trends', 'For foodies', '/map', 'Where to eat, the dream menu and ways to join in'),
  ('venues', 'For venues', '/menu-check', 'Tools and a diagnostic for people running a venue'),
- ('partners', 'Work with us', '/for-business', 'Partnerships, commissioned reports and press. Partners sign in on the analysis'),
- ('about', 'About', '/about', 'Why Dream Menu exists, what it does, how it works and how to take part'),
+ ('about', 'About', '/about', 'Who we are, how the data works, and how to work with us'),
 ]
 # Header: six items. A group with one entry is a plain link (no dropdown); Reports has four entries, the rest three.
 # For foodies (the home page) is reached from the logo and the footer. About is a plain link to /about (22 Nov 2026).
 # SEC: the pages of each section, in order. The footer column and the tab bar at the top of each of these pages
 # use exactly this list, with the same names, so the menus, the footer and the pages tell one story (22 Nov 2026).
+# One structure, used three times (24 Nov 2026): the header dropdowns, the footer columns and the tab bar on short
+# pages all list the same pages, with the same names, in the same order. Five sections.
 SEC = {'analysis': ['f16', 'f19'],
-       'reports': ['r0', 'r1', 'f20', 'b9'],
-       'places': ['f6', 'f30', 'f7'],
-       'trends': ['f1', 'f31', 'f9', 'f13', 'f15'],
+       'reports': ['r1', 'f20', 'b9', 'r0'],
+       'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
-       'partners': ['b1', 'a3', 'b2'],
-       'about': ['a0', 'a1', 'a2']}
-# The header menu is the section list, except Analysis: it is one long page, so its menu lists the page's own
-# seven parts (the numbered story in its hero and its "On this page" bar), then Dish trends.
+       'about': ['a0', 'a1', 'b1', 'a3', 'a2']}
+# The Analysis dropdown lists the page's own parts (it is one long page), then Dish trends.
 HMENU = {'analysis': ['f32', 'f24', 'f21', 'f17', 'f22', 'f26', 'b2', 'f19'],
-         'reports': SEC['reports'], 'places': SEC['places'], 'venues': SEC['venues'], 'partners': SEC['partners'], 'about': SEC['about']}
+         'reports': SEC['reports'], 'trends': SEC['trends'], 'venues': SEC['venues'], 'about': SEC['about']}
+FOOT = [(lab, SEC[g]) for g, lab, *_ in GROUPS if g in SEC]
 NO_SECNAV = {'/', '/map'}   # the home page and the full-screen map carry no tab bar
 # Page labels (the small line above each headline) use the same name as the page's tab
-EYEBROW = {'/reports': 'All reports', '/report': 'Report 2026 · Hospitality Intelligence Report, edition 6', '/cities': 'City guides',
+EYEBROW = {'/report': 'Reports · Report 2026, edition 6', '/cities': 'City guides',
            '/rankings': 'Rankings', '/my-dream-menu': 'Build your dream menu', '/menu-check': 'Check my menu · Free tool',
            '/operators': 'Operator toolkit', '/badge': 'Venue badge', '/for-business': 'Ways to work with us', '/press': 'Press kit',
            '/privacy': 'Privacy'}
 # Where each top-level page sits (children follow their parent). MENU = the pages listed in the footer;
 # everything else is one click away on /explore and in search.
 PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f13': 'trends',
-         'f6': 'places', 'f30': 'places', 'f7': 'places',
+         'f6': 'trends', 'f30': 'trends', 'f7': 'trends',
          'f16': 'analysis', 'r0': 'reports', 'f20': 'reports', 'r1': 'reports', 'r4': 'reports', 'r7': 'reports', 'r12': 'reports', 'r15': 'reports', 'b9': 'reports',
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
-         'b1': 'partners', 'b2': 'partners',
-         'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
+         'b1': 'about', 'b2': 'analysis',
+         'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about', 'f15': 'trends'}
 MENU = [i for g in SEC.values() for i in g]
 RETITLE = {'f24': 'What do guests want?', 'f21': 'What is changing?', 'f17': 'Where does it differ?', 'f22': 'Can we trust it?',
            'o13': 'Venue badge', 'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
@@ -165,8 +163,8 @@ ITEMS = [
  ('f14', 'Advice for anyone who cooks', '/from-the-kitchen#advice', 'Tips from the people who cook for a living', 'food', 'food chef', 0, 'f13'),
  ('f15', 'Take part', '/take-part', 'Share your own dream menu: five courses and the venue that does it best', 'food', 'food', 0, None),
 
- ('r0', 'Reports', '/reports', 'Every dated publication in one place: the 2026 report, fifteen Insight Series reports and State of the Menu', 'report', 'venue new investor supplier press chef', 1, None),
- ('r1', 'Report overview', '/report', 'The Hospitality Intelligence Report: findings, operators, Glasgow and opportunities', 'report', 'venue new investor supplier press chef', 0, None),
+ ('r0', 'All reports', '/report#library', 'Every dated publication in one place: the 2026 report, fifteen Insight Series reports and State of the Menu', 'report', 'venue new investor supplier press chef', 1, 'r1'),
+ ('r1', 'Report overview', '/report', 'Report 2026 and every other publication: findings, operators, Glasgow, opportunities', 'report', 'venue new investor supplier press chef', 0, None),
  ('r2', 'Seven key findings', '/report#findings', 'The headline findings, with the top five opportunities and risks', 'report', 'investor press supplier venue', 1, 'r1'),
  ('r3', 'Five questions before you invest', '/report#questions', 'A quick test for any concept, site or menu', 'report', 'new investor', 0, 'r1'),
  ('r4', 'Operator pulse', '/report/operator-pulse', 'What 54 operators said about trading, costs and confidence', 'report', 'venue supplier investor press', 0, None),
@@ -275,16 +273,25 @@ def header(cur_group):
         for it in [IT[i] for i in ids]:
             out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
         out.append('</div></div></div></li>')
-    out.append('</ul><a class="mnav-all" href="/#pick">Find what matters to you ' + ARROW + '</a></nav>')
+    out.append('</ul><a class="mnav-all" href="/login?next=/analysis%23partner">Partner sign-in ' + ARROW + '</a></nav>')   # shown in the phone menu only
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
     out.append('<a class="signin" href="/login?next=/analysis%23partner">Partner sign-in</a>')
-    out.append('<a class="takepart" href="/take-part">Take part</a>')
     out.append('<button type="button" class="mburger" aria-expanded="false" aria-controls="mnav"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr">Menu</span></button>')
     out.append('</div></header>')
     return ''.join(out)
 
-def secnav(path):
-    if path in NO_SECNAV:
+def is_long(s):
+    """Same test nav.js uses to build an "On this page" bar: 3+ h2 headings that can be jumped to."""
+    m = s[s.find('<main'):s.find('</main>')]
+    n = len(re.findall(r'<h2[^>]*\bid="', m))
+    for sec in re.finditer(r'<section[^>]*\bid="[^"]+"[^>]*>(.*?)</section>', m, re.S):
+        h = re.search(r'<h2([^>]*)>', sec.group(1))
+        if h and 'id="' not in h.group(1):
+            n += 1
+    return n >= 3 or 'class="cs-toc"' in m
+
+def secnav(path, s=''):
+    if path in NO_SECNAV or (s and is_long(s)):
         return ''
     for g, lab, land, summ in GROUPS:
         its = [IT[i] for i in SEC.get(g, [])]
@@ -295,15 +302,10 @@ def secnav(path):
 
 def footer_links():
     out = ['<nav class="footlinks footcols" aria-label="All pages">']
-    for g, lab, land, summ in GROUPS:
-        its = [IT[i] for i in SEC.get(g, [])]
-        if not its:
-            continue
+    for lab, ids in FOOT:
         out.append(f'<div><b>{E(lab)}</b>')
-        for it in its:
+        for it in [IT[i] for i in ids]:
             out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
-        if g == 'about':
-            out.append('<a href="/#pick">Find anything</a>')   # partner sign-in is in the header and under Work with us
         out.append('</div>')
     out.append('</nav>')
     return ''.join(out)
@@ -338,7 +340,7 @@ def page_group(path):
         if it['u'] == path:
             return it['g']
     # child pages light up their section in the header too
-    for pre, g in (('/city/', 'places'), ('/area/', 'places'), ('/venue/', 'places'), ('/trends/', 'analysis'),
+    for pre, g in (('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
                    ('/case-studies/', 'reports'), ('/report/', 'reports'), ('/quarterly/', 'reports')):
         if path.startswith(pre):
             return g
@@ -379,7 +381,7 @@ def main():
         s = re.sub(r'<nav class="footlinks[^"]*" aria-label="All pages">.*?</nav>', lambda m: foot, s, count=1, flags=re.S)
         # section tab bar, first thing in <main>
         s = re.sub(r'<!--secnav-->.*?<!--/secnav-->', '', s, flags=re.S)
-        sn = secnav(path)
+        sn = secnav(path, s)
         if sn:
             s = re.sub(r'(<main[^>]*>)', lambda m: m.group(1) + sn, s, count=1)
         # the 2026 report's own chapter bar lists its chapters only; the venue tools live under For venues
@@ -389,6 +391,8 @@ def main():
             else:
                 s = re.sub(r'<a href="/(operators|tested-ideas|restaurant-mot)"[^>]*>.*?</a>', '', s, flags=re.S)
                 s = s.replace('<nav class="subnav" aria-label="Report sections">', '<nav class="subnav" aria-label="Report 2026 chapters">')
+        if is_long(s):   # one bar per page: a long page keeps only its "On this page" bar
+            s = re.sub(r'<nav class="subnav" aria-label="Report 2026 chapters">.*?</nav>\s*', '', s, count=1, flags=re.S)
         s = s.replace('<nav class="subnav" aria-label="Report 2026 chapters"><div class="wrap"><a href="/report"', '<nav class="subnav" aria-label="Report 2026 chapters"><div class="wrap"><span class="secnav-l">Report 2026</span><a href="/report"', 1) if 'secnav-l">Report 2026<' not in s else s
         if path in EYEBROW:
             i = s.find('<main')

@@ -165,7 +165,7 @@ doc.addEventListener('keydown',function(e){
 
 /* ---------- "On this page" jump bars ---------- */
 (function(){
-  var main=$('main'); if(!main||$('.jump',main)||doc.body.classList.contains('no-onpage'))return;
+  var main=$('main'); if(!main||$('.jump',main)||$('.cs-toc',main)||doc.body.classList.contains('no-onpage'))return;   // a page with its own contents list needs no second bar
   function label(h){return (h.getAttribute('data-short')||h.textContent).replace(/\s+/g,' ').trim()}
   var hs=$$('h2',main).filter(function(h){return h.id||(h.closest('section')&&h.closest('section').id&&$('h2',h.closest('section'))===h)});
   if(hs.length<3)hs=$$('h3[id]',main);
@@ -253,7 +253,7 @@ doc.addEventListener('keydown',function(e){
     Object.keys(map).forEach(function(id){var t=doc.getElementById(id); if(t)io.observe(t)});
   }
   // 3. breadcrumbs: where this page sits, taken from the menu itself
-  var PARENT={area:['Where to eat','/map','City guides','/cities'],city:['Where to eat','/map','City guides','/cities'],venue:['Where to eat','/map','Venue map','/map'],trends:['Analysis','/analysis','Dish trends','/trends'],'case-studies':['Reports','/reports','Insight Series','/case-studies'],report:['Reports','/reports','Report 2026','/report'],quarterly:['Reports','/reports','State of the Menu','/quarterly']};
+  var PARENT={area:['For foodies','/map','City guides','/cities'],city:['For foodies','/map','City guides','/cities'],venue:['For foodies','/map','Venue map','/map'],trends:['Analysis','/analysis','Dish trends','/trends'],'case-studies':['Reports','/report','Insight Series','/case-studies'],report:['Reports','/report','Report 2026','/report'],quarterly:['Reports','/report','State of the Menu','/quarterly']};
   var seg=path.split('/').filter(Boolean), trail=[], here=null, nextUp=null;
   var title=function(){var h=$('h1',main); return h?h.textContent.replace(/\s+/g,' ').trim():doc.title.split('|')[0].trim()};
   if(seg.length===2&&PARENT[seg[0]]){
@@ -269,7 +269,7 @@ doc.addEventListener('keydown',function(e){
     } else if($('.mnav-solo a[href="'+path+'"]',top)) here=$('.mnav-solo a[href="'+path+'"]',top).textContent.trim();
     else if(!/^\/(login|logout|404)$/.test(path)){ var it=D.items.filter(function(x){return x.u===path})[0], gr=it&&GROUP[it.g]; if(gr&&gr.u!==path&&gr.u!=='/')trail=[[gr.l,gr.u]]; here=it?it.t:title(); }
   }
-  if(here&&path!=='/'&&!isMap&&!$('.crumbs')&&!$('.secnav')){   // a section tab bar already says where you are
+  if(here&&seg.length>1&&!isMap&&!$('.crumbs')){   // breadcrumbs only on deep pages (venue, city, dish, report chapter); top pages have the header and one bar
     var c=doc.createElement('nav'); c.className='crumbs'; c.setAttribute('aria-label','Breadcrumb');
     c.innerHTML='<div class="wrap"><a href="/">Home</a>'+trail.map(function(t){return '<i aria-hidden="true">/</i>'+(t[1]?'<a href="'+t[1]+'">'+esc(t[0])+'</a>':'<span>'+esc(t[0])+'</span>')}).join('')+'<i aria-hidden="true">/</i><b aria-current="page">'+esc(here.length>48?here.slice(0,46)+'…':here)+'</b></div>';
     top.insertAdjacentElement('afterend',c);
