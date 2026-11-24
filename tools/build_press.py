@@ -86,7 +86,7 @@ body = f'''<section class="navyband"><div class="wrap">
   <h2 id="figures">Figures worth quoting</h2>
   <p class="lede" style="margin-bottom:14px">From {fmt(P["n_all"])} Dream Menu interviews, September 2025 to {LAST_H}. Each card copies the figure with its source line.</p>
   <div class="grid pr-grid">{cards}</div>
-  <p class="note" style="margin-top:12px">Glasgow&rsquo;s most-named venue is {E(top_v["n"])} ({100 * top_v["m"] / MK['city:Glasgow|United Kingdom']['mn']:.1f}% of the city&rsquo;s venue mentions). {E(gla_dish)} takes {gla_sh:.1f}% of Glasgow&rsquo;s venue mentions, against {gla_all:.1f}% across all markets. More on the <a href="/">food trends page</a>, the <a href="/analysis">analysis</a> and the <a href="/rankings">rankings</a>.</p>
+  <p class="note" style="margin-top:12px">Glasgow&rsquo;s most-named venue is {E(top_v["n"])} ({100 * top_v["m"] / MK['city:Glasgow|United Kingdom']['mn']:.1f}% of the city&rsquo;s venue mentions). {E(gla_dish)} takes {gla_sh:.1f}% of Glasgow&rsquo;s venue mentions, against {gla_all:.1f}% across all markets. More on the <a href="/">food trends page</a>, the <a href="/analysis/cities">analysis</a> and the <a href="/rankings">rankings</a>.</p>
 </div></section>
 <section><div class="wrap">
   <h2 id="checked">Checked against outside research</h2>

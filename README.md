@@ -14,7 +14,7 @@ The header menus (including the "I'm a..." audience menu), the footer links, sea
 ## Analysis pages and data freshness
 
 - `/analysis` (public) and `/intelligence` (partner, locked) are built from the site's own data files. After a data refresh run, from the repository root:
-  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_partner.py && python3 tools/build_pages.py && python3 tools/build_nav.py && python3 tools/build_gate.py`
+  `python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_partner.py && python3 tools/build_pages.py && python3 tools/build_evidence.py && python3 tools/build_nav.py && python3 tools/build_gate.py`
   `build_intel.py` writes `analysis-data.js` (headline analysis only, nothing about quarterly movement) and `partner/intel-data.js` (behind sign-in). The charts are drawn by `analysis.js` and `partner/intel.js` using the small chart toolkit in `dmviz.js` / `dmviz.css`; every chart has a table view, a CSV download and a link.
 - `dm-fresh.js` loads on every page. It adds a "Data to ... · Updated ..." line under each visual or block of figures, a "Last updated" chip under the page title and a data status panel in the footer. When a dataset is refreshed, change its dates in the `SETS` list at the top of that file.
 
@@ -34,7 +34,7 @@ The full build pipeline (sheet export, machine coding, venue matching) is not in
 2. From the repository root:
    `python3 tools/add_interviews.py tools/data/<interviews>.json`
    `python3 tools/add_venues.py tools/data/<venues>.json tools/data/<interviews>.json <path to ukpostcodes.csv>`
-   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_partner.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_og.py && python3 tools/build_nav.py && python3 tools/build_gate.py`
+   `python3 tools/refresh_static.py && python3 tools/build_other_awards.py && python3 tools/build_intel.py && python3 tools/build_trends.py && python3 tools/build_benchmarks.py && python3 tools/build_drinks.py && python3 tools/build_partner.py && python3 tools/build_pages.py && python3 tools/build_case_studies.py && python3 tools/build_press.py && python3 tools/build_briefing_extras.py && python3 tools/build_venue_pages.py && python3 tools/build_quarterly.py && python3 tools/build_alert.py && python3 tools/build_og.py && python3 tools/build_evidence.py && python3 tools/build_nav.py && python3 tools/build_gate.py`
    Since 17 November 2026, run `python3 tools/clean_venues.py` straight after `add_venues.py` (it folds any listed duplicate venues and tidies names; harmless when there is nothing to do), and `python3 tools/build_map_awards.py` after any change to `awards.js`.
    Run each step once per batch: the first two add to the existing counts. `add_venues.py` needs the dwyl UK postcode file (github.com/dwyl/uk-postcodes-latitude-longitude-complete-csv) to place exact UK addresses.
 
@@ -260,3 +260,8 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 - /analysis is an overview (the short version, a door to each part, what to do). Each part has its own page, written by tools/build_pages.py (PARTS): /analysis/demand, /analysis/change, /analysis/cities, /analysis/trust (with the method) and /analysis/partner (the briefing, greyed charts signed out).
 - One tab bar (class anav) links the parts; no "On this page" bar on these pages. Old /analysis#<id> links are forwarded to the right page by a small script on the overview.
 - No data downloads anywhere: no CSV buttons, no downloads section; /partner/data/ and *.csv are never served (middleware) or deployed (.vercelignore).
+
+## The analysis, spread across the site (24 Nov 2026, replaces the split above)
+- No analysis hub. Findings: /analysis/demand, /analysis/change, /analysis/cities. For partners: /analysis/partner. About: /analysis/trust (with the method). Written by build_pages.py (PARTS); each sits in its section's tab bar.
+- "What should I do?" is split by reader: venues on /operators, opening or investing on /analysis/cities, suppliers on /analysis/partner, press on /press. The text is rewritten from the numbers each build (tools/data/evidence-roles.json); tools/build_evidence.py places the /operators and /press boxes. Run it after build_press.py and before build_nav.py.
+- /analysis is a stub that forwards old /analysis#<id> links; with no hash it goes to /analysis/demand. The short version now lives on the home page findings.

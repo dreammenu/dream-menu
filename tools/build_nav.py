@@ -62,7 +62,7 @@ ITAGS = {
  'b2': 'about menu sales', 'b6': 'about sales', 'b7': 'sales places about', 'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
 }
 # Pages that are not destinations (sign-in, errors, internal tools, redirects); everything else on disk must be in ITEMS.
-NOT_PAGES = {'/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
+NOT_PAGES = {'/analysis', '/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
 AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', 'chef': 'chefs', 'supplier': 'suppliers', 'investor': 'investors', 'press': 'press'}
 # extra search words, so people find things by the words they use
 KEYWORDS = {
@@ -92,7 +92,7 @@ AUD_ICON = {
 }
 
 GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 Nov 2026 audit)
- ('analysis', 'Findings', '/analysis', 'What foodies want, what is changing and what to do, plus the dated reports'),
+ ('analysis', 'Findings', '/analysis/demand', 'What foodies want, what is changing and what to do, plus the dated reports'),
  ('partners', 'For partners', '/for-business', 'The partner briefing, data and ways to work with us. Charts unlock when you sign in'),
  ('venues', 'For venues', '/menu-check', 'Tools and a diagnostic for people running a venue'),
  ('trends', 'For foodies', '/map', 'Where to eat, the dream menu and ways to join in'),
@@ -104,11 +104,11 @@ GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 
 # use exactly this list, with the same names, so the menus, the footer and the pages tell one story (22 Nov 2026).
 # One structure, used three times (24 Nov 2026): the header dropdowns, the footer columns and the tab bar on short
 # pages all list the same pages, with the same names, in the same order. Five sections.
-SEC = {'analysis': ['f16', 'f19', 'r1', 'f20', 'b9', 'r0'],
+SEC = {'analysis': ['f24', 'f21', 'f17', 'f19', 'r1', 'f20', 'b9'],
        'partners': ['b2', 'b7', 'b1', 'a3'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
        'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
-       'about': ['a0', 'a1', 'a2']}
+       'about': ['a0', 'a1', 'f22', 'a2']}
 # Header dropdowns = the section lists. The analysis page's own parts are in its "On this page" bar.
 HMENU = {g: SEC[g] for g in SEC}
 FOOT = [(lab, SEC[g]) for g, lab, *_ in GROUPS if g in SEC]
@@ -127,21 +127,21 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'b1': 'partners', 'b2': 'partners',
          'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
 MENU = [i for g in SEC.values() for i in g]
-RETITLE = {'b7': 'Venues to call', 'f24': 'What do guests want?', 'f21': 'What is changing?', 'f17': 'Where does it differ?', 'f22': 'Can we trust it?',
+RETITLE = {'f22': 'Can we trust it?', 'b7': 'Venues to call', 'f24': 'What guests want', 'f21': 'What is changing', 'f17': 'Where it differs',
            'o13': 'Venue badge', 'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
 ITEMS = [
  ('f1', 'Food trends', '/', f'What {N_ALL} guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
- ('f16', 'The analysis', '/analysis', 'What guests want, what is changing, how cities differ, how it compares, and what to do', 'food', 'food investor press supplier', 1, None),
- ('f32', 'The short version', '/analysis#read', 'What the data says this quarter, in a few lines', 'food', 'food venue new chef supplier investor press', 0, 'f16'),
+ ('f16', 'The findings', '/analysis/demand', 'What guests want, what is changing, how cities differ, how it compares, and what to do', 'food', 'food investor press supplier', 1, None),
+ ('f32', 'The short version', '/#now', 'What the data says this quarter, in a few lines', 'food', 'food venue new chef supplier investor press', 0, 'f16'),
  ('f17', "Every city's appetite", '/analysis/cities', 'Which dishes take a bigger share in each market than everywhere else', 'food', 'investor new supplier', 0, 'f16'),
- ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
+ ('f18', 'Guests and critics', '/analysis/cities#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
  ('f21', 'What changed', '/analysis/change', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
  ('f22', 'How we compare', '/analysis/trust', 'Dream Menu against national polls, eating-out data, menu trackers and sales', 'food', 'food press investor supplier', 1, 'f16'),
  ('f24', 'What guests want', '/analysis/demand', 'Each course ranked by food group with seafood dish by dish, the dish life cycle, the staples, and demand against what menus list', 'food', 'food chef supplier venue', 0, 'f16'),
- ('f25', 'Drinks baseline', '/analysis#drinks', 'Soft and alcoholic drinks since August 2026, including the alcohol-free share', 'food', 'venue supplier', 0, 'f16'),
- ('f26', 'What should I do?', '/analysis#actions', 'The evidence read for venues, investors, suppliers and press', 'food', 'venue new supplier investor press', 0, 'f16'),
+ ('f25', 'Drinks baseline', '/analysis/change#drinks', 'Soft and alcoholic drinks since August 2026, including the alcohol-free share', 'food', 'venue supplier', 0, 'f16'),
+ ('f26', 'What should I do?', '/operators#evidence', 'The evidence read for venues, investors, suppliers and press', 'food', 'venue new supplier investor press', 0, 'f16'),
  ('f27', 'Category scorecard', '/analysis/partner#category-sec', 'Partners: a grow, defend, trim, core or niche call for every food group', 'food', 'supplier', 0, 'f16'),
  ('f28', 'Dish and drink scores', '/analysis/partner#opportunity-sec', 'Partners: back, watch or review, with a score out of 10 for every dish and drink', 'food', 'supplier', 0, 'f16'),
  ('f29', 'Operator pulse', '/analysis/partner#segments-sec', 'Partners: what operators say about costs, prices and confidence', 'food', 'supplier investor', 0, 'f16'),
@@ -340,6 +340,8 @@ def page_group(path):
     # child pages light up their section in the header too
     if path == '/analysis/partner':
         return 'partners'
+    if path == '/analysis/trust':
+        return 'about'
     for pre, g in (('/analysis/', 'analysis'), ('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
                    ('/case-studies/', 'analysis'), ('/report/', 'analysis'), ('/quarterly/', 'analysis')):
         if path.startswith(pre):

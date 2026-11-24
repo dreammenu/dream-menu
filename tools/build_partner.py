@@ -149,7 +149,7 @@ _stub('awards.html', 'Award winners', '/map', 'Award winners are a layer on the 
 # the old partner area now lives inside /analysis
 open('partner.html', 'w', encoding='utf-8').write('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Partner briefing | Dream Menu</title>'
     '<meta name="robots" content="noindex"><link rel="canonical" href="https://www.dream-menu.com/analysis">'
-    '<meta http-equiv="refresh" content="0; url=/analysis#partner"><script>location.replace("/analysis"+(location.hash||"#partner"))</script></head>'
+    '<meta http-equiv="refresh" content="0; url=/analysis/partner"><script>location.replace("/analysis/partner"+(location.hash||""))</script></head>'
     '<body><p>The partner area is now part of <a href="/analysis#partner">the analysis</a>.</p></body></html>\n')
 
 # ---------------------------------------------------------------- /for-business: route each visitor to the right offer
