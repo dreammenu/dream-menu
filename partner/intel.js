@@ -268,7 +268,7 @@
           '<td><div style="display:flex;gap:10px;align-items:center"><div class="stack" style="max-width:' + Math.max(40, tot / 100 * 240) + 'px">' + PARTS.map(function (p) { return '<i style="flex:' + r.parts[p[0]] + ';background:var(' + p[2] + ')"></i>'; }).join('') + '</div><b class="n" style="font-variant-numeric:tabular-nums">' + (r.score / 10).toFixed(1) + '</b></div></td>' +
           '<td class="n hide-s">' + r.pct.toFixed(1) + '%</td><td class="n" style="color:' + (r.sig ? (r.move > 0 ? 'var(--v-good-ink)' : 'var(--v-crit)') : 'var(--v-ink2)') + '">' + pp(r.move) + '</td><td class="hide-s">' + (r.venues ? r.venues + ' venues; ' + esc(r.topv) + ' ' + r.top + '%' : '–') + '</td></tr>';
       });
-      o += '</tbody></table></div>' + (R.length > 20 ? '<p class="dmv-src" style="margin-top:8px">Showing 20 of ' + R.length + '. The table view and CSV hold every row.</p>' : '');
+      o += '</tbody></table></div>' + (R.length > 20 ? '<p class="dmv-src" style="margin-top:8px">Showing 20 of ' + R.length + '. The table view holds every row.</p>' : '');
       c.plot.innerHTML = o;
       c.plot.querySelectorAll('tbody tr').forEach(function (tr) {
         var r = show[+tr.getAttribute('data-i')];

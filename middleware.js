@@ -76,6 +76,8 @@ export default async function middleware(request) {
     }
     return next();
   }
+  // No downloads (24 Nov 2026): partner figures are read on the site only, so the raw data files are never served
+  if (path.startsWith('/partner/data/') || path.endsWith('.csv')) return new Response('Not found', { status: 404, headers: { 'Cache-Control': 'no-store' } });
   if (PUBLIC.has(path)) return next();       // free sample report, open to everyone
   const have = (request.headers.get('cookie') || '').split(/;\s*/).find(c => c.startsWith(COOKIE + '='));
   const got = have ? have.slice(COOKIE.length + 1) : '';

@@ -9,7 +9,7 @@ tools/data/market-watch.json (outside sources, kept beside Dream Menu figures, n
 
 Writes partner/sell-data.js (window.DM_SELL, behind sign-in). partner/sell.js draws it twice:
   /analysis "Where to sell it" chapter (top venues per range) and the market watch board in the partner briefing,
-  /partner/accounts  the full rep sheet: filter by range and market, mark your own customers, print, CSV.
+  /partner/accounts  the full rep sheet: filter by range and market, mark your own customers, print.
 
 Run after build_venue_pages.py (it writes partner/dish-moves.js) and build_pages.py (partner/category-data.js):
   python3 tools/build_accounts.py

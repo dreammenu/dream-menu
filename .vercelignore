@@ -1,2 +1,5 @@
 README.md
 tools/
+# Never deployed (24 Nov 2026): raw data files. Partner figures are read on the site only, no downloads
+partner/data/
+*.csv

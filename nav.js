@@ -317,7 +317,7 @@ doc.addEventListener('keydown',function(e){
     });
   }
   // the partner briefing: its sections, words and structure show to everyone; each chart slot gets a greyed placeholder
-  var SLOTS={'p-hub-top':'This quarter: clear movers and calls','th-cats':'Category scorecard','th-sell':'Venues to call, range by range','c-opp':'Dish and drink scores','c-matrix':'Momentum matrix','c-forest':'Confidence ranges','th-fan':'The next three quarters','c-seg':'Who wants what','c-ops':'Operator pulse','p-hub-bottom':'Data downloads and partnership dates','c-wall':'Trend wall','c-heat':'Dish heat','[data-card="tr-board"]':'Life-cycle board','[data-card="tr-slope"]':'Then and now'};
+  var SLOTS={'p-hub-top':'This quarter: clear movers and calls','th-cats':'Category scorecard','th-sell':'Venues to call, range by range','c-opp':'Dish and drink scores','c-matrix':'Momentum matrix','c-forest':'Confidence ranges','th-fan':'The next three quarters','c-seg':'Who wants what','c-ops':'Operator pulse','p-hub-bottom':'Your partnership this term','c-wall':'Trend wall','c-heat':'Dish heat','[data-card="tr-board"]':'Life-cycle board','[data-card="tr-slope"]':'Then and now'};
   var BARS='<i style="width:92%"></i><i style="width:74%"></i><i style="width:66%"></i><i style="width:51%"></i><i style="width:38%"></i>';
   function briefing(){
     if(window.DM_PARTNER)return;

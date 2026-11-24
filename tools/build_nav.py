@@ -27,7 +27,7 @@ AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best firs
  ('venue', 'Running a venue', 'people running a venue', 'Tools, benchmarks and tested ideas to lift every cover.', ['o3', 'o8', 'r9', 'r14', 'o6', 'o12']),
  ('new', 'Opening a venue', 'people opening a venue', 'Gaps in the market, neighbourhoods and the numbers to model before you sign.', ['r16', 'r8', 'r3', 'o3', 'r10', 'o12']),
  ('chef', 'Chef or kitchen lead', 'chefs and kitchen leads', 'What guests order, what is moving and what they are tired of.', ['r14', 'o4', 'r13', 'f5', 'f14', 'r10']),
- ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['f16', 'b3', 'r13', 'r2', 'b5', 'f22']),
+ ('supplier', 'Supplier or brand', 'suppliers and brands', 'Demand signals, quarterly briefings and data to plan your range.', ['f16', 'b3', 'r13', 'r2', 'f22']),
  ('investor', 'Investor or developer', 'investors and developers', 'Where the evidence points for capital, concepts and sites.', ['r18', 'r16', 'f16', 'r2', 'r8', 'f6']),
  ('press', 'Press or researcher', 'press and researchers', 'The findings, the method and the numbers worth quoting.', ['a3', 'r2', 'f16', 'f4', 'f8', 'b17']),
 ]
@@ -59,7 +59,7 @@ ITAGS = {
  'b1': 'about', 'b9': 'about sales', 'b10': 'costs drinks', 'b11': 'places', 'b12': 'food menu', 'b13': 'food menu',
  'b14': 'drinks', 'b15': 'menu food', 'b16': 'places', 'b17': 'places', 'b18': 'food menu', 'b19': 'food places',
  'b20': 'costs', 'b21': 'places sales', 'b22': 'places', 'b23': 'menu costs sales', 'b24': 'menu food drinks',
- 'b2': 'about menu sales', 'b5': 'about', 'b6': 'about sales', 'b7': 'sales places about', 'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
+ 'b2': 'about menu sales', 'b6': 'about sales', 'b7': 'sales places about', 'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
 }
 # Pages that are not destinations (sign-in, errors, internal tools, redirects); everything else on disk must be in ITEMS.
 NOT_PAGES = {'/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
@@ -78,7 +78,7 @@ KEYWORDS = {
  'o3': 'revpash gross profit gp margin vat pricing price rise no-shows no shows deposits waste delivery apps regulars session costs labour food cost', 'o4': 'menu engineering stars dogs puzzles workhorses dish profitability',
  'o5': 'behavioural psychology nudges bread decoy wait', 'o6': 'checklist bathroom sunday festive christmas january quiet season price rise supplier solo diners celebration',
  'o7': 'instagram tiktok reviews google tripadvisor reply', 'o8': 'research evidence studies nudges menu psychology pricing no-shows reminder texts loyalty cards buffet plates music cutlery wine glass', 'o10': 'myths choice overload mints wansink',
- 'o11': 'test trial experiment a/b sample size', 'o12': 'audit review consultancy diagnostic mystery', 'b3': 'quarterly briefing sales team movers', 'b5': 'csv download data export spreadsheet',
+ 'o11': 'test trial experiment a/b sample size', 'o12': 'audit review consultancy diagnostic mystery', 'b3': 'quarterly briefing sales team movers', 
  'a0': 'about us mission why who founder gordon best story contact podcast napkin pitch youtube spotify', 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies', 'a3': 'press media journalist quote statistics logo credit',
 }
 AUD_ICON = {
@@ -105,7 +105,7 @@ GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 
 # One structure, used three times (24 Nov 2026): the header dropdowns, the footer columns and the tab bar on short
 # pages all list the same pages, with the same names, in the same order. Five sections.
 SEC = {'analysis': ['f16', 'f19', 'r1', 'f20', 'b9', 'r0'],
-       'partners': ['b2', 'b7', 'b5', 'b1', 'a3'],
+       'partners': ['b2', 'b7', 'b1', 'a3'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
        'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
        'about': ['a0', 'a1', 'a2']}
@@ -127,7 +127,7 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'b1': 'partners', 'b2': 'partners',
          'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
 MENU = [i for g in SEC.values() for i in g]
-RETITLE = {'b5': 'Data downloads', 'b7': 'Venues to call', 'f24': 'What do guests want?', 'f21': 'What is changing?', 'f17': 'Where does it differ?', 'f22': 'Can we trust it?',
+RETITLE = {'b7': 'Venues to call', 'f24': 'What do guests want?', 'f21': 'What is changing?', 'f17': 'Where does it differ?', 'f22': 'Can we trust it?',
            'o13': 'Venue badge', 'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
 
 # id, title, url, description, group, audiences, star (featured), parent id
@@ -215,8 +215,7 @@ ITEMS = [
  ('b22', 'Edinburgh and Scotland to 2030', '/case-studies/edinburgh-2030', 'The capital\'s appetite, Leith, the levy test and the coast', 'biz', 'investor press supplier new', 0, 'b9'),
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
- ('b2', 'Partner briefing', '/analysis#partner', 'Clear movers, buying calls, dish scores and partnership dates. Open to read; charts unlock at sign-in', 'biz', 'supplier', 0, None),
- ('b5', 'Data extracts', '/analysis#data', 'Structured CSV downloads for your own analysis', 'biz', 'supplier press', 0, 'b2'),
+ ('b2', 'Partner briefing', '/analysis#partner', 'Clear movers, buying calls, dish scores and partnership dates, read on the site. Charts unlock at sign-in', 'biz', 'supplier', 0, None),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
  ('b7', 'Rep sheet: venues to call', '/partner/accounts', 'Scottish venues guests name for rising dishes, by range, with the dish to lead with', 'biz', 'supplier', 0, 'b2'),
 
@@ -232,7 +231,7 @@ for row in ITEMS:
     i, t, u, d, g, a, s, p = row
     g = PLACE[p or i] if (p or i) in PLACE else PLACE[_parent[p]]
     t = RETITLE.get(i, t)
-    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, n=ITAGS.get(i, '').split(), lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'b5', 'f27', 'f28', 'f29'), k=KEYWORDS.get(i, ''))
+    IT[i] = dict(id=i, t=t, u=u, d=d, g=g, a=a.split(), s=bool(s), p=p, n=ITAGS.get(i, '').split(), lock=(u.startswith(LOCKED) and u not in PUBLIC) or i in ('f23', 'b2', 'f27', 'f28', 'f29'), k=KEYWORDS.get(i, ''))
 
 E = lambda x: html.escape(x, quote=True)
 LOCK = '<svg class="lock" viewBox="0 0 16 16" width="12" height="12" aria-label="Sign in needed" role="img"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>'

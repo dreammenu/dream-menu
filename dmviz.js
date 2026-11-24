@@ -145,7 +145,7 @@
     bt.onclick = function () { var on = c.classList.toggle('show-table'); bt.setAttribute('aria-pressed', on ? 'true' : 'false'); };
     var bc = h('button', 'dmv-btn', ICON.csv + 'CSV'); bc.type = 'button';
     bc.onclick = function () { if (api.data) csv(api.data.name, api.data.cols.map(function (cl) { return { l: cl.l, csv: function (r) { return cl.csv ? cl.csv(r) : cl.f ? cl.f(r) : r[cl.k]; } }; }), api.data.rows); };
-    tools.appendChild(bt); tools.appendChild(bc);
+    tools.appendChild(bt);   // no CSV button (24 Nov 2026): figures are read on the site, never downloaded
     if (o.id) {
       var bl = h('button', 'dmv-btn', ICON.link + 'Link'); bl.type = 'button'; bl.title = 'Copy a link to this chart';
       bl.onclick = function () { var u = location.origin + location.pathname + '#' + o.id; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { bl.innerHTML = ICON.link + 'Copied'; setTimeout(function () { bl.innerHTML = ICON.link + 'Link'; }, 1600); }, function () { location.hash = o.id; }); };

@@ -1,6 +1,6 @@
 /* Where to sell it and the market watch board (partners). Data: partner/sell-data.js, built by tools/build_accounts.py.
    On /analysis: #th-sell (top venues per range) and #p-watch (market watch, filled once partner/hub.js has drawn).
-   On /partner/accounts: #acct-sheet, the full rep sheet with search, own-customer marks, print and CSV. */
+   On /partner/accounts: #acct-sheet, the full rep sheet with search, own-customer marks, and print. */
 (function () {
   var S = window.DM_SELL, V = window.DMV;
   if (!S || !V) return;
@@ -90,7 +90,7 @@
       var rows = L.filter(function (x) { return cur === 'All' || x.mk === cur; });
       c.plot.innerHTML = '<div class="sc-wrap"><table class="sc sell"><thead><tr><th>Name</th><th>Type</th><th>Address</th><th class="num">Registered</th><th class="num sell-g">Capacity</th></tr></thead><tbody>' + rows.slice(0, 120).map(function (x) {
         return '<tr><td><b>' + esc(x.n) + '</b></td><td>' + esc(x.t) + '</td><td>' + esc(x.a) + ' <small>' + esc(x.pc) + '</small></td><td class="num">' + mon(x.d) + '</td><td class="num sell-g">' + (x.cap || '') + '</td></tr>';
-      }).join('') + '</tbody></table></div>' + (rows.length > 120 ? '<p class="sell-more">Showing the newest 120 of ' + rows.length + '. The CSV has them all.</p>' : '');
+      }).join('') + '</tbody></table></div>' + (rows.length > 120 ? '<p class="sell-more">Showing the newest 120 of ' + rows.length + '. Narrow by range or market to see the rest.</p>' : '');
       c.setTable([{ l: 'Name', k: 'n' }, { l: 'Type', k: 't' }, { l: 'Market', k: 'mk' }, { l: 'Address', k: 'a' }, { l: 'Postcode', k: 'pc' }, { l: 'Registered', k: 'd' }, { l: 'Licence granted', k: 'lic' }, { l: 'Licensed capacity', n: 1, k: 'cap' }], rows, 'dream-menu-new-openings');
     }
     V.chips(c.filters, [['All', 'Both cities'], ['Glasgow', 'Glasgow'], ['Edinburgh', 'Edinburgh']], cur, function (k) { cur = k; draw(); });
