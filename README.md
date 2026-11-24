@@ -270,3 +270,7 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 - Header: Findings, For venues, For foodies, About, then Search and Partner sign-in. No partner menu.
 - Findings: What guests want, What is changing, Where it differs, Partner briefing, Dish trends, Report 2026, State of the Menu, Insight Series. About: About Dream Menu, How it works, Can we trust it?, Ways to work with us, Press kit, Privacy.
 - The rep sheet (/partner/accounts) is linked from the briefing's "Where to sell it" section, not the menu.
+
+## Dish search (24 Nov 2026)
+- build_nav.py adds every dish page (trends/*.html) to nav-data.js as `dishes` (name, course, one line). nav.js searches them with the pages; a dish whose name matches ranks first, with everyday aliases (ALIAS: dram, chips/fries, stp and so on).
+- The home hero has a "Look up any dish" box (data-search-input); typing or tapping opens the site search with the text in it. Enter opens the top result.

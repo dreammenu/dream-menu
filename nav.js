@@ -89,6 +89,12 @@ $$('.audtile').forEach(function(t){t.addEventListener('click',function(){store('
 
 /* ---------- search ---------- */
 var dlg=null, results=[], sel=0;
+/* dishes (24 Nov 2026): every dish page is searchable and ranks first when its name matches */
+var ALIAS={'whisky':'dram scotch','sticky toffee':'stp pud','pudding':'pud','fries':'chips','chips':'fries','prawn':'shrimp prawn','langoustine':'prawn','coca':'coke','irn bru':'irn','champagne':'fizz bubbly','prosecco':'fizz bubbly','spritz':'aperol','ribeye':'steak','fillet':'steak','tartare':'steak','gin':'g&t','margarita':'marg','espresso martini':'pornstar','tiramisu':'tiramisu','ice cream':'gelato','gelato':'ice cream','mac and cheese':'macaroni','focaccia':'bread','burger':'burgers'};
+var DISHES=(D.dishes||[]).map(function(x){
+  var nt=norm(x.t),extra=[];for(var k in ALIAS)if(nt.indexOf(k)>=0)extra.push(ALIAS[k]);
+  return {t:x.t,u:x.u,d:x.d,g:'dish',w:(x.c?x.c+' \u00b7 ':'')+'Dish page',k:(x.c||'')+' dish '+extra.join(' '),dish:true};
+});
 function itemAud(i){return i.a||[]}
 function score(i,toks,aud){
   if(!toks.length)return 0;
@@ -100,11 +106,12 @@ function score(i,toks,aud){
     if(!hit)return 0; s+=hit;
   }
   if(aud&&itemAud(i).indexOf(aud)>=0)s+=3;   /* who you are sorts results, it never hides them */
+  if(i.dish&&norm(i.t).indexOf(toks[0])>=0)s+=4;   /* a dish named in the search comes first */
   return s+(i.s?1:0);
 }
 function norm(q){return q.toLowerCase().replace(/[\u2018\u2019']/g,'').replace(/-/g,' ')}
 function rowHtml(i,n){
-  var par=i.p&&ITEM[i.p]?ITEM[i.p].t:(GROUP[i.g]||{}).l;
+  var par=i.w||(i.p&&ITEM[i.p]?ITEM[i.p].t:(GROUP[i.g]||{}).l);
   return '<li role="option" id="sr-'+n+'" aria-selected="'+(n===sel)+'"><a href="'+i.u+'" tabindex="-1"><span class="sr-where">'+esc(par||'')+'</span><b>'+esc(i.t)+(i.lock?' '+LOCK:'')+'</b><span>'+esc(i.d)+'</span></a></li>';
 }
 function runSearch(){
@@ -115,7 +122,7 @@ function runSearch(){
     results=ids.map(function(id){return ITEM[id]});
     head.textContent=aud&&AUD[aud]?'Start here for '+AUD[aud].p:'Popular on Dream Menu';
   }else{
-    results=D.items.map(function(i){return [score(i,toks,aud),i]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12).map(function(x){return x[1]});
+    results=D.items.concat(DISHES).map(function(i){return [score(i,toks,aud),i]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12).map(function(x){return x[1]});
     head.textContent=results.length?results.length+(results.length===1?' result':' results')+(aud&&AUD[aud]?', most useful for '+AUD[aud].p+' first':''):'No matches. Try another word, or browse everything below.';
   }
   sel=0; list.innerHTML=results.map(rowHtml).join('');
@@ -130,11 +137,11 @@ function buildDialog(){
   dlg=doc.createElement('dialog'); dlg.className='srdlg'; dlg.setAttribute('aria-label','Search Dream Menu');
   var opts='<option value="">Anyone</option>'+D.aud.map(function(a){return '<option value="'+a.k+'">'+esc(a.l)+'</option>'}).join('');
   dlg.innerHTML='<div class="sr-box"><div class="sr-top"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'+
-    '<input id="srQ" type="search" placeholder="Search dishes, tools, report sections&hellip;" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="srList" aria-label="Search Dream Menu">'+
+    '<input id="srQ" type="search" placeholder="Search a dish, a tool or a report&hellip;" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="srList" aria-label="Search Dream Menu">'+
     '<button type="button" class="sr-close" aria-label="Close search">Esc</button></div>'+
     '<div class="sr-filter"><label for="srAud">Sort for: I&rsquo;m a&hellip;</label><select id="srAud">'+opts+'</select></div>'+
     '<p class="sr-head" id="srHead" aria-live="polite"></p><ul class="sr-list" id="srList" role="listbox" aria-label="Results"></ul>'+
-    '<p class="sr-foot"><a href="/#pick">Find what matters to you &rarr;</a><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> to move, <kbd>Enter</kbd> to open</span></p></div>';
+    '<p class="sr-foot"><a href="/trends">Every dish we track &rarr;</a><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> to move, <kbd>Enter</kbd> to open</span></p></div>';
   doc.body.appendChild(dlg);
   $('#srQ').addEventListener('input',runSearch);
   $('#srAud').addEventListener('change',function(){store('dm-aud',this.value||null);markAud(this.value);if(this.value)pickAud(this.value,false);runSearch();$('#srQ').focus();});
@@ -150,14 +157,21 @@ function buildDialog(){
   $('#srList').addEventListener('click',function(e){var a=e.target.closest('a');if(a){e.preventDefault();go(a.getAttribute('href'))}});
 }
 function go(u){if(dlg&&dlg.open)dlg.close();var here=location.pathname.replace(/\.html$/,'')||'/';var p=u.split('#');if((p[0]||'/')===here&&p[1]){location.hash=p[1];}else location.href=u;}
-function openSearch(){
+function openSearch(pre){
   if(!dlg)buildDialog();
   closeAll();toggleDrawer(false);
   var a=store('dm-aud');$('#srAud').value=a&&AUD[a]?a:'';
   if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');
-  root.classList.add('search-open');$('#srQ').value='';runSearch();$('#srQ').focus();
+  root.classList.add('search-open');$('#srQ').value=typeof pre==='string'?pre:'';runSearch();$('#srQ').focus();
+  var q=$('#srQ');if(q.value&&q.setSelectionRange)q.setSelectionRange(q.value.length,q.value.length);
 }
-$$('[data-search]').forEach(function(b){b.addEventListener('click',openSearch)});
+/* a search box on the page (the home page hero) opens the same search with what was typed */
+$$('[data-search-input]').forEach(function(inp){
+  function open(){var v=inp.value;inp.value='';inp.blur();openSearch(v)}
+  inp.addEventListener('focus',open);inp.addEventListener('input',open);
+  var f=inp.closest('form');if(f)f.addEventListener('submit',function(e){e.preventDefault();open()});
+});
+$$('[data-search]').forEach(function(b){b.addEventListener('click',function(){openSearch('')})});
 doc.addEventListener('keydown',function(e){
   var t=e.target, typing=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable);
   if((e.key==='/'&&!typing)||((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K'))){e.preventDefault();openSearch();}

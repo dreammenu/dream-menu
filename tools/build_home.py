@@ -247,6 +247,13 @@ if 'class="h-sponsor"' not in s:
 # hero buttons
 s = re.sub(r'<div class="h-ctas"><a class="btn gold" href="#[^"]+">[^<]+</a><a class="btn ghost" href="/map">[^<]+</a></div>',
            '<div class="h-ctas"><a class="btn gold" href="#now">This quarter&rsquo;s findings</a><a class="btn ghost" href="/map">Find a place to eat</a></div>', s)
+# a dish search in the hero (24 Nov 2026): typing opens the site search with dishes first (nav.js data-search-input)
+s = re.sub(r'\s*<form class="h-search".*?</form>', '', s, flags=re.S)
+s = s.replace('<a class="btn ghost" href="/map">Find a place to eat</a></div>',
+              '<a class="btn ghost" href="/map">Find a place to eat</a></div>'
+              '<form class="h-search" role="search" action="/trends"><label for="hSearch">Look up any dish</label>'
+              '<div><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+              '<input id="hSearch" type="search" data-search-input placeholder="Scallops, tiramisu, whisky&hellip;" autocomplete="off"></div></form>', 1)
 s = s.replace('href="#map"', 'href="/map"').replace('href="#start"', 'href="#doors"').replace('href="#try"', 'href="#doors"').replace('href="#pick"', 'href="#doors"').replace('href="#coverage"', 'href="/cities"')
 # comfort lists are shares of all interviews
 s = s.replace('<p class="sub">The comfort food guests admit to</p>', f'<p class="sub">Comfort food guests admit to, as a share of all interviews</p>')
