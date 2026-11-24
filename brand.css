@@ -662,6 +662,8 @@ main table thead th{border-radius:0!important}
 .pg-wrap>.pgate-bar{border-radius:0}
 .pg-wrap>.pg-lock{padding:0 2px}
 @media print{.pgate-ghost{display:none}}
+
+@media (max-width:350px){.mnav-top{font-size:13px;padding:11px 3px}}
 /* home-find */
 .hf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
 .hf-card{background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--navy);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column}
@@ -680,5 +682,3 @@ main table thead th{border-radius:0!important}
 @media (max-width:1000px){.hf-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.hf-grid{grid-template-columns:1fr}}
 /* /home-find */
-
-@media (max-width:350px){.mnav-top{font-size:13px;padding:11px 3px}}

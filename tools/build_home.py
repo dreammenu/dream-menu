@@ -50,72 +50,94 @@ def card(n, tag, title, body, do, link, label, kind=''):
 
 
 cards = []
-
-# 1. Where the menu is moving: course churn beyond chance
-ch = sorted(T['churn'], key=lambda c: -c['beyond'])
-moved = [c for c in ch if c['p'] < 0.05]
-if moved:
-    c = moved[0]
-    steady = [x['cl'].lower() + 's' for x in T['churn'] if x not in moved]
-    rest = ', '.join(steady[:-1]) + ' and ' + steady[-1] if len(steady) > 1 else (steady[0] if steady else '')
-    cards.append(card(1, 'Movement', f'{c["cl"]}s are where the menu is moving',
-        f'{c["cl"]}s are changing {times(c["obs"] / c["chance"])} as fast as chance would explain: {pct(c["obs"])} of {c["cl"].lower()} answers have moved to a different food group since late 2025, '
-        f'against about {pct(c["chance"])} you would expect from the luck of who was asked.' + (f' {rest.capitalize()} have moved no more than chance would explain.' if rest else ''),
-        f'Review the {c["cl"].lower()} list first. ' + (f'Change {rest} for cost or quality, not to chase a trend.' if rest else ''),
-        '/analysis#changed', 'What changed, course by course'))
-else:
-    cards.append(card(1, 'Movement', 'No course has moved beyond chance',
-        'Every course holds roughly the mix it had in late 2025 once sampling noise is allowed for.',
-        'Keep core lines and test new ideas as specials before they earn a permanent place.',
-        '/analysis#changed', 'What changed, course by course'))
-
-# 2. Demand against supply, from the menu audit (tools/build_menu_audit.py). Replaced the staples card on 13 Nov 2026:
-#    the staples are still on /analysis#life; this is the finding a venue can act on tonight. Falls back to staples without an audit.
+# Home findings rewritten 24 Nov 2026 (Gordon: make them insights an audience would be impressed by). Six cards, each a
+# surprising, quotable fact first, then what to do. All figures are computed here at every build, so they stay current.
 import os
+def jsdata(fn):
+    s_ = open(fn, encoding='utf-8').read()
+    m_ = re.search(r'window\.\w+\s*=\s*', s_)
+    return json.JSONDecoder().raw_decode(s_[m_.end():])[0]
+PD = jsdata('partner-data.js')
+AD = jsdata('analysis-data.js')
+SC = json.load(open('tools/data/static-counts.json', encoding='utf-8'))
 AU = None
 if os.path.exists('menu-audit-public.js'):
     AU = json.loads(open('menu-audit-public.js', encoding='utf-8').read().split('window.DM_AUDIT=', 1)[1].strip().rstrip(';'))
 _gaps = sorted([r for r in (AU or {}).get('rows', []) if r['read'] == 'Gap'], key=lambda r: -r['demand'])
-st = T['staples']
+def one_in(p):
+    return f'1 in {round(100 / p)}' if p else ''
+
+# 1. Drinks: the cocktail's grip is slipping, spirits and whisky rising (like-for-like trend test on the drink question)
+ag = {g['c']: g for g in PD['trends']['a']['groups']}
+ac = {g['c']: g for g in PD['trends']['a'].get('cats', [])}
+ck, sp, wh = ag.get('Cocktails'), ag.get('Spirits'), ac.get('Whisky / dram')
+alc = {g['l']: g for g in DR['alc']['groups']}
+af = alc.get('Alcohol-free instead')
+if ck and ck.get('sig') and ck['move'] < 0:
+    extra = ''
+    if wh and wh.get('p', 1) < 0.05 and wh['late'] > wh['early']:
+        extra = f' Whisky went from {pct(wh["early"])} to {pct(wh["late"])}, {times(wh["late"] / wh["early"])} as many picks.'
+    elif sp and sp.get('sig'):
+        extra = f' Spirits went from {pct(sp["early"])} to {pct(sp["late"])}.'
+    cards.append(card(1, 'Drinks', 'The cocktail&rsquo;s grip is slipping',
+        f'Cocktails fell from {pct(ck["early"])} to {pct(ck["late"])} of drink picks since late 2025, a move far beyond chance.{extra}'
+        + (f' And {one_in(af["pct"])} now answer &ldquo;your dream alcoholic drink&rdquo; with something alcohol-free.' if af else ''),
+        'Keep a tight house cocktail list, give a proper whisky and beer offer room, and price alcohol-free as a section, not a footnote.',
+        '/analysis/change#drinks', 'How drinks are moving'))
+
+# 2. Menus: the favourite dessert that most menus leave off (menu audit)
 if _gaps:
     g = _gaps[0]
     gc = g['course'].lower()
-    same = [r for r in _gaps if r['course'] == g['course']]
-    over = sorted([r for r in AU['rows'] if r['read'] == 'Over-supplied' and r['course'] == g['course']], key=lambda r: -r['menus'])
     cn = AU.get('cn', {}).get(g['course'], AU['n'])
-    cards.append(card(2, 'Menus', f'{g["l"]}: {pct(g["demand"])} of guests, {pct(g["menus"])} of menus',
-        f'We read the published menus of {AU["n"]} of the venues guests name most. {g["l"]} is the most-named {gc}, yet it is on {pct(g["menus"])} of the {cn} menus that print {gc}s.'
-        + (f' {over[0]["l"]} are on {pct(over[0]["menus"])}, for {pct(over[0]["demand"])} of guests.' if over else ''),
-        (f'Check your {gc} list against the {len(same)} most-named ({", ".join(r["l"].lower() for r in same)}) before adding anything new.' if len(same) > 1
-         else f'If {g["l"].lower()} is not on your menu, trial it as a special.'),
-        '/analysis#th-audit', 'What guests ask for against what menus list'))
-elif st:
-    top = st[:3]
-    names = ', '.join(s['l'].lower() for s in top[:-1]) + ' and ' + top[-1]['l'].lower()
-    cards.append(card(2, 'Staples', f'{len(st)} dishes hold their share every quarter',
-        f'Led by {names}. Tiramisu alone takes {pct(top[0]["pct"])} of dessert answers.' if top[0]['l'] == 'Tiramisu'
-        else f'Led by {names}, each holding its share in every full quarter.',
-        'Protect these lines. Spend effort on how well they are made and priced, not on replacing them.',
-        '/analysis#life', 'The life cycle of every dish'))
+    off = 100 - g['menus']
+    lead = 'Foodies&rsquo; favourite'
+    cards.append(card(2, 'Menus', f'{lead} {gc} is missing from {round(off / 25) and ["", "1 in 4", "half of", "3 in 4", "almost all"][min(4, round(off / 25))] or pct(off)} menus',
+        f'{g["l"]} is the {gc} guests name most ({pct(g["demand"])} of answers). We read {cn} {gc} menus from the venues guests rate highest: {pct(off)} leave it off.',
+        f'If {g["l"].lower()} is not on your list, trial it as a special this month.',
+        '/analysis/demand#th-audit', 'What guests want against what menus list'))
 
-# 3. Drinks: cocktails and alcohol-free
-alc = {g['l']: g for g in DR['alc']['groups']}
-ck, af = alc.get('Cocktails'), alc.get('Alcohol-free instead')
-if ck and af:
-    cards.append(card(3, 'Drinks', f'Cocktails lead; {pct(af["pct"])} choose alcohol-free',
-        f'Cocktails take {pct(ck["pct"])} of alcoholic drink answers. {pct(af["pct"])} answer the question with something alcohol-free. '
-        f'An early baseline from {DR["alc"]["n"]} answers since August 2026.',
-        'Give alcohol-free its own priced section, not a footnote, and lead the drinks list with house cocktails.',
-        '/analysis#drinks', 'The new drinks series'))
+# 3. Guests and the guides: agree at the top, then part ways
+cr = AD.get('critics', {})
+t10, all_ = cr.get('tops', {}).get('10'), cr.get('tops', {}).get(str(cr.get('venues')))
+if t10 and all_:
+    none_pct = 100 * (all_['n'] - all_['any']) / all_['n']
+    cards.append(card(3, 'Venues', f'The guides know the top 10. Foodies know the other {all_["n"] - all_["any"]:,}',
+        f'Foodies and critics agree on the very best: {t10["any"]} of the 10 most-named venues hold a guide award or a place on a respected list. '
+        f'Below that, they part ways: {pct(none_pct)} of the {cr["venues"]:,} places guests name are in no guide, award or list at all. That is where the next big names are.',
+        'Guides tell you who has arrived. Our venue map shows who guests rate before the guides catch up.',
+        '/analysis/cities#critics', 'Guests and the guides'))
 
-# 4. Outside check: one place where foodies and the market disagree
+# 4. Who you ask changes the menu: chefs and industry against creators
+grp = {x['g']: dict(x['top_groups']) for x in PD.get('groups', [])}
+ind, cre = grp.get('Industry', {}), grp.get('Creators', {})
+if ind.get('Seafood') and cre.get('Potatoes and fries'):
+    cards.append(card(4, 'Who orders what', 'Chefs dream of seafood. Creators dream of chips',
+        f'Seafood is {pct(ind["Seafood"])} of what hospitality professionals choose, against {pct(cre.get("Seafood", 0))} for food creators, '
+        f'who rate potatoes and fries ({pct(cre["Potatoes and fries"])}) as highly as seafood. The people who cook and the people who post want different plates.',
+        'Write the menu for your guests, and the specials board for the people who will photograph it.',
+        '/analysis/demand', 'What guests want, by who they are'))
+
+# 5. The great debates
+db = SC.get('debates', {})
+cc, pn = db.get('coke'), db.get('pineapple')
+if cc and pn:
+    ib, co = 100 * cc['c']['Irn Bru'] / cc['n'], 100 * cc['c']['Coca Cola'] / cc['n']
+    yes = 100 * pn['c']['Yes'] / pn['n']
+    tie = abs(yes - 50) < 2
+    cards.append(card(5, 'The debates', f'Irn Bru beats Coke. Pineapple on pizza is {"a dead heat" if tie else ("a yes" if yes > 50 else "a no")}',
+        f'Asked to choose, {pct(ib)} pick Irn Bru and {pct(co)} Coca-Cola. Pineapple on pizza splits the room: {pct(yes)} yes, {pct(100 - yes)} no, from {pn["n"]:,} answers.',
+        'Stock Irn Bru beside Coke. On pineapple, let the guest decide.',
+        '/#debates', 'Every debate'))
+
+# 6. Outside check: one place where foodies and the market disagree
 dif = [i for i in B['items'] if i['verdict'] == 'differs' and i.get('kind') == 'direction']
 if dif:
     i = dif[0]
-    cards.append(card('', 'Outside check', f'{e(i["topic"])}: growth and backlash at once' if i['id'] == 'matcha' else e(i['topic']),
+    cards.append(card('', 'Outside check', 'The trend foodies most want gone is still growing' if i['id'] == 'matcha' else e(i['topic']),
         f'{e(i["dm"]["text"])}. {e(i["ext"]["who"])} ({e(i["ext"]["date"])}) reports the opposite: {e(i["ext"]["text"][0].lower() + i["ext"]["text"][1:])}.',
         e(i['read'].split('. ', 1)[1] if '. ' in i['read'] else i['read']),
-        '/analysis#compare', 'Every outside benchmark', ' hf-ext'))
+        '/analysis/trust', 'Every outside benchmark', ' hf-ext'))
 
 last = T['meta']['last']
 from datetime import date
@@ -123,11 +145,10 @@ d = date.fromisoformat(last)
 when = f'{d.day} {d.strftime("%B %Y")}'
 section = (
     '<section class="h-sec" id="now"><div class="wrap">\n'
-    '  <div class="h-head"><div class="eyebrow">This quarter</div><h2>' + ('Three findings and <em>an outside check</em>' if dif else 'Three findings, and <em>what to do about them</em>') + '</h2>\n'
-    f'  <p class="lede">Tested against chance, not just counted. Figures are shares of answers from {N_ALL:,} interviews to {when}. '
-    + (f'The menus card sets those answers beside {AU["n"]} published menus read on {date.fromisoformat(AU["collected"]).day} {date.fromisoformat(AU["collected"]).strftime("%B %Y")}. ' if _gaps else '')
-    + ('The grey card is an outside source, kept separate as a challenge to our own data. ' if dif else '') + 'Each card ends with what to do about it.</p></div>\n'
-    f'  <div class="hf-grid">{"".join(cards)}</div>\n'
+    '  <div class="h-head"><div class="eyebrow">This quarter</div><h2>What <em>{:,} foodies</em> just told us</h2>\n'.format(N_ALL) +
+    f'  <p class="lede">Six things the data says right now, from {N_ALL:,} interviews to {when}. Changes are tested against chance, not just counted; '
+    'the grey card is an outside source, kept apart as a challenge to our own data. Each ends with what to do about it.</p></div>\n'
+    f'  <div class="hf-grid hf-three">{"".join(cards)}</div>\n'
     f'  <p class="hf-bench"><span aria-hidden="true">&#10003;</span> {benchlib.headline()}. <a href="/analysis#compare">See every comparison</a></p>\n'
     '  <p class="hf-foot"><a class="btn gold" href="/analysis/demand">See all the findings</a> <a class="hf-link" href="/report#library">All reports</a></p>\n'
     '</div></section>\n')
