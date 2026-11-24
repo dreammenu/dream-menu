@@ -255,3 +255,8 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 - Partner sign-in returns to the page you were on (nav.js).
 - Home: hero, numbers, findings, three doors (partners, venues, foodies), the dishes, guest voices, the debates. The interest filter, tools band, crave/over lists and risers left the home page (build_home.py).
 - Headline interview count = latest interview number; % of interviews uses n_sheet (add_interviews.py).
+
+## The analysis, split (24 Nov 2026)
+- /analysis is an overview (the short version, a door to each part, what to do). Each part has its own page, written by tools/build_pages.py (PARTS): /analysis/demand, /analysis/change, /analysis/cities, /analysis/trust (with the method) and /analysis/partner (the briefing, greyed charts signed out).
+- One tab bar (class anav) links the parts; no "On this page" bar on these pages. Old /analysis#<id> links are forwarded to the right page by a small script on the overview.
+- No data downloads anywhere: no CSV buttons, no downloads section; /partner/data/ and *.csv are never served (middleware) or deployed (.vercelignore).

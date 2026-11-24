@@ -165,7 +165,7 @@ doc.addEventListener('keydown',function(e){
 
 /* ---------- "On this page" jump bars ---------- */
 (function(){
-  var main=$('main'); if(!main||$('.jump',main)||$('.cs-toc',main)||doc.body.classList.contains('no-onpage'))return;   // a page with its own contents list needs no second bar
+  var main=$('main'); if(!main||$('.jump',main)||$('.cs-toc',main)||$('.anav',main)||doc.body.classList.contains('no-onpage'))return;   // a page with its own contents list needs no second bar
   function label(h){return (h.getAttribute('data-short')||h.textContent).replace(/\s+/g,' ').trim()}
   var hs=$$('h2',main).filter(function(h){return h.id||(h.closest('section')&&h.closest('section').id&&$('h2',h.closest('section'))===h)});
   if(hs.length<3)hs=$$('h3[id]',main);
@@ -299,7 +299,7 @@ doc.addEventListener('keydown',function(e){
 /* ---------- partner-only charts on the analysis page: the words stay open, the charts grey out with a sign-in link on top.
    Signed in = the partner data file loaded (it returns 401 otherwise). A few charts stay open as samples (OPEN). ---------- */
 (function(){
-  if(location.pathname.replace(/\.html$/,'')!=='/analysis')return;
+  if(!/^\/analysis(\/|$)/.test(location.pathname.replace(/\.html$/,'')))return;
   var GATE=['th-audit','th-life','th-churn','th-drinks','c-critics','th-bench','c-conc','th-conc','[data-card="concentration"]'];
   var OPEN=['th-find','th-demand','c-cities'];   // the short version, what guests want, the city index; "Who answers" in Method stays open too
   var LOCK='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>';
@@ -308,7 +308,7 @@ doc.addEventListener('keydown',function(e){
     GATE.forEach(function(sel){
       var n=sel.charAt(0)==='['?doc.querySelector(sel):doc.getElementById(sel);
       if(!n||n.closest('#partner')||n.closest('.pg-wrap')||OPEN.indexOf(n.id)>-1)return;
-      var sec=n.closest('section[id]')||n.closest('details[id]'), back='/analysis'+(sec?'#'+sec.id:'');
+      var sec=n.closest('section[id]')||n.closest('details[id]'), back=location.pathname.replace(/\.html$/,'')+(sec?'#'+sec.id:'');
       var w=doc.createElement('div'); w.className='pg-wrap';
       var a=doc.createElement('a'); a.className='pgate-bar'; a.href='/login?next='+encodeURIComponent(back);
       a.innerHTML=LOCK+'<span>Partner chart</span><b>Sign in to see it</b>';
@@ -324,7 +324,7 @@ doc.addEventListener('keydown',function(e){
     Object.keys(SLOTS).forEach(function(sel){
       var n=sel.charAt(0)==='['?doc.querySelector(sel):doc.getElementById(sel);
       if(!n||n.querySelector('.pgate'))return;
-      var sec=n.closest('section[id]')||n.closest('details[id]'), back='/analysis'+(sec?'#'+sec.id:'#partner');
+      var sec=n.closest('section[id]')||n.closest('details[id]'), back=location.pathname.replace(/\.html$/,'')+(sec?'#'+sec.id:'');
       n.innerHTML='<div class="pgate pgate-chart"><a class="pgate-bar" href="/login?next='+encodeURIComponent(back)+'">'+LOCK+'<span>'+esc(SLOTS[sel])+'</span><b>Sign in to see it</b></a><div class="pgate-ghost" aria-hidden="true">'+BARS+'</div></div>';
     });
     // headlines written from partner figures fall back to the section's plain name

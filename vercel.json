@@ -49,12 +49,12 @@
     },
     {
       "source": "/briefing",
-      "destination": "/analysis#partner",
+      "destination": "/analysis/partner",
       "permanent": false
     },
     {
       "source": "/partner",
-      "destination": "/analysis#partner",
+      "destination": "/analysis/partner",
       "permanent": false
     },
     {

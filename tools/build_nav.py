@@ -135,16 +135,16 @@ ITEMS = [
  ('f1', 'Food trends', '/', f'What {N_ALL} guests dream of eating, course by course and city by city', 'food', 'food chef supplier press', 1, None),
  ('f16', 'The analysis', '/analysis', 'What guests want, what is changing, how cities differ, how it compares, and what to do', 'food', 'food investor press supplier', 1, None),
  ('f32', 'The short version', '/analysis#read', 'What the data says this quarter, in a few lines', 'food', 'food venue new chef supplier investor press', 0, 'f16'),
- ('f17', "Every city's appetite", '/analysis#cities', 'Which dishes take a bigger share in each market than everywhere else', 'food', 'investor new supplier', 0, 'f16'),
+ ('f17', "Every city's appetite", '/analysis/cities', 'Which dishes take a bigger share in each market than everywhere else', 'food', 'investor new supplier', 0, 'f16'),
  ('f18', 'Guests and critics', '/analysis#critics', 'How far guest favourites and guide award winners overlap', 'food', 'food press', 0, 'f16'),
- ('f21', 'What changed', '/analysis#changed', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
- ('f22', 'How we compare', '/analysis#compare', 'Dream Menu against national polls, eating-out data, menu trackers and sales', 'food', 'food press investor supplier', 1, 'f16'),
- ('f24', 'What guests want', '/analysis#demand', 'Each course ranked by food group with seafood dish by dish, the dish life cycle, the staples, and demand against what menus list', 'food', 'food chef supplier venue', 0, 'f16'),
+ ('f21', 'What changed', '/analysis/change', 'How much each course moved, against chance, and the steady staples', 'food', 'food chef supplier press', 0, 'f16'),
+ ('f22', 'How we compare', '/analysis/trust', 'Dream Menu against national polls, eating-out data, menu trackers and sales', 'food', 'food press investor supplier', 1, 'f16'),
+ ('f24', 'What guests want', '/analysis/demand', 'Each course ranked by food group with seafood dish by dish, the dish life cycle, the staples, and demand against what menus list', 'food', 'food chef supplier venue', 0, 'f16'),
  ('f25', 'Drinks baseline', '/analysis#drinks', 'Soft and alcoholic drinks since August 2026, including the alcohol-free share', 'food', 'venue supplier', 0, 'f16'),
  ('f26', 'What should I do?', '/analysis#actions', 'The evidence read for venues, investors, suppliers and press', 'food', 'venue new supplier investor press', 0, 'f16'),
- ('f27', 'Category scorecard', '/analysis#category-sec', 'Partners: a grow, defend, trim, core or niche call for every food group', 'food', 'supplier', 0, 'f16'),
- ('f28', 'Dish and drink scores', '/analysis#opportunity-sec', 'Partners: back, watch or review, with a score out of 10 for every dish and drink', 'food', 'supplier', 0, 'f16'),
- ('f29', 'Operator pulse', '/analysis#segments-sec', 'Partners: what operators say about costs, prices and confidence', 'food', 'supplier investor', 0, 'f16'),
+ ('f27', 'Category scorecard', '/analysis/partner#category-sec', 'Partners: a grow, defend, trim, core or niche call for every food group', 'food', 'supplier', 0, 'f16'),
+ ('f28', 'Dish and drink scores', '/analysis/partner#opportunity-sec', 'Partners: back, watch or review, with a score out of 10 for every dish and drink', 'food', 'supplier', 0, 'f16'),
+ ('f29', 'Operator pulse', '/analysis/partner#segments-sec', 'Partners: what operators say about costs, prices and confidence', 'food', 'supplier investor', 0, 'f16'),
  ('f2', 'The dishes people choose', '/#courses', 'The top dishes for every course and their share of guests', 'food', 'food chef supplier', 0, 'f1'),
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
  ('f5', 'Guilty pleasures and Bin it', '/#mood', 'The comfort food guests admit to, and the trends they want gone', 'food', 'food chef venue', 1, 'f1'),
@@ -215,7 +215,7 @@ ITEMS = [
  ('b22', 'Edinburgh and Scotland to 2030', '/case-studies/edinburgh-2030', 'The capital\'s appetite, Leith, the levy test and the coast', 'biz', 'investor press supplier new', 0, 'b9'),
  ('b23', 'Ten forces to 2031', '/case-studies/ten-forces', 'Weight-loss drugs, less drinking, levies and the turn to fish and vegetables', 'biz', 'venue supplier investor press new', 0, 'b9'),
  ('b24', 'The edge of the menu', '/case-studies/edge-of-the-menu', '26 niche items on an adoption curve, with timing and confidence', 'biz', 'venue supplier press new', 0, 'b9'),
- ('b2', 'Partner briefing', '/analysis#partner', 'Clear movers, buying calls, dish scores and partnership dates, read on the site. Charts unlock at sign-in', 'biz', 'supplier', 0, None),
+ ('b2', 'Partner briefing', '/analysis/partner', 'Clear movers, buying calls, dish scores and partnership dates, read on the site. Charts unlock at sign-in', 'biz', 'supplier', 0, None),
  ('b6', 'Partner one-pager', '/onepager', 'One page to share with your team', 'biz', 'supplier', 0, 'b2'),
  ('b7', 'Rep sheet: venues to call', '/partner/accounts', 'Scottish venues guests name for rising dishes, by range, with the dish to lead with', 'biz', 'supplier', 0, 'b2'),
 
@@ -338,7 +338,9 @@ def page_group(path):
         if it['u'] == path:
             return it['g']
     # child pages light up their section in the header too
-    for pre, g in (('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
+    if path == '/analysis/partner':
+        return 'partners'
+    for pre, g in (('/analysis/', 'analysis'), ('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
                    ('/case-studies/', 'analysis'), ('/report/', 'analysis'), ('/quarterly/', 'analysis')):
         if path.startswith(pre):
             return g
@@ -370,7 +372,7 @@ def main():
         f.write('/* Generated by tools/build_nav.py: edit the list there, not this file. */\nwindow.DM_NAV=' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n')
     foot = footer_links()
     changed = 0
-    for fn in sorted([f for f in glob.glob('*.html') if open(f, encoding='utf-8').read().find('<header class="top">') >= 0] + glob.glob('report/*.html') + glob.glob('case-studies/*.html') + glob.glob('venue/*.html') + glob.glob('city/*.html') + glob.glob('area/*.html') + glob.glob('trends/*.html') + glob.glob('quarterly/*.html')):
+    for fn in sorted([f for f in glob.glob('*.html') if open(f, encoding='utf-8').read().find('<header class="top">') >= 0] + glob.glob('report/*.html') + glob.glob('case-studies/*.html') + glob.glob('venue/*.html') + glob.glob('city/*.html') + glob.glob('area/*.html') + glob.glob('trends/*.html') + glob.glob('quarterly/*.html') + glob.glob('analysis/*.html')):
         s = open(fn).read()
         o = s
         path = '/' + fn[:-5]

@@ -255,12 +255,12 @@ main = f"""<main class="iv-page">
 <section class="iv-hero navy"><div class="iv-wrap">
 <span class="iv-kick">The analysis</span>
 <h1>What the UK’s foodies want, and where it’s heading</h1>
-<p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week. Partners who sign in get the buying briefing and the data on this same page.</p>
+<p class="lede">{N_ALL} interviews, read the way a trade analyst would: demand, change, place, a check against outside data, then what to do. Five questions, one answer each, refreshed every week. Each question has its own page; partners who sign in see every chart.</p>
 <p class="iv-also">Looking up one dish? <a href="/trends">Dish trends</a>. Need a dated publication? <a href="/report#library">Reports</a>.</p>
 <!-- the numbered story list was dropped (24 Nov 2026): the "On this page" bar below the hero does that job -->
 <div data-interest="analysis"></div>
 </div></section>
-{chap(1, 'The short version', 'What the data says this quarter', 'Each line is written from the numbers and rechecked at every refresh. The sections below show the evidence.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div><div data-fresh="interviews look"></div>', 'read')}
+{chap(1, 'The short version', 'What the data says this quarter', 'Each line is written from the numbers and rechecked at every refresh. The pages below show the evidence.', '<div id="th-find"></div><div class="pv-body"><div class="kpis" id="x-kpis"></div><div class="sowhat" id="x-sowhat"></div><h3 class="iv-h3" id="t1"></h3></div><div data-fresh="interviews look"></div>', 'read')}
 {chap(2, 'What do guests want?', f"{_lead['s']['l']} to start, {_lead['m']['l'].lower()} for main, {_lead['d']['l'].lower()} on the side", f'Demand first. The chart ranks what guests name on each course: food groups, with seafood broken out into its dishes so scallops, prawns and white fish each take their own place. Below it is the life cycle that menu analysts use: a dish emerges, grows, becomes established and fades. {_n_stap} dishes are established staples that hold their share every quarter.{AU_SUB}', '<div id="th-demand"></div><div id="th-audit"></div><span id="life"></span><span id="settled-sec"></span><div id="th-life"></div>', 'demand', part='Question one')}
 {chap(3, 'What is changing?', ('Sides are being rewritten; the rest of the menu is holding' if _most['course'] == 'd' else f"{_most['cl']}s changed most") if _moved else 'No course has changed beyond chance', f'{_most["obs"]}% of {_most["cl"].lower()} answers have moved to a different food group since late 2025, against about {_most["chance"]}% you would expect from the luck of who was asked. No other course has moved more than chance would explain.', '<div id="th-churn"></div><h3 class="iv-h3 iv-h3b" id="drinks">Drinks: a new baseline since August 2026</h3><p class="iv-sub">The drinks question was split into soft and alcoholic on 23 August 2026, so this series starts there. Levels only for now; movement will be tested once two quarters each hold 100 answers.</p><div id="th-drinks"></div>', 'changed', part='Question two')}
 {chap(4, 'Where does it differ?', '&nbsp;', 'The national picture hides real differences between cities, and between what guests name and what guides reward. Shares, not counts, are used throughout, so a smaller city is compared fairly with Glasgow.', '<div id="c-cities"></div><span id="critics"></span><h3 class="iv-h3 iv-h3b" id="tb"></h3><p class="iv-sub" id="sb"></p><div id="c-critics"></div>', 'cities', tid='ta', part='Question three')}
@@ -327,3 +327,108 @@ open('intelligence.html', 'w', encoding='utf-8').write('<!doctype html><html lan
     '<meta name="robots" content="noindex"><link rel="canonical" href="https://www.dream-menu.com/analysis">'
     '<meta http-equiv="refresh" content="0; url=/analysis#matrix-sec"></head><body><p>Partner intelligence is now part of <a href="/analysis">the analysis</a>.</p></body></html>\n')
 print('wrote analysis.html', len(an), '(intelligence.html is a redirect)')
+
+# ---------------------------------------------------------------- the analysis, split into its parts (24 Nov 2026)
+# Gordon: one long page added to the chaotic feel. /analysis is now an overview (the short version, a door to each
+# part, what to do) and each part has its own page under /analysis/. All pages load the same scripts; a chart whose
+# container is not on the page is simply not drawn. Old links to /analysis#<id> are forwarded to the right page.
+PARTS = [  # slug, tab label, page title, section ids (in order), one line for the overview card
+    ('', 'Overview', 'The analysis', ['read', 'actions'], ''),
+    ('demand', 'What guests want', 'What do guests want?', ['demand'], 'Each course ranked by food group, the dish life cycle, the staples, and demand against what menus list'),
+    ('change', 'What is changing', 'What is changing?', ['changed'], 'How much each course has moved against chance, the steady staples, and drinks'),
+    ('cities', 'Where it differs', 'Where does it differ?', ['cities'], 'How each city eats, and where guests and the critics part ways'),
+    ('trust', 'Can we trust it?', 'Can we trust it?', ['compare', 'method'], 'Dream Menu against national polls, eating-out data and menu trackers, and how the numbers are made'),
+    ('partner', 'Partner briefing', 'The partner briefing', ['partner'], 'Clear movers, a call for every category, the venues to call and a score for every dish. Charts unlock at sign-in'),
+]
+
+def _block(s, sid):
+    """The whole top-level block for a section id, with the part divider in front of it if there is one."""
+    if sid == 'partner':
+        i = s.index('<div id="partner">')
+        j = s.index('<section class="iv-sec" id="method"')
+        return s[i:j]
+    m = re.search(r'(<div class="iv-part"><div class="iv-wrap"><span>[^<]*</span></div></div>\s*)?<section class="iv-sec" id="' + sid + r'"', s)
+    i = m.start()
+    j = s.index('</section>', s.index('<div class="iv-wrap', m.end())) + len('</section>')
+    # a section may contain nested sections: walk to the matching close
+    depth, k = 0, m.start(0) + (len(m.group(1)) if m.group(1) else 0)
+    for t in re.finditer(r'<(/?)section\b', s[k:]):
+        depth += -1 if t.group(1) else 1
+        if depth == 0:
+            j = k + t.end() + s[k + t.end():].index('>') + 1
+            break
+    blk = s[i:j]
+    return re.sub(r'^<div class="iv-part"><div class="iv-wrap"><span>[^<]*</span></div></div>\s*', '', blk)
+
+_full = an
+_mstart, _mend = _full.index('<main class="iv-page">'), _full.index('</main>')
+_body = _full[_mstart:_mend]
+_hero = re.search(r'<section class="iv-hero navy">.*?</section>', _body, re.S).group(0)
+_pre, _post = _full[:_mstart], _full[_mend:]
+
+def _url(slug):
+    return '/analysis' + ('/' + slug if slug else '')
+
+def _tabs(cur):
+    links = ''.join(f'<a href="{_url(sl)}"' + (' aria-current="page"' if sl == cur else '') + f'>{lab}</a>' for sl, lab, *_ in PARTS)
+    return f'<nav class="subnav secnav anav" aria-label="The analysis"><div class="wrap"><span class="secnav-l">The analysis</span>{links}</div></nav>'
+
+def _next(cur):
+    i = [p[0] for p in PARTS].index(cur)
+    if i + 1 >= len(PARTS):
+        return ''
+    sl, lab, title, _, line = PARTS[i + 1]
+    return (f'<a class="nextstep nextup" href="{_url(sl)}"><div class="wrap"><span>Next in the analysis</span><b>{title}</b>'
+            f'<em>{line}</em><i aria-hidden="true">&rarr;</i></div></a>')
+
+# where every element id now lives, so /analysis#<id> links still land
+_where = {}
+for sl, lab, title, ids, line in PARTS:
+    for sid in ids:
+        for x in re.findall(r'\bid="([^"]+)"', _block(_body, sid)):
+            _where.setdefault(x, _url(sl))
+        _where[sid] = _url(sl)
+_where.update({'matrix-sec': '/analysis/partner', 'data': '/analysis/partner', 'term': '/analysis/partner'})
+
+_doors = ('<section class="iv-sec" id="parts"><div class="iv-wrap"><p class="iv-eyebrow">The evidence</p>'
+          '<h2 class="iv-title" data-short="The evidence">Five questions, one page each</h2><div class="an-doors">'
+          + ''.join(f'<a class="an-door{" an-door-p" if sl == "partner" else ""}" href="{_url(sl)}"><b>{title}</b><span>{line}</span><i aria-hidden="true">&rarr;</i></a>'
+                    for sl, lab, title, ids, line in PARTS[1:]) + '</div></div></section>\n')
+_fwd = ('<script>(function(){var W=' + json.dumps({k: v for k, v in _where.items() if v != '/analysis'}, separators=(',', ':'))
+        + ';var h=location.hash.slice(1);if(h&&W[h]&&!document.getElementById(h))location.replace(W[h]+"#"+h);})();</script>\n')
+_CSS = ('<style id="an-split">.an-doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:18px}'
+        '.an-door{display:flex;flex-direction:column;gap:6px;padding:16px 18px 14px;border:1px solid var(--rule);border-top:4px solid var(--navy);border-radius:8px;background:var(--card);color:var(--ink);text-decoration:none;min-height:130px}'
+        '.an-door b{font:800 18px/1.2 var(--display)}.an-door span{font-size:14.5px;line-height:1.45;color:var(--muted)}.an-door i{margin-top:auto;font-style:normal;font-weight:700}'
+        '.an-door:hover{border-color:var(--ink)}.an-door-p{border-top-color:var(--gold)}'
+        '.iv-hero.an-sub{padding-top:28px;padding-bottom:26px}.iv-hero.an-sub h1{font-size:clamp(28px,4vw,44px)}</style>\n')
+
+import json as _json
+os.makedirs('analysis', exist_ok=True)
+written = []
+for sl, lab, title, ids, line in PARTS:
+    blocks = ''.join(_block(_body, sid) + '\n' for sid in ids)
+    if not sl:
+        hero = _hero.replace('<div data-interest="analysis"></div>', '')   # the doors below do the filter's job
+        content = blocks.replace('<section class="iv-sec" id="actions"', _doors + '<section class="iv-sec" id="actions"', 1)
+        extra = _fwd
+    else:
+        hero = (f'<section class="iv-hero navy an-sub"><div class="iv-wrap"><span class="iv-kick">The analysis</span><h1>{title}</h1>'
+                f'<p class="lede">{line}. From {N_ALL} Dream Menu interviews, refreshed every week.</p></div></section>')
+        content = blocks
+        extra = ''
+    page_main = f'<main class="iv-page">\n{_tabs(sl)}\n{hero}\n{content}{_next(sl)}\n'
+    pre = _pre.replace('</head>', _CSS + '</head>', 1).replace('<body', '<body class="no-onpage"', 1) if sl else _pre.replace('</head>', _CSS + '</head>', 1)
+    if sl:
+        pre = re.sub(r'<title>[^<]*</title>', f'<title>{title} | The analysis | Dream Menu</title>', pre, count=1)
+        pre = re.sub(r'(<link rel="canonical" href=")[^"]*', r'\g<1>https://www.dream-menu.com' + _url(sl), pre, count=1)
+        pre = re.sub(r'(<meta property="og:title" content=")[^"]*', r'\g<1>' + title + ' | Dream Menu', pre, count=1)
+    html_out = pre + page_main + _post.replace('</body>', extra + '</body>', 1)
+    fn = 'analysis.html' if not sl else f'analysis/{sl}.html'
+    open(fn, 'w', encoding='utf-8').write(html_out)
+    written.append(fn)
+# sitemap entries for the new pages
+_sm = open('sitemap.xml', encoding='utf-8').read()
+_add = ''.join(f'<url><loc>https://www.dream-menu.com{_url(sl)}</loc></url>\n' for sl, *_ in PARTS if sl and f'<loc>https://www.dream-menu.com{_url(sl)}</loc>' not in _sm)
+if _add:
+    open('sitemap.xml', 'w', encoding='utf-8').write(_sm.replace('</urlset>', _add + '</urlset>'))
+print('analysis split:', ', '.join(written))
