@@ -277,7 +277,7 @@ main = f"""<main class="iv-page">
 <div class="iv-part"><div class="iv-wrap"><span>Partner briefing</span></div></div>
 <div id="p-hub-top"></div>
 {chap(6, 'Category scorecard', f'{_ngrow} categories to grow, {_ncut} to defend or trim', 'The buying view. Every food group in every course, with its share of demand, how that share has moved, and a call: Grow, Defend, Trim, Core or Niche. A move only earns a call when it passes a significance test.', '<div id="th-cats"></div>', 'category-sec', True, 'Every food group in every course with its share, its movement and a buying call: grow, defend, trim, core or niche.')}
-{chap(7, 'Where to sell it', 'The venues to call, range by range', 'From categories to accounts. Every Scottish venue guests name at least twice, scored for each supplier range by the dishes guests name there and whether those dishes are worth backing. Each row gives the dish to lead with and anything falling at that venue. The full rep sheet adds every venue, addresses, your own customer marks and print.', '<div id="th-sell"></div>', 'sell-sec', True, 'Scottish venues guests name for rising dishes, by supplier range, with the dish to lead with at each one.')}
+{chap(7, 'Where to sell it', 'The venues to call, range by range', 'From categories to accounts. Every Scottish venue guests name at least twice, scored for each supplier range by the dishes guests name there and whether those dishes are worth backing. Each row gives the dish to lead with and anything falling at that venue. The <a href="/partner/accounts">full rep sheet</a> adds every venue, addresses, your own customer marks and print.', '<div id="th-sell"></div>', 'sell-sec', True, 'Scottish venues guests name for rising dishes, by supplier range, with the dish to lead with at each one.')}
 {chap(8, 'What to back', 'A score for every dish and drink', 'From categories to single dishes. One ranking weighs size, momentum, strength of evidence and how open the field is: <b>Back</b>, <b>Watch</b> or <b>Review</b>. The matrix shows why a dish scores as it does.', '<div id="c-opp"></div><h3 class="iv-h3 iv-h3b" id="t2"></h3><div id="c-matrix"></div><span id="matrix-sec"></span>', 'opportunity-sec', True, 'A score out of 10 for every tracked dish and drink, with each one placed by size and momentum.', tid='t7')}
 {chap(9, 'How sure, and where next', 'Which moves are real, and how far they go', '', '<div id="c-forest"></div><span id="next"></span><div id="th-fan"></div>', 'confidence-sec', True, 'Every change with its 95% range, and a three-quarter planning range for the clear movers.', tid='t3', sub_id='s3')}
 {chap(10, 'Who buys', 'How guests differ, and how operators feel', 'Plan the range for the customer you sell to: trade, creators and enthusiasts answer differently. Then the people who buy: what operators feel, and where their response falls short of the pressure.', '<div id="c-seg"></div><span id="operators-sec"></span><h3 class="iv-h3 iv-h3b" id="t8"></h3><div id="c-ops"></div>', 'segments-sec', True, 'How industry, creators and enthusiasts differ on every course, and what 55 operators say about costs and confidence.', tid='t6')}
@@ -331,7 +331,7 @@ print('wrote analysis.html', len(an), '(intelligence.html is a redirect)')
 # ---------------------------------------------------------------- the analysis, spread across the site (24 Nov 2026)
 # Gordon: no single analysis page. Each part lives with the readers it serves:
 #   Findings      /analysis/demand, /analysis/change, /analysis/cities
-#   For partners  /analysis/partner (the briefing; charts greyed until sign-in)
+#   Findings      /analysis/partner (the briefing; charts greyed until sign-in)
 #   About         /analysis/trust (Can we trust it?, with the method)
 # "What should I do?" is split by reader (tools/data/evidence-roles.json, placed by tools/build_evidence.py):
 # venues on the operator toolkit, opening and investing on Where it differs, suppliers on the partner briefing,
@@ -340,7 +340,7 @@ PARTS = [  # slug, section key (for the hero kicker), page title, section ids, o
     ('demand', 'Findings', 'What do guests want?', ['demand'], 'Each course ranked by food group, the dish life cycle, the staples, and demand against what menus list'),
     ('change', 'Findings', 'What is changing?', ['changed'], 'How much each course has moved against chance, the steady staples, and drinks'),
     ('cities', 'Findings', 'Where does it differ?', ['cities'], 'How each city eats, and where guests and the critics part ways'),
-    ('partner', 'For partners', 'The partner briefing', ['partner'], 'Clear movers, a call for every category, the venues to call and a score for every dish. Charts unlock at sign-in'),
+    ('partner', 'Findings', 'The partner briefing', ['partner'], 'Clear movers, a call for every category, the venues to call and a score for every dish. Charts unlock at sign-in'),
     ('trust', 'About', 'Can we trust it?', ['compare', 'method'], 'Dream Menu against national polls, eating-out data and menu trackers, and how the numbers are made'),
 ]
 

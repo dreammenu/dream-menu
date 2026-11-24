@@ -92,11 +92,10 @@ AUD_ICON = {
 }
 
 GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 Nov 2026 audit)
- ('analysis', 'Findings', '/analysis/demand', 'What foodies want, what is changing and what to do, plus the dated reports'),
- ('partners', 'For partners', '/for-business', 'The partner briefing, data and ways to work with us. Charts unlock when you sign in'),
+ ('analysis', 'Findings', '/analysis/demand', 'What foodies want and what is changing, the partner briefing and the dated reports'),
  ('venues', 'For venues', '/menu-check', 'Tools and a diagnostic for people running a venue'),
  ('trends', 'For foodies', '/map', 'Where to eat, the dream menu and ways to join in'),
- ('about', 'About', '/about', 'Who we are, how the data works and how it is used'),
+ ('about', 'About', '/about', 'Who we are, how the data works, and how to work with us'),
 ]
 # Header: six items. A group with one entry is a plain link (no dropdown); Reports has four entries, the rest three.
 # For foodies (the home page) is reached from the logo and the footer. About is a plain link to /about (22 Nov 2026).
@@ -104,11 +103,12 @@ GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 
 # use exactly this list, with the same names, so the menus, the footer and the pages tell one story (22 Nov 2026).
 # One structure, used three times (24 Nov 2026): the header dropdowns, the footer columns and the tab bar on short
 # pages all list the same pages, with the same names, in the same order. Five sections.
-SEC = {'analysis': ['f24', 'f21', 'f17', 'f19', 'r1', 'f20', 'b9'],
-       'partners': ['b2', 'b7', 'b1', 'a3'],
+# Four sections (24 Nov 2026): no separate partner menu. The briefing sits with the findings, working with us and
+# the press kit with About; the rep sheet (venues to call) is reached from the briefing.
+SEC = {'analysis': ['f24', 'f21', 'f17', 'b2', 'f19', 'r1', 'f20', 'b9'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
        'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
-       'about': ['a0', 'a1', 'f22', 'a2']}
+       'about': ['a0', 'a1', 'f22', 'b1', 'a3', 'a2']}
 # Header dropdowns = the section lists. The analysis page's own parts are in its "On this page" bar.
 HMENU = {g: SEC[g] for g in SEC}
 FOOT = [(lab, SEC[g]) for g, lab, *_ in GROUPS if g in SEC]
@@ -124,8 +124,8 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'f6': 'trends', 'f30': 'trends', 'f7': 'trends',
          'f16': 'analysis', 'r0': 'analysis', 'f20': 'analysis', 'r1': 'analysis', 'r4': 'analysis', 'r7': 'analysis', 'r12': 'analysis', 'r15': 'analysis', 'b9': 'analysis',
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
-         'b1': 'partners', 'b2': 'partners',
-         'a0': 'about', 'a1': 'about', 'a3': 'partners', 'a2': 'about', 'f15': 'trends'}
+         'b1': 'about', 'b2': 'analysis',
+         'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about', 'f15': 'trends'}
 MENU = [i for g in SEC.values() for i in g]
 RETITLE = {'f22': 'Can we trust it?', 'b7': 'Venues to call', 'f24': 'What guests want', 'f21': 'What is changing', 'f17': 'Where it differs',
            'o13': 'Venue badge', 'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
@@ -338,11 +338,9 @@ def page_group(path):
         if it['u'] == path:
             return it['g']
     # child pages light up their section in the header too
-    if path == '/analysis/partner':
-        return 'partners'
     if path == '/analysis/trust':
         return 'about'
-    for pre, g in (('/analysis/', 'analysis'), ('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
+    for pre, g in (('/analysis/', 'analysis'), ('/partner/', 'analysis'), ('/city/', 'trends'), ('/area/', 'trends'), ('/venue/', 'trends'), ('/trends/', 'analysis'),
                    ('/case-studies/', 'analysis'), ('/report/', 'analysis'), ('/quarterly/', 'analysis')):
         if path.startswith(pre):
             return g

@@ -265,3 +265,8 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 - No analysis hub. Findings: /analysis/demand, /analysis/change, /analysis/cities. For partners: /analysis/partner. About: /analysis/trust (with the method). Written by build_pages.py (PARTS); each sits in its section's tab bar.
 - "What should I do?" is split by reader: venues on /operators, opening or investing on /analysis/cities, suppliers on /analysis/partner, press on /press. The text is rewritten from the numbers each build (tools/data/evidence-roles.json); tools/build_evidence.py places the /operators and /press boxes. Run it after build_press.py and before build_nav.py.
 - /analysis is a stub that forwards old /analysis#<id> links; with no hash it goes to /analysis/demand. The short version now lives on the home page findings.
+
+## Four sections (24 Nov 2026)
+- Header: Findings, For venues, For foodies, About, then Search and Partner sign-in. No partner menu.
+- Findings: What guests want, What is changing, Where it differs, Partner briefing, Dish trends, Report 2026, State of the Menu, Insight Series. About: About Dream Menu, How it works, Can we trust it?, Ways to work with us, Press kit, Privacy.
+- The rep sheet (/partner/accounts) is linked from the briefing's "Where to sell it" section, not the menu.
