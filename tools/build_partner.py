@@ -148,14 +148,14 @@ _stub('explore.html', 'Find your way', '/#doors', 'Pick your way in on the home 
 _stub('awards.html', 'Award winners', '/map', 'Award winners are a layer on the venue map.')
 # the old partner area now lives inside /analysis
 open('partner.html', 'w', encoding='utf-8').write('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Partner briefing | Dream Menu</title>'
-    '<meta name="robots" content="noindex"><link rel="canonical" href="https://www.dream-menu.com/analysis">'
+    '<meta name="robots" content="noindex"><link rel="canonical" href="https://www.dream-menu.com/analysis/partner">'
     '<meta http-equiv="refresh" content="0; url=/analysis/partner"><script>location.replace("/analysis/partner"+(location.hash||""))</script></head>'
-    '<body><p>The partner area is now part of <a href="/analysis#partner">the analysis</a>.</p></body></html>\n')
+    '<body><p>The partner area is now <a href="/analysis/partner">the partner briefing</a>.</p></body></html>\n')
 
 # ---------------------------------------------------------------- /for-business: route each visitor to the right offer
 ROUTES = [
-    ('Suppliers, distributors and brands', 'A partnership', 'What is rising and falling each quarter, a briefing for your sales team, the map with trend lines and the data behind it, plus questions you put to the panel.',
-     [('/analysis', 'See the open analysis'), ('#work', 'Talk about a partnership')]),
+    ('Suppliers, distributors and brands', 'A partnership', 'The partner briefing each quarter: the clear movers, a buying call for every category, the venues to call and a score for every dish, plus the map with trend lines and questions you put to the panel. All read on the site; the charts unlock when you sign in.',
+     [('/analysis/partner', 'See the partner briefing'), ('#work', 'Talk about a partnership')]),
     ('Investors, developers and consultants', 'Commissioned reports', 'Fifteen Insight Series reports on demand, sites, neighbourhoods and concepts, or a report built around your own question.',
      [('/case-studies/guests-and-critics', 'Read the free sample'), ('/case-studies', 'See the reports')]),
     ('Restaurants, bars and cafés', 'Tools and a check-up', 'The free operator toolkit and badge, and the Restaurant MOT: a four-week independent check of one venue against what its guests say.',
