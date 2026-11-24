@@ -1,21 +1,21 @@
 {
-"extract": "2026-11-21",
-"built": "2026-11-21",
+"extract": "2026-11-24",
+"built": "2026-11-24",
 "source": "Food Standards Agency, Food Hygiene Information Scheme open data (Open Government Licence v3.0)",
-"n_scot": 1394,
+"n_scot": 1408,
 "n_exact": 854,
-"n_listed": 794,
-"n_new": 25,
+"n_listed": 801,
+"n_new": 26,
 "n_check": 153,
-"ir_named": 10.7,
-"ir_all": 9.0,
+"ir_named": 10.8,
+"ir_all": 8.9,
 "lic": {
 "n": 1306,
 "matched": 172,
 "latest": "2026-05-27"
 },
-"n_rated": 737,
-"n_pool": 13157,
+"n_rated": 743,
+"n_pool": 13151,
 "v": {
 "crabshakk-finnieston-x": {
 "s": "listed",
@@ -4096,13 +4096,13 @@
 },
 "afternoon-glasgow": {
 "s": "listed",
-"r": "Awaiting Inspection",
-"d": "2021-04-30",
+"r": "Pass",
+"d": "2024-11-29",
 "t": "Other catering premises",
-"f": "1434604",
-"q": "shared",
+"f": "1777799",
+"q": "postcode",
 "c": 0.9,
-"rn": "Swan Afternoon Tea's"
+"rn": "Afternoon Delights"
 },
 "akiko-glasgow": {
 "s": "listed",
@@ -4906,12 +4906,12 @@
 "dough-glasgow": {
 "s": "listed",
 "r": "Pass",
-"d": "2024-06-18",
-"t": "Mobile caterer",
-"f": "1734724",
+"d": "2015-06-08",
+"t": "Other catering premises",
+"f": "666100",
 "q": "postcode",
-"c": 0.9,
-"rn": "Dough La La"
+"c": 1.0,
+"rn": "Dough!"
 },
 "dropshot-glasgow-x": {
 "s": "listed",
@@ -9574,6 +9574,86 @@
 "c": 1.0,
 "rn": "Gigi's Bar"
 },
+"the-old-workshop-aberdeen": {
+"s": "listed",
+"r": "Pass",
+"d": "2026-04-14",
+"t": "Restaurant/Cafe/Canteen",
+"f": "65549",
+"q": "postcode",
+"c": 0.9,
+"rn": "Old Kitchen Cafe"
+},
+"the-fish-shop-ballater": {
+"s": "listed",
+"r": "Pass",
+"d": "2025-09-17",
+"t": "Mobile caterer",
+"f": "1725623",
+"q": "postcode",
+"c": 0.9,
+"rn": "The Fish Mannie"
+},
+"williams-cafe-glasgow": {
+"s": "listed",
+"r": "Pass",
+"d": "2019-01-22",
+"t": "Restaurant/Cafe/Canteen",
+"f": "917663",
+"q": "near",
+"c": 1.0,
+"rn": "Williams Cafe"
+},
+"the-olive-house-glasgow": {
+"s": "listed",
+"r": "Awaiting Inspection",
+"d": "",
+"t": "Other catering premises",
+"f": "1781303",
+"q": "shared",
+"c": 0.9,
+"rn": "Fig & Olive Catering"
+},
+"matteos-glasgow": {
+"s": "new",
+"r": "Awaiting Inspection",
+"d": "2026-08-18",
+"t": "Restaurant/Cafe/Canteen",
+"f": "1980152",
+"q": "near",
+"c": 1.0,
+"rn": "Matteos"
+},
+"thamel-edinburgh": {
+"s": "listed",
+"r": "Pass",
+"d": "2026-01-27",
+"t": "Restaurant/Cafe/Canteen",
+"f": "1911747",
+"q": "near",
+"c": 1.0,
+"rn": "Thamel"
+},
+"the-sicilian-pastry-shop-edinburgh": {
+"s": "listed",
+"r": "Improvement Required",
+"d": "2024-11-18",
+"t": "Manufacturers/packers",
+"f": "662946",
+"q": "near",
+"c": 1.0,
+"rn": "The Sicilian Pastry Shop"
+},
+"spitaki-edinburgh": {
+"s": "listed",
+"r": "Pass",
+"d": "2026-05-13",
+"t": "Pub/bar/nightclub",
+"f": "776026",
+"q": "near",
+"c": 1.0,
+"rn": "Spitaki"
+},
 "finsbay-flatiron-glasgow": {
 "s": "listed",
 "lic": {
@@ -10792,16 +10872,6 @@
 "mk": "Glasgow",
 "d": "2026-08-19",
 "f": "1980155",
-"dm": false
-},
-{
-"n": "Matteos",
-"t": "Restaurant or café",
-"a": "19 High Street, Glasgow",
-"pc": "G1 1LX",
-"mk": "Glasgow",
-"d": "2026-08-18",
-"f": "1980152",
 "dm": false
 },
 {

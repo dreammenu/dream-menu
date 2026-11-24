@@ -143,12 +143,18 @@ def main(batch_fn):
 
     answered = sum(1 for r in batch if any(r.get(k) for k in 'smdpka'))
     P['n'] += answered
-    P['n_all'] += len(batch)
+    # Headline total = the latest interview number (24 Nov 2026): Fringe specials and other interviews
+    # not on the response sheet are numbered in the same series, so the number is the true count.
+    # n_sheet counts the coded sheet interviews and is the base for any "% of interviews" figure.
+    P.setdefault('n_sheet', P['n_all'])
+    P['n_sheet'] += len(batch)
+    nos = [int(r['no']) for r in batch if str(r.get('no', '')).isdigit()]
+    P['n_all'] = max([P['n_all'], P['n_sheet']] + nos)
     P['last'] = max(r['date'] for r in batch)
     import datetime
     P['built'] = datetime.date.today().isoformat()
     open('partner-data.js', 'w', encoding='utf-8').write(head + 'window.DM_PARTNER=' + json.dumps(P, ensure_ascii=False, separators=(',', ':')) + tail)
-    print('partner-data.js: n', P['n'], 'n_all', P['n_all'], 'last', P['last'], 'movers', len(P['movers']))
+    print('partner-data.js: n', P['n'], 'n_all', P['n_all'], 'n_sheet', P['n_sheet'], 'last', P['last'], 'movers', len(P['movers']))
 
 
 if __name__ == '__main__':

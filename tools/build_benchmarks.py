@@ -30,7 +30,8 @@ P = load('partner-data.js', 'DM_PARTNER')
 I = load('partner/intel-data.js', 'DM_INTEL')
 TP = load('trend-public.js', 'DM_TRENDP')
 SC = json.load(open('tools/data/static-counts.json', encoding='utf-8'))
-N_ALL = P['n_all']
+N_ALL = P['n_all']                    # headline: latest interview number
+N_SHEET = P.get('n_sheet', N_ALL)     # coded sheet interviews: the base for every share below
 
 
 def item(course, label):
@@ -111,20 +112,20 @@ add(id='water', topic='Tap water with dinner', theme='Debates', tier='public', v
 # ---------------------------------------------------------------- trends guests want gone vs market growth (public)
 mat = binned('Matcha')
 add(id='matcha', topic='Matcha', theme='Trends', tier='public', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f'The trend guests most want binned, named by {100 * mat / N_ALL:.1f}% of all interviews', base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f'The trend guests most want binned, named by {100 * mat / N_SHEET:.1f}% of all interviews', base=f'{N_SHEET:,} coded interviews'),
     ext=dict(dir='up', text='Consumers choosing matcha lattes 33.5% more than a year earlier; matcha dishes on UK menus doubled', who='Tastewise, UK consumer and menu data', date='June 2026',
              url='https://tastewise.io/blog/uk-menu-trends'),
     extra='A matcha iced latte was one of the UK’s top trending Deliveroo orders of 2025.',
     read='Growth and backlash at once: the classic sign of a polarising trend near its peak. Serve it well for the fans who want it, but don’t build a menu identity around it.')
 dub = binned('Dubai chocolate')
 add(id='pistachio', topic='Dubai chocolate and pistachio', theme='Trends', tier='public', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f'Second most-named trend to bin, named by {100 * dub / N_ALL:.1f}% of all interviews', base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f'Second most-named trend to bin, named by {100 * dub / N_SHEET:.1f}% of all interviews', base=f'{N_SHEET:,} coded interviews'),
     ext=dict(dir='up', text='Pistachio reaching consumers 44% faster than a year earlier; pistachio with chocolate up 28%', who='Tastewise, UK consumer data', date='June 2026',
              url='https://tastewise.io/blog/uk-menu-trends'),
     read='The same pattern as matcha. Pistachio as a flavour still has room; the viral Dubai bar format is what foodies are tired of.')
 ld = binned('Loaded and dirty food')
 add(id='loaded', topic='Loaded and dirty food', theme='Trends', tier='public', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f'{100 * ld / N_ALL:.1f}% of all interviews name loaded and dirty food as a trend to bin', base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f'{100 * ld / N_SHEET:.1f}% of all interviews name loaded and dirty food as a trend to bin', base=f'{N_SHEET:,} coded interviews'),
     ext=dict(dir='up', text='Loaded fries and shareable potato platters recommended as plant-forward wins for pubs and bars', who='UKHospitality trend report', date='2026',
              url='https://www.ukhospitality.org.uk/?p=10357'),
     read='A gap between what the trade is advised to add and what foodies say they are tired of. Worth testing before adding loaded formats to a menu.')
@@ -138,7 +139,7 @@ if tir:
 
 # ---------------------------------------------------------------- market context (public)
 add(id='ooh', topic='How often Scotland eats out', theme='Market', tier='public', verdict='context', kind='context',
-    dm=dict(text='Dream Menu asks what people would choose, not how often they buy', base=f'{N_ALL:,} interviews'),
+    dm=dict(text='Dream Menu asks what people would choose, not how often they buy', base=f'{N_SHEET:,} coded interviews'),
     ext=dict(text='Out-of-home transactions in Scotland fell 7% in 2025, to 809 million; delivery transactions fell 30%', who='Food Standards Scotland, Worldpanel by Numerator', date='2026',
              url='https://www.foodstandards.gov.scot/science-and-evidence/monitoring-out-of-home-food-and-drink-purchases-in-scotland-and-great-britain-2024-2025'),
     read='Fewer trips make each visit count for more. Dream Menu shows what people want from the visits they still make: the dishes worth leaving the house for.')
@@ -223,7 +224,7 @@ add(id='stp', topic='Sticky toffee pudding', theme='Dishes', tier='public', verd
          + (f" Yet only {_stp_au['menus']:.0f}% of the dessert menus we audited list it." if _stp_au else ''))
 _pz = next((n for l, n in P['extra']['guilty'] if l == 'Takeaway pizza'), 0)
 add(id='pizza', topic='Takeaway pizza', theme='Debates', tier='public', verdict='agrees', kind='context',
-    dm=dict(text=('The most-named guilty pleasure' if P['extra']['guilty'][0][0] == 'Takeaway pizza' else 'A top guilty pleasure') + f", named by {100 * _pz / N_ALL:.1f}% of all interviews", base=f'{N_ALL:,} interviews'),
+    dm=dict(text=('The most-named guilty pleasure' if P['extra']['guilty'][0][0] == 'Takeaway pizza' else 'A top guilty pleasure') + f", named by {100 * _pz / N_SHEET:.1f}% of all interviews", base=f'{N_SHEET:,} coded interviews'),
     ext=dict(text='Takeaway pizza is one of Britain’s three favourite junk foods, picked by 31% (41 to 42% of under-40s)', who='YouGov, GB adults', date='April 2022',
              url='https://yougov.com/en-gb/articles/41659-part-three-favourite-cuisines-and-junk-food'),
     read='Foodies and the public share the same comfort food. Pizza is the treat people return to, which is why it sells on delivery even when it is nobody’s dream main.')
@@ -262,7 +263,7 @@ add(id='wom', topic='Word of mouth', theme='Places', tier='public', verdict='agr
     read='Recommendation is still the main way people choose, and it concentrates: a small set of venues gets most of the word of mouth. Being the place people name matters more than being seen.')
 _sp = binned('Small plates')
 add(id='smallplates', topic='Small plates', theme='Trends', tier='public', verdict='agrees', kind='direction',
-    dm=dict(dir='down', text=f"One of the trends guests most want binned, named by {100 * _sp / N_ALL:.1f}% of all interviews", base=f'{N_ALL:,} interviews'),
+    dm=dict(dir='down', text=f"One of the trends guests most want binned, named by {100 * _sp / N_SHEET:.1f}% of all interviews", base=f'{N_SHEET:,} coded interviews'),
     ext=dict(dir='down', text='56% of UK diners now prefer individual dishes to sharing plates', who='OpenTable, reported by The Independent', date='March 2026',
              url='https://www.aol.com/news/no-longer-radical-tyranny-small-060000356.html'),
     read='Both point the same way: small-plate fatigue is real. Guests want a proper main they don’t have to share or order three of.')

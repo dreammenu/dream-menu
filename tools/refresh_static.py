@@ -265,7 +265,7 @@ def market_pane(i, title, pred, more_href, more_text, mid, hidden):
 
 def rank_list(lst, base=None):
     # shares of all interviews, not raw counts: the base grows every quarter
-    base = base or int(str(N_ALL).replace(',', ''))
+    base = base or P.get('n_sheet') or int(str(N_ALL).replace(',', ''))   # coded sheet interviews, not the headline number
     return '<ol class="rk">' + ''.join(f'<li><span class="r">{i}</span><span class="t">{html.escape(t)}</span><span class="v">{100 * n / base:.1f}%</span></li>'
                                      for i, (t, n) in enumerate(lst[:6], 1)) + '</ol>'
 

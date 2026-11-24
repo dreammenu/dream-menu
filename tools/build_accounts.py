@@ -126,7 +126,7 @@ DMR = {
     'costs': f"Seafood is {pc(sea_s['pct'])} of dream starters and {pc(sea_m['pct'])} of mains; potatoes and fries are {pc(pot['pct'])} of sides.",
     'value': (f"The median main on the menus of the {AU['n']} most-named venues is £{main_p['median']:.2f} (middle half £{main_p['lo']:.2f} to £{main_p['hi']:.2f})."
               if main_p else 'The menu audit has too few priced mains to compare yet.'),
-    'lighter': f"Vegetable and salad sides moved from {pc(vs['early'])} to {pc(vs['late'])} of answers and fruit desserts from {pc(fm['early'])} to {pc(fm['late'])}; {100 * binned / P['n_all']:.1f}% of guests want small plates binned.",
+    'lighter': f"Vegetable and salad sides moved from {pc(vs['early'])} to {pc(vs['late'])} of answers and fruit desserts from {pc(fm['early'])} to {pc(fm['late'])}; {100 * binned / P.get('n_sheet', P['n_all']):.1f}% of guests want small plates binned.",
     'drinks': (f"On the original drinks question, cocktails fell from {pc(ck['early'])} to {pc(ck['late'])} of alcoholic picks{', a clear move' if ck['sig'] else ''}; beer and cider rose from {pc(bc['early'])} to {pc(bc['late'])}."
                + (f" {nolo.group(1)}% now answer the alcoholic drink question with something alcohol-free." if nolo else '')),
 }
