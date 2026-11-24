@@ -4,7 +4,7 @@
 'use strict';
 var D=window.DM_NAV||{aud:[],groups:[],items:[]};
 var doc=document, root=doc.documentElement;
-var desk=window.matchMedia('(min-width: 1081px)');
+var desk={matches:true};   // dropdowns at every width (24 Nov 2026): the sections sit in the top bar on phones too
 var hoverable=window.matchMedia('(hover: hover) and (pointer: fine)');
 function $(s,c){return (c||doc).querySelector(s)}
 function $$(s,c){return Array.prototype.slice.call((c||doc).querySelectorAll(s))}
