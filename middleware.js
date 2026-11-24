@@ -13,6 +13,10 @@ export const config = { matcher: [
   '/login', '/logout'] };
 
 const COOKIE = 'dm_partner';
+// Open-text pages: everyone can read them. Signed-out visitors are served the copy in /open/ (tools/build_gate.py),
+// where every chart and data table is a grey placeholder with a sign-in link; partners get the full page.
+const OPENTEXT = p => /^\/report\/[a-z0-9-]+$/.test(p) || p === '/operators' || p === '/tested-ideas' || p === '/case-studies' || /^\/case-studies\/[a-z0-9-]+$/.test(p);
+const rewrite = (request, to) => new Response(null, { headers: { 'x-middleware-rewrite': new URL(to, request.url).toString(), 'Cache-Control': 'private, no-store' } });
 const PUBLIC = new Set(['/case-studies/guests-and-critics', '/case-studies/guests-and-critics.html']);
 async function token(pw) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(pw).trim().toLowerCase() + '|dream-menu-v2'));
@@ -75,7 +79,10 @@ export default async function middleware(request) {
   if (PUBLIC.has(path)) return next();       // free sample report, open to everyone
   const have = (request.headers.get('cookie') || '').split(/;\s*/).find(c => c.startsWith(COOKIE + '='));
   const got = have ? have.slice(COOKIE.length + 1) : '';
-  if (got && ((want && got === want) || KEYS.has(got))) return next();   // a revoked key stops working at once
+  const signedIn = !!got && ((want && got === want) || KEYS.has(got));   // a revoked key stops working at once
+  const clean = path.replace(/\.html$/, '');
+  if (OPENTEXT(clean)) return signedIn ? next() : rewrite(request, '/open' + clean);
+  if (signedIn) return next();
   if (path.endsWith('.js') || path.endsWith('.csv')) return new Response('Sign in required', { status: 401, headers: { 'Cache-Control': 'no-store' } });
   return go('/login?next=' + encodeURIComponent(path.replace(/\.html$/, '')));
 }

@@ -163,7 +163,7 @@ META = {
     'edge-of-the-menu': dict(no=15, kind='Niche watchlist', plain='The edge of the menu'),
 }
 REPORTS = []
-FREE = {'guests-and-critics'}   # open to everyone (middleware.js PUBLIC); every other report is partner-only
+FREE = {'guests-and-critics'}   # fully open, charts included (middleware.js PUBLIC); the others are open text with partner-only charts (tools/build_gate.py)
 
 
 def render(r):
@@ -173,7 +173,7 @@ def render(r):
     }[r['status']]
     if r['slug'] in FREE:
         strip_txt = (f'<b>Free sample report.</b> Real figures from live Dream Menu data to {LAST_H}, open to everyone to show the work Dream Menu does on request. '
-                     'The other fourteen reports in the series are for partners. <a href="/for-business#work">Ask about the series</a>')
+                     'The other fourteen reports are free to read too; their charts and data tables are for partners. <a href="/for-business#work">Ask about the series</a>')
     status_lbl = 'Draft briefing' if r['status'] == 'draft' else 'Provisional sample'
     kp = ''.join(f'<div class="cs-kpi"><b>{esc(v)}</b><span>{esc(l)}</span></div>' for v, l in r['kpis'])
     subj = ('Commission%20a%20report%20like%20' + esc(r['plain']).replace(' ', '%20'))

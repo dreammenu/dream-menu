@@ -20,7 +20,7 @@ _P, _M = _load('partner-data.js'), _load('dm-data.js')['meta']
 N_ALL, N_PINNED, N_COUNTRIES = f"{_P['n_all']:,}", f"{_M['pinned']:,}", _M['countries']
 
 PUBLIC = ('/case-studies/guests-and-critics',)   # the free sample report
-LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/report/', '/operators', '/tested-ideas', '/insights', '/case-studies')
+LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/insights')   # report chapters, toolkit, tested ideas and Insight Series are open text with partner-only charts (tools/build_gate.py)
 
 AUD = [  # key, label, plural heading, blurb, curated picks (item ids, best first)
  ('food', 'Food lover', 'food lovers', 'What people want to eat, where to go, and the debates that never end.', ['f4', 'f6', 'f5', 'f8', 'f9', 'f14']),
@@ -202,7 +202,7 @@ ITEMS = [
  ('o12', 'Restaurant MOT', '/restaurant-mot', 'An independent four-week diagnostic of one venue', 'ops', 'venue new', 0, None),
 
  ('b1', 'For business', '/for-business', 'Partnerships, commissioned reports, the Restaurant MOT and data licences', 'biz', 'supplier investor venue', 0, None),
- ('b9', 'Insight Series', '/case-studies', 'Fifteen deep-dive reports, one free to read', 'biz', 'supplier investor venue new press chef', 1, None),
+ ('b9', 'Insight Series', '/case-studies', 'Fifteen deep-dive reports, free to read; partners see the charts', 'biz', 'supplier investor venue new press chef', 1, None),
  ('b10', 'The cost of a night out', '/case-studies/night-out', 'Food, drink and transport on a Glasgow night out, and what it means for a supplier', 'biz', 'supplier venue press food', 0, 'b9'),
  ('b11', 'Two cities, two appetites', '/case-studies/glasgow-edinburgh', 'How Glasgow and Edinburgh guests differ, for a group opening a second site', 'biz', 'new investor venue', 0, 'b9'),
  ('b12', "Scotland's seafood appetite", '/case-studies/seafood', 'Where seafood sits on the dream menu and what is rising', 'biz', 'supplier chef', 0, 'b9'),

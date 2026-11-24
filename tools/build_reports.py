@@ -42,10 +42,10 @@ FOOTER = T[T.index('</main>') + len('</main>'):]
 # ---- the three collections
 rep_date = data_to('report.html') or '9 October 2026'
 REPORT = [('/report', 'Overview and seven key findings', 'Open to everyone', False),
-          ('/report/operator-pulse', 'Operator pulse: what 54 operators said about costs and confidence', '', True),
-          ('/report/glasgow', "Glasgow's dining landscape: neighbourhoods, corridors and case studies", '', True),
-          ('/report/whats-on-the-menu', "What's on the menu: demand course by course, and trend fatigue", '', True),
-          ('/report/opportunities', 'Opportunities: concept gaps, occasions, investable theses', '', True)]
+          ('/report/operator-pulse', 'Operator pulse: what 54 operators said about costs and confidence', 'Charts for partners', False),
+          ('/report/glasgow', "Glasgow's dining landscape: neighbourhoods, corridors and case studies", 'Charts for partners', False),
+          ('/report/whats-on-the-menu', "What's on the menu: demand course by course, and trend fatigue", 'Charts for partners', False),
+          ('/report/opportunities', 'Opportunities: concept gaps, occasions, investable theses', 'Charts for partners', False)]
 
 cs = text('case-studies.html')
 cs_date = data_to('case-studies.html')
@@ -97,8 +97,8 @@ body = f'''<main class="pg rp">
 <article class="rp-col">
 <p class="rp-kick">Commissioned reports · {len(cs_items)} reports · Data to {E(cs_date)}</p>
 <h2><a href="/case-studies">Insight Series</a></h2>
-<p>Reports that answer one commercial question each, for suppliers, operators, investors and the public sector. Most are provisional samples showing what a commissioned report looks like. One is free to read; the rest need the partner password. <a href="/for-business">Commission a report</a>.</p>
-<ul class="rp-list">{row('/case-studies', f'Browse all {len(cs_items)} reports, by reader', '', True)}{row(FREE, next((('No. ' + n + ' · ') if n else '') + t for u, t, n in cs_items if u == FREE), 'Free to read')}</ul>
+<p>Reports that answer one commercial question each, for suppliers, operators, investors and the public sector. Most are provisional samples showing what a commissioned report looks like. All are free to read; the charts and data tables are for partners, so sign in to see them. <a href="/for-business">Commission a report</a>.</p>
+<ul class="rp-list">{row('/case-studies', f'Browse all {len(cs_items)} reports, by reader', '')}{row(FREE, next((('No. ' + n + ' · ') if n else '') + t for u, t, n in cs_items if u == FREE), 'Free to read')}</ul>
 </article>
 </div></section>
 </main>

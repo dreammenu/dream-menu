@@ -296,4 +296,26 @@ doc.addEventListener('keydown',function(e){
   window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};
   try{window.va('pageview',{path:'/_partner/'+m[1]+p,route:'/_partner/'+m[1]})}catch(e){}
 })();
+/* ---------- partner-only charts on the analysis page: the words stay open, the charts grey out with a sign-in link on top.
+   Signed in = the partner data file loaded (it returns 401 otherwise). A few charts stay open as samples (OPEN). ---------- */
+(function(){
+  if(location.pathname.replace(/\.html$/,'')!=='/analysis')return;
+  var GATE=['th-audit','th-life','th-churn','th-drinks','c-critics','th-bench','c-conc','th-conc','[data-card="concentration"]'];
+  var OPEN=['th-find','th-demand','c-cities'];   // the short version, what guests want, the city index; "Who answers" in Method stays open too
+  var LOCK='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>';
+  function run(){
+    if(window.DM_PARTNER)return;
+    GATE.forEach(function(sel){
+      var n=sel.charAt(0)==='['?doc.querySelector(sel):doc.getElementById(sel);
+      if(!n||n.closest('#partner')||n.closest('.pg-wrap')||OPEN.indexOf(n.id)>-1)return;
+      var sec=n.closest('section[id]')||n.closest('details[id]'), back='/analysis'+(sec?'#'+sec.id:'');
+      var w=doc.createElement('div'); w.className='pg-wrap';
+      var a=doc.createElement('a'); a.className='pgate-bar'; a.href='/login?next='+encodeURIComponent(back);
+      a.innerHTML=LOCK+'<span>Partner chart</span><b>Sign in to see it</b>';
+      n.parentNode.insertBefore(w,n); w.appendChild(a); w.appendChild(n);
+      n.classList.add('pg-lock'); n.setAttribute('aria-hidden','true');
+    });
+  }
+  if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',run);else run();
+})();
 })();

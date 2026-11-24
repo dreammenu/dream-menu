@@ -659,3 +659,24 @@ main table thead th{border-radius:0!important}
 .secnav-l{font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);padding-right:6px;flex:none}
 .secnav a[aria-current="page"]{color:var(--ink)}
 @media (min-width:1024px){.mp-simple .mp-links{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}}
+
+/* Partner-only visuals (tools/build_gate.py for static pages, nav.js for the analysis page):
+   the words stay open, the chart is greyed out with a sign-in link across its top. */
+.pgate{position:relative;margin:12px 0;border:1px solid var(--rule);background:var(--panel);border-radius:4px;overflow:hidden}
+.pgate-bar{position:relative;z-index:2;display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--ink);color:var(--paper)!important;font:600 13px/1.3 var(--body);text-decoration:none}
+.pgate-bar span{opacity:.8}
+.pgate-bar b{margin-left:auto;color:var(--gold);white-space:nowrap}
+.pgate-bar b::after{content:" \2192"}
+.pgate-bar:hover b,.pgate-bar:focus-visible b{text-decoration:underline}
+.pgate-ghost{display:grid;gap:10px;padding:18px 16px 20px}
+.pgate-ghost i{display:block;height:12px;border-radius:2px;background:var(--rule-strong);opacity:.35}
+.pgate-data .pgate-ghost i{height:9px;width:100%!important;opacity:.22}
+/* analysis page: the drawn chart is kept but greyed and unreadable until sign-in */
+.pg-lock{position:relative;margin-top:0}
+.pg-lock .dmv-plot,.pg-lock .dmv-legend,.pg-lock .dmv-filters,.pg-lock svg,.pg-lock canvas,.pg-lock table,.pg-lock ul,.pg-lock ol,.pg-lock .pg-viz{filter:grayscale(1) blur(5px);opacity:.35;pointer-events:none;user-select:none}
+.pg-lock .dmv-table,.pg-lock .dmv-tools,.pg-lock .dmv-tip{display:none!important}
+.pg-lock .vinfo svg,.pg-lock .vinfo ul{filter:none;opacity:1}
+.pg-wrap{border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin:12px 0}
+.pg-wrap>.pgate-bar{border-radius:0}
+.pg-wrap>.pg-lock{padding:0 2px}
+@media print{.pgate-ghost{display:none}}
