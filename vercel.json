@@ -19,27 +19,27 @@
     },
     {
       "source": "/intelligence",
-      "destination": "/analysis",
+      "destination": "/analysis/partner",
       "permanent": false
     },
     {
       "source": "/insights",
-      "destination": "/analysis",
+      "destination": "/analysis/demand",
       "permanent": false
     },
     {
       "source": "/insights.html",
-      "destination": "/analysis",
+      "destination": "/analysis/demand",
       "permanent": false
     },
     {
       "source": "/intelligence.html",
-      "destination": "/analysis",
+      "destination": "/analysis/partner",
       "permanent": false
     },
     {
       "source": "/explore",
-      "destination": "/",
+      "destination": "/#doors",
       "permanent": false
     },
     {

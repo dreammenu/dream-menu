@@ -105,10 +105,17 @@ GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 
 # pages all list the same pages, with the same names, in the same order. Five sections.
 # Four sections (24 Nov 2026): no separate partner menu. The briefing sits with the findings, working with us and
 # the press kit with About; the rep sheet (venues to call) is reached from the briefing.
-SEC = {'analysis': ['f24', 'f21', 'f17', 'b2', 'f19', 'r1', 'f20', 'b9'],
+SEC = {'analysis': ['f24', 'f21', 'f17', 'f19', 'b2', 'r1', 'f20', 'b9'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
        'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
-       'about': ['a0', 'a1', 'f22', 'b1', 'a3', 'a2']}
+       'about': ['a0', 'a1', 'f22', 'a2', 'b1', 'a3']}
+# Each section is split into short labelled groups (25 Nov 2026): the dropdown shows them as titled columns, a
+# short page's tab bar shows only its own group, and the footer uses the same titles.
+SUB = {'analysis': [('The findings', ['f24', 'f21', 'f17', 'f19']), ('Reports and briefings', ['b2', 'r1', 'f20', 'b9'])],
+       'venues': [('Tools for your venue', ['o30', 'o1', 'o8']), ('Get a review or a badge', ['o12', 'o13'])],
+       'trends': [('Where to eat', ['f6', 'f30', 'f7']), ('Join in', ['f1', 'f31', 'f9', 'f13', 'f15'])],
+       'about': [('About Dream Menu', ['a0', 'a1', 'f22', 'a2']), ('Work with us', ['b1', 'a3'])]}
+assert all(sum((ids for _, ids in SUB[g]), []) == SEC[g] for g in SUB), 'SUB must list SEC in order'
 # Header dropdowns = the section lists. The analysis page's own parts are in its "On this page" bar.
 HMENU = {g: SEC[g] for g in SEC}
 FOOT = [(lab, SEC[g]) for g, lab, *_ in GROUPS if g in SEC]
@@ -267,9 +274,12 @@ def header(cur_group):
             out.append(f'<li class="mnav-solo" data-g="{g}"><a class="mnav-top" href="{IT[ids[0]]["u"]}"{cur}><span>{E(lab)}</span></a></li>')
             continue
         out.append(f'<li class="mnav-item" data-g="{g}"><a class="mnav-top" href="{land}" aria-expanded="false" aria-controls="mp-{g}"{cur}><span>{E(lab)}</span>{CHEV}</a>')
-        out.append(f'<div class="mpanel mp-simple" id="mp-{g}"><div class="mp-inner"><p class="mp-sum">{E(summ)}</p><div class="mp-links" style="--cols:{len(ids) if len(ids) <= 5 else 4}">')
-        for it in [IT[i] for i in ids]:
-            out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
+        out.append(f'<div class="mpanel mp-simple mp-grouped" id="mp-{g}"><div class="mp-inner"><p class="mp-sum">{E(summ)}</p><div class="mp-groups">')
+        for sub, sids in SUB.get(g, [(None, ids)]):
+            out.append(f'<div class="mp-group">' + (f'<p class="mp-gh">{E(sub)}</p>' if sub else '') + '<div class="mp-links">')
+            for it in [IT[i] for i in sids]:
+                out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
+            out.append('</div></div>')
         out.append('</div></div></div></li>')
     out.append('</ul><a class="mnav-all" href="/login?next=/analysis%23partner">Partner sign-in ' + ARROW + '</a></nav>')   # shown in the phone menu only
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
@@ -292,18 +302,24 @@ def secnav(path, s=''):
     if path in NO_SECNAV or (s and is_long(s)):
         return ''
     for g, lab, land, summ in GROUPS:
-        its = [IT[i] for i in SEC.get(g, [])]
-        if any(it['u'] == path for it in its):
-            links = ''.join(f'<a href="{it["u"]}"' + (' aria-current="page"' if it['u'] == path else '') + f'>{E(it["t"])}{lk(it)}</a>' for it in its)
-            return f'<!--secnav--><nav class="subnav secnav" aria-label="{E(lab)} pages"><div class="wrap"><span class="secnav-l">{E(lab)}</span>{links}</div></nav><!--/secnav-->'
+        for sub, sids in SUB.get(g, [(lab, SEC.get(g, []))]):
+            its = [IT[i] for i in sids]
+            if any(it['u'] == path for it in its):   # the tab bar shows only the page's own small group
+                links = ''.join(f'<a href="{it["u"]}"' + (' aria-current="page"' if it['u'] == path else '') + f'>{E(it["t"])}{lk(it)}</a>' for it in its)
+                return f'<!--secnav--><nav class="subnav secnav" aria-label="{E(sub)} pages"><div class="wrap"><span class="secnav-l">{E(sub)}</span>{links}</div></nav><!--/secnav-->'
     return ''
 
 def footer_links():
     out = ['<nav class="footlinks footcols" aria-label="All pages">']
-    for lab, ids in FOOT:
+    for g, lab, land, summ in GROUPS:
+        if g not in SEC:
+            continue
         out.append(f'<div><b>{E(lab)}</b>')
-        for it in [IT[i] for i in ids]:
-            out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
+        for sub, sids in SUB.get(g, [(None, SEC[g])]):
+            if sub:
+                out.append(f'<i class="fsub">{E(sub)}</i>')
+            for it in [IT[i] for i in sids]:
+                out.append(f'<a href="{it["u"]}">{E(it["t"])}{lk(it)}</a>')
         out.append('</div>')
     out.append('</nav>')
     return ''.join(out)
@@ -334,6 +350,8 @@ def aud_band():
     return ''.join(out)
 
 def page_group(path):
+    if path in ('/', '/index'):
+        return None   # the home page belongs to no one section
     for it in IT.values():
         if it['u'] == path:
             return it['g']

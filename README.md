@@ -274,3 +274,10 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
 ## Dish search (24 Nov 2026)
 - build_nav.py adds every dish page (trends/*.html) to nav-data.js as `dishes` (name, course, one line). nav.js searches them with the pages; a dish whose name matches ranks first, with everyday aliases (ALIAS: dram, chips/fries, stp and so on).
 - The home hero has a "Look up any dish" box (data-search-input); typing or tapping opens the site search with the text in it. Enter opens the top result.
+
+## Grouped menus (25 Nov 2026)
+- SUB in build_nav.py splits each section into two short titled groups. The dropdowns show them as titled columns (stacked on phones), the footer uses the same titles, and a short page's tab bar shows only its own group.
+  Findings: The findings (What guests want, What is changing, Where it differs, Dish trends) | Reports and briefings (Partner briefing, Report 2026, State of the Menu, Insight Series).
+  For venues: Tools for your venue | Get a review or a badge. For foodies: Where to eat | Join in. About: About Dream Menu | Work with us.
+- The home page highlights no section. Old addresses (/insights, /intelligence, /explore) redirect straight to their pages.
+- Link audit (25 Nov): 641 pages, no broken links. Unlinked by design: /review and /geocoder (admin), /login, /404, redirect stubs; the one-pager is linked from the signed-in briefing.

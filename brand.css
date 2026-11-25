@@ -690,3 +690,21 @@ main table thead th{border-radius:0!important}
 @media (max-width:1000px){.hf-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.hf-grid{grid-template-columns:1fr}}
 /* /home-find */
+
+/* grouped dropdowns (25 Nov 2026): each section in two short titled groups */
+.mp-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 34px}
+.mp-gh{margin:0 0 6px;font:700 11.5px/1.3 var(--body);letter-spacing:.07em;text-transform:uppercase;color:var(--muted,#666);padding-bottom:6px;border-bottom:2px solid var(--gold)}
+.mp-grouped .mp-links{display:grid;grid-template-columns:1fr;gap:0}
+.footcols .fsub{display:block;font-style:normal;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.6;margin:12px 0 2px}
+.footcols div>b+.fsub{margin-top:4px}
+@media (max-width:1080px){
+  .top .mp-grouped .mp-groups{grid-template-columns:1fr;gap:14px}
+  .top .mp-grouped .mp-links{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}
+}
+@media (max-width:560px){.top .mp-grouped .mp-links{grid-template-columns:1fr}}
+.h-search{width:100%;max-width:460px;box-sizing:border-box}
+.h-search div{box-sizing:border-box;width:100%}
+/* hero column never wider than the screen (a long headline word was stretching it on phones) */
+.h-hero .wrap>*,.h-hero .h-copy,.h-hero .h-menu{min-width:0}
+.h-hero h1{overflow-wrap:break-word}
+@media (max-width:760px){.h-hero .wrap{grid-template-columns:minmax(0,1fr)!important}}
