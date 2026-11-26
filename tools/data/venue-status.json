@@ -1,6 +1,6 @@
 {
-"extract": "2026-11-24",
-"built": "2026-11-24",
+"extract": "2026-11-26",
+"built": "2026-11-26",
 "source": "Food Standards Agency, Food Hygiene Information Scheme open data (Open Government Licence v3.0)",
 "n_scot": 1408,
 "n_exact": 854,
@@ -8,14 +8,14 @@
 "n_new": 26,
 "n_check": 153,
 "ir_named": 10.8,
-"ir_all": 8.9,
+"ir_all": 9.0,
 "lic": {
 "n": 1306,
 "matched": 172,
 "latest": "2026-05-27"
 },
 "n_rated": 743,
-"n_pool": 13151,
+"n_pool": 13121,
 "v": {
 "crabshakk-finnieston-x": {
 "s": "listed",
@@ -3321,9 +3321,9 @@
 "kava-glasgow": {
 "s": "listed",
 "r": "Pass",
-"d": "2024-02-16",
+"d": "2025-09-18",
 "t": "Mobile caterer",
-"f": "1697921",
+"f": "1860236",
 "q": "postcode",
 "c": 1.0,
 "rn": "KAVA Street Coffee"
@@ -5039,7 +5039,7 @@
 "ella-taste-of-greece-edinburgh": {
 "s": "listed",
 "r": "Improvement Required",
-"d": "2026-06-01",
+"d": "2026-10-28",
 "t": "Restaurant/Cafe/Canteen",
 "f": "1760696",
 "q": "near",
@@ -9364,12 +9364,12 @@
 "the-larder-west-lothian": {
 "s": "new",
 "r": "Awaiting Inspection",
-"d": "2026-11-06",
-"t": "Other catering premises",
-"f": "2016271",
-"q": "postcode",
-"c": 1.0,
-"rn": "The Kitchen Larder"
+"d": "2026-10-27",
+"t": "Takeaway/sandwich shop",
+"f": "2008405",
+"q": "shared",
+"c": 0.9,
+"rn": "Hudson's Larder"
 },
 "wilson-street-pantry-glasgow": {
 "s": "listed",
@@ -12501,46 +12501,6 @@
 "mk": "Glasgow",
 "d": "2025-12-01",
 "f": "1899244",
-"dm": false
-},
-{
-"n": "AP Kitchen",
-"t": "Restaurant or café",
-"a": "62 Mount Lockhart, Glasgow",
-"pc": "G71 7TQ",
-"mk": "Glasgow",
-"d": "2025-11-25",
-"f": "1894991",
-"dm": false
-},
-{
-"n": "Coffee Works",
-"t": "Restaurant or café",
-"a": "356 Sauchiehall Street, Glasgow",
-"pc": "G2 3JD",
-"mk": "Glasgow",
-"d": "2025-11-25",
-"f": "1893827",
-"dm": false
-},
-{
-"n": "Al Taglio Pizza",
-"t": "Restaurant or café",
-"a": "67 Home Street, Edinburgh",
-"pc": "EH3 9JP",
-"mk": "Edinburgh",
-"d": "2025-11-24",
-"f": "1895503",
-"dm": false
-},
-{
-"n": "Chayan",
-"t": "Restaurant or café",
-"a": "91 South Bridge, Edinburgh",
-"pc": "EH1 1HN",
-"mk": "Edinburgh",
-"d": "2025-11-24",
-"f": "1895502",
 "dm": false
 }
 ]

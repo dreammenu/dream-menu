@@ -159,7 +159,7 @@ add(id='roast', topic='Sunday roast', theme='Dishes', tier='partner', verdict='d
 veg = mv('d', 'Vegetables and salad')
 fry = mv('d', 'Potatoes and fries')
 add(id='sides', topic='Sides: fries against greens', theme='Dishes', tier='partner', verdict='differs', kind='direction',
-    dm=dict(dir='down', text=f"Potatoes and fries {fry['early']}% → {fry['late']}% of side answers; vegetables and salad {veg['early']}% → {veg['late']}% (both clear moves)", base='side answers'),
+    dm=dict(dir='down', text=f"Potatoes and fries {fry['early']}% → {fry['late']}% of side answers; vegetables and salad {veg['early']}% → {veg['late']}%{' (both clear moves)' if fry['sig'] and veg['sig'] else (' (fries a clear move; vegetables not yet beyond chance)' if fry['sig'] else '')}", base='side answers'),
     ext=dict(dir='up', text='Operators growing the number and price of sides to lift spend; vegetable dishes present but not leading menu growth', who='Lumina Intelligence Menu Tracker, 80 UK chains', date='2025 to May 2026',
              url='https://www.lumina-intelligence.com/?p=41434'),
     read='Menus are adding sides; guests are switching which sides they want. The opportunity for a supplier is greens, seasonal veg and salads priced as an upsell, not more fries.')
@@ -296,7 +296,7 @@ add(id='beer', topic='Beer and lager', theme='Drinks', tier='partner', verdict='
     read='Beer’s record year shows up as a shift in what guests dream of drinking: lager is taking share from cocktails.')
 vs, fm, lf = mv('d', 'Vegetables and salad'), mv('p', 'Fruit and meringue'), mv('d', 'Loaded fries')
 add(id='healthier', topic='Lighter, fresher plates', theme='Dishes', tier='partner', verdict='agrees', kind='direction',
-    dm=dict(dir='up', text=f"Vegetables and salad sides {vs['early']}% → {vs['late']}%; fruit and meringue desserts {fm['early']}% → {fm['late']}%; loaded fries {lf['early']}% → {lf['late']}% (all clear moves)", base='side and dessert answers'),
+    dm=dict(dir='up', text=f"Vegetables and salad sides {vs['early']}% → {vs['late']}%; fruit and meringue desserts {fm['early']}% → {fm['late']}%; loaded fries {lf['early']}% → {lf['late']}%{' (all clear moves)' if vs['sig'] and fm['sig'] and lf['sig'] else ''}", base='side and dessert answers'),
     ext=dict(dir='up', text='48% of diners have tried nutrient-dense foods out of home and want them again; 47% are cutting back on ultra-processed food when eating out', who='Bidfood and CGA by NIQ, 2,000 UK adults', date='May 2025',
              url='https://www.bidfood.co.uk/food-and-drink-trends-2026/whole-lotta-goodness-2'),
     read='The health shift the wholesalers predict is already in the answers: greens and fruit up, loaded and fried sides down.')

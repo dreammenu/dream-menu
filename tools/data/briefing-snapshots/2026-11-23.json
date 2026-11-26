@@ -19,13 +19,6 @@
    "p": 0.003
   },
   {
-   "course": "Side",
-   "level": "Group",
-   "l": "Vegetables and salad",
-   "move": 5.5,
-   "p": 0.046
-  },
-  {
    "course": "Alcoholic drink",
    "level": "Group",
    "l": "Beer and cider",
@@ -52,13 +45,6 @@
    "l": "Fruit and meringue",
    "move": 3.3,
    "p": 0.032
-  },
-  {
-   "course": "Side",
-   "level": "Dish",
-   "l": "Greens and creamed spinach",
-   "move": 3.2,
-   "p": 0.041
   },
   {
    "course": "Side",

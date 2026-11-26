@@ -231,6 +231,11 @@
       "source": "/venue/sebb-ayr",
       "destination": "/venue/sebb-s",
       "permanent": true
+    },
+    {
+      "source": "/trends/greens-and-creamed-spinach",
+      "destination": "/trends/green-vegetables",
+      "permanent": true
     }
   ],
   "headers": [

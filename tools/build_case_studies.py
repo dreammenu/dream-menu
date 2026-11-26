@@ -570,7 +570,7 @@ def r_drinks():
 def r_fatigue():
     ex = Ex()
     pot, veg, med = (item('d', n, 'groups') for n in ('Potatoes and fries', 'Vegetables and salad', 'Mediterranean and Middle Eastern'))
-    lf, sk, mc, gr = (item('d', n) for n in ('Loaded fries', 'Skinny fries', 'Mac and cheese', 'Greens and creamed spinach'))
+    lf, sk, mc, gr = (item('d', n) for n in ('Loaded fries', 'Skinny fries', 'Mac and cheese', 'Green vegetables'))
     sig = sig_set('d')
     hype = {'Matcha', 'Dubai chocolate', 'Filming food and mukbang', 'Viral TikTok food', 'Hot honey', 'Pistachio (everything)', 'Deconstructed and gimmick plating'}
     hype_n = sum(v for n, v in BIN if n in hype); all_n = sum(v for _, v in BIN)
@@ -589,7 +589,7 @@ def r_fatigue():
            + pull('Loaded fries are stupid unless you\'ve made them yourself at 3am.', 'Dream Menu guest, October 2026')
            + sowhat('venues', 'Guests want honest comfort, not comfort dressed up for the camera. A well-made classic does not need a twist.'))
     recs = [('Drop the viral special', 'Put the effort into a dish people come back for. Hype-led trends dominate the "bin it" list.', 'High', 'Low', 'Next menu change'),
-            ('Make greens and salads as considered as the chips', f'Vegetable and salad sides rose from {f1(veg["early"])}% to {f1(veg["late"])}%; greens and creamed spinach clearly up.', 'High', 'Low', 'Next menu change'),
+            ('Make greens and salads as considered as the chips', f'Vegetable and salad sides rose from {f1(veg["early"])}% to {f1(veg["late"])}%{"; green vegetables clearly up" if gr["sig"] else ", green vegetables up too"}.', 'High', 'Low', 'Next menu change'),
             ('Add a Mediterranean or mezze-style side', f'From {f1(med["early"])}% to {f1(med["late"])}% of dream sides, a clear move.', 'Medium', 'Low', 'Next quarter'),
             ('Keep one loaded item at most', f'Loaded fries fell from {f1(lf["early"])}% to {f1(lf["late"])}%; loaded and dirty food draws {dict(BIN).get("Loaded and dirty food", 0)} "bin it" mentions.', 'Medium', 'Low', 'Now'),
             ('Explain small plates clearly', f'Small plates appear in the "bin it" list ({dict(BIN).get("Small plates", 0)}). If that is the format, be clear on portions and price.', 'Low', 'Low', 'Now')]
@@ -765,7 +765,7 @@ def r_steak():
     cuts = [it for it in m_t['cats'] if it.get('g') == 'Steak and beef']
     sr, rb, fl, pie = item('m', 'Short rib and braised beef'), item('m', 'Ribeye steak'), item('m', 'Fillet steak'), item('m', 'Steak pie')
     tart = item('s', 'Steak tartare and carpaccio')
-    gr, tc, sk, tf = item('d', 'Greens and creamed spinach'), item('d', 'Triple-cooked chips'), item('d', 'Skinny fries'), item('d', 'Truffle fries')
+    gr, tc, sk, tf = item('d', 'Green vegetables'), item('d', 'Triple-cooked chips'), item('d', 'Skinny fries'), item('d', 'Truffle fries')
     sig = sig_set('m') | sig_set('d')
     others = [g for g in m_t['groups'] if g['c'] != 'Steak and beef'][:4]
     sv = sorted(DM['venues'], key=lambda v: -cat_count(v, 'Steak / beef'))[:10]
@@ -789,11 +789,11 @@ def r_steak():
               (['Venue', 'Place', 'Beef mentions'], [[v['n'], vloc(v), cat_count(v, 'Steak / beef')] for v in sv])) + '</div><div>'
            + ex('Greens are rising as the steak side; chips hold', 'Share of dream sides, early against recent.',
                 dumbbell(sides, sig=sig), DM_SRC, (['Side', EARLY, RECENT], [[a, f'{b}%', f'{c}%'] for a, b, c in sides])) + '</div></div>'
-           + sowhat('venues', f'The steak plate is changing around the meat: greens and creamed spinach rose from {f1(gr["early"])}% to {f1(gr["late"])}% of dream sides, a clear move. Steak tartare and carpaccio hold {f1(tart["pct"])}% of starters.'))
+           + sowhat('venues', f'The steak plate is changing around the meat: green vegetables rose from {f1(gr["early"])}% to {f1(gr["late"])}% of dream sides{", a clear move" if gr["sig"] else ", rising but not yet beyond chance"}. Steak tartare and carpaccio hold {f1(tart["pct"])}% of starters.'))
     recs = [('Lead the range with flavour cuts', 'Short rib and ribeye are rising; fillet is slipping. Flavour cuts deliver the experience guests name at a better cost per plate.', 'High', 'Low', 'Next quarter'),
             ('Supply a premium steak pie', f'Steak pie rose from {f1(pie["early"])}% to {f1(pie["late"])}% of dream mains, a clear move. A named-beef pie for pubs and bistros.', 'High', 'Medium', 'Next quarter'),
             ('Package braises for small kitchens', 'Short rib is a braise: pre-cooked, portioned short rib lets small kitchens put it on without the labour.', 'Medium', 'Medium', 'Six months'),
-            ('Sell the plate, not just the cut', 'Pair beef with greens and creamed spinach, the clear riser among sides. A costed steak-plate card for chefs.', 'Medium', 'Low', 'Next quarter'),
+            ('Sell the plate, not just the cut', f'Pair beef with green vegetables, {"the clear riser among sides" if gr["sig"] else "a rising side"}. A costed steak-plate card for chefs.', 'Medium', 'Low', 'Next quarter'),
             ('Target the venues guests already name', f'Start with {sv[0]["n"]}, {sv[1]["n"]} and {sv[2]["n"]}, and the steakhouses that follow them.', 'Medium', 'Low', 'Now')]
     return render(dict(slug='steak', ex=ex, status='sample', aud='supplier venue', **META['steak'],
         title='The <em>steak</em> economy', desc='Steak and beef on the dream menu: the cuts guests name, what is rising, the sides that go with them and the venues that own them.',
@@ -1240,7 +1240,7 @@ def r_forces():
         (3, 'Drink less, drink better', f'{pts(sp["move"])} pts', 'spirits as a share of dream drinks, a clear move', f'Spirits rose from {f1(sp["early"])}% to {f1(sp["late"])}% of dream drinks and cocktails fell {abs(ck["move"]):.0f} points. Whisky and lager lead. Guests are moving from novelty to the classic pour.', 'Now', 'mixed'),
         (4, 'The cost stack keeps rising', '4+', 'licensed sites closing a day in Britain at the end of 2025', f'Wages (£12.71 from April 2026), rates (Scottish pubs up 77%) and energy keep rising; 382 sites closed in one quarter ({S("niq")}). The middle of the market is the most exposed.', 'Now to 2029', 'down'),
         (5, 'Cities tax visitors to fund themselves', '£66m', 'a year from the Edinburgh and Glasgow levies combined', f'Edinburgh\'s 5% levy went live in July 2026 (up to £50m a year); Glasgow\'s starts in January 2027 (about £16m) ({S("elevy")}, {S("glevy")}). Events and visitor spending will be planned around the money.', '2026 onward', 'up'),
-        (6, 'Vegetables move to the middle', f'{pts(veg["move"])} pts', 'vegetable and salad sides, a clear move', f'Vegetable sides rose and potato sides fell {abs(pot["move"]):.0f} points. Mediterranean sides are up too. This is guests choosing vegetables, not being told to.', 'Now', 'up'),
+        (6, 'Vegetables move to the middle', f'{pts(veg["move"])} pts', 'vegetable and salad sides' + (', a clear move' if veg['sig'] else ', rising'), f'Vegetable sides rose and potato sides fell {abs(pot["move"]):.0f} points. Mediterranean sides are up too. This is guests choosing vegetables, not being told to.', 'Now', 'up'),
         (7, 'Provenance becomes the point', f'{PT["Local, seasonal and Scottish produce"]}', f'of {POS["answers"]} guests want more local and seasonal food, the top answer', f'Asked which trend they want more of, guests name local, seasonal and Scottish produce more than anything else. White fish mains rose from {f1(fish["early"])}% to {f1(fish["late"])}%, a clear move.', 'Now to 2031', 'up'),
         (8, 'Hype burns out faster', '113', 'guests want matcha gone; 105 want Dubai chocolate gone', 'Viral trends now reach the "bin it" list within a year of peaking. Novelty still sells for a season, but it no longer builds a reputation.', 'Now', 'mixed'),
         (9, 'Asia keeps arriving', f'{pts(asd["move"])} pts', 'Asian sides, a clear move', f'Korean, Japanese and South-East Asian flavours move from specialists to mainstream menus: hojicha, pandan, buldak and koji are all on 2027 trend lists ({S("datassential")}).', '2027 to 2030', 'up'),
