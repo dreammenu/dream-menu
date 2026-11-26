@@ -57,7 +57,7 @@ def main(batch_fn):
     for k in ('s', 'm', 'd', 'p'):   # food courses only (see docstring)
         t = P['trends'][k]
         q, nq = t['q'], list(t['n_q'])
-        items = t['groups'] + t['cats']
+        items = t['groups'] + t['cats'] + t.get('all', [])   # 'all': every dish with 10+ answers (26 Nov 2026), kept in step with the published list
         counts = {id(it): [round((s or 0) * n / 100) if n else 0 for s, n in zip(it['share'], nq)] for it in items}
         for r in batch:
             c = r.get(k)
@@ -68,7 +68,7 @@ def main(batch_fn):
             for it in t['groups']:
                 if it['c'] == parent(c):
                     counts[id(it)][qi] += 1
-            for it in t['cats']:
+            for it in t['cats'] + t.get('all', []):
                 if it['c'] == c:
                     counts[id(it)][qi] += 1
         t['n_q'] = nq
@@ -90,6 +90,8 @@ def main(batch_fn):
             it['sig'] = it['p'] < 0.05
         t['groups'].sort(key=lambda x: -x['n'])
         t['cats'].sort(key=lambda x: -x['n'])
+        if 'all' in t:
+            t['all'].sort(key=lambda x: -x['n'])
 
     # movers: every clear move across all courses, largest rise first
     mv = []

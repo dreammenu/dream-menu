@@ -22,8 +22,8 @@
    "course": "Side",
    "level": "Group",
    "l": "Vegetables and salad",
-   "move": 5.7,
-   "p": 0.032
+   "move": 6.2,
+   "p": 0.022
   },
   {
    "course": "Alcoholic drink",
@@ -43,85 +43,78 @@
    "course": "Dessert",
    "level": "Group",
    "l": "Fruit and meringue",
-   "move": 3.6,
-   "p": 0.017
+   "move": 3.5,
+   "p": 0.018
   },
   {
    "course": "Starter",
    "level": "Group",
    "l": "Soup",
-   "move": 3.4,
-   "p": 0.017
+   "move": 3.1,
+   "p": 0.027
   },
   {
    "course": "Main",
    "level": "Dish",
    "l": "Steak pie",
-   "move": 2.1,
-   "p": 0.03
-  },
-  {
-   "course": "Starter",
-   "level": "Dish",
-   "l": "Prawn cocktail",
-   "move": 2.0,
-   "p": 0.04
+   "move": 2.2,
+   "p": 0.029
   },
   {
    "course": "Dessert",
    "level": "Dish",
    "l": "Fruit and berries",
    "move": 1.9,
-   "p": 0.047
+   "p": 0.048
   },
   {
    "course": "Dessert",
    "level": "Group",
    "l": "Asian",
-   "move": 1.8,
-   "p": 0.041
+   "move": 1.7,
+   "p": 0.042
   },
   {
    "course": "Main",
    "level": "Dish",
    "l": "Other pasta",
    "move": -2.2,
-   "p": 0.038
+   "p": 0.039
   },
   {
    "course": "Main",
    "level": "Dish",
    "l": "Sunday roast",
    "move": -2.4,
-   "p": 0.045
+   "p": 0.046
   },
   {
-   "course": "Side",
+   "course": "Main",
    "level": "Dish",
-   "l": "Loaded fries",
-   "move": -2.5,
-   "p": 0.039
+   "l": "Kebab and souvlaki",
+   "move": -2.4,
+   "p": 0.023
   },
   {
    "course": "Side",
    "level": "Group",
    "l": "Cheese",
-   "move": -2.7,
-   "p": 0.042
+   "move": -2.8,
+   "p": 0.03
   },
   {
    "course": "Side",
    "level": "Group",
    "l": "Mexican and Latin",
    "move": -2.8,
-   "p": 0.015
+   "p": 0.016
   },
   {
    "course": "Dessert",
    "level": "Dish",
    "l": "Other chocolate desserts",
    "move": -2.9,
-   "p": 0.019
+   "p": 0.018
   },
   {
    "course": "Main",
@@ -135,14 +128,21 @@
    "level": "Dish",
    "l": "Baked cheesecake",
    "move": -3.9,
-   "p": 0.014
+   "p": 0.013
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Skinny fries",
+   "move": -4.7,
+   "p": 0.01
   },
   {
    "course": "Dessert",
    "level": "Group",
    "l": "Chocolate desserts",
-   "move": -4.7,
-   "p": 0.028
+   "move": -4.8,
+   "p": 0.025
   },
   {
    "course": "Starter",
@@ -153,17 +153,10 @@
   },
   {
    "course": "Side",
-   "level": "Dish",
-   "l": "Skinny fries",
-   "move": -4.9,
-   "p": 0.007
-  },
-  {
-   "course": "Side",
    "level": "Group",
    "l": "Potatoes and fries",
-   "move": -7.6,
-   "p": 0.024
+   "move": -7.2,
+   "p": 0.032
   },
   {
    "course": "Alcoholic drink",
