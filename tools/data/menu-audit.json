@@ -329,14 +329,14 @@
 "course": "p",
 "name": "Ice Cream",
 "price": 4.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Ice Cream with Amarena Cherries",
 "price": 6.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -350,7 +350,7 @@
 "course": "p",
 "name": "Ice cream Sundae",
 "price": 6.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -596,14 +596,14 @@
 {
 "course": "p",
 "name": "Coconut and pandan ice cream (soft serve)",
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Mango and calamansi sorbet",
 "price": 5.0,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -863,7 +863,7 @@
 "course": "p",
 "name": "Ice cream and sorbets",
 "price": 6.5,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -1623,7 +1623,7 @@
 "course": "p",
 "name": "Bespoke sundae",
 "price": 8.0,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -2055,13 +2055,13 @@
 {
 "course": "p",
 "name": "Vanilla (scoop)",
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Lemongrass (scoop)",
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -2688,7 +2688,7 @@
 "course": "p",
 "name": "Ice Cream & Sorbet",
 "price": 6.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -2893,7 +2893,7 @@
 "course": "p",
 "name": "Cherry Pop Tart Soft-Serve",
 "price": 8.0,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -3407,7 +3407,7 @@
 "course": "d",
 "name": "Truffle & Parmesan Fries",
 "price": 6.5,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -3431,13 +3431,13 @@
 {
 "course": "p",
 "name": "Hot Toffee Sundae",
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Gelato",
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -3817,7 +3817,7 @@
 "course": "p",
 "name": "Les glaces et sorbet",
 "price": 2.9,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -4381,7 +4381,7 @@
 "course": "d",
 "name": "Treacle Tamarind Fries",
 "price": 8.8,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -4416,7 +4416,7 @@
 "course": "p",
 "name": "Ice Cream Cone",
 "price": 4.9,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -4678,7 +4678,7 @@
 {
 "course": "p",
 "name": "Ice Cream & Sorbet",
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -5088,14 +5088,14 @@
 "course": "d",
 "name": "Truffle Fries",
 "price": 8.95,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
 "course": "d",
 "name": "Dirty Fries",
 "price": 11.95,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 }
 ]
@@ -5524,14 +5524,14 @@
 "course": "d",
 "name": "Parmesan & Truffle Fries",
 "price": 6.9,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
 "course": "d",
 "name": "Skinny Dirty Spicy Fries",
 "price": 6.9,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -5587,7 +5587,7 @@
 "course": "p",
 "name": "Gelarto Ice Cream",
 "price": 8.5,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -5854,7 +5854,7 @@
 "course": "d",
 "name": "Truffle and Parmesan Chips",
 "price": 7.25,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -5952,49 +5952,49 @@
 "course": "p",
 "name": "Salted Caramel Ice Cream",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Chocolate Ice Cream",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Strawberry Ice Cream",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Vanilla Ice Cream",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Yoghurt Ice Cream",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Lemon Sorbet",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
 "course": "p",
 "name": "Mango Sorbet",
 "price": 8.95,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -6518,7 +6518,7 @@
 "course": "p",
 "name": "Ice cream",
 "price": 5.0,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -7608,7 +7608,7 @@
 "course": "d",
 "name": "PARMESAN & TRUFFLE FRIES",
 "price": 6.95,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -8366,7 +8366,7 @@
 "course": "p",
 "name": "homemade ice cream & sorbet",
 "price": 2.5,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -9582,7 +9582,7 @@
 {
 "course": "d",
 "name": "Patatini Pazzo (Crazy Fries)",
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -9596,14 +9596,14 @@
 "course": "d",
 "name": "Truffle & Parmesan Fries",
 "price": 6.0,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
 "course": "d",
 "name": "Bolognese & Chilli Fries",
 "price": 7.5,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -9983,7 +9983,7 @@
 "course": "p",
 "name": "Ice cream & sorbet",
 "price": 6.0,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -11284,7 +11284,7 @@
 "course": "p",
 "name": "Sakura",
 "price": 9.5,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 }
 ]
@@ -11974,7 +11974,7 @@
 "course": "p",
 "name": "Ice cream",
 "price": 7.5,
-"dish": "Ice cream and gelato",
+"dish": "Ice cream, gelato and sorbet",
 "group": "Ice cream and frozen"
 },
 {
@@ -13128,7 +13128,7 @@
 "course": "d",
 "name": "Garlic Parm' Fries",
 "price": 5.5,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -13142,7 +13142,7 @@
 "course": "d",
 "name": "Skinny Greek Fries",
 "price": 5.9,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -13156,14 +13156,14 @@
 "course": "d",
 "name": "Lamb Shawarma Fries",
 "price": 5.9,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
 "course": "d",
 "name": "Chicken Gyros Fries",
 "price": 5.9,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 },
 {
@@ -13857,7 +13857,7 @@
 "course": "d",
 "name": "Masala Chips",
 "price": 3.95,
-"dish": "Loaded and truffle fries",
+"dish": "Chips and fries",
 "group": "Potatoes and fries"
 }
 ]

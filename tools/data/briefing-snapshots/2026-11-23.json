@@ -117,13 +117,6 @@
    "p": 0.022
   },
   {
-   "course": "Side",
-   "level": "Dish",
-   "l": "Loaded and truffle fries",
-   "move": -4.4,
-   "p": 0.012
-  },
-  {
    "course": "Starter",
    "level": "Group",
    "l": "Chicken",
@@ -143,6 +136,13 @@
    "l": "Potatoes and fries",
    "move": -7.2,
    "p": 0.032
+  },
+  {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Chips and fries",
+   "move": -9.2,
+   "p": 0.002
   },
   {
    "course": "Alcoholic drink",

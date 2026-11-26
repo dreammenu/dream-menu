@@ -15,6 +15,10 @@ function spark(share,low){
   var lab='Share by quarter '+share.map(function(v,i){return QS[i]+' '+(v==null?'no comparable answers':pct(v)+(low[i]?' (few answers)':''))}).join(', ');
   return '<svg class="spark" viewBox="0 0 160 40" role="img" aria-label="'+esc(lab)+'"><path d="'+d.trim()+'" fill="none" stroke="currentColor" stroke-width="2" opacity=".85"/>'+dots+'</svg>'}
 function row(x,name,sub,low){return '<tr><td>'+esc(name)+(sub?'<small>'+esc(sub)+'</small>':'')+'</td><td class="sp">'+spark(x.share,low)+'</td><td class="num">'+pct(x.early)+'</td><td class="num">'+pct(x.late)+'</td><td class="num '+(x.sig?(x.move>0?'up':'down'):'')+'">'+sg(x.move)+'</td><td class="num">'+(x.sig?'yes':'no')+'</td></tr>'}
+// sub layer (26 Nov 2026): a family dish (steak, chips and fries, curry...) opens into the kinds inside it, each with its own trend
+function kinds(T,x){var p=(T.parts||{})[x.c];if(!p||p.length<2)return '';
+  return '<tr class="bf-kinds"><td colspan="6"><details><summary>Open: '+p.length+' kinds inside '+esc(x.l.toLowerCase())+'</summary><table><tbody>'+
+    p.map(function(y){return row(y,y.l,'',T.low)}).join('')+'</tbody></table></details></td></tr>'}
 var HEAD='<thead><tr><th>%s</th><th>By quarter</th><th class="num">Earlier</th><th class="num">Recent</th><th class="num">Move (pts)</th><th class="num">Clear?</th></tr></thead>';
 function note(T){var lows=QS.filter(function(q,i){return T.low[i]});
   return '<p class="note">'+T.n.toLocaleString('en-GB')+' answers. Answers per quarter in the trend line: '+QS.map(function(q,i){return q+' '+T.n_q[i]}).join(', ')+'.'+(lows.length?' Hollow points mark quarters with fewer than '+MIN+' answers: read them with care.':'')+(T.note?' '+esc(T.note):'')+'</p>'}
@@ -30,7 +34,7 @@ if($('bf-courses')){
     return '<div class="card"><h3>'+esc(T.label)+'</h3><div class="tablewrap" style="border:0"><table>'+HEAD.replace('%s','Group')+'<tbody>'+
       T.groups.slice(0,6).map(function(x){return row(x,x.c,'',T.low)}).join('')+'</tbody></table></div>'+
       '<div class="tablewrap" style="border:0;margin-top:10px"><table>'+HEAD.replace('%s','Dish')+'<tbody>'+
-      T.cats.slice(0,10).map(function(x){return row(x,x.l,x.g,T.low)}).join('')+'</tbody></table></div>'+note(T)+'</div>'}).join('')+'</div>';
+      T.cats.slice(0,10).map(function(x){return row(x,x.l,x.g,T.low)+kinds(T,x)}).join('')+'</tbody></table></div>'+note(T)+'</div>'}).join('')+'</div>';
 }
 if($('bf-groups')){
   $('bf-groups').innerHTML='<div class="grid">'+P.groups.map(function(G){return '<div class="card"><div class="eyebrow">'+esc(G.g)+' · '+G.n+' guests</div><h3 style="margin-top:6px">Top groups</h3>'+bars(G.top_groups,pct)+'<h3 style="margin-top:12px">Top dishes</h3>'+bars(G.top,pct)+'</div>'}).join('')+'</div>';

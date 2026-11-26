@@ -384,10 +384,19 @@ with open('partner/dish-moves.js', 'w', encoding='utf-8') as f:
 idx_cols = ''
 for k in P['order']:
     T = P['trends'][k]
-    lis = ''.join(f'<li><a href="/trends/{slugify(it.get("l") or lab(it["c"]))}">{E(it.get("l") or lab(it["c"]))}</a><span>{it["pct"]:.1f}%</span></li>' for it in ALL(T))
+    def _li(it):
+        nm, sl = E(it.get("l") or lab(it["c"])), slugify(it.get("l") or lab(it["c"]))
+        pr = (T.get('parts') or {}).get(it['c'])
+        if not pr or len(pr) < 2:
+            return f'<li><a href="/trends/{sl}">{nm}</a><span>{it["pct"]:.1f}%</span></li>'
+        # a family dish opens into the kinds inside it (sub layer); each answer is counted once, in the dish
+        sub = ''.join(f'<li>{E(x["l"])}<span>{100 * x["n"] / T["n"]:.1f}%</span></li>' for x in pr)
+        return (f'<li class="pg-fam"><details><summary><a href="/trends/{sl}">{nm}</a> <b class="pg-tg" title="Show the kinds inside">{len(pr)} kinds</b><span>{it["pct"]:.1f}%</span></summary>'
+                f'<ol class="pg-parts">{sub}</ol></details></li>')
+    lis = ''.join(_li(it) for it in ALL(T))
     idx_cols += f'<div class="card"><h2>{E(T["label"])}</h2><p class="pg-mut">{fmt(T["n"])} answers</p><ol class="pg-idx">{lis}</ol></div>'
 body = f'''<section class="pg-hero"><div class="wrap"><p class="eyebrow">Dish trends</p><h1>Every dish we <em>track</em></h1>
-<p class="lede">{len(DISHES)} dishes and drinks across six courses: every food dish at least ten guests have named, and the top drinks. Each has its share of guests, its quarter-by-quarter trend, where people go for it and which markets name it most. Pick one to open its page.</p></div></section>
+<p class="lede">{len(DISHES)} dishes and drinks across six courses: every food dish at least ten guests have named, and the top drinks. Dishes with a &#9656; open to show the kinds inside them (steak by cut, chips and fries by kind), each answer counted once. Each has its share of guests, its quarter-by-quarter trend, where people go for it and which markets name it most. Pick one to open its page.</p></div></section>
 <section><div class="wrap pg-grid">{idx_cols}</div></section>
 <section><div class="wrap">{SRC}</div></section>'''
 written.append(page('/trends', 'Dish trends: every dish we track | Dream Menu', f'{len(DISHES)} dishes and drinks from {fmt(P["n_all"])} Dream Menu interviews, course by course, with a page for each.', body))

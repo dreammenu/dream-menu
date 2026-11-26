@@ -125,10 +125,11 @@ FAMILY = {
        'Chicken tikka masala': 'Curry (other)', 'Butter chicken': 'Curry (other)', 'Lamb curry (rogan josh, karahi)': 'Curry (other)',
        'Rack of lamb / lamb chops': 'Lamb (other)', 'Lamb shoulder / leg / rump': 'Lamb (other)', 'Lamb shank': 'Lamb (other)',
        'Peking / crispy duck': 'Duck'},
- # chips and fries (259 answers) are split in two: plain chips and fries, and dressed fries; sweet potato fries stay apart
- 'd': {'Chunky / triple-cooked chips': 'Skinny / French fries', 'Truffle fries': 'Loaded / dirty fries'},
- # ice cream keeps sorbet apart; cheesecake and the meringue desserts fold together
- 'p': {'Basque cheesecake': 'Baked / New York cheesecake', 'Gelato': 'Ice cream (other)', 'Soft serve / Mr Whippy': 'Ice cream (other)',
+ # one Chips and fries dish with every kind inside it, opened as a sub layer (Gordon, 26 Nov 2026: group, don't split)
+ 'd': {'Chunky / triple-cooked chips': 'Skinny / French fries', 'Truffle fries': 'Skinny / French fries', 'Loaded / dirty fries': 'Skinny / French fries',
+       'Sweet potato fries': 'Skinny / French fries'},
+ # ice cream, gelato and sorbet are one frozen dessert; cheesecake and the meringue desserts fold together
+ 'p': {'Basque cheesecake': 'Baked / New York cheesecake', 'Gelato': 'Ice cream (other)', 'Soft serve / Mr Whippy': 'Ice cream (other)', 'Sorbet': 'Ice cream (other)',
        'Sundae / knickerbocker glory': 'Ice cream (other)', 'Pavlova': 'Meringue', 'Eton mess': 'Meringue'},
  's': {'Chicken liver pate / parfait': 'Pate / terrine / foie gras'},
 }
@@ -138,8 +139,8 @@ DRINK_FAMILY = {
 }
 LABEL2 = {
  'Pizza (other)': 'Pizza', 'Burger (other)': 'Burger', 'Curry (other)': 'Curry', 'Lamb (other)': 'Lamb',
- 'Skinny / French fries': 'Chips and fries', 'Loaded / dirty fries': 'Loaded and truffle fries', 'Fried potatoes / chips': 'Chips and fries',
- 'Baked / New York cheesecake': 'Cheesecake', 'Ice cream (other)': 'Ice cream and gelato', 'Meringue': 'Pavlova and meringue',
+ 'Skinny / French fries': 'Chips and fries', 'Fried potatoes / chips': 'Chips and fries',
+ 'Baked / New York cheesecake': 'Cheesecake', 'Ice cream (other)': 'Ice cream, gelato and sorbet', 'Meringue': 'Pavlova and meringue',
  'Pate / terrine / foie gras': 'Pâté and parfait',
  'Coca-Cola': 'Coke and Diet Coke', 'Coffee (other)': 'Coffee', 'Margarita (classic / frozen)': 'Margarita', 'Lager / pilsner': 'Lager and beer',
  'Cocktail (other / named house cocktail)': 'House and other cocktails',

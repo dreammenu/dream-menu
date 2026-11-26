@@ -31,7 +31,7 @@ OLDL = {(k, it['c']): it.get('l') for k in 'smdp' for it in P['trends'][k]['cats
 PARTL = {'Steak (unspecified cut)': 'Cut not named', 'Chateaubriand / cote de boeuf / T-bone': 'Sharing steaks (chateaubriand, côte de boeuf)',
          'Bavette / flat iron / hanger / picanha': 'Bavette, rump and other cuts', 'Steak frites / steak and chips': 'Steak frites',
          'Skinny / French fries': 'Skinny fries', 'Chunky / triple-cooked chips': 'Triple-cooked chips', 'Loaded / dirty fries': 'Loaded fries',
-         'Truffle fries': 'Truffle fries', 'Baked / New York cheesecake': 'Baked cheesecake', 'Ice cream (other)': 'Ice cream',
+         'Truffle fries': 'Truffle fries', 'Sweet potato fries': 'Sweet potato fries', 'Sorbet': 'Sorbet', 'Baked / New York cheesecake': 'Baked cheesecake', 'Ice cream (other)': 'Ice cream',
          'Meringue': 'Other meringue', 'Pate / terrine / foie gras': 'Pâté and terrine', 'Curry (other)': 'Other curry',
          'Pizza (other)': 'Other pizza', 'Burger (other)': 'Other burger', 'Lamb (other)': 'Other lamb', 'Duck': 'Duck'}
 def partl(k, c): return PARTL.get(c) or CL.get((k, c), (None,))[0] or (L.get(c) or [c])[0]

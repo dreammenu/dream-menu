@@ -354,7 +354,7 @@
     },
     {
       "source": "/trends/gelato",
-      "destination": "/trends/ice-cream-and-gelato",
+      "destination": "/trends/ice-cream-gelato-and-sorbet",
       "permanent": true
     },
     {
@@ -369,7 +369,7 @@
     },
     {
       "source": "/trends/ice-cream",
-      "destination": "/trends/ice-cream-and-gelato",
+      "destination": "/trends/ice-cream-gelato-and-sorbet",
       "permanent": true
     },
     {
@@ -389,7 +389,7 @@
     },
     {
       "source": "/trends/loaded-fries",
-      "destination": "/trends/loaded-and-truffle-fries",
+      "destination": "/trends/chips-and-fries",
       "permanent": true
     },
     {
@@ -494,7 +494,7 @@
     },
     {
       "source": "/trends/sundae-and-knickerbocker-glory",
-      "destination": "/trends/ice-cream-and-gelato",
+      "destination": "/trends/ice-cream-gelato-and-sorbet",
       "permanent": true
     },
     {
@@ -524,7 +524,27 @@
     },
     {
       "source": "/trends/truffle-fries",
-      "destination": "/trends/loaded-and-truffle-fries",
+      "destination": "/trends/chips-and-fries",
+      "permanent": true
+    },
+    {
+      "source": "/trends/ice-cream-and-gelato",
+      "destination": "/trends/ice-cream-gelato-and-sorbet",
+      "permanent": true
+    },
+    {
+      "source": "/trends/loaded-and-truffle-fries",
+      "destination": "/trends/chips-and-fries",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sorbet",
+      "destination": "/trends/ice-cream-gelato-and-sorbet",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sweet-potato-fries",
+      "destination": "/trends/chips-and-fries",
       "permanent": true
     }
   ],
