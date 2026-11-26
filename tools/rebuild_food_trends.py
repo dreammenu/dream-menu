@@ -4,7 +4,7 @@ published top 14 dishes and top 10 groups keep their role, and 'all' holds every
 Needs a fresh export of the Responses sheet (answers, categories and timestamps for the four food columns) as rows.json, ts.json and catlist.json in /tmp/audit; see tools/data/category-audit-2026-11-26.json for the recodes it applies."""
 import json, math, re, sys, datetime, collections
 sys.path.insert(0, 'tools/data'); sys.path.insert(0, '/tmp/audit')
-from category_recodes_2026_11_26 import R, MERGE, NEW, LABEL, GROUP
+from category_recodes_2026_11_26 import R, MERGE, NEW, LABEL, GROUP, STEAK_CUTS
 ROOT = '/home/claude/dream-menu/'
 MIN_N = 10
 def load(fn, var):
@@ -39,14 +39,16 @@ for k in 'smdp':
     ans = []
     for r in rows:
         if r['course'] == k and r['cat'] and r['row'] <= 1280:
-            c = rec.get((k, r['row']), r['cat']); c = merged.get(c, c)
+            c0 = rec.get((k, r['row']), r['cat']); c = merged.get(c0, c0)
             d = datetime.datetime.strptime(ts[str(r['row'])][:10], '%d/%m/%Y')
-            ans.append((qof(d), c))
-    if b1281.get(k): ans.append((qof(datetime.date.fromisoformat(b1281['date'])), b1281[k]))
-    ans = [(qq, c) for qq, c in ans if c != 'Other' and qq in qi]
+            ans.append((qof(d), c, c0))
+    if b1281.get(k): ans.append((qof(datetime.date.fromisoformat(b1281['date'])), merged.get(b1281[k], b1281[k]), b1281[k]))
+    ans = [(qq, c, c0) for qq, c, c0 in ans if c != 'Other' and qq in qi]
     nq = [0] * len(q); cats = collections.defaultdict(lambda: [0] * len(q)); groups = collections.defaultdict(lambda: [0] * len(q))
-    for qq, c in ans:
+    cuts = collections.defaultdict(lambda: [0] * len(q))
+    for qq, c, c0 in ans:
         nq[qi[qq]] += 1; cats[c][qi[qq]] += 1; groups[par(k, c)][qi[qq]] += 1
+        if c == 'Steak (unspecified cut)': cuts[c0][qi[qq]] += 1
     N = sum(nq); ei = [i for i, x in enumerate(q) if x in early]; li = [i for i, x in enumerate(q) if x in late]
     n1, n2 = sum(nq[i] for i in ei), sum(nq[i] for i in li)
     def item(c, cnt, is_cat):
@@ -60,6 +62,10 @@ for k in 'smdp':
     t['n_q'], t['n'] = nq, N; t['low'] = [n < P['min_n'] for n in nq]
     t['cats'] = allc[:14]
     t['all'] = [x for x in allc if x['n'] >= MIN_N]
+    if cuts:   # the cut split inside the one Steak dish, for the steak page and the steak report
+        CUTL = {'Steak (unspecified cut)': 'Cut not named', 'Chateaubriand / cote de boeuf / T-bone': 'Sharing steaks (chateaubriand, côte de boeuf)',
+                'Bavette / flat iron / hanger / picanha': 'Bavette, rump and other cuts', 'Steak frites / steak and chips': 'Steak frites'}
+        t['cuts'] = sorted((dict(item(c, v, False), l=CUTL.get(c) or (L.get(c) or [c])[0] or c) for c, v in cuts.items()), key=lambda x: (-x['n'], x['l']))
     t['groups'] = sorted((item(g, v, False) for g, v in groups.items() if g != 'Other answers'), key=lambda x: (-x['n'], x['c']))[:10]
     print(k, N, nq, 'published', [x['l'] for x in t['cats']][-3:], 'all', len(t['all']))
 mv = []

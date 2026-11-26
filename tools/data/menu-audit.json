@@ -991,63 +991,63 @@
 "course": "m",
 "name": "Rib-eye",
 "price": 42.0,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Fillet",
 "price": 45.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "T-bone",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Bone-in prime rib",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Porterhouse",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chateaubriand",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Longhorn rib-eye",
 "price": 56.0,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Longhorn T-bone",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Longhorn porterhouse",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Longhorn prime rib",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -1094,7 +1094,7 @@
 "course": "m",
 "name": "Cast-iron fillet steak",
 "price": 38.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -2324,21 +2324,21 @@
 "course": "m",
 "name": "Surf & Turf Fillet 8oz",
 "price": 45.95,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Fillet 8oz",
 "price": 35.95,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Ribeye",
 "price": 34.25,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -2359,14 +2359,14 @@
 "course": "m",
 "name": "T-Bone 20oz",
 "price": 42.25,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Black Angus Filet Mignon 10oz",
 "price": 39.75,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -2387,7 +2387,7 @@
 "course": "m",
 "name": "Black Angus Ribeye 8oz",
 "price": 31.5,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -2401,14 +2401,14 @@
 "course": "m",
 "name": "Côte de Boeuf 28oz",
 "price": 70.5,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chateaubriand 16oz",
 "price": 70.5,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -3336,7 +3336,7 @@
 {
 "course": "m",
 "name": "8oz Fillet Steak",
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -3551,7 +3551,7 @@
 "course": "m",
 "name": "Le pave de boeuf",
 "price": 18.9,
-"dish": "Steak (cut not named)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -3565,14 +3565,14 @@
 "course": "m",
 "name": "La cote de boeuf moyenne",
 "price": 27.9,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Le filet mignon",
 "price": 26.9,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -3586,14 +3586,14 @@
 "course": "m",
 "name": "Le steak au roquefort",
 "price": 22.9,
-"dish": "Steak (cut not named)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Le steak with egg a cheval et frites",
 "price": 15.9,
-"dish": "Steak (cut not named)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -4572,7 +4572,7 @@
 "course": "m",
 "name": "Chateaubriand",
 "price": 65.0,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -5798,7 +5798,7 @@
 "course": "m",
 "name": "Rib-eye on the Bone 12oz",
 "price": 39.75,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -6227,14 +6227,14 @@
 "course": "m",
 "name": "Prime Rib on the Bone 600g",
 "price": 90.0,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Ribeye 400g",
 "price": 70.0,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -6248,25 +6248,25 @@
 "course": "m",
 "name": "Fillet 300g",
 "price": 85.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chateaubriand",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
-"name": "Tomahawk",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"name": "Steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Porterhouse",
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -6886,7 +6886,7 @@
 "course": "m",
 "name": "Ribeye",
 "price": 39.5,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -6900,49 +6900,49 @@
 "course": "m",
 "name": "Fillet",
 "price": 38.5,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chateaubriand",
 "price": 78.5,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "The Gaucho Platter",
 "price": 130.0,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chimichurri Ribeye",
 "price": 52.5,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Spice-Rubbed Fillet Medallions",
 "price": 40.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Mustard Seed and Black Pepper Fillet",
 "price": 50.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chipotle Ribeye",
 "price": 65.5,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -6956,7 +6956,7 @@
 "course": "m",
 "name": "Latin-Marinated Fillet",
 "price": 63.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -7420,7 +7420,7 @@
 "course": "m",
 "name": "FILETTO",
 "price": 35.95,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -7434,14 +7434,14 @@
 "course": "m",
 "name": "FIORENTINA DI MANZO",
 "price": 45.95,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "COSTATA",
 "price": 32.95,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -7490,14 +7490,14 @@
 "course": "m",
 "name": "TAGLIATA ALLA TOSCANA",
 "price": 36.95,
-"dish": "Steak (cut not named)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "TOURNEDOS ROSSINI",
 "price": 37.95,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -8193,35 +8193,35 @@
 "course": "m",
 "name": "Ribeye (275g)",
 "price": 47.0,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Fillet (225g)",
 "price": 49.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Chateaubriand (500g)",
 "price": 88.0,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Porterhouse (800g)",
 "price": 95.0,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Côte de bœuf (600g)",
 "price": 88.0,
-"dish": "Sharing steaks (chateaubriand, côte de boeuf)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -8234,13 +8234,13 @@
 {
 "course": "m",
 "name": "Guest breed dry-aged cut of the day",
-"dish": "Steak (cut not named)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
 "course": "m",
 "name": "Hoardweel wagyu steak of the day",
-"dish": "Steak (cut not named)",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -11797,9 +11797,9 @@
 },
 {
 "course": "m",
-"name": "Fillet steak",
+"name": "Steak",
 "price": 24.5,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -11897,7 +11897,7 @@
 "course": "m",
 "name": "Rib-eye",
 "price": 32.5,
-"dish": "Ribeye steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {
@@ -12088,7 +12088,7 @@
 "course": "m",
 "name": "Fillet of Beef",
 "price": 43.0,
-"dish": "Fillet steak",
+"dish": "Steak",
 "group": "Steak and beef"
 },
 {

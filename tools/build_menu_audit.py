@@ -24,7 +24,7 @@ import json, os, statistics as st
 # Table stakes: demand at or above the course median and on SUPPLY% or more of menus. Over-supplied: demand below the median, on SUPPLY% or more.
 SUPPLY = 25
 # A guest who says "steak" without a cut is served by any steak on the menu, so that label counts every steak label.
-ANY = {('m', 'Steak (cut not named)'): ['Steak (cut not named)', 'Fillet steak', 'Ribeye steak', 'Sharing steaks (chateaubriand, côte de boeuf)']}
+ANY = {}   # one Steak dish covers every cut since 26 Nov 2026
 # On menus this label takes every pasta main, while on the guest side it is only the pasta left after the named ones: not like for like.
 BROAD = {('m', 'Other pasta')}
 

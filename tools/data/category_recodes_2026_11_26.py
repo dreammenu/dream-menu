@@ -79,10 +79,21 @@ R = [
 # Category rule changes
 MERGE = {('s','Empanadas'): 'Empanadas / arepas / Latin bites',
          ('s','Skewers / satay / yakitori'): 'Chicken satay / skewers',
-         ('d','Tenderstem / broccoli'): 'Creamed spinach / greens'}
+         ('d','Tenderstem / broccoli'): 'Creamed spinach / greens',
+         # 26 Nov 2026, Gordon: one Steak dish for every cut; the cut split is kept as 'cuts' in the main-course trend
+         ('m','Fillet steak'): 'Steak (unspecified cut)',
+         ('m','Ribeye steak'): 'Steak (unspecified cut)',
+         ('m','Sirloin / striploin'): 'Steak (unspecified cut)',
+         ('m','Tomahawk'): 'Steak (unspecified cut)',
+         ('m','Chateaubriand / cote de boeuf / T-bone'): 'Steak (unspecified cut)',
+         ('m','Wagyu'): 'Steak (unspecified cut)',
+         ('m','Bavette / flat iron / hanger / picanha'): 'Steak (unspecified cut)',
+         ('m','Steak frites / steak and chips'): 'Steak (unspecified cut)',
+}
 NEW = {'Vegetable starters (other)': ['Other vegetable starters', 'Vegetables and salad'],
        'Thai dishes (other)': ['Other Thai dishes', 'Asian']}
-LABEL = {'Chicken satay / skewers': 'Skewers, satay and yakitori',
+LABEL = {'Steak (unspecified cut)': 'Steak',
+         'Chicken satay / skewers': 'Skewers, satay and yakitori',
          'Ramen / pho / noodle soup': 'Ramen, pho and Asian soups',
          'Fried chicken / tenders / karaage': 'Fried chicken and tenders',
          'Bavette / flat iron / hanger / picanha': 'Bavette, rump and other steak cuts',
@@ -103,3 +114,5 @@ GROUP = {'French onion soup': 'Soup', 'Mac and cheese': 'Pasta and Italian', 'Ri
          'Rice (other)': 'Rice and grains', 'Patatas bravas': 'Potatoes and fries', 'Halloumi': 'Cheese',
          'Burrata': 'Cheese', 'Burrata / stracciatella': 'Cheese', 'Mozzarella sticks / fried cheese': 'Cheese',
          'Sweets / sweeties': 'Other answers'}
+
+STEAK_CUTS = ['Fillet steak', 'Ribeye steak', 'Sirloin / striploin', 'Tomahawk', 'Chateaubriand / cote de boeuf / T-bone', 'Wagyu', 'Bavette / flat iron / hanger / picanha', 'Steak frites / steak and chips']

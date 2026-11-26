@@ -67,9 +67,11 @@ def trend(c):
 
 
 def item(c, name, level='cats'):
-    for it in trend(c)[level]:
-        if it.get('l') == name or it['c'] == name:
-            return it
+    # published top 14 first, then every tracked dish ('all'), then the steak cut split ('cuts', mains only)
+    for lv in ([level] + (['all', 'cuts'] if level == 'cats' else [])):
+        for it in trend(c).get(lv) or []:
+            if it.get('l') == name or it['c'] == name:
+                return it
     raise KeyError(f'{c}: {name}')
 
 
@@ -762,8 +764,10 @@ def r_critics():
 def r_steak():
     ex = Ex()
     sb = item('m', 'Steak and beef', 'groups')
-    cuts = [it for it in m_t['cats'] if it.get('g') == 'Steak and beef']
-    sr, rb, fl, pie = item('m', 'Short rib and braised beef'), item('m', 'Ribeye steak'), item('m', 'Fillet steak'), item('m', 'Steak pie')
+    sr, rb, fl, pie = item('m', 'Short rib and braised beef'), item('m', 'Ribeye steak', 'cuts'), item('m', 'Fillet steak', 'cuts'), item('m', 'Steak pie')
+    stk = item('m', 'Steak')
+    # one Steak dish counts every cut once (26 Nov 2026); the cut split comes from 'cuts', beside the other beef dishes
+    cuts = [c for c in m_t.get('cuts', []) if c['n'] >= 5] + [it for it in m_t.get('all', m_t['cats']) if it.get('g') == 'Steak and beef' and it['c'] != 'Steak (unspecified cut)']
     tart = item('s', 'Steak tartare and carpaccio')
     gr, tc, sk, tf = item('d', 'Green vegetables'), item('d', 'Triple-cooked chips'), item('d', 'Skinny fries'), item('d', 'Truffle fries')
     sig = sig_set('m') | sig_set('d')
@@ -813,7 +817,7 @@ def r_steak():
                ('Fillet', 'A continued fall would make fillet a special-occasion cut rather than a menu staple.'),
                ('Plant-based mains', 'Vegetable sides are rising. Watch whether that reaches the main course and takes share from beef.')],
         method_stats=[(f0(m_t['n']), 'dream mains'), (f0(sb['n']), 'beef and steak mains'), (f0(sum(cat_count(v, 'Steak / beef') for v in DM['venues'])), 'beef venue mentions'), ('6', 'quarters tracked')],
-        method='<p>Main and side shares use interviews with a codable answer for that course. "Steak (cut not named)" covers answers naming steak without a cut.</p>',
+        method='<p>Main and side shares use interviews with a codable answer for that course. Steak is one dish whatever the cut, so no answer is counted twice; the cut charts split those answers by the cut guests named, with "cut not named" for steak without a cut.</p>',
         card=(f'{f1(sb["pct"])}%', 'of dream mains are steak or beef'),
         blurb='The cuts guests name, the shift from fillet to flavour, the steak plate and the venues that own it.'))
 

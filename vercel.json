@@ -251,6 +251,36 @@
       "source": "/trends/chicken-tenders",
       "destination": "/trends/chicken-tenders-and-bites",
       "permanent": true
+    },
+    {
+      "source": "/trends/steak-cut-not-named",
+      "destination": "/trends/steak",
+      "permanent": true
+    },
+    {
+      "source": "/trends/bavette-rump-and-other-steak-cuts",
+      "destination": "/trends/steak",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sharing-steaks-chateaubriand-cote-de-boeuf",
+      "destination": "/trends/steak",
+      "permanent": true
+    },
+    {
+      "source": "/trends/steak-frites-and-steak-and-chips",
+      "destination": "/trends/steak",
+      "permanent": true
+    },
+    {
+      "source": "/trends/ribeye-steak",
+      "destination": "/trends/steak",
+      "permanent": true
+    },
+    {
+      "source": "/trends/fillet-steak",
+      "destination": "/trends/steak",
+      "permanent": true
     }
   ],
   "headers": [

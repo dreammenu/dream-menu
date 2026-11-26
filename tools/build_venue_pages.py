@@ -199,6 +199,17 @@ def insight_box(d):
             f'<ul class="ins-list">{lis}</ul></aside>')
 
 
+def cut_card(d):
+    # Steak is one dish whatever the cut (26 Nov 2026); the steak page shows which cuts guests named
+    cuts = P['trends'].get('m', {}).get('cuts') if d['c'] == 'Steak (unspecified cut)' else None
+    if not cuts:
+        return ''
+    tot = sum(c['n'] for c in cuts) or 1
+    lis = ''.join(f'<li><span class="l">{E(c["l"])}</span><span class="t"><i style="width:{100 * c["n"] / cuts[0]["n"]:.1f}%"></i></span><span class="v">{100 * c["n"] / tot:.0f}%</span></li>' for c in cuts)
+    return (f'<div class="card"><h2>Which cut</h2><ol class="pg-bars">{lis}</ol>'
+            f'<p class="pg-mut">Share of the {fmt(tot)} steak mains, by the cut guests named. Every steak answer counts once, in this one dish.</p></div>')
+
+
 written = []
 for s, d in DISHES.items():
     ci = CI.get(d['c'])
@@ -239,6 +250,7 @@ for s, d in DISHES.items():
   <p class="pg-mut">Share of the guests who answered that course, all interviews.</p></div>
   <div class="card"><h2>By market</h2>{('<div class="tablewrap" style="border:0"><table><thead><tr><th>Market</th><th class="num">Share here</th><th class="num">All markets</th></tr></thead><tbody>' + mk_rows + '</tbody></table></div><p class="pg-mut">Share of each market&#39;s venue-linked dish mentions, so markets with fewer answers compare fairly; shown from three mentions. Markets outside Scotland are early signals.</p>') if mk_rows else '<p class="pg-mut">Not enough venue mentions to compare markets yet.</p>'}</div>
   <div class="card"><h2>Where guests go for it</h2>{('<ol class="pg-list">' + vl + '</ol>' + vnote) if vl else '<p class="pg-mut">No venue named for this dish more than once yet.</p>'}</div>
+  {cut_card(d)}
   {benchlib.dish_card(s)}
   <div class="card pg-lock" id="dm-move" data-slug="{s}"><h2>Is it rising?</h2><p>Quarter-by-quarter movement, a clear-move test and a trend score out of 10 for {E(d["l"])} are for Dream Menu partners.</p><p><a class="go" href="/login?next=/trends/{s}">Partner sign-in</a> · <a class="go" href="/for-business#work">Become a partner</a></p></div>
 </div></section>

@@ -13,9 +13,9 @@ from vinfo import vinfo, strip
 RULES = [
     # ---- home
     ('index.html', r'<div class="mf">Share of answers for each course</div>', 'after',
-     'The single most-named dish in each course, with its share of that course’s answers. Shares look small because guests name hundreds of different dishes, so a dish on 8% is a clear leader. “Steak” means guests who named steak without a cut; fillet and other named cuts are counted on their own.'),
+     'The single most-named dish in each course, with its share of that course’s answers. Shares look small because guests name hundreds of different dishes, so a dish on 8% is a clear leader. “Steak” counts every steak once, whatever the cut (fillet, ribeye, sharing steaks and the rest); the Steak page shows the split by cut.'),
     ('index.html', r'<div class="cgrid">', 'before',
-     'Each card is one course. The percentage is the share of that course’s answers naming the dish; every bar on every card uses the same scale, so a longer bar is a bigger share whichever course it is in.\n“Steak” means guests who named steak without a cut; fillet steak is counted on its own. Answers that fit no dish are left out, so shares are of answers we could code.'),
+     'Each card is one course. The percentage is the share of that course’s answers naming the dish; every bar on every card uses the same scale, so a longer bar is a bigger share whichever course it is in.\n“Steak” counts every steak once, whatever the cut. Answers that fit no dish are left out, so shares are of answers we could code.'),
     ('index.html', r'<div class="dgrid">', 'before',
      'Each bar splits every answer to one question and adds up to 100%. The large figure is the winning answer, or “too close to call” when the top two are under 3 points apart. The count beneath is how many guests answered.'),
     # (the guilty pleasures and bin-it lists left the home page on 24 Nov 2026)
