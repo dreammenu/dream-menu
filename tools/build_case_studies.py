@@ -407,13 +407,13 @@ def r_seafood():
            + ex(f'On the main course, white fish leads seafood at {f1(sub_m[0]["p"])}% of all mains', f'Every seafood main guests named, as a share of all {f0(m_t["n"])} mains.',
                 hbar([(it['l'], it['p']) for it in sub_m], on={sub_m[0]['l']}, unit='%', dec=1),
                 DM_SRC, (['Dish', 'Mentions', 'Share of mains'], [[it['l'], it['n'], f'{it["p"]}%'] for it in sub_m])))
-    ch2 = (ex('White fish is the clear riser on the main course', 'Share of dream mains and starters, early against recent.',
+    ch2 = (ex('White fish is the clear riser on the main course' if cod['sig'] else 'White fish is rising on the main course', 'Share of dream mains and starters, early against recent.',
               dumbbell(db_rows, sig={'Cod, hake and white fish (main)'}),
               f'{DM_SRC}. Clear move: two-proportion test, p < 0.05', (['Item', EARLY, RECENT, 'Change'], [[a, f'{b}%', f'{c}%', pts(c - b)] for a, b, c in db_rows]))
            + ex('Seafood mains, white fish and scallops by quarter', 'Share of answers each quarter, on one scale. Faded points have fewer than 100 answers.',
                 small_multiples([('Seafood mains', m_sea['share'], 'k1'), ('White fish mains', cod['share'], 'k1'), ('Scallop starters', scal_i['share'], 'k0'), ('Seafood starters', s_sea['share'], 'k0')], Q, faded=faded('m')),
                 DM_SRC, (['Quarter'] + Q, [[n] + [f'{v}%' for v in it['share']] for n, it in (('Seafood mains', m_sea), ('White fish mains', cod), ('Scallop starters', scal_i), ('Seafood starters', s_sea))]))
-           + sowhat('a seafood supplier', f'The volume is in starters; the growth is in mains. White fish rose from {f1(cod["early"])}% to {f1(cod["late"])}% of dream mains, a clear move, while starters hold steady around a third.'))
+           + sowhat('a seafood supplier', f'The volume is in starters; the growth is in mains. White fish rose from {f1(cod["early"])}% to {f1(cod["late"])}% of dream mains{', a clear move' if cod['sig'] else ', not yet beyond chance'}, while starters hold steady around a third.'))
     ch3 = ('<div class="ex-pair"><div>' + ex('One venue owns seafood; Leith and the coast share the rest', 'Seafood mentions by venue.',
               hbar([(v['n'], cat_count(v, 'Seafood'), vloc(v)) for v in sea_v], on={sea_v[0]['n']}), DM_SRC, (['Venue', 'Place', 'Seafood mentions'], [[v['n'], vloc(v), cat_count(v, 'Seafood')] for v in sea_v])) + '</div><div>'
            + ex('The trade names seafood most', 'Seafood as a share of everything each group names.',
@@ -432,10 +432,10 @@ def r_seafood():
         title="Scotland's <em>seafood</em> appetite", desc='Where seafood sits on the dream menu, which dishes lead, what is rising and which venues own it.',
         stand='Seafood is the single biggest idea on Scotland\'s dream menu. This report reads it across starters and mains, tracks it quarter by quarter, and names the venues guests associate with it.',
         client='A Scottish seafood supplier planning its foodservice range', question='Which seafood products should we push next year, and to whom?', evidence=f'{f0(s_t["n"])} starters, {f0(m_t["n"])} mains, venue mentions',
-        kpis=[(f'{f1(s_sea["pct"])}%', 'of dream starters are seafood'), (f'{f1(scal_i["pct"])}%', 'name scallops, the top starter'), (f'{f1(m_sea["pct"])}%', 'of dream mains are seafood'), (f'{pts(cod["move"])} pts', 'white fish mains, a clear rise')],
+        kpis=[(f'{f1(s_sea["pct"])}%', 'of dream starters are seafood'), (f'{f1(scal_i["pct"])}%', 'name scallops, the top starter'), (f'{f1(m_sea["pct"])}%', 'of dream mains are seafood'), (f'{pts(cod["move"])} pts', 'white fish mains, a clear rise' if cod['sig'] else 'white fish mains, rising')],
         answer='Seafood owns the starter and is growing on the main course, so the range should pair a named-origin scallop hero with a white fish line for mains, sold to chefs first.',
         msgs=[(f'{f1(s_sea["pct"])}%', 'of starters', 'Seafood owns the starter', f'{f0(s_t["n"])} dream starters; seafood takes {f1(s_sea["pct"])}%, and scallops alone {f1(scal_i["pct"])}%.'),
-              (pts(cod['move']), 'pts', 'White fish is the riser', f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}%, a clear move.'),
+              (pts(cod['move']), 'pts', 'White fish is the riser', f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}%{", a clear move" if cod["sig"] else ", not yet beyond chance"}.'),
               (f'{f1(grp["Industry"])}%', 'of trade picks', 'Chefs are the advocates', 'Hospitality professionals name seafood more than any other group.')],
         chapters=[('starter', 'The starter', 'Seafood takes a third of all dream starters', 'Where seafood sits against every other food group, and which dishes lead.', ch1),
                   ('trend', 'The trend', 'The growth is moving to the main course', 'Early against recent, and quarter by quarter.', ch2),
@@ -590,7 +590,7 @@ def r_fatigue():
            + sowhat('venues', 'Guests want honest comfort, not comfort dressed up for the camera. A well-made classic does not need a twist.'))
     recs = [('Drop the viral special', 'Put the effort into a dish people come back for. Hype-led trends dominate the "bin it" list.', 'High', 'Low', 'Next menu change'),
             ('Make greens and salads as considered as the chips', f'Vegetable and salad sides rose from {f1(veg["early"])}% to {f1(veg["late"])}%{"; green vegetables clearly up" if gr["sig"] else ", green vegetables up too"}.', 'High', 'Low', 'Next menu change'),
-            ('Add a Mediterranean or mezze-style side', f'From {f1(med["early"])}% to {f1(med["late"])}% of dream sides, a clear move.', 'Medium', 'Low', 'Next quarter'),
+            ('Add a Mediterranean or mezze-style side', f'From {f1(med["early"])}% to {f1(med["late"])}% of dream sides{", a clear move" if med["sig"] else ", rising but not yet beyond chance"}.', 'Medium', 'Low', 'Next quarter'),
             ('Keep one loaded item at most', f'Loaded fries fell from {f1(lf["early"])}% to {f1(lf["late"])}%; loaded and dirty food draws {dict(BIN).get("Loaded and dirty food", 0)} "bin it" mentions.', 'Medium', 'Low', 'Now'),
             ('Explain small plates clearly', f'Small plates appear in the "bin it" list ({dict(BIN).get("Small plates", 0)}). If that is the format, be clear on portions and price.', 'Low', 'Low', 'Now')]
     return render(dict(slug='trend-fatigue', ex=ex, status='sample', aud='venue public supplier', **META['trend-fatigue'],

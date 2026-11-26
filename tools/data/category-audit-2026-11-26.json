@@ -1,0 +1,2355 @@
+{
+ "date": "2026-11-26",
+ "note": "Category audit: answers recoded by hand after reading the text; merged and renamed categories. The Responses sheet still holds the old codes: apply these to the sheet so a full rebuild keeps them.",
+ "recodes": [
+  {
+   "course": "s",
+   "row": 642,
+   "old": "Beetroot / root veg",
+   "new": "Pasta starter (cacio e pepe, small pasta)",
+   "answer": "My dream starter (if there ever was one) has to be mac and cheese — but done properly: a rich three-cheese blend, baked until it’s just on the edge of being slightly overdone, with that perfect golden"
+  },
+  {
+   "course": "s",
+   "row": 665,
+   "old": "Pork belly / pork bites",
+   "new": "Pasta starter (cacio e pepe, small pasta)",
+   "answer": "Definitely a Mac & cheese probably one of the best comfort foods Sloan's in town is a great option the crisper the top and the more toppings like bacon, brisket the better"
+  },
+  {
+   "course": "s",
+   "row": 621,
+   "old": "Beetroot / root veg",
+   "new": "Lentil / pea / veg soup",
+   "answer": "Not a big foodie. Something light to start. A pea or carrot soup or a couple of haggis balls."
+  },
+  {
+   "course": "s",
+   "row": 801,
+   "old": "Beetroot / root veg",
+   "new": "Lentil / pea / veg soup",
+   "answer": "Best starter I've ever had was like some kind of carrot soup my buddy Douglas once made for me when he worked at the Fintry holiday park. No idea what the name of it was. Hope thats a good answer"
+  },
+  {
+   "course": "s",
+   "row": 679,
+   "old": "Soup (other)",
+   "new": "Lentil / pea / veg soup",
+   "answer": "I would say this is a starter as it’s a soup. My granny’s lentil soup. It was always there, couple of slices of mothers pride and it’s my ultimate starter"
+  },
+  {
+   "course": "s",
+   "row": 616,
+   "old": "Soup (other)",
+   "new": "Lentil / pea / veg soup",
+   "answer": "I once had a Pear and Parsnip soup at Malmaison in Glasgow that I can barely get through a week without thinking about. I believe it was the creation of the late great Martin Wishart and I've tried co"
+  },
+  {
+   "course": "s",
+   "row": 589,
+   "old": "Beetroot / root veg",
+   "new": "Salad (other)",
+   "answer": "This sounds crazy but I was actually inspired by a M&S salad that I bought on a random Tuesday on my way home from work. Spiralised courgette, carrot and edamame beans, Peanut and Coriander dressing a"
+  },
+  {
+   "course": "s",
+   "row": 98,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "I would go with Sarang cafe's Tuna Kimbab. Its a cute Korean cafe with an authentic vibes and flavors on 183 Hope street."
+  },
+  {
+   "course": "s",
+   "row": 973,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "Tuna gimbap - Seoul Korean bbq. A dish I first discovered while working in another Korean restaurant in Glasgow, it has been a favourite since. I could eat a full danmuji to myself"
+  },
+  {
+   "course": "s",
+   "row": 223,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "Trout temaki, yuzo koshu, diakon and keta from noto"
+  },
+  {
+   "course": "s",
+   "row": 413,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "A pristine Japanese omakase opening course: Hokkaido uni and otoro sashimi, served on a minimalist hinoki wood platter."
+  },
+  {
+   "course": "s",
+   "row": 442,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "Tuna Sashimi with lots of wasabi and soy"
+  },
+  {
+   "course": "s",
+   "row": 522,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "Some tuna sashimi from Kenji Shushi"
+  },
+  {
+   "course": "s",
+   "row": 645,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Sushi",
+   "answer": "Temaki from nanakusa. Give forever"
+  },
+  {
+   "course": "s",
+   "row": 1074,
+   "old": "Smoked salmon / cured fish",
+   "new": "Sushi",
+   "answer": "Salmon sashimi"
+  },
+  {
+   "course": "s",
+   "row": 650,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Steak tartare / carpaccio",
+   "answer": "I recently had the Beef Tataki from Sticks n Sushi - not technically a starter but it was the first small plate I ate so it counts. I literally can’t stop thinking about it."
+  },
+  {
+   "course": "s",
+   "row": 252,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Steak tartare / carpaccio",
+   "answer": "Gleneagles townhouse in Edinburgh provided the best course of food ive ever had, it was spicy raw beef. It was cheddar, egg yolk emulsion, and beef dripping toast with caviar. It was the first time id"
+  },
+  {
+   "course": "s",
+   "row": 1193,
+   "old": "Smoked salmon / cured fish",
+   "new": "Ceviche / crudo / raw fish",
+   "answer": "When I first moved to Barcelona in 2022, I took myself on a solo date and had a salmon tartar from El Cafè de la Casa de les Lletres, and I have not been able to stop thinking about it."
+  },
+  {
+   "course": "s",
+   "row": 1026,
+   "old": "Ceviche / crudo / raw fish",
+   "new": "Pate / terrine / foie gras",
+   "answer": "Tuna pate with Melba toast and pickled cucumbers"
+  },
+  {
+   "course": "s",
+   "row": 513,
+   "old": "Charcuterie / antipasti board",
+   "new": "Fish (other)",
+   "answer": "Seafood platter"
+  },
+  {
+   "course": "s",
+   "row": 786,
+   "old": "Charcuterie / antipasti board",
+   "new": "Fish (other)",
+   "answer": "Ok this is a big starter but a grand scottish seafood platter!! Is that even a starter... its a dream menu right? I recently loved the platter at EE-USK in Oban"
+  },
+  {
+   "course": "s",
+   "row": 1102,
+   "old": "Pate / terrine / foie gras",
+   "new": "Fish (other)",
+   "answer": "‘Ceann Cropaig’ - oatmeal and cod livers, a wee bit of grated onion and then steamed in the head of the cod. An Outer Hebrides delicacy that sounds strange but is truly delicious. My Granaidh in Barra"
+  },
+  {
+   "course": "s",
+   "row": 110,
+   "old": "Charcuterie / antipasti board",
+   "new": "Chaat / Indian street food",
+   "answer": "ANY bombay small plate from Chakoo"
+  },
+  {
+   "course": "s",
+   "row": 80,
+   "old": "Tikka / tandoori starters",
+   "new": "Chaat / Indian street food",
+   "answer": "Had chilli paneer from Banta Wala in the West End recently. That was epic."
+  },
+  {
+   "course": "s",
+   "row": 187,
+   "old": "Charcuterie / antipasti board",
+   "new": "Tapas / small plates selection",
+   "answer": "lots and lots of picky bits. let’s share as many starters as possible"
+  },
+  {
+   "course": "s",
+   "row": 231,
+   "old": "Charcuterie / antipasti board",
+   "new": "Tapas / small plates selection",
+   "answer": "I tend to skip the started and have dessert instead, but would normally go for a wee picky bit!"
+  },
+  {
+   "course": "s",
+   "row": 777,
+   "old": "Charcuterie / antipasti board",
+   "new": "Tapas / small plates selection",
+   "answer": "Gotta be a savory picky bits plate made by yours truly haha"
+  },
+  {
+   "course": "s",
+   "row": 519,
+   "old": "Charcuterie / antipasti board",
+   "new": "Tapas / small plates selection",
+   "answer": "The starter shairng platter from Nok’s kitchen as I am a grazer and love to share and you get to try a little of everything all of which is perfect 🥰"
+  },
+  {
+   "course": "s",
+   "row": 632,
+   "old": "Charcuterie / antipasti board",
+   "new": "Tapas / small plates selection",
+   "answer": "All the snacks at Celentanos!"
+  },
+  {
+   "course": "s",
+   "row": 902,
+   "old": "Charcuterie / antipasti board",
+   "new": "Tapas / small plates selection",
+   "answer": "It would be the vegan grazing board shared from Gabs Leigh on Sea, which is jam packed with KindaCo cheese, dried and fresh fruit, crackers and pickles galore"
+  },
+  {
+   "course": "s",
+   "row": 913,
+   "old": "Pate / terrine / foie gras",
+   "new": "Beef (other)",
+   "answer": "Beef/Mutton Liver Dry Fry ( Kerala, India)"
+  },
+  {
+   "course": "s",
+   "row": 433,
+   "old": "Pork belly / pork bites",
+   "new": "Beef (other)",
+   "answer": "Beef in betel leaves. Wee beef sausage patties wrapped in betel leaves then grilled and served with roasted peanuts and nuoc cham. Something I met and ate thousands of times at the Hanoi Bike Shop and"
+  },
+  {
+   "course": "s",
+   "row": 778,
+   "old": "Garlic bread",
+   "new": "Mushrooms",
+   "answer": "Easy. Cheesy garlic mushrooms on toasted sourdough, ideally topped with truffle oil (because I’m Boujee)"
+  },
+  {
+   "course": "s",
+   "row": 1111,
+   "old": "Olives",
+   "new": "Crab",
+   "answer": "Explanation: I recently had my dream dinner - prepared by three top chefs - Andi Oliver, Pam Brunton and Dean Parker, at Celentano's, as part of our Place at the Table festival. A beautiful marriage o"
+  },
+  {
+   "course": "s",
+   "row": 1083,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "I won’t lie, anyone that knows me, knows my meals usually involve chicken and rice, but for this exercise I’m going to pretend everything hits my macros! My dream starter has to be simple, thick cut s"
+  },
+  {
+   "course": "s",
+   "row": 362,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "Nice sourdough, olive oil and balsamic"
+  },
+  {
+   "course": "s",
+   "row": 1052,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "I am always saving room for dessert, so just bread and olive oil"
+  },
+  {
+   "course": "s",
+   "row": 1154,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "Fresh baked bread served with balsamic and olive oil, at any little restaurant in Sorrento, italy"
+  },
+  {
+   "course": "s",
+   "row": 417,
+   "old": "Korean / sticky fried chicken",
+   "new": "Salt and chilli chicken",
+   "answer": "Salt and Chilli Munchie Box (Woodhill Chinese Takeaway Restaurant)"
+  },
+  {
+   "course": "s",
+   "row": 736,
+   "old": "Chicken (other)",
+   "new": "Fried chicken / tenders / karaage",
+   "answer": "Ohhh has to be the sesame chicken strips from TGI’s!! They’re so good"
+  },
+  {
+   "course": "s",
+   "row": 654,
+   "old": "Smoked salmon / cured fish",
+   "new": "Chicken (other)",
+   "answer": "Bang Bang Chicken from The Dore in Sheffield — it always hits the spot. But the salmon at The Ivy is a winner too."
+  },
+  {
+   "course": "s",
+   "row": 446,
+   "old": "Lentil / pea / veg soup",
+   "new": "Ramen / pho / noodle soup",
+   "answer": "Chicken sweetcorn soup. Just your average Chinese restaurant version, nothing fancy"
+  },
+  {
+   "course": "s",
+   "row": 922,
+   "old": "Pork belly / pork bites",
+   "new": "Ramen / pho / noodle soup",
+   "answer": "Rich pork broth, perfectly cooked noodles, and a soft-boiled egg."
+  },
+  {
+   "course": "s",
+   "row": 1139,
+   "old": "Tomato soup",
+   "new": "Soup (other)",
+   "answer": "Sarah Jenkins’ white gazpacho, or the hot and sour soup from Yang Chow in Downtown LA."
+  },
+  {
+   "course": "s",
+   "row": 567,
+   "old": "Lentil / pea / veg soup",
+   "new": "Vegetable starters (other)",
+   "answer": "Leeks vinaigrette, ideally prepared by my friend Aurore who is French and does them the best."
+  },
+  {
+   "course": "s",
+   "row": 341,
+   "old": "Mushrooms",
+   "new": "Vegetable starters (other)",
+   "answer": "The smoked tomatoes at Sylvan."
+  },
+  {
+   "course": "s",
+   "row": 368,
+   "old": "Mushrooms",
+   "new": "Vegetable starters (other)",
+   "answer": "Dream starter would be the smoked tomatoes with yoghurt & chilli butter from Sylvan - I think about that dish on the regular and often attempt to make it at home! Great example of simple elements comi"
+  },
+  {
+   "course": "s",
+   "row": 983,
+   "old": "Mushrooms",
+   "new": "Vegetable starters (other)",
+   "answer": "Smoked tomatoes with yoghurt and chilli butter from Sylvan"
+  },
+  {
+   "course": "s",
+   "row": 518,
+   "old": "Mushrooms",
+   "new": "Vegetable starters (other)",
+   "answer": "Chilli Broccoli from Wild Ginger, in Aberdeen. It tastes so good and is so flavourful, I love broccoli anyway but I  honestly feel like people who don't enjoy broccoli would still enjoy this dish!"
+  },
+  {
+   "course": "s",
+   "row": 933,
+   "old": "Mushrooms",
+   "new": "Vegetable starters (other)",
+   "answer": "Wok fried greens at waggamas"
+  },
+  {
+   "course": "s",
+   "row": 1149,
+   "old": "Mushrooms",
+   "new": "Vegetable starters (other)",
+   "answer": "Fried Sprouts - Sebbs, Glasgow"
+  },
+  {
+   "course": "s",
+   "row": 427,
+   "old": "Mushrooms",
+   "new": "Caprese / tomato salad",
+   "answer": "My dream starter would be anything with Corbara tomatoes, anchovies and some homemade bread and a big chunk of basil. Not very exciting but with high quality ingredients it doesn’t need to be."
+  },
+  {
+   "course": "s",
+   "row": 618,
+   "old": "Mushrooms",
+   "new": "Caprese / tomato salad",
+   "answer": "Provence tomatoes with a bloody Mary broth and basil sorbet. The provence tomatoes are a mixture of noir de crimee, green zebra, and pineapple. This was a starter in the atrium at the NoMad hotel in S"
+  },
+  {
+   "course": "s",
+   "row": 408,
+   "old": "Mushrooms",
+   "new": "Arancini",
+   "answer": "Truffle Aranchini flooded with Parmesan"
+  },
+  {
+   "course": "s",
+   "row": 323,
+   "old": "Mozzarella sticks / fried cheese",
+   "new": "Cheese (other)",
+   "answer": "Queso Fundido & homemade tortillas"
+  },
+  {
+   "course": "s",
+   "row": 1161,
+   "old": "Mozzarella sticks / fried cheese",
+   "new": "Cheese (other)",
+   "answer": "Choriqueso - Fonda"
+  },
+  {
+   "course": "s",
+   "row": 1183,
+   "old": "Mozzarella sticks / fried cheese",
+   "new": "Cheese (other)",
+   "answer": "Buffalo mozzarella feom Battipaglia with Culatello di Maialino Nero Casertano."
+  },
+  {
+   "course": "s",
+   "row": 153,
+   "old": "Mozzarella sticks / fried cheese",
+   "new": "Bruschetta / toast",
+   "answer": "the prosciutto and mozzarella bruschetta from La Piola in Leeds"
+  },
+  {
+   "course": "s",
+   "row": 611,
+   "old": "Mozzarella sticks / fried cheese",
+   "new": "Charcuterie / antipasti board",
+   "answer": "antipasto with all my favourites: provolone, mozzarella, spicy cheddar, chorizo, parma ham, truffle salami!!!"
+  },
+  {
+   "course": "s",
+   "row": 966,
+   "old": "Mozzarella sticks / fried cheese",
+   "new": "Croquettes / croquetas",
+   "answer": "Ham and Cheese croquettes or Brie Bites can't be beaten!"
+  },
+  {
+   "course": "s",
+   "row": 47,
+   "old": "Pork belly / pork bites",
+   "new": "Spring rolls / summer rolls",
+   "answer": "Cotton house/ tea house (owned by the same people & both in Falkirk) crispy pancake rolls, filled with char siu and veg and at the cotton house they give the most creamiest spicy dipping sauce that I "
+  },
+  {
+   "course": "s",
+   "row": 662,
+   "old": "Tofu",
+   "new": "Spring rolls / summer rolls",
+   "answer": "Tofu Summer Rolls, Non Viet, Glasgow"
+  },
+  {
+   "course": "s",
+   "row": 370,
+   "old": "Pork belly / pork bites",
+   "new": "Dumplings / gyoza / dim sum",
+   "answer": "Ahhhh! I LOVE food so I’m going to find this so tough, but, if pushed, and it was my dream, I’d have 50 of the pork and prawn dumplings from Dumpling Monkey on Dumbarton Road. That’s a lot, I know, bu"
+  },
+  {
+   "course": "s",
+   "row": 273,
+   "old": "Pork belly / pork bites",
+   "new": "Dumplings / gyoza / dim sum",
+   "answer": "Local - Pork and Chive Dim Sum from Dumplings of China. Not local - Buffalo Devilled Eggs with Trout Roe from Turkey and the Wolf"
+  },
+  {
+   "course": "s",
+   "row": 981,
+   "old": "Pork belly / pork bites",
+   "new": "Dumplings / gyoza / dim sum",
+   "answer": "Pork Xaiolongbao from Dumpling Time in Liverpool"
+  },
+  {
+   "course": "s",
+   "row": 232,
+   "old": "Pork belly / pork bites",
+   "new": "Chicken satay / skewers",
+   "answer": "The pork skewer at Gilded Saloon, slicked with black garlic and egg yolk. It’s the kind of dish that makes you wonder why anyone bothers with mains."
+  },
+  {
+   "course": "s",
+   "row": 484,
+   "old": "Pork belly / pork bites",
+   "new": "Chicken satay / skewers",
+   "answer": "You can’t beat the DLB pork barbecue skewers from Kultura in Aberdeen. This Belmont Street restaurant is my favourite in the Granite City, and this specific starter is one of the best dishes on their "
+  },
+  {
+   "course": "s",
+   "row": 345,
+   "old": "Pork belly / pork bites",
+   "new": "Bruschetta / toast",
+   "answer": "My dream starter has to be the Chorizo Toast from Cornershop Glasgow. An absolute dreamy meaty treat which I dreamt about for weeks after."
+  },
+  {
+   "course": "s",
+   "row": 623,
+   "old": "Pork belly / pork bites",
+   "new": "Bruschetta / toast",
+   "answer": "Grilled Chorizo Toast w/ Basque Cider Sage Sauce from Cornershop"
+  },
+  {
+   "course": "s",
+   "row": 346,
+   "old": "Pork belly / pork bites",
+   "new": "Bruschetta / toast",
+   "answer": "hot, steaming pandesal with reno and a little drizzle of honeyed chilli oil. This is a very Filipino thing. But it's essentially sweet bread with pork liver pate. it's slap-ness is sooo underrated."
+  },
+  {
+   "course": "s",
+   "row": 1028,
+   "old": "Pork belly / pork bites",
+   "new": "Bruschetta / toast",
+   "answer": "We went to Ox and Finch with one of our brands Another Aspect recently and had to re-order the Cod cheeks, chorizo, tomato and morcilla on toasted sourdough multiple times."
+  },
+  {
+   "course": "s",
+   "row": 564,
+   "old": "Pork belly / pork bites",
+   "new": "Other",
+   "answer": "Mutura: A traditional, protein-packed, grilled sausa. From Kenya. ge made from goat intestines stuffed with meat, herbs, and blood."
+  },
+  {
+   "course": "s",
+   "row": 685,
+   "old": "Pork belly / pork bites",
+   "new": "Croquettes / croquetas",
+   "answer": "Chorizo Croquettes with Garlic aioli from my wee pals at The Noble (unreal)"
+  },
+  {
+   "course": "s",
+   "row": 955,
+   "old": "Pork belly / pork bites",
+   "new": "Charcuterie / antipasti board",
+   "answer": "I like to kick off with something quite meaty. Maybe some nice jamon, a couple of hot chorizos, some boquerones and big lump of sourdough. Butter and olive oil too please"
+  },
+  {
+   "course": "s",
+   "row": 1167,
+   "old": "Fried Italian bites (suppli, fritti)",
+   "new": "Charcuterie / antipasti board",
+   "answer": "Anyone who knows me knows I love cured meats. Being originally from Parma they have always been a staple at home and over there, we eat them with these little deep fried puffs of dough. Almost like sa"
+  },
+  {
+   "course": "s",
+   "row": 348,
+   "old": "Sourdough / bread and butter",
+   "new": "Other",
+   "answer": "Homemade scones fresh out the oven with butter and strawberry jam"
+  },
+  {
+   "course": "s",
+   "row": 432,
+   "old": "Sourdough / bread and butter",
+   "new": "Other",
+   "answer": "Caravan of Dreams - NYC. Pumpkin seed butter filled dates topped with a slice of cherry tomato and flakey salt. I ate this 16 years ago on a trip to NYC and have never forgotten it."
+  },
+  {
+   "course": "s",
+   "row": 832,
+   "old": "Sourdough / bread and butter",
+   "new": "Smoked salmon / cured fish",
+   "answer": "Marinated fried Baltic herring on a slice of well-buttered dark rye bread. When I was little, my family would often make this. We’d pan-fry loads of small herring in flour, and once everyone was full,"
+  },
+  {
+   "course": "s",
+   "row": 806,
+   "old": "Fish (other)",
+   "new": "Hummus / dips / falafel",
+   "answer": "Whipped cod's roe, sourdough and some pickles."
+  },
+  {
+   "course": "s",
+   "row": 1173,
+   "old": "Pasta starter (cacio e pepe, small pasta)",
+   "new": "Fried lasagne / lasagne fritta",
+   "answer": "Hmmm great question I’d say lasagna bites. Like make mini lasagnas. I have never had that but I reckon that’s the greatest starter ever. Good amount of cheese and wholewheat pasta"
+  },
+  {
+   "course": "s",
+   "row": 28,
+   "old": "Eggs (other)",
+   "new": "Ramen / pho / noodle soup",
+   "answer": "Anything with runny eggs, a clear broth noodle, with like 1/4 cup of spring onions thrown in."
+  },
+  {
+   "course": "s",
+   "row": 906,
+   "old": "Chicken (other)",
+   "new": "Ramen / pho / noodle soup",
+   "answer": "Chicken and mushroom Chinese soup garnished with spring onion! It’s from Asia I believe."
+  },
+  {
+   "course": "m",
+   "row": 589,
+   "old": "Bavette / flat iron / hanger / picanha",
+   "new": "Lamb shoulder / leg / rump",
+   "answer": "Lamp rump spiced with cumin, fennel seed, and a Bulgarian spice called Chubritsa. I can’t find it anywhere in the UK but it’s distinct to making this dish perfect. Lamp rump grilled on an open wood fi"
+  },
+  {
+   "course": "m",
+   "row": 173,
+   "old": "Burrito / fajitas / enchiladas",
+   "new": "Tacos",
+   "answer": "My go to is usually Alma Mexicana Monica makes the most amazing Mexican food I go for the sweet potato tacos! Or I’ll get an anxious Pete’s NYC slice with garlic mayo dip mmm"
+  },
+  {
+   "course": "m",
+   "row": 929,
+   "old": "Burrito / fajitas / enchiladas",
+   "new": "Tacos",
+   "answer": "Mexican food. Taco’s - Bhaja fish tacos or any kind of tacos from Mas in Dundee, just amazing. I used to live in LA when I was 23 for almost one year and the Mexican food there is unmatched. It’s pret"
+  },
+  {
+   "course": "m",
+   "row": 1210,
+   "old": "Butter chicken",
+   "new": "Curry (other)",
+   "answer": "I have a soft spot for the Paneer Makhani from Thamel, paired with pilau rice and peshwari naan."
+  },
+  {
+   "course": "m",
+   "row": 235,
+   "old": "Chicken parmigiana / schnitzel",
+   "new": "Sunday roast / roast dinner",
+   "answer": "Annie - Roast Pork with seasonal veg and potatoes. Don’t forget the apple sauce! Sunday lunch is such a big thing here in England and I absolutely love it. Nicole - Balmoral Chicken but with a really "
+  },
+  {
+   "course": "m",
+   "row": 594,
+   "old": "Haggis, neeps and tatties",
+   "new": "Sunday roast / roast dinner",
+   "answer": "Good old Scottish Roast beef , with loads of neeps , peas , yoirkies mashed and roast tatties and a side of skirlie"
+  },
+  {
+   "course": "m",
+   "row": 687,
+   "old": "Chicken parmigiana / schnitzel",
+   "new": "Steak (unspecified cut)",
+   "answer": "I love steak. Has to be medium rare with Diane sauce. Also love a pasta main - the more garlic the better."
+  },
+  {
+   "course": "m",
+   "row": 138,
+   "old": "Chicken tikka masala",
+   "new": "Curry (other)",
+   "answer": "Chicken tikka bhuna from the Delhi Darbar. My family have been going here since I was a wee girl, it’s not changed since then and I love that about it!"
+  },
+  {
+   "course": "m",
+   "row": 258,
+   "old": "Chicken tikka masala",
+   "new": "Curry (other)",
+   "answer": "Chicken Tikka Chasni from Mr Chef in Uddingston with a wee side portion of their chips, cheese and spicy chicken."
+  },
+  {
+   "course": "m",
+   "row": 474,
+   "old": "Chicken tikka masala",
+   "new": "Curry (other)",
+   "answer": "Chicken Tikka Spicy Mohanwala (Sid’s Spice, Brora) with lemon cashew nut rice"
+  },
+  {
+   "course": "m",
+   "row": 646,
+   "old": "Chicken tikka masala",
+   "new": "Curry (other)",
+   "answer": "Chicken tikka Lahori Karahi with extra ginger and chillies on the side, I would also have that with fried fried and 2 garlic chapatis from the village curry house in kinning park Glasgow"
+  },
+  {
+   "course": "m",
+   "row": 370,
+   "old": "Chicken tikka masala",
+   "new": "Curry (other)",
+   "answer": "I love a Sunday roast - a carvery is my idea of heaven - but if pushed, I’d go for a Karahi Chicken Tikka Special from the Gulistan Indian restaurant in Bishopbriggs. It’s delicious, moist (sorry for "
+  },
+  {
+   "course": "m",
+   "row": 467,
+   "old": "Chicken tikka masala",
+   "new": "Curry (other)",
+   "answer": "Either Chicken Tikka Curry, or lasagne 😍"
+  },
+  {
+   "course": "m",
+   "row": 165,
+   "old": "Chicken tikka masala",
+   "new": "Chicken (other)",
+   "answer": "Off the top of my head, the Chicken Tikka I had at Dishoom was top tier, did not dissapoint it was so tender. But my favourite and as a group experience too my friends took us to Ssamms Korean Bbq, it"
+  },
+  {
+   "course": "m",
+   "row": 754,
+   "old": "Chicken tikka masala",
+   "new": "Sandwich / toastie",
+   "answer": "Not exactly a main but need to stick to my roots and I’m slightly biased because I worked there at the ripe age of 15 BUT Doyle’s deli in Balfron’s chicken tikka ciabatta with bacon and sweet chilli s"
+  },
+  {
+   "course": "m",
+   "row": 494,
+   "old": "Chicken (other)",
+   "new": "Curry (other)",
+   "answer": "Chicken Karahi boneless (pakistan)"
+  },
+  {
+   "course": "m",
+   "row": 858,
+   "old": "Chicken (other)",
+   "new": "Curry (other)",
+   "answer": "It’s difficult to describe how good the chicken khari I had in Lahore but I still dream about it the only issue was I had to choose what (living) chicken I was going to eat BUT I think it added to the"
+  },
+  {
+   "course": "m",
+   "row": 1157,
+   "old": "Fried chicken",
+   "new": "Curry (other)",
+   "answer": "This is so hard to choose, because I love so many places, and the memories make the food so much more memorable. I always love a steak and cant beat a curry (if I could only eat one food forever it wo"
+  },
+  {
+   "course": "m",
+   "row": 366,
+   "old": "Hotpot",
+   "new": "Curry (other)",
+   "answer": "Pile my plate up with rice and surround me with curries galore. Rice is the centre of all of Malaysia’s cuisines, while spices have played a pivotal role in South East Asia’s colonial history. This ma"
+  },
+  {
+   "course": "m",
+   "row": 653,
+   "old": "Short rib / braised beef",
+   "new": "Curry (other)",
+   "answer": "I’m a sucker for anything slow cooked. Out and about, it’s got to be Asma Khan’s goat Kosha Mangsho at Darjeeling Express. Beautifully rich, deeply spiced and full of flavour."
+  },
+  {
+   "course": "m",
+   "row": 369,
+   "old": "Cod / hake / white fish",
+   "new": "Fish (other)",
+   "answer": "keeping with the Scottish ingredients theme, I love a perfectly grilled fish, something caught locally and super fresh, cooked lightly with just a bit of salt and butter"
+  },
+  {
+   "course": "m",
+   "row": 738,
+   "old": "Cod / hake / white fish",
+   "new": "Fish (other)",
+   "answer": "Anything seafood related. One of the best meals I’ve had in my life was a grilled fish platter in Skiathos. Sensational"
+  },
+  {
+   "course": "m",
+   "row": 941,
+   "old": "Cod / hake / white fish",
+   "new": "Fish (other)",
+   "answer": "Whatever fish of the day Riley’s Fish Shack, Newcastle serves"
+  },
+  {
+   "course": "m",
+   "row": 956,
+   "old": "Cod / hake / white fish",
+   "new": "Fish (other)",
+   "answer": "Either a whole grilled fish, some sort of compound butter and fries or slow roast lamb shoulder with yoghurt, flatbreads and all the bits. Lamb has got to be my favourite meat and I’m such a ‘bits’ pe"
+  },
+  {
+   "course": "m",
+   "row": 1117,
+   "old": "Cod / hake / white fish",
+   "new": "Fish (other)",
+   "answer": "Whole grilled fish with vegetables, olive oil, lemon and absolutely no unnecessary drama — BRAT, Shoreditch.  I love food where the ingredient is allowed to be the star. Give me beautiful fish cooked "
+  },
+  {
+   "course": "m",
+   "row": 795,
+   "old": "Cod / hake / white fish",
+   "new": "Fish (other)",
+   "answer": "Answer changes every day, but a dish that has always been a favourite of mine is kedgeree"
+  },
+  {
+   "course": "m",
+   "row": 1133,
+   "old": "Cod / hake / white fish",
+   "new": "Donburi / teriyaki / Japanese",
+   "answer": "My dream main course would be sat in a local hole-in-the-wall Yakiniku in Tokyo or Osaka. The way the meat ends up tasting and the interactive nature are what make it so enjoyable (I was there earlier"
+  },
+  {
+   "course": "m",
+   "row": 323,
+   "old": "Dosa / South Indian",
+   "new": "Lamb curry (rogan josh, karahi)",
+   "answer": "South Indian Garlic Chilli Lamb with a paratha"
+  },
+  {
+   "course": "m",
+   "row": 1049,
+   "old": "Dosa / South Indian",
+   "new": "Lamb curry (rogan josh, karahi)",
+   "answer": "mutton laal maas at the Chilli Pickle Brighton"
+  },
+  {
+   "course": "m",
+   "row": 497,
+   "old": "Dosa / South Indian",
+   "new": "Curry (other)",
+   "answer": "South Indian Garlic Chilli Chicken curry. I've had this from multiple places and it hits every single time. Best served with pilau rice or a soft garlic naan bread. Namaste in St. Enoch do a brilliant"
+  },
+  {
+   "course": "m",
+   "row": 1065,
+   "old": "Dosa / South Indian",
+   "new": "Curry (other)",
+   "answer": "South Indian curry and soft Nan Bread - Mr Singhs India"
+  },
+  {
+   "course": "m",
+   "row": 619,
+   "old": "Duck",
+   "new": "Pork (other)",
+   "answer": "Plate of Lincolnshire pork, confit Redhill farm belly pork, pork tenderloin, potato and black  pudding terrine, braised pork cheek, crackling, caramelised apple puree, roast onion, Jus"
+  },
+  {
+   "course": "m",
+   "row": 701,
+   "old": "Duck",
+   "new": "Burger (other)",
+   "answer": "Pastrami stack burger with black sticks blue cheese, confit onion, pastrami,inhouse  truffle garlic mayo & fried egg from NYC Bar & Grill on Hope street. There truffle garlic mayo is to die for 😍"
+  },
+  {
+   "course": "m",
+   "row": 150,
+   "old": "Beef (other)",
+   "new": "Burger (other)",
+   "answer": "Beef burger with bacon and cheddar cheese, with skin on fries (and lots of gherkins!)"
+  },
+  {
+   "course": "m",
+   "row": 145,
+   "old": "Fillet steak",
+   "new": "Tapas / small plates",
+   "answer": "I love picky bits and really rate Cafe Andaluz for their Spanish tapas! My go to is their patatas gratinadas, the battered honey chicken fillets and either the meatballs or their croquettes (or both i"
+  },
+  {
+   "course": "m",
+   "row": 631,
+   "old": "Pad thai",
+   "new": "Tapas / small plates",
+   "answer": "Thai sharing platter (Chaophraya Glasgow)"
+  },
+  {
+   "course": "m",
+   "row": 156,
+   "old": "Fried chicken",
+   "new": "Pizza (other)",
+   "answer": "Buffalo chicken pizza from Anxious Pete’s. I love buffalo chicken wings and pizza - this pizza combines both of them with a blue cheese sauce on it too. The blue cheese is quite mild, it’s the perfect"
+  },
+  {
+   "course": "m",
+   "row": 461,
+   "old": "Chicken (other)",
+   "new": "Pizza (other)",
+   "answer": "Spicy chicken pizza from Adeel Tandoori next door to my tattoo studio. Pineapple, sweetcorn, and chillies on top. We’ve been getting this from there for at least 25 years. When I used to cut weight fo"
+  },
+  {
+   "course": "m",
+   "row": 648,
+   "old": "Pork (other)",
+   "new": "Pizza (other)",
+   "answer": "Simple classic, fennel sausage pizza with added fresh chillies from Paesano"
+  },
+  {
+   "course": "m",
+   "row": 995,
+   "old": "Pork (other)",
+   "new": "Pizza (other)",
+   "answer": "13 inch NDUJA DI SPILINGA from Razzo on Great Junction street.  Sweet salty tomato sauce, with  perfect cheese and a darn spicy sausage. I have been going there for the last 5 years and have never had"
+  },
+  {
+   "course": "m",
+   "row": 1122,
+   "old": "Vegetarian / vegan main",
+   "new": "Pizza (other)",
+   "answer": "Deep-fried vegan pizza – Mono, Glesga"
+  },
+  {
+   "course": "m",
+   "row": 244,
+   "old": "Fried chicken",
+   "new": "Pasta (other)",
+   "answer": "Ohhhh currently it has to be the crispy chicken, n’duja and pepper penne pasta from Grosso on Duke Street. It’s the first place i’ve been in a hot minute that I’ve recommended everyone to goto!!"
+  },
+  {
+   "course": "m",
+   "row": 452,
+   "old": "Vegetarian / vegan main",
+   "new": "Pasta (other)",
+   "answer": "Mushroom and steak linguini in a cream Parmesan sauce - Italy"
+  },
+  {
+   "course": "m",
+   "row": 734,
+   "old": "Vegetarian / vegan main",
+   "new": "Pasta (other)",
+   "answer": "I once had this absolutely transcendent mushroom tagliatelle from The Coll Hotel on the Isle of Coll. We had just been for a swim in the sea in the middle of a heatwave, the weekend after I had been t"
+  },
+  {
+   "course": "m",
+   "row": 543,
+   "old": "Vegetarian / vegan main",
+   "new": "Pasta (other)",
+   "answer": "My dream main course is from Bar Brett, however it is seasonal, so subject to availability - the Mushroom XO Linguini, with pasta made in-house, Cantabrian anchioves, crispy leeks and 36-month aged Pa"
+  },
+  {
+   "course": "m",
+   "row": 977,
+   "old": "Hotpot",
+   "new": "Ethiopian / African",
+   "answer": "A proper Malawian feast: nsima, beans, greens cooked with groundnuts and mushroom stew cooked by my mum!"
+  },
+  {
+   "course": "m",
+   "row": 445,
+   "old": "Kebab / souvlaki / gyros",
+   "new": "Lamb (other)",
+   "answer": "Lamb kleftiko"
+  },
+  {
+   "course": "m",
+   "row": 104,
+   "old": "Lamb shoulder / leg / rump",
+   "new": "Lamb (other)",
+   "answer": "Has to be a lamb neck and moth bean dish I had at a Tumshie supper club (my favourite pop up in Glasgow!!)"
+  },
+  {
+   "course": "m",
+   "row": 1015,
+   "old": "Short rib / braised beef",
+   "new": "Lamb (other)",
+   "answer": "The Irish Stew from Eleven Fifty Five - NOT Irish stew as you know it."
+  },
+  {
+   "course": "m",
+   "row": 1081,
+   "old": "Short rib / braised beef",
+   "new": "Lamb (other)",
+   "answer": "Lamb (preferably slow cooked!!) with salsa verde, roasted new potatoes, pea feta and radish salad and some roasted red peppers in a dressing"
+  },
+  {
+   "course": "m",
+   "row": 932,
+   "old": "Sunday roast / roast dinner",
+   "new": "Lamb (other)",
+   "answer": "Slow roast lamb with anchovies, garlic and rosemary. With loads of gravy"
+  },
+  {
+   "course": "m",
+   "row": 809,
+   "old": "Sunday roast / roast dinner",
+   "new": "Rack of lamb / lamb chops",
+   "answer": "Roast Rack of Scottish Lamb  seasonal greens and a rich red wine reduction."
+  },
+  {
+   "course": "m",
+   "row": 88,
+   "old": "Pad thai",
+   "new": "Thai curry (green, red, massaman)",
+   "answer": "I’d probably go for a green Thai curry with real fresh Thai ingredients like lemon grass"
+  },
+  {
+   "course": "m",
+   "row": 161,
+   "old": "Pad thai",
+   "new": "Thai curry (green, red, massaman)",
+   "answer": "It’s got to be Panang’s red thai chicken curry (with extra chillies!) + their coconut rice."
+  },
+  {
+   "course": "m",
+   "row": 812,
+   "old": "Pad thai",
+   "new": "Thai curry (green, red, massaman)",
+   "answer": "Hands down, without a shadow of a doubt, Chicken Panang Curry from Soi One Seafood in Lonely Beach, if you ever find yourself on Koh Chang island in Thailand, you HAVE to try it. I think about it dail"
+  },
+  {
+   "course": "m",
+   "row": 585,
+   "old": "Pad thai",
+   "new": "Thai curry (green, red, massaman)",
+   "answer": "Thai Yellow Curry Duck Leg from Ox & Finch - unreal"
+  },
+  {
+   "course": "m",
+   "row": 321,
+   "old": "Pad thai",
+   "new": "Noodles (other)",
+   "answer": "Khao Soi"
+  },
+  {
+   "course": "m",
+   "row": 1000,
+   "old": "Pad thai",
+   "new": "Noodles (other)",
+   "answer": "Khao Soi from Northern Thailand. Rich coconut curry, crispy noodles, soft egg noodles, pickled mustard greens and lime… it’s probably the dish I think about the most from my travels."
+  },
+  {
+   "course": "m",
+   "row": 220,
+   "old": "Pad thai",
+   "new": "Noodles (other)",
+   "answer": "It depends on how I feel - but usually Thai or Chinese food. Something with noodles."
+  },
+  {
+   "course": "m",
+   "row": 821,
+   "old": "Pad thai",
+   "new": "Thai dishes (other)",
+   "answer": "My friend Jason, who is from Thailand, makes the most amazing food! I would have to have his Som Tum Thai salad alongside Sticky Rice and Spicy Pad Kra Pao. I might also have a cheeky ‘Hawaiian Bru’ p"
+  },
+  {
+   "course": "m",
+   "row": 1069,
+   "old": "Pad thai",
+   "new": "Thai dishes (other)",
+   "answer": "This is a tough one, probably a pad kra pao sitting on the side of the street in Thailand. Or mushroom and truffle ravioli from sugo."
+  },
+  {
+   "course": "m",
+   "row": 1163,
+   "old": "Pad thai",
+   "new": "Thai dishes (other)",
+   "answer": "Pad Kra Pao with that signature fried egg, it’s the stuff of dreams"
+  },
+  {
+   "course": "m",
+   "row": 1211,
+   "old": "Pad thai",
+   "new": "Thai dishes (other)",
+   "answer": "Ooh this is a tough one, but I think I’m going to go for the Thai Fried Chicken Satay Rice Bowl from Brother Thai!"
+  },
+  {
+   "course": "m",
+   "row": 264,
+   "old": "Pho / Vietnamese",
+   "new": "Thai dishes (other)",
+   "answer": "Sizzling Crying Tiger Beef from Pad T'aye Hamilton. If you dont know , get to know!"
+  },
+  {
+   "course": "m",
+   "row": 696,
+   "old": "Paella",
+   "new": "Duck",
+   "answer": "My dream main course would have to be a traditional Portuguese dish called Arroz de Pato (Duck Rice), it’s one of my favourite dishes ever! 🇵🇹"
+  },
+  {
+   "course": "m",
+   "row": 55,
+   "old": "Peri peri / grilled chicken",
+   "new": "Kebab / souvlaki / gyros",
+   "answer": "Chicken Shish from Türkiye EFES. I have honestly lost count of the number of times I have recommended them for gluten avoiders and lovers! Türkiye EFES have excellent service and their Chicken Shish i"
+  },
+  {
+   "course": "m",
+   "row": 115,
+   "old": "Tagine / Middle Eastern",
+   "new": "Kebab / souvlaki / gyros",
+   "answer": "A wee mixed grill from Damasqino or the geda noodles from The Real Wan. They scratch different itches but yet to let me down."
+  },
+  {
+   "course": "m",
+   "row": 255,
+   "old": "Tagine / Middle Eastern",
+   "new": "Kebab / souvlaki / gyros",
+   "answer": "Chicken & falafel wrap from Kurdish"
+  },
+  {
+   "course": "m",
+   "row": 1050,
+   "old": "Tagine / Middle Eastern",
+   "new": "Kebab / souvlaki / gyros",
+   "answer": "My dream main has to be Turkish cuisine. There's nothing quite like a perfectly grilled Adana kebab, served with fluffy rice, fresh salad and warm, freshly baked bread, alongside a kiymalı pide (Turki"
+  },
+  {
+   "course": "m",
+   "row": 110,
+   "old": "Peri peri / grilled chicken",
+   "new": "Sandwich / toastie",
+   "answer": "Chicken Ceasar Wrap from The Brunch Club 10/10 no notes"
+  },
+  {
+   "course": "m",
+   "row": 223,
+   "old": "Pork belly",
+   "new": "Pork (other)",
+   "answer": "Wild boar, chestnut, sprouts,pear and spatzle not local but recently had it in restaurant les armures in Geneva was too good not to mention."
+  },
+  {
+   "course": "m",
+   "row": 289,
+   "old": "Pork belly",
+   "new": "Pork (other)",
+   "answer": "Oooft, this is hard but right now I’d have the wild boar and Stornoway black pudding noodles with cashews and a fried egg from Mirin in Leith. Spicy, meaty, crunchy goodness!"
+  },
+  {
+   "course": "m",
+   "row": 828,
+   "old": "Pork belly",
+   "new": "Pork (other)",
+   "answer": "German Pork roast with cracklings 😋"
+  },
+  {
+   "course": "m",
+   "row": 868,
+   "old": "Pork belly",
+   "new": "Pork (other)",
+   "answer": "There’s a restaurant in Davos, Switzerland called ‘Schraemli’s Lengmatter’ and each hunting season they have a special menu on. They have the most incredible slow roasted wild boar dish that comes wit"
+  },
+  {
+   "course": "m",
+   "row": 726,
+   "old": "Short rib / braised beef",
+   "new": "Pork (other)",
+   "answer": "anyone ive worked with knows its a pork dish, we dont have turkey at christmas in our house, its a slow cooked stuffed, rolled porchetta, stuffed with hard herbs, and a little citrus, slow cooked over"
+  },
+  {
+   "course": "m",
+   "row": 1165,
+   "old": "Short rib / braised beef",
+   "new": "Pork (other)",
+   "answer": "Sausage Casserole and Mash (ve) - my childhood favourite dish :)"
+  },
+  {
+   "course": "m",
+   "row": 1088,
+   "old": "Pork belly",
+   "new": "Chinese dishes (other)",
+   "answer": "For me the ideal main is a feast with friends and this warrants a 'dim sum' style Chinese succulent meal! I love Imperial Palace in Edinburgh with the essential 'lazy susan' to distribute the meal wit"
+  },
+  {
+   "course": "m",
+   "row": 95,
+   "old": "Sunday roast / roast dinner",
+   "new": "Chinese dishes (other)",
+   "answer": "Hard Q because menus change so much but the crispy roast pork from yummy roast after a reheat is always good"
+  },
+  {
+   "course": "m",
+   "row": 527,
+   "old": "Sunday roast / roast dinner",
+   "new": "Chinese dishes (other)",
+   "answer": "Hong Kong–style roast goose rice and char siu egg rice — with that rich, sweet, savoury “soul sauce” poured all over 🤤"
+  },
+  {
+   "course": "m",
+   "row": 186,
+   "old": "Pork chop / pork tomahawk",
+   "new": "Katsu curry",
+   "answer": "Pork loin katsu curry from Kawaneko Katsu & Coffee"
+  },
+  {
+   "course": "m",
+   "row": 886,
+   "old": "Seafood platter",
+   "new": "Fish (other)",
+   "answer": "Catch of the Day - ideally somewhere hot in the Mediterranean, looking out at the sea"
+  },
+  {
+   "course": "m",
+   "row": 1106,
+   "old": "Short rib / braised beef",
+   "new": "Seafood platter",
+   "answer": "Fish Stew - The Cow"
+  },
+  {
+   "course": "m",
+   "row": 391,
+   "old": "Short rib / braised beef",
+   "new": "Caribbean",
+   "answer": "Brown stewed chicken with rice and festivals- Jamaica"
+  },
+  {
+   "course": "m",
+   "row": 510,
+   "old": "Short rib / braised beef",
+   "new": "Ragu / bolognese",
+   "answer": "Pasta tubes  with mince with a wee dabble of Bovril to make it taste delicious"
+  },
+  {
+   "course": "m",
+   "row": 736,
+   "old": "Short rib / braised beef",
+   "new": "Ragu / bolognese",
+   "answer": "I recently tried Sugo for the first time and wow I was blown away so it has to be the Pappardelle with slow-cooked beef ragù"
+  },
+  {
+   "course": "m",
+   "row": 966,
+   "old": "Short rib / braised beef",
+   "new": "Ragu / bolognese",
+   "answer": "The Beef Shin Ragu (RIP) from the old menu at Bar Ninety Nine in Aberdeen was my favourite of all time!"
+  },
+  {
+   "course": "m",
+   "row": 1086,
+   "old": "Short rib / braised beef",
+   "new": "Ragu / bolognese",
+   "answer": "Beef shin ragu from battlefield Rest is incredible, so much so I’ve not digressed from it when I go. Also a special mention for homemade moussaka when I was growing up. I think my gran and my mum both"
+  },
+  {
+   "course": "m",
+   "row": 807,
+   "old": "Short rib / braised beef",
+   "new": "Dal / dhal",
+   "answer": "Punjabi - rajma (slow cooked red kidney beans) with rice. This meal has to be served with all the sides, pickles, raita, salad !"
+  },
+  {
+   "course": "m",
+   "row": 905,
+   "old": "Short rib / braised beef",
+   "new": "Vegetarian / vegan main",
+   "answer": "Been dreaming of Vegan Mince and tatties lately! The Oran mor does a great take on it."
+  },
+  {
+   "course": "m",
+   "row": 931,
+   "old": "Short rib / braised beef",
+   "new": "Soup / stew",
+   "answer": "A proper cocido gallego (the Galician boil) — a full-on pork fest where you’re served pretty much the whole pig: head, lacón (front leg), ribs, tail, pancetta, chorizo… all boiled up and served with g"
+  },
+  {
+   "course": "m",
+   "row": 1040,
+   "old": "Short rib / braised beef",
+   "new": "Soup / stew",
+   "answer": "Alright so I'm going to be a walking stereotype here but bear with me. My dream main course is a bowl of Scouse made specifically by my Dad. If you don't know scousers actually get their name from the"
+  },
+  {
+   "course": "m",
+   "row": 1162,
+   "old": "Short rib / braised beef",
+   "new": "Beef (other)",
+   "answer": "Has to be Beef Stroganoff with rice. A family dish my dad would make for us."
+  },
+  {
+   "course": "m",
+   "row": 630,
+   "old": "Short rib / braised beef",
+   "new": "Beef (other)",
+   "answer": "Braised and grilled ox tongue, café de Paris butter, mash potato"
+  },
+  {
+   "course": "m",
+   "row": 209,
+   "old": "Short rib / braised beef",
+   "new": "Beef (other)",
+   "answer": "Mince and totties"
+  },
+  {
+   "course": "m",
+   "row": 555,
+   "old": "Short rib / braised beef",
+   "new": "Beef (other)",
+   "answer": "Probably my Nana’s mince & totties. My Nana is Irish, but she made the best mince & totties!"
+  },
+  {
+   "course": "m",
+   "row": 1002,
+   "old": "Short rib / braised beef",
+   "new": "Beef (other)",
+   "answer": "I’m a simple man who loves good home cooking, I really enjoy mince and tatties but give me a good Sunday roast with chicken, gammon and all the trimmings, especially the brussel sprouts."
+  },
+  {
+   "course": "m",
+   "row": 1220,
+   "old": "Short rib / braised beef",
+   "new": "Venison",
+   "answer": "Slow cooked pulled venison, rustic mash, tenderstem broccoli - My mums kitchen, Isle of Arran"
+  },
+  {
+   "course": "m",
+   "row": 222,
+   "old": "Sunday roast / roast dinner",
+   "new": "Game birds (pigeon, grouse, pheasant)",
+   "answer": "Any roasted game bird from Jimmy at Dogstar"
+  },
+  {
+   "course": "m",
+   "row": 233,
+   "old": "Sunday roast / roast dinner",
+   "new": "Roast chicken",
+   "answer": "The Roasted Half Chicken from The Palmerston (@the_palmerston). It is perfection."
+  },
+  {
+   "course": "m",
+   "row": 654,
+   "old": "Sunday roast / roast dinner",
+   "new": "Other",
+   "answer": "A dish I had at The Savoy — The River Restaurant by Gordon Ramsay in London. Unreal. Dream side dish: Truffle fries (or proper crispy roast potatoes) — I’ll order them every time if they’re on the men"
+  },
+  {
+   "course": "m",
+   "row": 459,
+   "old": "Sushi / sashimi",
+   "new": "Chicken (other)",
+   "answer": "My mum’s homemade Chicken in White wine Sauce with some mashed potato’s and broccoli on the side. That was my parent’s wedding meal and she makes it occasionally and as soon as I know she is making it"
+  },
+  {
+   "course": "m",
+   "row": 595,
+   "old": "Sushi / sashimi",
+   "new": "Amatriciana / arrabbiata / tomato pasta",
+   "answer": "My Nanna’s fusilli with tomato sauce, made from homegrown tomatoes at my grandparents’ farm in Poland.  I can still remember the moment vividly. I was sitting in the kitchen by a little window, late a"
+  },
+  {
+   "course": "m",
+   "row": 580,
+   "old": "Pasta (other)",
+   "new": "Amatriciana / arrabbiata / tomato pasta",
+   "answer": "A classic tomato pasta with plenty of parmesan on top. Simple but effective!"
+  },
+  {
+   "course": "m",
+   "row": 657,
+   "old": "Pasta (other)",
+   "new": "Amatriciana / arrabbiata / tomato pasta",
+   "answer": "Vodka Rigatoni from Sapori di Italia, they had actually closed down for years but luckily they have just reopened on Cathcart Road. Family run proper Italian food - get involved!"
+  },
+  {
+   "course": "m",
+   "row": 420,
+   "old": "Tapas / small plates",
+   "new": "Chateaubriand / cote de boeuf / T-bone",
+   "answer": "Sharing Steak from Big Counter"
+  },
+  {
+   "course": "m",
+   "row": 639,
+   "old": "Tapas / small plates",
+   "new": "Chateaubriand / cote de boeuf / T-bone",
+   "answer": "A big sharing steak from big counter the cafe de Paris butter is phenomenal and the steak is always cooked perfectly!"
+  },
+  {
+   "course": "m",
+   "row": 194,
+   "old": "Burger (other)",
+   "new": "Sandwich / toastie",
+   "answer": "Top dog from El Perro Negro - chips and two pots of truffle mayo"
+  },
+  {
+   "course": "m",
+   "row": 402,
+   "old": "Pasta (other)",
+   "new": "Truffle pasta",
+   "answer": "Truffle parmesan pasta from an Italian Osteria"
+  },
+  {
+   "course": "m",
+   "row": 819,
+   "old": "Beef (other)",
+   "new": "Wagyu",
+   "answer": "Kobe beef in Kobe, Japan (truly unforgettable)"
+  },
+  {
+   "course": "m",
+   "row": 484,
+   "old": "Beef (other)",
+   "new": "Fillet steak",
+   "answer": "It’s so hard to narrow these down with so many amazing places in Scotland! One of my favourite mains ever though has to be the beef tenderloin dishes I enjoyed on the tasting menu at The Macallan Dist"
+  },
+  {
+   "course": "m",
+   "row": 1259,
+   "old": "Beef (other)",
+   "new": "Short rib / braised beef",
+   "answer": "Beef brisket – Smokestak London or Warpigs, Copenhagen"
+  },
+  {
+   "course": "m",
+   "row": 460,
+   "old": "Beef (other)",
+   "new": "Steak (unspecified cut)",
+   "answer": "It would have to be some really old beef steak from a San Sebastián traditional restaurant; Gandarias, Zelai Txiki or Portetxue…they’re all fantastic! San Sebastián is a place I hold so dear to me, I "
+  },
+  {
+   "course": "d",
+   "row": 741,
+   "old": "Creamed spinach / greens",
+   "new": "Other",
+   "answer": "Lamb mince and pea samosa from Shawlands Continental in Glasgow, quickly blasted in their microwave. Arguably the most satisfying thing you can eat in Glasgow, and absolutely the best value."
+  },
+  {
+   "course": "d",
+   "row": 1001,
+   "old": "Creamed spinach / greens",
+   "new": "Other",
+   "answer": "Obviously ALL the trimmings - rice and peas, mac n cheese, festival, coleslaw, plantain…what am I missing?! 🤭"
+  },
+  {
+   "course": "d",
+   "row": 57,
+   "old": "Carrots / roasted veg",
+   "new": "Greek / tomato salad",
+   "answer": "Sylvan fo this smoked tomato thing and it's genuinely made me only ever want smoked tomatoes."
+  },
+  {
+   "course": "d",
+   "row": 115,
+   "old": "Carrots / roasted veg",
+   "new": "Greek / tomato salad",
+   "answer": "It's got to be a toss up between the smoked tomatoes from Sylvan and the curried panisse at Five March hasn't it?"
+  },
+  {
+   "course": "d",
+   "row": 749,
+   "old": "Carrots / roasted veg",
+   "new": "Greek / tomato salad",
+   "answer": "Those smoked tomaotes from sylvan. I could happily die in a plate of them. Petition for them to make a comeback starts now"
+  },
+  {
+   "course": "d",
+   "row": 842,
+   "old": "Carrots / roasted veg",
+   "new": "Greek / tomato salad",
+   "answer": "Tomatoes, onion & basil with olive oil and balsamic vinegar"
+  },
+  {
+   "course": "d",
+   "row": 956,
+   "old": "Carrots / roasted veg",
+   "new": "Greek / tomato salad",
+   "answer": "Some bang in season salty tomatoes, maybe some burrata. Basic but hits every time. Also maybe some Serrano ham (specifically brought back from Spain by Hannah Turner)."
+  },
+  {
+   "course": "d",
+   "row": 77,
+   "old": "Carrots / roasted veg",
+   "new": "Croquettes / croquetas",
+   "answer": "The pumpkin croquettes from Ramen Dayo. This was a rogue pick for me but are now an absolute must when I visit Ramen Dayo."
+  },
+  {
+   "course": "d",
+   "row": 329,
+   "old": "Carrots / roasted veg",
+   "new": "Creamed spinach / greens",
+   "answer": "Veggies! If I’m eating out I’m taking advantage of the opportunity to get those greens that I fail miserably to get on the daily!"
+  },
+  {
+   "course": "d",
+   "row": 348,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "I love me some chicken wings with cheesy Garlic Bread 🤤"
+  },
+  {
+   "course": "d",
+   "row": 412,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Got to be chicken wings, the full wing though, saucy not dry and spicy (but still flavourful)"
+  },
+  {
+   "course": "d",
+   "row": 584,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Chicken wings. I don’t know if this counts as a side dish, but I need to get it in here. I used to hate spicy food, but the spicier the better!!"
+  },
+  {
+   "course": "d",
+   "row": 708,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Chicken wings, obviously!"
+  },
+  {
+   "course": "d",
+   "row": 797,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Chicken wings! Korean BBQ or Buffalo."
+  },
+  {
+   "course": "d",
+   "row": 854,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Hot parm boneless chicken wings from the spiritualist."
+  },
+  {
+   "course": "d",
+   "row": 863,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Wetherspoons 5 chicken wings. I don't know how but I think they might be the best wings I've had from a non local restraunt. I will say tho in college id get 10 wings everyday from this African food s"
+  },
+  {
+   "course": "d",
+   "row": 909,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Chicken wings from Billy Ho in Canggu, Bali"
+  },
+  {
+   "course": "d",
+   "row": 932,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Buddy's was a burger joint that used to be on Pollokshaws Road, they had these juicy buffalo chicken wings with blue cheese sauce that were really good"
+  },
+  {
+   "course": "d",
+   "row": 1040,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "My dream side dish would be BBQ chicken wings. I love the fact they’re a bit messy. I’m a big fan of any food you can eat with your hands. There’s something more enjoyable about not worrying about bei"
+  },
+  {
+   "course": "d",
+   "row": 1074,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "Soy garlic chicken wings"
+  },
+  {
+   "course": "d",
+   "row": 319,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Chicken wings",
+   "answer": "It's probably not a normal side dish to a seafood platter but since it's my dream menu I would choose Chicken wings, I love them!"
+  },
+  {
+   "course": "d",
+   "row": 304,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Caesar salad",
+   "answer": "Chicken Caesar Salad at Sub 126"
+  },
+  {
+   "course": "d",
+   "row": 1070,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Caesar salad",
+   "answer": "Chicken Caesar Salad with avocado"
+  },
+  {
+   "course": "d",
+   "row": 1180,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Caesar salad",
+   "answer": "It doesn’t remotely go with the rest of this meal, but I’m passionate about a great chicken Caesar salad.  Anchovies are essential . Croutons should be crisp but with a bit of give, ideally roasted in"
+  },
+  {
+   "course": "d",
+   "row": 36,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Korean / Japanese small dishes",
+   "answer": "Vegan Chicken Mayo Onigiri from Toast Tea Asian Sandwich Bar 🍙 This is probably a light meal in itself but it’s too good not to mention ✨"
+  },
+  {
+   "course": "d",
+   "row": 191,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Korean / Japanese small dishes",
+   "answer": "Spicy chicken teriyaki pieces from Maki and Ramen, OR if there’s macaroni cheese as an option- I’m probably ordering it!"
+  },
+  {
+   "course": "d",
+   "row": 642,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Bao buns",
+   "answer": "I love chicken boa buns, specifically a restaurant that used to operate called ozen in Edinburgh and they had a Big Mac sauce version it was incredible"
+  },
+  {
+   "course": "d",
+   "row": 852,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Sourdough / bread and butter",
+   "answer": "The crumpets with miso honey butter at Eleanore. Gave me chicken skin the last time I ate it"
+  },
+  {
+   "course": "d",
+   "row": 880,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Other",
+   "answer": "Stacey - Cacio e Pepe Balls from Pizza Pilgrims (still dreaming about these). David - BBQ Chicken Wings from no where specific just always a firm favourite"
+  },
+  {
+   "course": "d",
+   "row": 1128,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Dumplings / gyoza / wontons",
+   "answer": "Some steamed chicken or pork gyozas 😚🤌🏼"
+  },
+  {
+   "course": "d",
+   "row": 1148,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Dumplings / gyoza / wontons",
+   "answer": "Chicken Tibetian Dumplings-The Globe, Madison, WI"
+  },
+  {
+   "course": "d",
+   "row": 1208,
+   "old": "Chicken tenders / popcorn chicken",
+   "new": "Side / house salad",
+   "answer": "Has to some sort of som tum - we had a great one on an older menu that had raw mango and shredded chicken in it. Was sharp, zesty, spicy and ideal for cutting through a main like crispy pork!"
+  },
+  {
+   "course": "d",
+   "row": 521,
+   "old": "Chunky / triple-cooked chips",
+   "new": "Potatoes (other)",
+   "answer": "I love the basics, a good portion of spiced potatoe wedges!"
+  },
+  {
+   "course": "d",
+   "row": 681,
+   "old": "Corn ribs / elote",
+   "new": "Sourdough / bread and butter",
+   "answer": "My Big Easy combo: a cornbread muffin and mac & cheese."
+  },
+  {
+   "course": "d",
+   "row": 93,
+   "old": "Crispy / smashed potatoes",
+   "new": "Potatoes (other)",
+   "answer": "I must sound boring but baby potatoes 😍😍"
+  },
+  {
+   "course": "d",
+   "row": 261,
+   "old": "Crispy / smashed potatoes",
+   "new": "Potatoes (other)",
+   "answer": "You cannot beat butter baby potatoes!"
+  },
+  {
+   "course": "d",
+   "row": 1039,
+   "old": "Crispy / smashed potatoes",
+   "new": "Potatoes (other)",
+   "answer": "Potatoes in pretty much any form. Pommes Dauphine are possibly their best form but Jersey Royals with an irresponsible amount of salted butter, crispy roast potatoes..."
+  },
+  {
+   "course": "d",
+   "row": 718,
+   "old": "Crispy / smashed potatoes",
+   "new": "Patatas bravas",
+   "answer": "Patatas Bravas, La Cabra, Airdrie"
+  },
+  {
+   "course": "d",
+   "row": 946,
+   "old": "Crispy / smashed potatoes",
+   "new": "Patatas bravas",
+   "answer": "Patatas Bravas from Bar Iberico in Nottingham"
+  },
+  {
+   "course": "d",
+   "row": 1117,
+   "old": "Crispy / smashed potatoes",
+   "new": "Patatas bravas",
+   "answer": "Patatas bravas — Moro, Exmouth Market.  Because apparently potatoes covered in sauce are a side dish, but emotionally they are the main event."
+  },
+  {
+   "course": "d",
+   "row": 1212,
+   "old": "Crispy / smashed potatoes",
+   "new": "Patatas bravas",
+   "answer": "I just absolutely love patatas bravas. Cannot have enough when I go to Spain 🙈😅"
+  },
+  {
+   "course": "d",
+   "row": 503,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "Honestly, just some pickled red cabbage"
+  },
+  {
+   "course": "d",
+   "row": 646,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "A bowl of large gold star chippy pickles sprinkled with salt “yes I’m being serious”"
+  },
+  {
+   "course": "d",
+   "row": 763,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "Pickles. I still think about the pickles my friend Iso made me for my birthday a while ago, they were insanely good. I also often think of the pickles made by a small business that's no longer around,"
+  },
+  {
+   "course": "d",
+   "row": 1084,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "I love anything pickled!"
+  },
+  {
+   "course": "d",
+   "row": 1035,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "Savanyú káposzta (pickled cabbage)"
+  },
+  {
+   "course": "d",
+   "row": 785,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "I'm absolutely obsessed with Sauerkraut, so I need to give this an honorable mention. Salmon/Advocado Temaki love ichiban in Glasgow. #yesplease"
+  },
+  {
+   "course": "d",
+   "row": 984,
+   "old": "Georgian / Eastern European sides",
+   "new": "Kimchi / pickles",
+   "answer": "Pickled onion rings (with yellow curry salt) from Bangkok Diners Club at Exhibition in Manchester are out of this world!"
+  },
+  {
+   "course": "d",
+   "row": 1047,
+   "old": "Georgian / Eastern European sides",
+   "new": "Cheese (other)",
+   "answer": "A small board of mature Dutch Gouda, dark rye bread and pickled red cabbage.  The Gouda should be old enough to have those little salt crystals running through it. The rye bread adds something earthy,"
+  },
+  {
+   "course": "d",
+   "row": 403,
+   "old": "Georgian / Eastern European sides",
+   "new": "Other",
+   "answer": "Eel Sandwich with red pickled onions and horseradish from Quo Vadis Dean St London (legendary Scottish chef Jeremy Lee)"
+  },
+  {
+   "course": "d",
+   "row": 698,
+   "old": "Georgian / Eastern European sides",
+   "new": "Potatoes (other)",
+   "answer": "The potatoes or house pickles from Five March and macaroni cheese from anywhere!"
+  },
+  {
+   "course": "d",
+   "row": 592,
+   "old": "Haggis / black pudding",
+   "new": "Skinny / French fries",
+   "answer": "Pierre koffmanns fries stacked in the side from the monkfish"
+  },
+  {
+   "course": "d",
+   "row": 1134,
+   "old": "Haggis / black pudding",
+   "new": "Other",
+   "answer": "Scotch Pie - Piemaker, Edinburgh"
+  },
+  {
+   "course": "d",
+   "row": 825,
+   "old": "Hummus / dips",
+   "new": "Cauliflower (other)",
+   "answer": "Burnt caulflower with tahini"
+  },
+  {
+   "course": "d",
+   "row": 1089,
+   "old": "Hummus / dips",
+   "new": "Cheese (other)",
+   "answer": "There’s this Fried goat’s cheese from Sylvan that I don’t think they do anymore. Caramelised around the edges with some sort of sweet chutney. Very good."
+  },
+  {
+   "course": "d",
+   "row": 717,
+   "old": "Korean / Japanese small dishes",
+   "new": "Sourdough / bread and butter",
+   "answer": "Fresh warm bread with a salt & seaweed butter"
+  },
+  {
+   "course": "d",
+   "row": 163,
+   "old": "Loaded / dirty fries",
+   "new": "Halloumi",
+   "answer": "Halloumi fries, Sweet potato fries with extra peri peri salt and a garlic mayo dip"
+  },
+  {
+   "course": "d",
+   "row": 1210,
+   "old": "Loaded / dirty fries",
+   "new": "Halloumi",
+   "answer": "I'll have some halloumi fries and a tasty sweet chilli dip, perhaps."
+  },
+  {
+   "course": "d",
+   "row": 1221,
+   "old": "Loaded / dirty fries",
+   "new": "Halloumi",
+   "answer": "Halloumi fries. Can’t get enough. I like my food to sound like trainers on a basketball court."
+  },
+  {
+   "course": "d",
+   "row": 167,
+   "old": "Loaded / dirty fries",
+   "new": "Mozzarella sticks / fried cheese",
+   "answer": "flaming hot cheeto mozarella sticks from Smokey Trotters! I think about these daily"
+  },
+  {
+   "course": "d",
+   "row": 531,
+   "old": "Loaded / dirty fries",
+   "new": "Sauces (peppercorn, bearnaise)",
+   "answer": "Gravy. On anything. I am Northern. It runs through my veins."
+  },
+  {
+   "course": "d",
+   "row": 819,
+   "old": "Mash / pomme puree",
+   "new": "Fried fish / whitebait / seafood",
+   "answer": "Fresh seafood…preferable roasted from Cafe Fish in Tobermory (best roasted seafood platter you could ask for, perfect with champagne)"
+  },
+  {
+   "course": "d",
+   "row": 156,
+   "old": "Meat on the side (steak, venison, bone marrow)",
+   "new": "Pasta",
+   "answer": "It would need to be the duck confit lasagne from maison."
+  },
+  {
+   "course": "d",
+   "row": 360,
+   "old": "Meat on the side (steak, venison, bone marrow)",
+   "new": "Mac and cheese",
+   "answer": "Beef brisket Mac & Cheese from The Loveable Rouge"
+  },
+  {
+   "course": "d",
+   "row": 465,
+   "old": "Meat on the side (steak, venison, bone marrow)",
+   "new": "Mac and cheese",
+   "answer": "Beef brisket mac and cheese from Miller and Carter"
+  },
+  {
+   "course": "d",
+   "row": 782,
+   "old": "Meat on the side (steak, venison, bone marrow)",
+   "new": "Mac and cheese",
+   "answer": "Beef brisket Mac n Cheese, it’s from Hickory’s smokehouse in Chester"
+  },
+  {
+   "course": "d",
+   "row": 572,
+   "old": "Meat on the side (steak, venison, bone marrow)",
+   "new": "Loaded / dirty fries",
+   "answer": "Cherry BBQ Brisket loaded tater tots - From Smoke and Soul, Aberdeen"
+  },
+  {
+   "course": "d",
+   "row": 306,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "Bread. Not afraid to fill up on some Sourdough that I’ll regret later. Add a cheeky bit of Olive Oil and Balsamic and I’m your girl."
+  },
+  {
+   "course": "d",
+   "row": 735,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "Sesame and olive oil polenta bread from Rolo's in NY."
+  },
+  {
+   "course": "d",
+   "row": 1145,
+   "old": "Olives",
+   "new": "Sourdough / bread and butter",
+   "answer": "I always love quality extra virgin olive oil with freshly baked bread. I'll order this at any restaurant I visit, mainly to check out the competition!"
+  },
+  {
+   "course": "d",
+   "row": 262,
+   "old": "Onion rings",
+   "new": "Spring rolls",
+   "answer": "I don’t really want my sides to compliment my main. I’d rather it was totally distinct - almost like a smaller main. I’d have crispy shredded duck pancake rolls. Pure rendered fat, fresh cucumber and "
+  },
+  {
+   "course": "d",
+   "row": 370,
+   "old": "Onion rings",
+   "new": "Other",
+   "answer": "If I’m being sensible with the curry, give me some poppadoms and spiced onions to dip in but, if this is the dream, don’t judge me. I’m going full Glasgow manky and getting a filthy king rib from the "
+  },
+  {
+   "course": "d",
+   "row": 497,
+   "old": "Onion rings",
+   "new": "Other",
+   "answer": "Poppadoms and spiced onions from Momo Hub in Merchant Square. I've been there three times and get full up on these before the proper starter even arrives."
+  },
+  {
+   "course": "d",
+   "row": 604,
+   "old": "Onion rings",
+   "new": "Hummus / dips",
+   "answer": "At Pera on Elm Row they do a mixed grill which is great but the Bulgar wheat, Cacik and sumac onions on the side steal the show for me"
+  },
+  {
+   "course": "d",
+   "row": 769,
+   "old": "Onion rings",
+   "new": "Potatoes (other)",
+   "answer": "The first thing that came to mind was Haylynn Canteen's cheese and onion potatoes - incredible."
+  },
+  {
+   "course": "d",
+   "row": 1153,
+   "old": "Onion rings",
+   "new": "Potatoes (other)",
+   "answer": "Ayrshire tatties, boiled, hunners of butter, spring onion. Or carrots, the way my mum makes them (secret family recipe)."
+  },
+  {
+   "course": "d",
+   "row": 1209,
+   "old": "Onion rings",
+   "new": "Loaded / dirty fries",
+   "answer": "I love the Buffalo, Blue Cheese and Crispy Onion Loaded fries from St Luke’s, but i get the handcut fries instead of the regular fries and it’s just 🤤🤤🤤"
+  },
+  {
+   "course": "d",
+   "row": 86,
+   "old": "Padron peppers",
+   "new": "Sourdough / bread and butter",
+   "answer": "Crostini piccante from La Vita Spuntini or has to be the jalapeño hashies from Big Taquero"
+  },
+  {
+   "course": "d",
+   "row": 716,
+   "old": "Padron peppers",
+   "new": "Coleslaw",
+   "answer": "Jalapeño Slaw from Paloma in Leith"
+  },
+  {
+   "course": "d",
+   "row": 1025,
+   "old": "Pakora / bhaji",
+   "new": "Chaat",
+   "answer": "A samosa tikki chaat - it’s built around a soft, fluffy potato tikki with a light, golden, crispy exterior. It’s then layered with sweet yoghurt, tangy tamarind sauce, and fresh green chutney, along w"
+  },
+  {
+   "course": "d",
+   "row": 939,
+   "old": "Sausage / pigs in blankets",
+   "new": "Padron peppers",
+   "answer": "My dream side dish is an American one it's bacon wrapped jalapeno poppers stuffed with cream cheese and ranch."
+  },
+  {
+   "course": "d",
+   "row": 986,
+   "old": "Sausage / pigs in blankets",
+   "new": "Naan / roti / paratha",
+   "answer": "Bacon Naan Roll Featuring recipes for fresh Naan and Tomato-Chilli Jam. Dishoom - Edinburgh Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+  },
+  {
+   "course": "d",
+   "row": 1034,
+   "old": "Sausage / pigs in blankets",
+   "new": "Loaded / dirty fries",
+   "answer": "A huuuge portion of cheesy bacon fries with the fakest nacho cheese you could find"
+  },
+  {
+   "course": "d",
+   "row": 7,
+   "old": "Sourdough / bread and butter",
+   "new": "Other",
+   "answer": "Mm difficult, all the sides at Porter & Rye are great also"
+  },
+  {
+   "course": "d",
+   "row": 279,
+   "old": "Sourdough / bread and butter",
+   "new": "Other",
+   "answer": "The Spanish tortilla with beer butter from Cornershop. Conor and his team know what they are doing!!"
+  },
+  {
+   "course": "d",
+   "row": 133,
+   "old": "Tacos / Mexican bites",
+   "new": "Potatoes (other)",
+   "answer": "An honourable mention to the satay potatoes from Sprigg! (BRING THEM BACK) but since they aren’t in stock anymore it has to be the tater tots from KONG. We have them every month at the book club scotl"
+  },
+  {
+   "course": "d",
+   "row": 1138,
+   "old": "Tacos / Mexican bites",
+   "new": "Potatoes (other)",
+   "answer": "I love the chilli tater tots from Nami also their korean fried chicken is gorgeous"
+  },
+  {
+   "course": "d",
+   "row": 1121,
+   "old": "Tacos / Mexican bites",
+   "new": "Other",
+   "answer": "Absolutely love anything from Katsu in Glasgow .. I basically love ALL food 😂"
+  },
+  {
+   "course": "d",
+   "row": 1229,
+   "old": "Tacos / Mexican bites",
+   "new": "Nachos",
+   "answer": "Pico de gallo with tortilla chips! 🤤"
+  },
+  {
+   "course": "d",
+   "row": 37,
+   "old": "Truffle fries",
+   "new": "Mash / pomme puree",
+   "answer": "The truffle mash from Banca Di Roma (my obsession with truffle is out of hand)"
+  },
+  {
+   "course": "d",
+   "row": 323,
+   "old": "Truffle fries",
+   "new": "Mac and cheese",
+   "answer": "Truffle mac n cheese"
+  },
+  {
+   "course": "d",
+   "row": 753,
+   "old": "Truffle fries",
+   "new": "Mac and cheese",
+   "answer": "Truffle mac and cheese from Cocktails and Steaks, Uddingston  - Yum"
+  },
+  {
+   "course": "d",
+   "row": 762,
+   "old": "Truffle fries",
+   "new": "Mac and cheese",
+   "answer": "Truffle Mac&Cheese with a crispy top"
+  },
+  {
+   "course": "d",
+   "row": 921,
+   "old": "Truffle fries",
+   "new": "Mac and cheese",
+   "answer": "truffle mac & cheese with bacon"
+  },
+  {
+   "course": "d",
+   "row": 418,
+   "old": "Truffle fries",
+   "new": "Crispy / smashed potatoes",
+   "answer": "The fried potato slices with truffle mayo, parmesan and chives from @westsidetaverngla are insane."
+  },
+  {
+   "course": "d",
+   "row": 432,
+   "old": "Truffle fries",
+   "new": "Crispy / smashed potatoes",
+   "answer": "Fried potato slices with truffle mayo from the West Side Tavern. I could eat endless plates of these!"
+  },
+  {
+   "course": "d",
+   "row": 945,
+   "old": "Truffle fries",
+   "new": "Other",
+   "answer": "Truffle ANYTHING 👀"
+  },
+  {
+   "course": "d",
+   "row": 1057,
+   "old": "Truffle fries",
+   "new": "Chicken tenders / popcorn chicken",
+   "answer": "Parmesan and truffle drumsticks from Coq on Whiteladies Road. They are fat, juicy and absolutely loaded with salty truffle goodness. I still remember the first day that drumsticks caressed my lips. Ob"
+  },
+  {
+   "course": "d",
+   "row": 193,
+   "old": "Truffle fries",
+   "new": "Cheese (other)",
+   "answer": "Hey Palu is a fantastic cocktail bar and they do amazing small plates to share. I am obsessed with their truffle pecorino, honey and crackers!! It is to die for!!!"
+  },
+  {
+   "course": "p",
+   "row": 304,
+   "old": "Bingsu / Asian desserts",
+   "new": "French toast / brioche",
+   "answer": "Hong Kong Style French Toast from C Cafe"
+  },
+  {
+   "course": "p",
+   "row": 427,
+   "old": "Cannoli / Italian pastries",
+   "new": "Chocolate cake / fudge cake",
+   "answer": "Although I’m not huge on dessert, nothing beats a torta barozzi with crema mascarpone. Fudgey coffee like chocolate cake that sits perfectly ontop of the cream. Named after a famous architect from vig"
+  },
+  {
+   "course": "p",
+   "row": 755,
+   "old": "Cannoli / Italian pastries",
+   "new": "Custard tart / pastel de nata",
+   "answer": "Torta Imperial de Nata from Galicia. It's a brioche-like base, filled with a thick sweetened cream and topped with icing sugar. It melts in your mouth!"
+  },
+  {
+   "course": "p",
+   "row": 286,
+   "old": "Chocolate (other)",
+   "new": "Croissants / pastries / cinnamon buns",
+   "answer": "Whenever I’m running errands about town and I’m craving a little sweet treat, I always end up at Mr Pretzels in Buchanan Galleries. Either a cinnamon and sugar or Nutella pretzel; it doesn’t really ge"
+  },
+  {
+   "course": "p",
+   "row": 1067,
+   "old": "Chocolate (other)",
+   "new": "Croissants / pastries / cinnamon buns",
+   "answer": "Civerinos cinnamon dough balls with Nutella 👌"
+  },
+  {
+   "course": "p",
+   "row": 1098,
+   "old": "Chocolate (other)",
+   "new": "Ice cream (other)",
+   "answer": "I don’t have a particularly sweet tooth but I am an absolute sucker for mint choc chip ice cream & we are lucky to have the superb ice cream shop Luca’s in Edinburgh. Nothing comes close."
+  },
+  {
+   "course": "p",
+   "row": 1159,
+   "old": "Chocolate (other)",
+   "new": "Ice cream (other)",
+   "answer": "Mint Choc Chip Ice Cream - Colpis, Milngavie"
+  },
+  {
+   "course": "p",
+   "row": 1163,
+   "old": "Chocolate (other)",
+   "new": "Chocolate mousse / pot",
+   "answer": "The Snickers pot from Figbar, absolutely world class"
+  },
+  {
+   "course": "p",
+   "row": 239,
+   "old": "Chocolate mousse / pot",
+   "new": "Chocolate (other)",
+   "answer": "I love a deep chocolate ganache with boozy fruit on the side, - whatever is in season - so strawberries with vodka in the summer, pears with port in autumn and luxardo cherries from a jar in winter."
+  },
+  {
+   "course": "p",
+   "row": 1212,
+   "old": "Chocolate mousse / pot",
+   "new": "Chocolate (other)",
+   "answer": "I don’t have a sweet tooth, but I do like a nice dark chocolate ganache - no specific place though."
+  },
+  {
+   "course": "p",
+   "row": 585,
+   "old": "Chocolate mousse / pot",
+   "new": "Gelato",
+   "answer": "Obviously has to be ice cream doesn't it?  I had a pistachio cone from Oggi in Barcelona, made me question everything I've ever made.  For a plated dessert I had a Black Garlic Ice Cream with Chocolat"
+  },
+  {
+   "course": "p",
+   "row": 1208,
+   "old": "Chocolate mousse / pot",
+   "new": "Fruit / berries",
+   "answer": "An unbelievable red currant dessert from field restaurant in Prague - one Michelin star tasting menu finished perfectly. Was a dark chocolate ganache, fresh red currants, smoked hay tuile, sorrel gran"
+  },
+  {
+   "course": "p",
+   "row": 210,
+   "old": "Chocolate tart",
+   "new": "Tart (other)",
+   "answer": "Can I mash up here? Salted caramel tart from Crabshakk Botanics served with gallons upon gallons of La Gelatessa - all of it, all the flavours."
+  },
+  {
+   "course": "p",
+   "row": 859,
+   "old": "Chocolate tart",
+   "new": "Tart (other)",
+   "answer": "Not a usual dessert place but that salted caramel tart and ginger ice cream from Crabshakk botanics!"
+  },
+  {
+   "course": "p",
+   "row": 244,
+   "old": "Victoria sponge / sponge cake",
+   "new": "Tart (other)",
+   "answer": "Normally i’m not big on a dessert, i’m more of a starter kinda gal. But if i had to pick it would be one of the big strawberry tarts from Rebecca’s cakes😍❤️. Thats actually reminds me i need to go bac"
+  },
+  {
+   "course": "p",
+   "row": 272,
+   "old": "Creme brulee / crema catalana",
+   "new": "Ice cream (other)",
+   "answer": "Nowita on Hyndland Street once did a jam & custard ice cream with sponge croutons. It was comparable to nothing else I have ever tried although it is not a solid staple and they change their menu seas"
+  },
+  {
+   "course": "p",
+   "row": 348,
+   "old": "Creme brulee / crema catalana",
+   "new": "Sticky toffee pudding",
+   "answer": "Custard with Sticky Toffee Pudding or Apple Pie"
+  },
+  {
+   "course": "p",
+   "row": 806,
+   "old": "Creme brulee / crema catalana",
+   "new": "Victoria sponge / sponge cake",
+   "answer": "The madelines and cherry blossom custard from Dogstar in Leith!"
+  },
+  {
+   "course": "p",
+   "row": 996,
+   "old": "Creme brulee / crema catalana",
+   "new": "Jelly / custard / childhood puddings",
+   "answer": "suspect Jeni would say that I’d choose anything with custard.  I do love my puddings, but I suspect my tastes aren’t that refined and tend towards school dinner type dishes: bread and butter pudding, "
+  },
+  {
+   "course": "p",
+   "row": 297,
+   "old": "Fruit / berries",
+   "new": "Chocolate (other)",
+   "answer": "Honestly? Really honestly? A bar of Polish Milka, Alpine Milk 😂 or the Banana Pudding that SpoonMe do ❤️😂"
+  },
+  {
+   "course": "p",
+   "row": 1049,
+   "old": "Fruit / berries",
+   "new": "Other",
+   "answer": "banana chocolate muller corner"
+  },
+  {
+   "course": "p",
+   "row": 680,
+   "old": "Fruit / berries",
+   "new": "Ice cream (other)",
+   "answer": "Banana Caramel ice cream from Gelatateria Del Porto (an ice cream stall in Antibes, France)."
+  },
+  {
+   "course": "p",
+   "row": 180,
+   "old": "Gelato",
+   "new": "Churros",
+   "answer": "loop and scoop churros and ice cream"
+  },
+  {
+   "course": "p",
+   "row": 884,
+   "old": "Gelato",
+   "new": "Ice cream (other)",
+   "answer": "Honestly just a few scoops of any respectable mint choc chip ice cream will do me, or tiramisu!"
+  },
+  {
+   "course": "p",
+   "row": 888,
+   "old": "Gelato",
+   "new": "Brownie",
+   "answer": "I’m not usually a dessert person but probably a brookie from Big Bear Bakery? With a scoop of the white choc & fresh mint from La Gelatessa🍦"
+  },
+  {
+   "course": "p",
+   "row": 1007,
+   "old": "Gelato",
+   "new": "Chocolate cake / fudge cake",
+   "answer": "My Mum's chocolate amaretti torte, Amarena cherries & a wee scoop of ice cream. can I also have a slice of Bad Girl Bakery (my Aunty's) spiced apple cake she made for our wedding on the side?"
+  },
+  {
+   "course": "p",
+   "row": 1217,
+   "old": "Key lime pie / lemon posset",
+   "new": "Fruit / berries",
+   "answer": "Gooseberry fool my granny used to make."
+  },
+  {
+   "course": "p",
+   "row": 421,
+   "old": "Pecan / cherry / fruit pie",
+   "new": "Banoffee pie",
+   "answer": "I do love a homemade Banofee Pie. I’m still on the hunt for one in Glasgow but there was a place I used to go to called Brite Spot just for their desserts. I believe it’s closed now"
+  },
+  {
+   "course": "p",
+   "row": 451,
+   "old": "Rice pudding",
+   "new": "Bingsu / Asian desserts",
+   "answer": "Mango Sticky Rice (ข้าวเหนียวมะม่วง)"
+  },
+  {
+   "course": "p",
+   "row": 746,
+   "old": "Rice pudding",
+   "new": "Bingsu / Asian desserts",
+   "answer": "Without a doubt, it’s Mango Sticky Rice. It's the ultimate comfort dessert from my travels in Asia. That mix of fresh, sharp mango and sweet coconut cream hits the spot every single time."
+  },
+  {
+   "course": "p",
+   "row": 990,
+   "old": "Rice pudding",
+   "new": "Bingsu / Asian desserts",
+   "answer": "Mango sticky rice in Songwat, Bangkok"
+  },
+  {
+   "course": "p",
+   "row": 1172,
+   "old": "Rice pudding",
+   "new": "Mochi",
+   "answer": "My dream dessert is a sweet bite I had at Gaggan in Bangkok: a mango sticky rice mochi with crispy pandan. Simple and spectacular."
+  },
+  {
+   "course": "p",
+   "row": 331,
+   "old": "Victoria sponge / sponge cake",
+   "new": "Drink instead of dessert",
+   "answer": "No cakes or ice cream here, sorry, it’s gotta be beer! Mood-dependent, I’d have a) something prominent like Rodenbach’s Flanders Red, b) a rich, boozy barley wine, c) a modern dessert stout - somethin"
+  },
+  {
+   "course": "p",
+   "row": 792,
+   "old": "Victoria sponge / sponge cake",
+   "new": "Tiramisu",
+   "answer": "Without blowing my own trumpet, I recently made a banana bread tiramisu by swapping the sponge fingers for red miso banana chocolate chip muffins and making a banana zabaglione and it was absolutely d"
+  },
+  {
+   "course": "p",
+   "row": 1019,
+   "old": "Drink instead of dessert",
+   "new": "Ice cream (other)",
+   "answer": "whisky ice cream from Mary's Milk Bar"
+  },
+  {
+   "course": "p",
+   "row": 1278,
+   "old": "Pudding (other)",
+   "new": "Jelly / custard / childhood puddings",
+   "answer": "Banana Pudding from The Crumbleoligist at the Barras"
+  }
+ ],
+ "merged": {
+  "s:Empanadas": "Empanadas / arepas / Latin bites",
+  "s:Skewers / satay / yakitori": "Chicken satay / skewers",
+  "d:Tenderstem / broccoli": "Creamed spinach / greens"
+ },
+ "new_codes": {
+  "Vegetable starters (other)": [
+   "Other vegetable starters",
+   "Vegetables and salad"
+  ],
+  "Thai dishes (other)": [
+   "Other Thai dishes",
+   "Asian"
+  ]
+ },
+ "relabelled": {
+  "Chicken satay / skewers": "Skewers, satay and yakitori",
+  "Ramen / pho / noodle soup": "Ramen, pho and Asian soups",
+  "Fried chicken / tenders / karaage": "Fried chicken and tenders",
+  "Bavette / flat iron / hanger / picanha": "Bavette, rump and other steak cuts",
+  "Tagine / Middle Eastern": "Tagine, Middle Eastern and Greek",
+  "Seafood platter": "Seafood platters and stews",
+  "Chicken tenders / popcorn chicken": "Chicken tenders and bites",
+  "Fried fish / whitebait / seafood": "Fried fish and other seafood",
+  "Padron peppers": "Padron and other peppers",
+  "Pakora / bhaji": "Pakora, bhaji and samosa",
+  "Sausage / pigs in blankets": "Sausage, bacon and pigs in blankets",
+  "Greek / tomato salad": "Tomatoes and Greek salad",
+  "Victoria sponge / sponge cake": "Sponge and other cakes",
+  "Bingsu / Asian desserts": "Bingsu and other Asian desserts",
+  "Meringue": "Other meringue desserts",
+  "Caramel / toffee dessert": "Other caramel and toffee desserts",
+  "Clootie dumpling / Scottish puddings": "Clootie dumpling and Scottish puddings"
+ },
+ "regrouped": {
+  "French onion soup": "Soup",
+  "Mac and cheese": "Pasta and Italian",
+  "Rice dishes (other)": "Rice and grains",
+  "Rice (other)": "Rice and grains",
+  "Patatas bravas": "Potatoes and fries",
+  "Halloumi": "Cheese",
+  "Burrata": "Cheese",
+  "Burrata / stracciatella": "Cheese",
+  "Mozzarella sticks / fried cheese": "Cheese",
+  "Sweets / sweeties": "Other answers"
+ }
+}

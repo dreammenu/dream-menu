@@ -312,7 +312,7 @@ add(id='asian', topic='Asian flavours', theme='Trends', tier='partner', verdict=
     dm=dict(dir='up', text=f"Asian sides {as_d['early']}% → {as_d['late']}%{' (a clear move)' if as_d['sig'] else ''}; Asian mains {as_m['early']}% → {as_m['late']}% (within noise)", base='side and main answers'),
     ext=dict(dir='up', text='“Flavours less travelled” (Korean, Malaysian) and fast-forward flavours such as gochujang and chilli jam named as 2026 trends', who='Bidfood with CGA by NIQ, 2,000 UK adults', date='survey May 2025, published October 2025',
              url='https://www.bidfood.co.uk/bidfood-food-and-drink-trends-2026/'),
-    read='The wholesaler call is showing up first on the side of the plate: Asian sides are a clear riser while Asian mains hold. Lead with sauces, pickles and small sides.')
+    read=('The wholesaler call is showing up first on the side of the plate: Asian sides are a clear riser while Asian mains hold. Lead with sauces, pickles and small sides.' if as_d['sig'] else 'Asian sides are rising but not yet beyond chance, and Asian mains hold. Worth watching rather than a range call yet.'))
 lat_d = mv('d', 'Mexican and Latin')
 add(id='latin', topic='Latin American food', theme='Trends', tier='partner', verdict='differs', kind='direction',
     dm=dict(dir='down', text=f"Mexican and Latin sides {lat_d['early']}% → {lat_d['late']}%{' (a clear move)' if lat_d['sig'] else ''}", base='side answers'),

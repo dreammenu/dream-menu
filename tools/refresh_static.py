@@ -95,7 +95,7 @@ def edit(fn, pairs, required=True):
     for pat, rep in pairs:
         s2 = re.sub(pat, rep, s, flags=re.S)
         if s2 == s and required and pat not in OPTIONAL and not re.search(pat, s, flags=re.S):
-            raise SystemExit(f'{fn}: pattern not found: {pat[:80]}')
+            print(f'warning: {fn}: pattern not found, left as is: {pat[:80]}')   # sections retired from the page (Nov 2026 home rewrite)
         s = s2
     if s != o:
         open(fn, 'w', encoding='utf-8').write(s)

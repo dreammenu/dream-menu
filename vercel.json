@@ -236,6 +236,46 @@
       "source": "/trends/greens-and-creamed-spinach",
       "destination": "/trends/green-vegetables",
       "permanent": true
+    },
+    {
+      "source": "/trends/tenderstem-broccoli",
+      "destination": "/trends/green-vegetables",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sponge-cake",
+      "destination": "/trends/sponge-and-other-cakes",
+      "permanent": true
+    },
+    {
+      "source": "/trends/chicken-tenders",
+      "destination": "/trends/chicken-tenders-and-bites",
+      "permanent": true
+    },
+    {
+      "source": "/trends/pork-belly",
+      "destination": "/trends",
+      "permanent": false
+    },
+    {
+      "source": "/trends/venison",
+      "destination": "/trends",
+      "permanent": false
+    },
+    {
+      "source": "/trends/kebab-and-souvlaki",
+      "destination": "/trends",
+      "permanent": false
+    },
+    {
+      "source": "/trends/roasted-carrots-and-veg",
+      "destination": "/trends",
+      "permanent": false
+    },
+    {
+      "source": "/trends/traybakes-and-slices",
+      "destination": "/trends",
+      "permanent": false
     }
   ],
   "headers": [

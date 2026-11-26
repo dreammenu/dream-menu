@@ -821,7 +821,7 @@
 "course": "d",
 "name": "Grilled sprouting broccoli",
 "price": 7.5,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Vegetables and salad"
 },
 {
@@ -4613,7 +4613,7 @@
 "course": "d",
 "name": "Grilled Broccoli",
 "price": 5.5,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Vegetables and salad"
 },
 {
@@ -5053,7 +5053,7 @@
 "course": "d",
 "name": "Hot Honey Chicken Tenders",
 "price": 9.95,
-"dish": "Chicken tenders",
+"dish": "Chicken tenders and bites",
 "group": "Chicken"
 },
 {
@@ -5812,7 +5812,7 @@
 "course": "d",
 "name": "Tenderstem Broccoli",
 "price": 6.95,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Vegetables and salad"
 },
 {
@@ -6321,7 +6321,7 @@
 "course": "d",
 "name": "Tenderstem Broccoli",
 "price": 9.0,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Vegetables and salad"
 },
 {
@@ -7559,7 +7559,7 @@
 "course": "d",
 "name": "BROCCOLETTI",
 "price": 6.95,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Vegetables and salad"
 },
 {
@@ -7797,7 +7797,7 @@
 },
 {
 "course": "s",
-"name": "Chicken tenders",
+"name": "Chicken tenders and bites",
 "price": 9.0,
 "dish": null,
 "group": "Chicken"
@@ -9932,9 +9932,9 @@
 },
 {
 "course": "d",
-"name": "Tenderstem broccoli",
+"name": "Green vegetables",
 "price": 6.35,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Vegetables and salad"
 },
 {
@@ -10603,7 +10603,7 @@
 "course": "d",
 "name": "Dum Broccoli & Cauliflower",
 "price": 9.0,
-"dish": "Tenderstem broccoli",
+"dish": "Green vegetables",
 "group": "Indian"
 },
 {

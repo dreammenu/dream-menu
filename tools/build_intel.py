@@ -323,6 +323,10 @@ def city_index():
     for s_ in sig:  # make sure each market's signature dish is on the grid
         if s_['raw'] and s_['raw'] not in top:
             top.append(s_['raw'])
+    # dishes the Insight Series reports read from this grid stay on it even when they slip out of the top 18
+    for c in ('Margarita (classic / frozen)', 'Negroni', 'Dirty / classic martini', 'Scallops', 'Tiramisu', 'Sticky toffee pudding', 'Cod / hake / white fish'):
+        if tot.get(c) and c not in top:
+            top.append(c)
     for c in top:
         base = tot[c] / T
         cells = []
