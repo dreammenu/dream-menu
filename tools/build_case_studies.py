@@ -424,7 +424,7 @@ def r_seafood():
                      ('Fish pastrami from Barry Fish in Leith. It\'s sensational.', 'Dream Menu guest')])
            + sowhat('a supplier', f'Guests repeat provenance back word for word: hand-dived, Orkney, Leith. Named origin is the selling point, and outside {sea_v[0]["n"]} no venue has yet claimed a seafood dish as its own.'))
     recs = [('Make named-origin scallops the hero line', f'Scallops are {f1(scal_i["pct"])}% of all starters, the single most-named starter. Sell hand-dived and named-harbour scallops with the story attached.', 'High', 'Low', 'Next quarter'),
-            ('Build a white fish range for mains', f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}%: the clearest seafood riser. Portioned, with one sauce idea per cut.', 'High', 'Medium', 'Next two quarters'),
+            ('Build a white fish range for mains', f'Cod, hake and white fish mains rose from {f1(cod["early"])}% to {f1(cod["late"])}%: {"the clearest seafood riser" if cod["sig"] else "rising, though not yet beyond chance"}. Portioned, with one sauce idea per cut.', 'High', 'Medium', 'Next two quarters'),
             ('Sell to chefs first', f'The trade names seafood at {f1(grp["Industry"])}% of everything it names, ahead of enthusiasts ({f1(grp["Enthusiasts"])}%). Sampling and kitchen visits beat consumer marketing.', 'Medium', 'Low', 'Ongoing'),
             ('Help one venue per district own a seafood dish', 'Demand outside the top venue is thin and spread. Co-develop a signature with venues guests already name for one seafood dish.', 'Medium', 'Medium', 'Six months'),
             ('Track the starter share quarterly', 'Seafood starters are steady around a third. A fall below 30% would be the first sign of fatigue.', 'Low', 'Low', 'Quarterly')]
@@ -443,7 +443,7 @@ def r_seafood():
         recs=recs,
         watch=[('Scallop prices', 'Hand-dived scallop supply is weather and season dependent. A price spike would test how far the hero line can carry a menu price.'),
                ('Prawns and langoustines', 'Prawns started high in the first quarter of fieldwork and have settled. A further fall would suggest fatigue with prawn starters.'),
-               ('White fish confirmation', 'Two more quarters at or above the recent share would turn the white fish move from clear to established.'),
+               ('White fish confirmation', 'Two more quarters at or above the recent share would turn the white fish move from clear to established.' if cod['sig'] else 'The white fish rise is not yet beyond chance. One or two more quarters at the recent share would confirm it.'),
                ('Seafood outside Glasgow', 'The rest of Scotland indexes highly for scallops on few mentions. Targeted fieldwork on the coast would show whether that is real.')],
         method_stats=[(f0(s_t['n']), 'dream starters'), (f0(m_t['n']), 'dream mains'), (f0(sum(cat_count(v, 'Seafood') for v in DM['venues'])), 'seafood venue mentions'), ('6', 'quarters tracked')],
         method='<p>Starter and main shares use interviews with a codable answer for that course. Venue figures use mentions tied to a named venue. Quarters with fewer than 100 answers are shown faded.</p>',
@@ -1041,11 +1041,13 @@ def r_glasgow_2030():
     tot_g = CM['totals'][GI]
     rows = [r for r in CM['rows'] if not r['cells'][GI]['thin']]
     gi = sorted(((r['l'], r['cells'][GI]['idx']) for r in rows), key=lambda x: -x[1])
+    _hi = [n.lower() for n, v in gi if v >= 110][:5]
+    _glhi = ', '.join(_hi[:-1]) + ' and ' + _hi[-1] if len(_hi) > 1 else ''.join(_hi)
     ch1 = (ex('Glasgow over-orders margaritas, scallops and tiramisu, and under-orders the Negroni', 'Glasgow\'s index against all Dream Menu answers for the most-named dishes and drinks (100 = average). Bars show the gap from average.',
               diverge([(n, v - 100) for n, v in gi], unit='', show=lambda v: str(round(v + 100)), left='Less than average', right='More than average'),
               f'{DM_SRC}; {f0(CM["totals"][GI])} Glasgow answers. Only dishes with enough Glasgow answers shown.',
               (['Dish or drink', 'Glasgow index', 'Glasgow share'], [[r['l'], r['cells'][GI]['idx'], f'{r["cells"][GI]["share"]}%'] for r in sorted(rows, key=lambda r: -r['cells'][GI]['idx'])]))
-           + '<div class="prose"><p>Glasgow\'s table is generous, loud and familiar. The city indexes high on the margarita (the city\'s signature drink in the archive), scallops, tiramisu, fillet steak and chicken tenders, and low on the Negroni and the martini that define Edinburgh. That profile is a strength for the next five years: the forces below mostly reward classics done well, and they punish novelty that is only there to be photographed.</p></div>'
+           + '<div class="prose"><p>Glasgow\'s table is generous, loud and familiar. The city indexes high on ' + _glhi + ', and low on the Negroni and the martini that define Edinburgh. That profile is a strength for the next five years: the forces below mostly reward classics done well, and they punish novelty that is only there to be photographed.</p></div>'
            + table(['Market signal', 'What it says about 2030'], [
                ['<b>38 city-centre food and drink openings in 2025</b>', f'The most since 2018 and about 10% up on 2024, across 87,000 sq ft ({S("savills")}). Demand for space is real.'],
                ['<b>Prime rents up about 15% to £50 per sq ft</b>', 'Space is getting dearer where footfall is highest. Independents will look to the Southside and the East End.'],
@@ -1241,7 +1243,7 @@ def r_forces():
         (4, 'The cost stack keeps rising', '4+', 'licensed sites closing a day in Britain at the end of 2025', f'Wages (£12.71 from April 2026), rates (Scottish pubs up 77%) and energy keep rising; 382 sites closed in one quarter ({S("niq")}). The middle of the market is the most exposed.', 'Now to 2029', 'down'),
         (5, 'Cities tax visitors to fund themselves', '£66m', 'a year from the Edinburgh and Glasgow levies combined', f'Edinburgh\'s 5% levy went live in July 2026 (up to £50m a year); Glasgow\'s starts in January 2027 (about £16m) ({S("elevy")}, {S("glevy")}). Events and visitor spending will be planned around the money.', '2026 onward', 'up'),
         (6, 'Vegetables move to the middle', f'{pts(veg["move"])} pts', 'vegetable and salad sides' + (', a clear move' if veg['sig'] else ', rising'), f'Vegetable sides rose and potato sides fell {abs(pot["move"]):.0f} points. Mediterranean sides are up too. This is guests choosing vegetables, not being told to.', 'Now', 'up'),
-        (7, 'Provenance becomes the point', f'{PT["Local, seasonal and Scottish produce"]}', f'of {POS["answers"]} guests want more local and seasonal food, the top answer', f'Asked which trend they want more of, guests name local, seasonal and Scottish produce more than anything else. White fish mains rose from {f1(fish["early"])}% to {f1(fish["late"])}%, a clear move.', 'Now to 2031', 'up'),
+        (7, 'Provenance becomes the point', f'{PT["Local, seasonal and Scottish produce"]}', f'of {POS["answers"]} guests want more local and seasonal food, the top answer', f'Asked which trend they want more of, guests name local, seasonal and Scottish produce more than anything else. White fish mains rose from {f1(fish["early"])}% to {f1(fish["late"])}%{", a clear move" if fish["sig"] else ", not yet beyond chance"}.', 'Now to 2031', 'up'),
         (8, 'Hype burns out faster', '113', 'guests want matcha gone; 105 want Dubai chocolate gone', 'Viral trends now reach the "bin it" list within a year of peaking. Novelty still sells for a season, but it no longer builds a reputation.', 'Now', 'mixed'),
         (9, 'Asia keeps arriving', f'{pts(asd["move"])} pts', 'Asian sides, a clear move', f'Korean, Japanese and South-East Asian flavours move from specialists to mainstream menus: hojicha, pandan, buldak and koji are all on 2027 trend lists ({S("datassential")}).', '2027 to 2030', 'up'),
         (10, 'The format gets rethought', f'{PT["Small plates and sharing"]}', f'guests want more small plates, while 35 want them gone', 'Small plates are the only trend that is both loved and loathed. Set menus, solo-friendly portions, chef\'s counters and short menus are the formats that follow.', '2026 to 2029', 'mixed'),

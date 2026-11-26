@@ -239,8 +239,8 @@ s = s.replace('<div class="mf">Share of answers for each course</div>',
               '<div class="mf">Share of answers for each course</div><a class="mlink" href="#courses">The top five in every course &rarr;</a>', 1)
 # report sponsor, under the hero buttons (Dunns is named as sponsor on /report; independence terms there)
 s = re.sub(r'\s*<p class="h-sponsor">.*?</p>', '', s)
-s = s.replace('</div>\n  </div>\n  <aside class="h-menu"',
-              '</div>\n    <p class="h-sponsor"><img src="/dunns.png" alt="" width="28" height="28"><span>Report 2026 produced in partnership with <a href="/report#sponsor">Dunns Food &amp; Drinks</a>. The findings are independent.</span></p>\n  </div>\n  <aside class="h-menu"', 1)
+s = s.replace('\n  </div>\n  <aside class="h-menu"',
+              '\n    <p class="h-sponsor"><img src="/dunns.png" alt="" width="28" height="28"><span>Report 2026 produced in partnership with <a href="/report#sponsor">Dunns Food &amp; Drinks</a>. The findings are independent.</span></p>\n  </div>\n  <aside class="h-menu"', 1)  # after the hero search box (24 Nov 2026)
 if 'class="h-sponsor"' not in s:
     raise SystemExit('hero sponsor line: insertion point not found')
 
