@@ -177,9 +177,9 @@ def public_insights(d):
     if tot >= 6 and allv:
         k, v = allv[0]
         if k / tot >= 0.25 and k >= 3:
-            out.append(('venue', f'One address leads: <b>{E(v["n"])}</b> gets {k} of the {tot} venue mentions for it ({round(100 * k / tot)}%).'))
+            out.append(('venue', f'One address leads: <b>{E(v["n"])}</b> gets <b>{round(100 * k / tot)}%</b> of the venue mentions for it.'))
     if tot >= 10 and allv and allv[0][0] / tot < 0.15 and len(allv) >= 10:
-        out.append(('spread', f'No single home: guests tie it to <b>{len(allv)}</b> different venues, none with more than {allv[0][0]} mentions.'))
+        out.append(('spread', f'No single home: guests tie it to <b>{len(allv)}</b> different venues, none with more than {max(1, round(100 * allv[0][0] / tot))}% of them.'))
     if len(allv) >= 5:
         aw = [v for _, v in allv if v['i'] in AWD]
         if len(aw) / len(allv) >= 0.4:
@@ -213,7 +213,14 @@ for s, d in DISHES.items():
         f'<tr><td>{E(n)}</td><td class="num" title="{c} of {fmt(t)} mentions"><b>{sh:.1f}%</b></td><td class="num">{100 * wsh:.1f}%</td></tr>' if c >= 3 else
         f'<tr><td>{E(n)}</td><td class="num">–</td><td class="num">{100 * wsh:.1f}%</td></tr>' for n, c, sh, t in mk)
     vs = venues_for(d['c'])
-    vl = ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E(place(v))}</span> <b>{k}</b></li>' for k, v in vs)
+    # Shares of the dish's venue mentions by default; under five mentions in all, a share would overstate one or two answers, so counts.
+    v_all = venues_for(d['c'], 10 ** 6)
+    v_tot = sum(k for k, _ in v_all)
+    v_pc = v_tot >= 5
+    vfig = lambda k: (f'{100 * k / v_tot:.0f}%' if 100 * k / v_tot >= 0.5 else '<1%') if v_pc else f'{k} mention{"s" if k != 1 else ""}'
+    vl = ''.join(f'<li>{vlink(v)} <span class="pg-mut">{E(place(v))}</span> <b>{vfig(k)}</b></li>' for k, v in vs)
+    vnote = (f'<p class="pg-mut">Share of the {fmt(v_tot)} venue mentions for it, across {fmt(len(v_all))} venue{"s" if len(v_all) != 1 else ""}.</p>' if v_pc else
+             f'<p class="pg-mut">Only {v_tot} venue mention{"s" if v_tot != 1 else ""} so far, so shown as counts.</p>') if vs else ''
     same = sorted((x for x in DISHES.values() if x['g'] == d['g'] and x is not d), key=lambda x: -max(r['pct'] for r in x['rows']))[:8]
     rel = ''.join(f'<a class="pg-chip" href="/trends/{slugify(x["l"])}">{E(x["l"])}</a>' for x in same)
     lede = (f'{best["pct"]:.1f}% of guests who answered the {best["course"].lower()} question chose {E(d["l"])}, '
@@ -223,13 +230,13 @@ for s, d in DISHES.items():
   <p class="eyebrow"><a href="/trends">Dish trends</a>{(" · " + E(d["g"])) if d["g"] else ""}</p>
   <h1>{E(d["l"])}</h1>
   <p class="lede">{lede}</p>
-  <div class="pg-facts"><div><b>{best["pct"]:.1f}%</b><span>of {E(best["course"].lower())} answers</span></div><div><b>#{best["rank"]}</b><span>{E(best["course"].lower())} dish</span></div><div><b>{fmt(sum(r["n"] for r in d["rows"]))}</b><span>guests chose it</span></div><div><b>{len(vs) and fmt(sum(k for k, _ in venues_for(d["c"], 10**6)))}</b><span>venue mentions for it</span></div></div>
+  <div class="pg-facts"><div><b>{best["pct"]:.1f}%</b><span>of {E(best["course"].lower())} answers</span></div><div><b>#{best["rank"]}</b><span>{E(best["course"].lower())} dish</span></div><div><b>{fmt(sum(r["n"] for r in d["rows"]))}</b><span>guests chose it</span></div><div><b>{len(vs) and fmt(v_tot)}</b><span>venue mentions for it</span></div></div>
 </div>{ibox}</div></section>
 <section><div class="wrap pg-grid">
   <div class="card"><h2>On the dream menu</h2><div class="tablewrap" style="border:0"><table><thead><tr><th>Course</th><th class="num">Share</th><th class="num">Guests</th><th class="num">Rank</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p class="pg-mut">Share of the guests who answered that course, all interviews.</p></div>
   <div class="card"><h2>By market</h2>{('<div class="tablewrap" style="border:0"><table><thead><tr><th>Market</th><th class="num">Share here</th><th class="num">All markets</th></tr></thead><tbody>' + mk_rows + '</tbody></table></div><p class="pg-mut">Share of each market&#39;s venue-linked dish mentions, so markets with fewer answers compare fairly; shown from three mentions. Markets outside Scotland are early signals.</p>') if mk_rows else '<p class="pg-mut">Not enough venue mentions to compare markets yet.</p>'}</div>
-  <div class="card"><h2>Where guests go for it</h2>{('<ol class="pg-list">' + vl + '</ol>') if vl else '<p class="pg-mut">No venue named for this dish more than once yet.</p>'}</div>
+  <div class="card"><h2>Where guests go for it</h2>{('<ol class="pg-list">' + vl + '</ol>' + vnote) if vl else '<p class="pg-mut">No venue named for this dish more than once yet.</p>'}</div>
   {benchlib.dish_card(s)}
   <div class="card pg-lock" id="dm-move" data-slug="{s}"><h2>Is it rising?</h2><p>Quarter-by-quarter movement, a clear-move test and a trend score out of 10 for {E(d["l"])} are for Dream Menu partners.</p><p><a class="go" href="/login?next=/trends/{s}">Partner sign-in</a> · <a class="go" href="/for-business#work">Become a partner</a></p></div>
 </div></section>

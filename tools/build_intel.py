@@ -378,8 +378,11 @@ def critics():
         o = [r[0] for r in OA.get(v['i'], [])][:2]
         tier = tier_of(a['a']) if a else ('Other awards and lists' if o else 'Outside the lists we track')
         pts.append(dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], rank=rank, tier=tier, aw=(a['a'][:2] if a else []), oa=o))
-    champions = [dict(n=v['n'], c=v['c'], m=v['m'], g=v['g'], o='; '.join(r[0] for r in OA.get(v['i'], [])[:2])) for v in vs if v['i'] not in aw][:10]
-    starred = [dict(n=v['n'], c=v['c'], m=v['m'], tier=tier_of(aw[v['i']]['a']), aw=aw[v['i']]['a'][0]) for v in vs if v['i'] in aw][:10]
+    # s = share of the venue's own city's venue mentions, so venues in big and small cities read on one scale
+    ctot = {(m['n'], m['co']): m.get('mn') or 0 for m in D['markets'] if m['k'] == 'city'}
+    csh = lambda v: round(100 * v['m'] / ctot[(v['c'], v['co'])], 1) if ctot.get((v['c'], v['co'])) else None
+    champions = [dict(n=v['n'], c=v['c'], m=v['m'], s=csh(v), g=v['g'], o='; '.join(r[0] for r in OA.get(v['i'], [])[:2])) for v in vs if v['i'] not in aw][:10]
+    starred = [dict(n=v['n'], c=v['c'], m=v['m'], s=csh(v), tier=tier_of(aw[v['i']]['a']), aw=aw[v['i']]['a'][0]) for v in vs if v['i'] in aw][:10]
     # Pareto: cumulative share of mentions held by the top x% of venues
     tot = sum(v['m'] for v in vs)
     cum, curve = 0, []
