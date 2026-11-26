@@ -249,7 +249,7 @@
     },
     {
       "source": "/trends/chicken-tenders",
-      "destination": "/trends/chicken-tenders-and-bites",
+      "destination": "/trends/fried-chicken-and-tenders",
       "permanent": true
     },
     {
@@ -280,6 +280,251 @@
     {
       "source": "/trends/fillet-steak",
       "destination": "/trends/steak",
+      "permanent": true
+    },
+    {
+      "source": "/trends/baked-cheesecake",
+      "destination": "/trends/cheesecake",
+      "permanent": true
+    },
+    {
+      "source": "/trends/basque-cheesecake",
+      "destination": "/trends/cheesecake",
+      "permanent": true
+    },
+    {
+      "source": "/trends/beer",
+      "destination": "/trends/lager-and-beer",
+      "permanent": true
+    },
+    {
+      "source": "/trends/cheese",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/chicken-liver-parfait",
+      "destination": "/trends/pate-and-parfait",
+      "permanent": true
+    },
+    {
+      "source": "/trends/chicken-tenders-and-bites",
+      "destination": "/trends/fried-chicken-and-tenders",
+      "permanent": true
+    },
+    {
+      "source": "/trends/chinese-dishes",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/coca-cola",
+      "destination": "/trends/coke-and-diet-coke",
+      "permanent": true
+    },
+    {
+      "source": "/trends/diet-coke-and-coke-zero",
+      "destination": "/trends/coke-and-diet-coke",
+      "permanent": true
+    },
+    {
+      "source": "/trends/drink-instead-of-dessert",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/dumplings-and-wontons",
+      "destination": "/trends/dumplings-and-dim-sum",
+      "permanent": true
+    },
+    {
+      "source": "/trends/fried-chicken",
+      "destination": "/trends/fried-chicken-and-tenders",
+      "permanent": true
+    },
+    {
+      "source": "/trends/fried-potatoes-and-chips",
+      "destination": "/trends/chips-and-fries",
+      "permanent": true
+    },
+    {
+      "source": "/trends/game-venison-pigeon-quail-duck",
+      "destination": "/trends/game",
+      "permanent": true
+    },
+    {
+      "source": "/trends/gelato",
+      "destination": "/trends/ice-cream-and-gelato",
+      "permanent": true
+    },
+    {
+      "source": "/trends/house-cocktails",
+      "destination": "/trends/house-and-other-cocktails",
+      "permanent": true
+    },
+    {
+      "source": "/trends/hummus-dips-and-falafel",
+      "destination": "/trends/hummus-and-dips",
+      "permanent": true
+    },
+    {
+      "source": "/trends/ice-cream",
+      "destination": "/trends/ice-cream-and-gelato",
+      "permanent": true
+    },
+    {
+      "source": "/trends/iced-coffee",
+      "destination": "/trends/coffee",
+      "permanent": true
+    },
+    {
+      "source": "/trends/lager",
+      "destination": "/trends/lager-and-beer",
+      "permanent": true
+    },
+    {
+      "source": "/trends/latte-and-flat-white",
+      "destination": "/trends/coffee",
+      "permanent": true
+    },
+    {
+      "source": "/trends/loaded-fries",
+      "destination": "/trends/loaded-and-truffle-fries",
+      "permanent": true
+    },
+    {
+      "source": "/trends/meat-on-the-side-steak-venison-bone-marrow",
+      "destination": "/trends/meat-on-the-side",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-beef",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-chicken",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-chocolate-desserts",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-curry",
+      "destination": "/trends/curry",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-fish",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-lamb",
+      "destination": "/trends/lamb",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-meringue-desserts",
+      "destination": "/trends/pavlova-and-meringue",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-pasta",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-pork",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/other-potatoes",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/pasta-starter-cacio-e-pepe-small-pasta",
+      "destination": "/trends/pasta-starters",
+      "permanent": true
+    },
+    {
+      "source": "/trends/pate-terrine-and-foie-gras",
+      "destination": "/trends/pate-and-parfait",
+      "permanent": true
+    },
+    {
+      "source": "/trends/pavlova",
+      "destination": "/trends/pavlova-and-meringue",
+      "permanent": true
+    },
+    {
+      "source": "/trends/rack-of-lamb-and-lamb-chops",
+      "destination": "/trends/lamb",
+      "permanent": true
+    },
+    {
+      "source": "/trends/salt-and-chilli-chicken-squid",
+      "destination": "/trends/salt-and-chilli",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sauces-peppercorn-bearnaise",
+      "destination": "/trends/steak-sauces",
+      "permanent": true
+    },
+    {
+      "source": "/trends/skinny-fries",
+      "destination": "/trends/chips-and-fries",
+      "permanent": true
+    },
+    {
+      "source": "/trends/soup",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/spicy-margarita",
+      "destination": "/trends/margarita",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sundae-and-knickerbocker-glory",
+      "destination": "/trends/ice-cream-and-gelato",
+      "permanent": true
+    },
+    {
+      "source": "/trends/sushi",
+      "destination": "/trends/sushi-and-sashimi",
+      "permanent": true
+    },
+    {
+      "source": "/trends/tapas",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/tasting-menu",
+      "destination": "/trends",
+      "permanent": true
+    },
+    {
+      "source": "/trends/thai-curry-green-red-massaman",
+      "destination": "/trends/thai-curry",
+      "permanent": true
+    },
+    {
+      "source": "/trends/triple-cooked-chips",
+      "destination": "/trends/chips-and-fries",
+      "permanent": true
+    },
+    {
+      "source": "/trends/truffle-fries",
+      "destination": "/trends/loaded-and-truffle-fries",
       "permanent": true
     }
   ],

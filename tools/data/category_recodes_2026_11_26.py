@@ -116,3 +116,51 @@ GROUP = {'French onion soup': 'Soup', 'Mac and cheese': 'Pasta and Italian', 'Ri
          'Sweets / sweeties': 'Other answers'}
 
 STEAK_CUTS = ['Fillet steak', 'Ribeye steak', 'Sirloin / striploin', 'Tomahawk', 'Chateaubriand / cote de boeuf / T-bone', 'Wagyu', 'Bavette / flat iron / hanger / picanha', 'Steak frites / steak and chips']
+
+# ---- 26 Nov 2026, second audit (Gordon: fix, splitting large groups where it means something) ----
+# Families: variants of one dish become one dish; the split is kept as 'parts' on the trend (shown on the dish page).
+FAMILY = {
+ 'm': {'Margherita pizza': 'Pizza (other)', 'Pepperoni / diavola pizza': 'Pizza (other)',
+       'Smash burger': 'Burger (other)',
+       'Chicken tikka masala': 'Curry (other)', 'Butter chicken': 'Curry (other)', 'Lamb curry (rogan josh, karahi)': 'Curry (other)',
+       'Rack of lamb / lamb chops': 'Lamb (other)', 'Lamb shoulder / leg / rump': 'Lamb (other)', 'Lamb shank': 'Lamb (other)',
+       'Peking / crispy duck': 'Duck'},
+ # chips and fries (259 answers) are split in two: plain chips and fries, and dressed fries; sweet potato fries stay apart
+ 'd': {'Chunky / triple-cooked chips': 'Skinny / French fries', 'Truffle fries': 'Loaded / dirty fries'},
+ # ice cream keeps sorbet apart; cheesecake and the meringue desserts fold together
+ 'p': {'Basque cheesecake': 'Baked / New York cheesecake', 'Gelato': 'Ice cream (other)', 'Soft serve / Mr Whippy': 'Ice cream (other)',
+       'Sundae / knickerbocker glory': 'Ice cream (other)', 'Pavlova': 'Meringue', 'Eton mess': 'Meringue'},
+ 's': {'Chicken liver pate / parfait': 'Pate / terrine / foie gras'},
+}
+DRINK_FAMILY = {
+ 'k': {'Diet Coke / Coke Zero': 'Coca-Cola', 'Latte / flat white / cappuccino': 'Coffee (other)', 'Iced coffee / iced latte': 'Coffee (other)'},
+ 'a': {'Spicy margarita': 'Margarita (classic / frozen)', 'Beer (other)': 'Lager / pilsner'},
+}
+LABEL2 = {
+ 'Pizza (other)': 'Pizza', 'Burger (other)': 'Burger', 'Curry (other)': 'Curry', 'Lamb (other)': 'Lamb',
+ 'Skinny / French fries': 'Chips and fries', 'Loaded / dirty fries': 'Loaded and truffle fries', 'Fried potatoes / chips': 'Chips and fries',
+ 'Baked / New York cheesecake': 'Cheesecake', 'Ice cream (other)': 'Ice cream and gelato', 'Meringue': 'Pavlova and meringue',
+ 'Pate / terrine / foie gras': 'Pâté and parfait',
+ 'Coca-Cola': 'Coke and Diet Coke', 'Coffee (other)': 'Coffee', 'Margarita (classic / frozen)': 'Margarita', 'Lager / pilsner': 'Lager and beer',
+ 'Cocktail (other / named house cocktail)': 'House and other cocktails',
+ # one name for one dish across courses
+ 'Hummus / dips / falafel': 'Hummus and dips', 'Dumplings / gyoza / wontons': 'Dumplings and dim sum',
+ 'Fried chicken / tenders / karaage': 'Fried chicken and tenders', 'Fried chicken': 'Fried chicken and tenders',
+ 'Chicken tenders / popcorn chicken': 'Fried chicken and tenders', 'Sushi': 'Sushi and sashimi',
+ # plain names instead of bracketed lists
+ 'Game (venison, pigeon, quail, duck)': 'Game', 'Meat on the side (steak, venison, bone marrow)': 'Meat on the side',
+ 'Sauces (peppercorn, bearnaise)': 'Steak sauces', 'Pasta starter (cacio e pepe, small pasta)': 'Pasta starters',
+ 'Thai curry (green, red, massaman)': 'Thai curry', 'Salt and chilli (chicken, squid)': 'Salt and chilli', 'Korean (bibimbap, bulgogi, KFC)': 'Korean',
+ 'Game birds (pigeon, grouse, pheasant)': 'Game birds', 'Beans (baked, refried, pinto)': 'Beans', 'Charcuterie (Parma ham, jamon)': 'Charcuterie',
+ 'Dal (black dal, tadka)': 'Dal', 'French bistro classics (cassoulet, coq au vin)': 'French bistro classics', 'Fried pickles (frickles)': 'Fried pickles',
+}
+# Counted in the course base and in groups, but not ranked as a dish and given no dish page: leftovers and non-dishes
+EXCLUDE = {'Pasta (other)', 'Potatoes (other)', 'Chocolate (other)', 'Soup (other)', 'Cheese (other)', 'Fish (other)', 'Pork (other)',
+           'Chicken (other)', 'Beef (other)', 'Chinese dishes (other)', 'Noodles (other)', 'Vegetable starters (other)', 'Thai dishes (other)',
+           'Salad (other)', 'Eggs (other)', 'Rice (other)', 'Rice dishes (other)', 'Cauliflower (other)', 'Pudding (other)', 'Tart (other)',
+           'Drink instead of dessert', 'No dessert / not a dessert person', 'Savoury instead of dessert',
+           'Tasting menu', 'Tapas / small plates selection', 'Tapas / small plates'}
+GROUP2 = {'Drink instead of dessert': 'Other answers', 'No dessert / not a dessert person': 'Other answers', 'Savoury instead of dessert': 'Other answers',
+          'Tasting menu': 'Other answers', 'Tapas / small plates selection': 'Other answers', 'Tapas / small plates': 'Other answers',
+          'Pate / terrine / foie gras': 'Pâté and charcuterie', 'Charcuterie / antipasti board': 'Pâté and charcuterie', 'Charcuterie (Parma ham, jamon)': 'Pâté and charcuterie',
+          'Eggs (other)': 'Brunch, sandwiches and eggs', 'Breakfast / brunch': 'Brunch, sandwiches and eggs', 'Sandwich / toastie': 'Brunch, sandwiches and eggs'}

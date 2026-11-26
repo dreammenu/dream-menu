@@ -52,32 +52,112 @@
   "n": 1279,
   "c": [
    [
-    "House cocktails",
-    61
+    "Margarita",
+    98
    ],
    [
-    "Spicy margarita",
-    53
+    "Lager and beer",
+    69
+   ],
+   [
+    "House and other cocktails",
+    62
    ],
    [
     "Whisky",
-    52
+    62
+   ],
+   [
+    "Coke and Diet Coke",
+    57
+   ],
+   [
+    "Coffee",
+    56
    ],
    [
     "Mocktails and alcohol-free",
-    51
+    50
    ],
    [
-    "Diet Coke and Coke Zero",
-    47
+    "Red wine",
+    49
+   ],
+   [
+    "Martini",
+    48
+   ],
+   [
+    "White wine",
+    45
+   ],
+   [
+    "Guinness and stout",
+    40
+   ],
+   [
+    "Negroni",
+    37
+   ],
+   [
+    "Champagne",
+    30
+   ],
+   [
+    "Irn Bru",
+    28
+   ],
+   [
+    "Lemonade",
+    24
+   ],
+   [
+    "Aperol spritz",
+    24
+   ],
+   [
+    "Old Fashioned",
+    24
+   ],
+   [
+    "Italian and craft soda",
+    17
+   ],
+   [
+    "Tea",
+    17
+   ],
+   [
+    "Fresh juice",
+    15
+   ],
+   [
+    "Milkshake",
+    15
+   ],
+   [
+    "Water",
+    14
+   ],
+   [
+    "Cream soda and root beer",
+    13
    ]
   ],
   "map": {
-   "Spicy margarita": "Spicy margarita",
+   "Spicy margarita": "Margarita",
+   "Margarita (classic / frozen)": "Margarita",
+   "Lager / pilsner": "Lager and beer",
+   "Beer (other)": "Lager and beer",
    "Whisky / dram": "Whisky",
-   "Cocktail (other / named house cocktail)": "House cocktails",
+   "Cocktail (other / named house cocktail)": "House and other cocktails",
    "Mocktail / alcohol-free": "Mocktails and alcohol-free",
-   "Diet Coke / Coke Zero": "Diet Coke and Coke Zero"
-  }
+   "Diet Coke / Coke Zero": "Coke and Diet Coke",
+   "Coca-Cola": "Coke and Diet Coke",
+   "Coffee (other)": "Coffee",
+   "Latte / flat white / cappuccino": "Coffee",
+   "Iced coffee / iced latte": "Coffee"
+  },
+  "note": "26 Nov 2026: counts are the published soft and alcoholic drink totals, with drink families folded together (margarita, cola, coffee, lager and beer)."
  }
 }

@@ -114,7 +114,7 @@ for k in P['order']:
         label = it.get('l') or lab(it['c'])
         s = slugify(label)
         d = DISHES.setdefault(s, dict(l=label, g=it.get('g') or grp(it['c']), c=it['c'], rows=[]))
-        d['rows'].append(dict(course=T['label'], k=k, pct=it['pct'], n=it['n'], base=T['n'], rank=rank, of=len(ALL(T))))
+        d['rows'].append(dict(course=T['label'], k=k, c=it['c'], pct=it['pct'], n=it['n'], base=T['n'], rank=rank, of=len(ALL(T))))
         d.setdefault('mv', []).append(dict(course=T['label'], k=k, q=T['q'], n_q=T['n_q'], low=T['low'], share=it.get('share'),
                                            early=it.get('early'), late=it.get('late'), move=it.get('move'), p=it.get('p'), sig=it.get('sig'), note=T.get('note')))
 DISH_OF_CAT = {d['c']: s for s, d in DISHES.items()}
@@ -200,14 +200,19 @@ def insight_box(d):
 
 
 def cut_card(d):
-    # Steak is one dish whatever the cut (26 Nov 2026); the steak page shows which cuts guests named
-    cuts = P['trends'].get('m', {}).get('cuts') if d['c'] == 'Steak (unspecified cut)' else None
-    if not cuts:
-        return ''
-    tot = sum(c['n'] for c in cuts) or 1
-    lis = ''.join(f'<li><span class="l">{E(c["l"])}</span><span class="t"><i style="width:{100 * c["n"] / cuts[0]["n"]:.1f}%"></i></span><span class="v">{100 * c["n"] / tot:.0f}%</span></li>' for c in cuts)
-    return (f'<div class="card"><h2>Which cut</h2><ol class="pg-bars">{lis}</ol>'
-            f'<p class="pg-mut">Share of the {fmt(tot)} steak mains, by the cut guests named. Every steak answer counts once, in this one dish.</p></div>')
+    # Family dishes (steak, chips and fries, curry, ice cream and gelato...) count each answer once; the page shows the split.
+    cards = []
+    for r in d['rows']:
+        T = P['trends'][r['k']]
+        parts = (T.get('parts') or {}).get(r.get('c') or d['c'])
+        if not parts:
+            continue
+        tot = sum(c['n'] for c in parts) or 1
+        lis = ''.join(f'<li><span class="l">{E(c["l"])}</span><span class="t"><i style="width:{100 * c["n"] / parts[0]["n"]:.1f}%"></i></span><span class="v">{100 * c["n"] / tot:.0f}%</span></li>' for c in parts)
+        what = 'cut' if d['c'] == 'Steak (unspecified cut)' else 'kind'
+        cards.append(f'<div class="card"><h2>Which {what}</h2><ol class="pg-bars">{lis}</ol>'
+                     f'<p class="pg-mut">Share of the {fmt(tot)} {E(T["label"].lower())} answers for {E(d["l"].lower())}, by the {what} guests named. Each answer counts once, in this one dish.</p></div>')
+    return ''.join(cards)
 
 
 written = []
@@ -237,13 +242,13 @@ for s, d in DISHES.items():
     same = sorted((x for x in DISHES.values() if x['g'] == d['g'] and x is not d), key=lambda x: -max(r['pct'] for r in x['rows']))[:8]
     rel = ''.join(f'<a class="pg-chip" href="/trends/{slugify(x["l"])}">{E(x["l"])}</a>' for x in same)
     lede = (f'{best["pct"]:.1f}% of guests who answered the {best["course"].lower()} question chose {E(d["l"])}, '
-            f'number {best["rank"]} of the {best["of"]} {best["course"].lower()} dishes we track.')
+            f'number {best["rank"]} of the {best["of"]} {best["course"].lower()}{"s" if best["k"] in "ka" else " dishes"} we track.')
     ibox = insight_box(d)
     body = f'''<section class="pg-hero"><div class="wrap pg-hero-ins{" has-ins" if "hidden" not in ibox.split(">")[0] else ""}"><div class="pg-hero-main">
   <p class="eyebrow"><a href="/trends">Dish trends</a>{(" · " + E(d["g"])) if d["g"] else ""}</p>
   <h1>{E(d["l"])}</h1>
   <p class="lede">{lede}</p>
-  <div class="pg-facts"><div><b>{best["pct"]:.1f}%</b><span>of {E(best["course"].lower())} answers</span></div><div><b>#{best["rank"]}</b><span>{E(best["course"].lower())} dish</span></div><div><b>{fmt(sum(r["n"] for r in d["rows"]))}</b><span>guests chose it</span></div><div><b>{len(vs) and fmt(v_tot)}</b><span>venue mentions for it</span></div></div>
+  <div class="pg-facts"><div><b>{best["pct"]:.1f}%</b><span>of {E(best["course"].lower())} answers</span></div><div><b>#{best["rank"]}</b><span>{E(best["course"].lower())}{"" if best["k"] in "ka" else " dish"}</span></div><div><b>{fmt(sum(r["n"] for r in d["rows"]))}</b><span>guests chose it</span></div><div><b>{len(vs) and fmt(v_tot)}</b><span>venue mentions for it</span></div></div>
 </div>{ibox}</div></section>
 <section><div class="wrap pg-grid">
   <div class="card"><h2>On the dream menu</h2><div class="tablewrap" style="border:0"><table><thead><tr><th>Course</th><th class="num">Share</th><th class="num">Guests</th><th class="num">Rank</th></tr></thead><tbody>{rows}</tbody></table></div>
@@ -492,11 +497,16 @@ set(new URLSearchParams(location.search).get('v'));if(!c.value)c.value=code('you
 document.getElementById('bcopy').onclick=function(){{c.select();(navigator.clipboard?navigator.clipboard.writeText(c.value):Promise.reject()).then(function(){{document.getElementById('bcopy').textContent='Copied'}},function(){{document.execCommand('copy')}})}};}})();</script>'''
 written.append(page('/badge', 'Named on Dream Menu: badge for venues | Dream Menu', 'A free badge for venues Dream Menu guests have named, linking to the venue page.', body))
 
+# the audited dish categories for one venue, as [code, mentions] (dm-cat.js); the raw "k" list predates the audit
+def vk(v):
+    return [[C['c'][ci], n] for ci, n in (C['v'].get(str(VIDX[v['i']])) or [])] if v['i'] in VIDX else (v.get('k') or [])
+
+
 # ---------------------------------------------------------------- rankings data: only the fields /rankings uses (dm-data.js is ~830 KB)
 KEEP_V = ('i', 'n', 'c', 'co', 'r', 'na', 'tw', 'y', 's', 'm', 'g', 'cs', 'k', 'd')
 KEEP_M = ('id', 'k', 'n', 'co', 'v', 'g', 'so')
 rk = dict(markets=[{k: m[k] for k in KEEP_M if k in m} for m in D['markets']],
-          venues=[dict({k: v[k] for k in KEEP_V if k in v and v[k] not in (None, '', [])}, **({'pg': 1} if v['i'] in HAS_PAGE else {}))
+          venues=[dict({k: v[k] for k in KEEP_V if k in v and v[k] not in (None, '', [])}, **({'pg': 1} if v['i'] in HAS_PAGE else {}), k=vk(v))
                   for v in VENUES if v.get('m')],
           aw={i: {'a': a['a'][:1]} for i, a in AW.items()})
 open('rank-data.js', 'w', encoding='utf-8').write('/* Generated by tools/build_venue_pages.py for /rankings. */\nwindow.DM=' + json.dumps(rk, ensure_ascii=False, separators=(',', ':')) + ';\n')
@@ -531,11 +541,33 @@ import ast as _ast
 from urllib.parse import quote
 _DGT = open('dish-groups.js', encoding='utf-8').read()
 DGROUPS = _ast.literal_eval(re.search(r'var G=(\[.*?\n\]);', _DGT, re.S).group(1))
+# The map and /rankings read the audited categories; map each one to a filter group by its food group, so the
+# filters count every dish (26 Nov 2026: the filters only knew the old labels and missed most mentions on the map).
+_PG = {'Seafood': 'seafood', 'Steak and beef': 'steak', 'Chicken': 'burgers', 'Burgers and fried food': 'burgers', 'Lamb': 'grill',
+       'Pork': 'grill', 'Game and duck': 'grill', 'Pasta and Italian': 'italian', 'Pizza': 'italian', 'Asian': 'asian', 'Indian': 'indian',
+       'Mexican and Latin': 'mexican', 'Mediterranean and Middle Eastern': 'mideast', 'Scottish and British classics': 'british',
+       'Soup': 'british', 'Pâté and charcuterie': 'small', 'Cheese': 'small', 'Brunch, sandwiches and eggs': 'cafe',
+       'Vegetables and salad': 'sides', 'Potatoes and fries': 'sides', 'Bread': 'sides', 'Rice and grains': 'sides',
+       'Tiramisu and creamy desserts': 'desserts', 'Cakes and bakes': 'desserts', 'Puddings': 'desserts', 'Chocolate desserts': 'desserts',
+       'Cheesecake': 'desserts', 'Tarts and pies': 'desserts', 'Fruit and meringue': 'desserts', 'Ice cream and frozen': 'icecream',
+       'Cocktails': 'cocktails', 'Wine and fizz': 'wine', 'Beer and cider': 'wine', 'Spirits': 'wine',
+       'Soft drinks': 'coffee', 'Coffee and tea': 'coffee', 'No and low alcohol': 'coffee'}
+_PC = {'Sushi': 'japanese', 'Sushi / sashimi': 'japanese', 'Tempura': 'japanese', 'Donburi / teriyaki / Japanese': 'japanese', 'Ramen': 'japanese',
+       'Vegetarian / vegan main': 'veg', 'Vegetable starters (other)': 'veg', 'Cheese board': 'desserts', 'Mocktail / alcohol-free': 'coffee'}
+_LBL = json.JSONDecoder().raw_decode(open('dm-labels.js', encoding='utf-8').read().split('window.DML=', 1)[1])[0]
+RF = {c: _PC.get(c) or _PG.get(v[1]) for c, v in _LBL.items() if _PC.get(c) or _PG.get(v[1])}
+for c in C['c']:
+    if c not in RF and _PC.get(c):
+        RF[c] = _PC[c]
+_DGT = re.sub(r'/\*refined\*/.*?/\*/refined\*/', '/*refined*/var RF=' + json.dumps(RF, ensure_ascii=False, separators=(',', ':')) + ';/*/refined*/', _DGT, flags=re.S)
+open('dish-groups.js', 'w', encoding='utf-8').write(_DGT)
 _DGEX = {r.lower(): g[1] for g in DGROUPS for r in g[3]}
 _DGK = list(_DGEX)
 
 
 def dgroup(raw):
+    if str(raw or '').strip() in RF:
+        return RF[str(raw).strip()]
     k = str(raw or '').lower().strip()
     if k in _DGEX:
         return _DGEX[k]
@@ -546,7 +578,7 @@ def dgroup(raw):
 
 def dcounts(v):
     o = {}
-    for k, n in v.get('k') or []:
+    for k, n in vk(v):
         g = dgroup(k)
         if g:
             o[g] = o.get(g, 0) + (n or 0)

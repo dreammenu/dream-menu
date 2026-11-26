@@ -36,7 +36,8 @@ N_SHEET = P.get('n_sheet', N_ALL)     # coded sheet interviews: the base for eve
 
 def item(course, label):
     t = P['trends'][course]
-    for it in t['groups'] + t['cats']:
+    # published lists first, then every tracked dish, then the parts inside family dishes (26 Nov 2026)
+    for it in t['groups'] + t['cats'] + t.get('all', []) + [x for v in (t.get('parts') or {}).values() for x in v]:
         if (it.get('l') or it['c']) == label:
             return it
     raise KeyError(label)

@@ -27,17 +27,17 @@
   },
   {
    "course": "Alcoholic drink",
+   "level": "Dish",
+   "l": "Lager and beer",
+   "move": 6.0,
+   "p": 0.004
+  },
+  {
+   "course": "Alcoholic drink",
    "level": "Group",
    "l": "Beer and cider",
    "move": 5.4,
    "p": 0.047
-  },
-  {
-   "course": "Alcoholic drink",
-   "level": "Dish",
-   "l": "Lager",
-   "move": 4.1,
-   "p": 0.024
   },
   {
    "course": "Dessert",
@@ -68,18 +68,18 @@
    "p": 0.048
   },
   {
+   "course": "Side",
+   "level": "Dish",
+   "l": "Chicken wings",
+   "move": 1.8,
+   "p": 0.047
+  },
+  {
    "course": "Dessert",
    "level": "Group",
    "l": "Asian",
    "move": 1.7,
    "p": 0.042
-  },
-  {
-   "course": "Main",
-   "level": "Dish",
-   "l": "Other pasta",
-   "move": -2.2,
-   "p": 0.039
   },
   {
    "course": "Main",
@@ -110,13 +110,6 @@
    "p": 0.016
   },
   {
-   "course": "Dessert",
-   "level": "Dish",
-   "l": "Other chocolate desserts",
-   "move": -2.9,
-   "p": 0.018
-  },
-  {
    "course": "Main",
    "level": "Group",
    "l": "Scottish and British classics",
@@ -124,18 +117,18 @@
    "p": 0.022
   },
   {
-   "course": "Dessert",
-   "level": "Dish",
-   "l": "Baked cheesecake",
-   "move": -3.9,
-   "p": 0.013
-  },
-  {
    "course": "Side",
    "level": "Dish",
-   "l": "Skinny fries",
-   "move": -4.7,
-   "p": 0.01
+   "l": "Loaded and truffle fries",
+   "move": -4.4,
+   "p": 0.012
+  },
+  {
+   "course": "Starter",
+   "level": "Group",
+   "l": "Chicken",
+   "move": -4.6,
+   "p": 0.003
   },
   {
    "course": "Dessert",
@@ -143,13 +136,6 @@
    "l": "Chocolate desserts",
    "move": -4.8,
    "p": 0.025
-  },
-  {
-   "course": "Starter",
-   "level": "Group",
-   "l": "Chicken",
-   "move": -4.9,
-   "p": 0.003
   },
   {
    "course": "Side",

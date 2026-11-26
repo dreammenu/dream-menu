@@ -4,7 +4,7 @@ published top 14 dishes and top 10 groups keep their role, and 'all' holds every
 Needs a fresh export of the Responses sheet (answers, categories and timestamps for the four food columns) as rows.json, ts.json and catlist.json in /tmp/audit; see tools/data/category-audit-2026-11-26.json for the recodes it applies."""
 import json, math, re, sys, datetime, collections
 sys.path.insert(0, 'tools/data'); sys.path.insert(0, '/tmp/audit')
-from category_recodes_2026_11_26 import R, MERGE, NEW, LABEL, GROUP, STEAK_CUTS
+from category_recodes_2026_11_26 import R, MERGE, NEW, LABEL, GROUP, STEAK_CUTS, FAMILY, LABEL2, EXCLUDE, GROUP2
 ROOT = '/home/claude/dream-menu/'
 MIN_N = 10
 def load(fn, var):
@@ -23,11 +23,20 @@ for r in json.load(open('/tmp/audit/catlist.json'))[1:]:
     if kk: CL[(kk, r[2])] = (r[3], r[4])
 rec = {(k, r): n for k, r, n in R}; merged = {o: n for (k, o), n in MERGE.items()}
 def par(k, c):
+    if c in GROUP2: return GROUP2[c]
     if c in NEW: return NEW[c][1]
     if c in GROUP: return GROUP[c]
     return CL.get((k, c), (None, (L.get(c) or [None, 'Other answers'])[1]))[1]
 OLDL = {(k, it['c']): it.get('l') for k in 'smdp' for it in P['trends'][k]['cats']}
+PARTL = {'Steak (unspecified cut)': 'Cut not named', 'Chateaubriand / cote de boeuf / T-bone': 'Sharing steaks (chateaubriand, côte de boeuf)',
+         'Bavette / flat iron / hanger / picanha': 'Bavette, rump and other cuts', 'Steak frites / steak and chips': 'Steak frites',
+         'Skinny / French fries': 'Skinny fries', 'Chunky / triple-cooked chips': 'Triple-cooked chips', 'Loaded / dirty fries': 'Loaded fries',
+         'Truffle fries': 'Truffle fries', 'Baked / New York cheesecake': 'Baked cheesecake', 'Ice cream (other)': 'Ice cream',
+         'Meringue': 'Other meringue', 'Pate / terrine / foie gras': 'Pâté and terrine', 'Curry (other)': 'Other curry',
+         'Pizza (other)': 'Other pizza', 'Burger (other)': 'Other burger', 'Lamb (other)': 'Other lamb', 'Duck': 'Duck'}
+def partl(k, c): return PARTL.get(c) or CL.get((k, c), (None,))[0] or (L.get(c) or [c])[0]
 def lab(k, c):
+    if c in LABEL2: return LABEL2[c]
     if c == 'Creamed spinach / greens': return 'Green vegetables'
     if c in LABEL: return LABEL[c]
     if c in NEW: return NEW[c][0]
@@ -39,16 +48,17 @@ for k in 'smdp':
     ans = []
     for r in rows:
         if r['course'] == k and r['cat'] and r['row'] <= 1280:
-            c0 = rec.get((k, r['row']), r['cat']); c = merged.get(c0, c0)
+            c0 = rec.get((k, r['row']), r['cat']); c0 = merged.get(c0, c0) if merged.get(c0) != 'Steak (unspecified cut)' else c0
+            c = merged.get(c0, c0); c = FAMILY.get(k, {}).get(c, c)
             d = datetime.datetime.strptime(ts[str(r['row'])][:10], '%d/%m/%Y')
             ans.append((qof(d), c, c0))
-    if b1281.get(k): ans.append((qof(datetime.date.fromisoformat(b1281['date'])), merged.get(b1281[k], b1281[k]), b1281[k]))
+    if b1281.get(k): ans.append((qof(datetime.date.fromisoformat(b1281['date'])), FAMILY.get(k, {}).get(merged.get(b1281[k], b1281[k]), merged.get(b1281[k], b1281[k])), b1281[k]))
     ans = [(qq, c, c0) for qq, c, c0 in ans if c != 'Other' and qq in qi]
     nq = [0] * len(q); cats = collections.defaultdict(lambda: [0] * len(q)); groups = collections.defaultdict(lambda: [0] * len(q))
-    cuts = collections.defaultdict(lambda: [0] * len(q))
+    parts = collections.defaultdict(lambda: collections.defaultdict(lambda: [0] * len(q)))
     for qq, c, c0 in ans:
         nq[qi[qq]] += 1; cats[c][qi[qq]] += 1; groups[par(k, c)][qi[qq]] += 1
-        if c == 'Steak (unspecified cut)': cuts[c0][qi[qq]] += 1
+        parts[c][c0][qi[qq]] += 1
     N = sum(nq); ei = [i for i, x in enumerate(q) if x in early]; li = [i for i, x in enumerate(q) if x in late]
     n1, n2 = sum(nq[i] for i in ei), sum(nq[i] for i in li)
     def item(c, cnt, is_cat):
@@ -58,14 +68,15 @@ for k in 'smdp':
         it['move'] = round(it['late'] - it['early'], 1); it['p'] = round(ztest(c1, n1, c2, n2), 3); it['sig'] = it['p'] < 0.05
         if is_cat: it['l'] = lab(k, c); it['g'] = par(k, c)
         return it
-    allc = sorted((item(c, v, True) for c, v in cats.items()), key=lambda x: (-x['n'], x['l']))
+    allc = sorted((item(c, v, True) for c, v in cats.items() if c not in EXCLUDE), key=lambda x: (-x['n'], x['l']))
     t['n_q'], t['n'] = nq, N; t['low'] = [n < P['min_n'] for n in nq]
     t['cats'] = allc[:14]
     t['all'] = [x for x in allc if x['n'] >= MIN_N]
-    if cuts:   # the cut split inside the one Steak dish, for the steak page and the steak report
-        CUTL = {'Steak (unspecified cut)': 'Cut not named', 'Chateaubriand / cote de boeuf / T-bone': 'Sharing steaks (chateaubriand, côte de boeuf)',
-                'Bavette / flat iron / hanger / picanha': 'Bavette, rump and other cuts', 'Steak frites / steak and chips': 'Steak frites'}
-        t['cuts'] = sorted((dict(item(c, v, False), l=CUTL.get(c) or (L.get(c) or [c])[0] or c) for c, v in cuts.items()), key=lambda x: (-x['n'], x['l']))
+    # the split inside each family dish (steak cuts, chips and fries, curries...), shown on the dish page
+    t['parts'] = {c: sorted((dict(item(c0, v, False), l=partl(k, c0)) for c0, v in pv.items()), key=lambda x: (-x['n'], x['l']))
+                  for c, pv in parts.items() if len(pv) > 1}
+    t.pop('cuts', None)
+    if 'Steak (unspecified cut)' in t['parts']: t['cuts'] = t['parts']['Steak (unspecified cut)']
     t['groups'] = sorted((item(g, v, False) for g, v in groups.items() if g != 'Other answers'), key=lambda x: (-x['n'], x['c']))[:10]
     print(k, N, nq, 'published', [x['l'] for x in t['cats']][-3:], 'all', len(t['all']))
 mv = []

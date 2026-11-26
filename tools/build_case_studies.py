@@ -68,8 +68,10 @@ def trend(c):
 
 def item(c, name, level='cats'):
     # published top 14 first, then every tracked dish ('all'), then the steak cut split ('cuts', mains only)
-    for lv in ([level] + (['all', 'cuts'] if level == 'cats' else [])):
-        for it in trend(c).get(lv) or []:
+    T_ = trend(c)
+    pools = [T_.get(level) or []] + ([T_.get('all') or [], [x for v in (T_.get('parts') or {}).values() for x in v]] if level == 'cats' else [])
+    for pool in pools:
+        for it in pool:
             if it.get('l') == name or it['c'] == name:
                 return it
     raise KeyError(f'{c}: {name}')
