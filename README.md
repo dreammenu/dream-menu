@@ -281,3 +281,8 @@ Counts for dishes the site tracks come from `partner-data.js`, so they match the
   For venues: Tools for your venue | Get a review or a badge. For foodies: Where to eat | Join in. About: About Dream Menu | Work with us.
 - The home page highlights no section. Old addresses (/insights, /intelligence, /explore) redirect straight to their pages.
 - Link audit (25 Nov): 641 pages, no broken links. Unlinked by design: /review and /geocoder (admin), /login, /404, redirect stubs; the one-pager is linked from the signed-in briefing.
+
+## 26 November 2026: category audit and a page for every dish
+
+* Every food answer was checked against its category; 329 were recoded and overlapping categories merged or renamed (tools/data/category-audit-2026-11-26.json, and the CSV sent to Gordon to apply to the Responses sheet, which still holds the old codes).
+* The four food courses in partner-data.js were rebuilt from the recoded answers by tools/rebuild_food_trends.py. Each course keeps its published top 14 dishes (`cats`) and top 10 groups, and adds `all`: every dish with 10 or more answers. tools/build_venue_pages.py gives each of those a dish page, lists them on /trends and in the menu check; charts and briefings still read the top 14. add_interviews.py keeps `all` in step; a dish that crosses 10 answers joins at the next rebuild from the sheet.

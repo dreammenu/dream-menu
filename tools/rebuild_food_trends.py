@@ -1,8 +1,7 @@
 """Rebuild the four food-course trend blocks in partner-data.js from the recoded answers (sheet rows to 1280,
 plus interview 1340 from the 24 Nov batch, which the sheet has not coded). Every category gets a series; the
-published top 14 dishes and top 10 groups keep their role, and 'all' holds every dish with MIN_N+ answers."""
-
-Needs a fresh export of the Responses sheet (answers, categories and timestamps for the four food columns) as rows.json, ts.json and catlist.json in /tmp/audit; see tools/data/category-audit-2026-11-26.json for the recodes it applies.
+published top 14 dishes and top 10 groups keep their role, and 'all' holds every dish with MIN_N+ answers.
+Needs a fresh export of the Responses sheet (answers, categories and timestamps for the four food columns) as rows.json, ts.json and catlist.json in /tmp/audit; see tools/data/category-audit-2026-11-26.json for the recodes it applies."""
 import json, math, re, sys, datetime, collections
 sys.path.insert(0, 'tools/data'); sys.path.insert(0, '/tmp/audit')
 from category_recodes_2026_11_26 import R, MERGE, NEW, LABEL, GROUP
