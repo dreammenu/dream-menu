@@ -10,12 +10,20 @@ export const config = { matcher: [
   '/geocoder', '/geocoder.html', '/partner-data.js',
   '/report/:path+', '/operators', '/operators.html', '/tested-ideas', '/tested-ideas.html',
   '/insights', '/insights.html', '/case-studies', '/case-studies.html', '/case-studies/:path*', '/partner', '/partner.html', '/partner/:path*',
-  '/login', '/logout'] };
+  '/login', '/logout',
+  // charts for partners on otherwise public pages (28 Nov 2026): home, dish pages, State of the Menu, Specials
+  '/', '/index', '/index.html', '/trends/:path+', '/quarterly', '/quarterly.html', '/quarterly/:path*', '/specials', '/specials.html'] };
 
 const COOKIE = 'dm_partner';
 // Open-text pages: everyone can read them. Signed-out visitors are served the copy in /open/ (tools/build_gate.py),
 // where every chart and data table is a grey placeholder with a sign-in link; partners get the full page.
 const OPENTEXT = p => /^\/report\/[a-z0-9-]+$/.test(p) || p === '/operators' || p === '/tested-ideas' || p === '/case-studies' || /^\/case-studies\/[a-z0-9-]+$/.test(p);
+// Pages that were always public but whose charts and data tables are now for partners: signed-out visitors get the
+// /open/ copy (words, grey chart placeholders). Both versions are kept off shared caches; the open copy may be kept
+// on a visitor's own phone for the app's offline mode, the partner version never.
+const CHARTPAGE = p => p === '/' || p === '/index' || /^\/trends\/[a-z0-9-]+$/.test(p) || p === '/quarterly' || /^\/quarterly\/[a-z0-9-]+$/.test(p) || p === '/specials';
+const softRewrite = (request, to) => new Response(null, { headers: { 'x-middleware-rewrite': new URL(to, request.url).toString(), 'Cache-Control': 'private, no-cache', 'Vary': 'Cookie' } });
+const nextPrivate = () => new Response(null, { headers: { 'x-middleware-next': '1', 'Cache-Control': 'private, no-store', 'Vary': 'Cookie' } });
 const rewrite = (request, to) => new Response(null, { headers: { 'x-middleware-rewrite': new URL(to, request.url).toString(), 'Cache-Control': 'private, no-store' } });
 const PUBLIC = new Set(['/case-studies/guests-and-critics', '/case-studies/guests-and-critics.html']);
 async function token(pw) {
@@ -83,6 +91,7 @@ export default async function middleware(request) {
   const got = have ? have.slice(COOKIE.length + 1) : '';
   const signedIn = !!got && ((want && got === want) || KEYS.has(got));   // a revoked key stops working at once
   const clean = path.replace(/\.html$/, '');
+  if (CHARTPAGE(clean)) return signedIn ? nextPrivate() : softRewrite(request, '/open' + (clean === '/' ? '/index' : clean));
   if (OPENTEXT(clean)) return signedIn ? next() : rewrite(request, '/open' + clean);
   if (signedIn) return next();
   if (path.endsWith('.js') || path.endsWith('.csv')) return new Response('Sign in required', { status: 401, headers: { 'Cache-Control': 'no-store' } });

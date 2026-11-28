@@ -1,9 +1,10 @@
 /* Dream Menu app: service worker (28 Nov 2026).
    - Public pages: network first, so visitors always get the newest figures; the last copy is kept for offline use.
    - Scripts, styles, fonts and images: served from the cache straight away and refreshed in the background.
-   - Partner and locked pages, sign-in, and partner data are never stored on the device.
+   - Partner and locked pages, sign-in, and partner data are never stored on the device (28 Nov 2026: also the
+     signed-in versions of the home page, dish pages, State of the Menu and Specials, sent with no-store).
    Bump VERSION when this file changes so old caches are cleared. */
-var VERSION = 'dm-app-v1';
+var VERSION = 'dm-app-v2';
 var PAGES = VERSION + '-pages', ASSETS = VERSION + '-assets';
 var CORE = ['/', '/offline', '/site.css', '/brand.css', '/home.css', '/pages.css', '/app.css',
   '/nav-data.js', '/nav.js', '/dm-fresh.js', '/app.js', '/logo-128.png', '/app-icon-192.png',
@@ -16,7 +17,7 @@ self.addEventListener('install', function (e) {
   e.waitUntil(Promise.all([caches.open(PAGES), caches.open(ASSETS)]).then(function (cs) {
     return Promise.all(CORE.map(function (u) {
       var c = /\.[a-z0-9]+$/.test(u) ? cs[1] : cs[0];
-      return c.add(new Request(u, { cache: 'reload' })).catch(function () {});
+      return fetch(new Request(u, { cache: 'reload' })).then(function (res) { if (storable(res)) return c.put(u, res); }).catch(function () {});
     }));
   }).then(function () { return self.skipWaiting(); }));
 });
@@ -30,7 +31,9 @@ self.addEventListener('activate', function (e) {
 function storable(res) {
   if (!res || res.status !== 200 || res.type !== 'basic' || res.redirected) return false;
   var cc = res.headers.get('Cache-Control') || '';
-  return !/private|no-store/.test(cc);
+  // no-store marks partner pages and data (middleware.js, vercel.json): never kept on the device.
+  // Public pages served per visitor (private, no-cache) may be kept for offline reading.
+  return !/no-store/.test(cc);
 }
 function trim(name, max) {
   caches.open(name).then(function (c) {

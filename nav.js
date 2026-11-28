@@ -310,25 +310,45 @@ doc.addEventListener('keydown',function(e){
   window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};
   try{window.va('pageview',{path:'/_partner/'+m[1]+p,route:'/_partner/'+m[1]})}catch(e){}
 })();
-/* ---------- partner-only charts on the analysis page: the words stay open, the charts grey out with a sign-in link on top.
-   Signed in = the partner data file loaded (it returns 401 otherwise). A few charts stay open as samples (OPEN). ---------- */
+/* ---------- partner-only charts on the analysis pages: the words stay open; every chart, its table and its controls
+   are removed for signed-out visitors and a grey placeholder with a sign-in link takes their place.
+   Signed in = the partner data file loaded (it returns 401 otherwise). Since 28 Nov 2026 there are no open samples:
+   every chart is for partners. Charts drawn later (folded sections, filters) are caught by an observer. ---------- */
 (function(){
   if(!/^\/analysis(\/|$)/.test(location.pathname.replace(/\.html$/,'')))return;
-  var GATE=['th-audit','th-life','th-churn','th-drinks','c-critics','th-bench','c-conc','th-conc','[data-card="concentration"]'];
-  var OPEN=['th-find','th-demand','c-cities'];   // the short version, what guests want, the city index; "Who answers" in Method stays open too
   var LOCK='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1Zm2 0h4V5a2 2 0 1 0-4 0v2Z"/></svg>';
+  var CARDS='.dmv-card, .heat-scroll, .bm-card';
+  var KEEP=/^(dmv-head|who-s|bm-read|vinfo)$/;
+  function gateCard(c){
+    if(c.getAttribute('data-gated')||c.closest('#partner')||c.closest('[data-gated]'))return;
+    c.setAttribute('data-gated','1');
+    var sec=c.closest('section[id]')||c.closest('details[id]'), back=location.pathname.replace(/\.html$/,'')+(sec?'#'+sec.id:'');
+    var kept=[].slice.call(c.children).filter(function(x){
+      var k=(x.className||'').toString().split(' ')[0];
+      return KEEP.test(k)||/^H[2-4]$/.test(x.tagName)||x.tagName==='HEADER';
+    });
+    var title=c.querySelector('.dmv-head h3,.dmv-head h4,h3,h4,header'), name=title?title.textContent.trim():'Partner chart';
+    c.innerHTML='';
+    kept.forEach(function(x){
+      [].slice.call(x.querySelectorAll('.dmv-tools,button:not(.vi-x),svg:not(.vi-i)')).forEach(function(n){if(!n.closest('summary'))n.remove()});
+      c.appendChild(x);
+    });
+    var g=doc.createElement('div'); g.className='pgate pgate-chart';
+    g.innerHTML='<a class="pgate-bar" href="/login?next='+encodeURIComponent(back)+'">'+LOCK+'<span>Partner chart</span><b>Sign in to see it</b></a><div class="pgate-ghost" aria-hidden="true"><i style="width:92%"></i><i style="width:74%"></i><i style="width:66%"></i><i style="width:51%"></i><i style="width:38%"></i></div>';
+    g.querySelector('a').setAttribute('aria-label','Sign in to see the chart: '+name);
+    c.appendChild(g);
+  }
   function run(){
     if(window.DM_PARTNER)return;
-    GATE.forEach(function(sel){
-      var n=sel.charAt(0)==='['?doc.querySelector(sel):doc.getElementById(sel);
-      if(!n||n.closest('#partner')||n.closest('.pg-wrap')||OPEN.indexOf(n.id)>-1)return;
-      var sec=n.closest('section[id]')||n.closest('details[id]'), back=location.pathname.replace(/\.html$/,'')+(sec?'#'+sec.id:'');
-      var w=doc.createElement('div'); w.className='pg-wrap';
-      var a=doc.createElement('a'); a.className='pgate-bar'; a.href='/login?next='+encodeURIComponent(back);
-      a.innerHTML=LOCK+'<span>Partner chart</span><b>Sign in to see it</b>';
-      n.parentNode.insertBefore(w,n); w.appendChild(a); w.appendChild(n);
-      n.classList.add('pg-lock'); n.setAttribute('aria-hidden','true');
+    [].slice.call(doc.querySelectorAll('main '+CARDS.split(', ').join(', main '))).forEach(function(c){
+      if(!c.isConnected||(c.parentElement&&c.parentElement.closest('.dmv-card')))return;   // inside a card that is gated whole   // inside a card that is gated whole
+      gateCard(c);
     });
+  }
+  function watch(){
+    if(window.DM_PARTNER||!window.MutationObserver)return;
+    var t=null, m=doc.querySelector('main');
+    if(m)new MutationObserver(function(){clearTimeout(t);t=setTimeout(run,30)}).observe(m,{childList:true,subtree:true});
   }
   // the partner briefing: its sections, words and structure show to everyone; each chart slot gets a greyed placeholder
   var SLOTS={'p-hub-top':'This quarter: clear movers and calls','th-cats':'Category scorecard','th-sell':'Venues to call, range by range','c-opp':'Dish and drink scores','c-matrix':'Momentum matrix','c-forest':'Confidence ranges','th-fan':'The next three quarters','c-seg':'Who wants what','c-ops':'Operator pulse','p-hub-bottom':'Your partnership this term','c-wall':'Trend wall','c-heat':'Dish heat','[data-card="tr-board"]':'Life-cycle board','[data-card="tr-slope"]':'Then and now'};
@@ -344,7 +364,7 @@ doc.addEventListener('keydown',function(e){
     // headlines written from partner figures fall back to the section's plain name
     [].slice.call(doc.querySelectorAll('#partner h2.iv-title[data-short]')).forEach(function(h){if(/\d/.test(h.textContent))h.textContent=h.getAttribute('data-short')});
   }
-  if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',function(){run();briefing()});else{run();briefing()}
+  if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',function(){run();briefing();watch()});else{run();briefing();watch()}
 })();
 /* ---------- sign-in returns you to the page you were on ---------- */
 (function(){

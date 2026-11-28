@@ -23,6 +23,18 @@ def pages():
     ps += sorted(os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, 'case-studies', '*.html')))
     return [p for p in ps if p not in FREE]
 
+# Public pages whose charts are for partners too (28 Nov 2026): the home page, every dish page, State of the
+# Menu and Specials. Their words stay open; middleware.js serves the /open/ copy to signed-out visitors.
+def chart_pages():
+    ps = ['index.html', 'quarterly.html', 'specials.html']
+    for d in ('quarterly', 'trends'):
+        ps += sorted(os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, d, '*.html')))
+    return ps
+
+def url_of(path):
+    u = '/' + re.sub(r'\.html$', '', path)
+    return '/' if u == '/index' else u
+
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'}
 TAG = re.compile(r'<(/?)([a-zA-Z][a-zA-Z0-9]*)\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>')
 
@@ -60,10 +72,12 @@ TOOLS = {'operators.html'}   # the toolkit's tables are worked guidance, not pan
 def wanted(name, c, body, inside_fig, path=''):
     """Is this element a chart or a data table that partners keep?"""
     if name == 'figure':
-        return True
+        return 'hq' not in c   # a guest quote on the home page is words, not a chart
     if inside_fig:
         return False
-    if name == 'ul' and ({'bars', 'hb'} & set(c)):
+    if name in ('ul', 'ol') and ({'bars', 'hb'} & set(c)):
+        return True
+    if name == 'div' and ({'cgrid', 'dgrid', 'stack'} & set(c)):   # home page: course cards and the great debates
         return True
     if name == 'svg' and 'svgc' in c:
         return True
@@ -98,7 +112,7 @@ def keep_in_figure(body):
     return keep
 
 def gate(s, path):
-    url = '/' + re.sub(r'\.html$', '', path)
+    url = url_of(path)
     out, i, n = [], 0, 0
     for m in TAG.finditer(s):
         if m.start() < i or m.group(1):
@@ -118,7 +132,7 @@ def gate(s, path):
             rest = [k for k in kept if not k.startswith('<figcaption')]
             repl = s[m.start():m.end()] + ''.join(cap) + placeholder('chart', nxt) + ''.join(rest) + '</figure>'
         else:
-            repl = placeholder('data' if name == 'div' else 'chart', nxt)
+            repl = placeholder('data' if name == 'div' and {'tablewrap', 'cs-table-wrap'} & set(cls(m.group(3))) else 'chart', nxt)
         out.append(s[i:m.start()]); out.append(repl)
         i, n = end, n + 1
     out.append(s[i:])
@@ -140,7 +154,7 @@ def sitemap(urls):
 
 def main():
     total = 0
-    for p in pages():
+    for p in pages() + chart_pages():
         src = os.path.join(ROOT, p)
         s = open(src, encoding='utf-8').read()
         g, n = gate(s, p)
@@ -149,7 +163,7 @@ def main():
         open(dst, 'w', encoding='utf-8').write(g)
         total += n
         print(f'{p}: {n} charts and tables kept for partners')
-    print(f'{len(pages())} open pages written to /{OUT}/, {total} visuals gated')
+    print(f'{len(pages()) + len(chart_pages())} open pages written to /{OUT}/, {total} visuals gated')
     print(f'{sitemap("/" + re.sub(r"\.html$", "", p) for p in pages())} pages added to sitemap.xml')
 
 if __name__ == '__main__':
