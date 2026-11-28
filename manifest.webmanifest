@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "Dream Menu",
+  "short_name": "Dream Menu",
+  "description": "UK food trends from the foodies who cook, serve and eat out: findings, dish trends and a map of where they eat.",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fafaf7",
+  "theme_color": "#0b0b0b",
+  "lang": "en-GB",
+  "categories": ["food", "business", "lifestyle"],
+  "icons": [
+    { "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/app-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "This quarter's findings", "short_name": "Findings", "url": "/analysis/demand?source=app", "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Dish trends", "short_name": "Trends", "url": "/trends?source=app", "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Venue map", "short_name": "Map", "url": "/map?source=app", "icons": [{ "src": "/app-icon-192.png", "sizes": "192x192" }] }
+  ]
+}

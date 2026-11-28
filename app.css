@@ -1,0 +1,50 @@
+/* Dream Menu app (28 Nov 2026): tab bar when opened from the home screen, install banner, connection note. See app.js. */
+.apptabs{display:none}
+@media (max-width:900px){
+  .is-app .apptabs{position:fixed;left:0;right:0;bottom:0;z-index:1400;display:grid;grid-template-columns:repeat(5,1fr);
+    background:var(--card);border-top:1px solid var(--rule);padding:6px max(6px,env(safe-area-inset-left,0px)) max(6px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-right,0px));
+    box-shadow:0 -2px 14px rgba(0,0,0,.06)}
+  .apptabs a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;text-decoration:none;color:var(--muted);
+    font-size:11px;font-weight:600;letter-spacing:.01em;border-radius:10px;-webkit-tap-highlight-color:transparent}
+  .apptabs a.on{color:var(--ink)}
+  .apptabs a.on svg{color:var(--accent)}
+  .apptabs a:active{background:var(--panel)}
+  .is-app body{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+  .is-app .totop{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  .is-app .top{padding-top:env(safe-area-inset-top,0px)}
+  .is-app .appnet{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+}
+.is-app{-webkit-tap-highlight-color:transparent}
+
+.appbanner{position:fixed;left:10px;right:10px;bottom:max(10px,env(safe-area-inset-bottom,0px));z-index:1500;display:flex;align-items:center;gap:12px;
+  max-width:520px;margin:0 auto;padding:12px 12px 12px 14px;background:var(--card);color:var(--ink);border:1px solid var(--rule-strong);border-radius:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.18);transform:translateY(130%);transition:transform .3s ease}
+.appbanner.in{transform:none}
+.appbanner img{flex:none;border-radius:10px}
+.ab-txt{flex:1;min-width:0;font-size:14px;line-height:1.35}
+.ab-txt b{display:block}
+.ab-txt p{margin:2px 0 0;color:var(--muted)}
+.ab-txt p b{display:inline;color:var(--ink)}
+.ab-txt svg{vertical-align:-3px}
+.ab-go{flex:none;border:0;border-radius:999px;padding:9px 16px;background:var(--ink);color:var(--paper);font-weight:700;cursor:pointer}
+.ab-x{flex:none;border:0;background:none;font-size:24px;line-height:1;padding:4px 6px;color:var(--muted);cursor:pointer}
+
+.appnet{position:fixed;left:50%;bottom:16px;z-index:1450;transform:translate(-50%,160%);transition:transform .25s ease;
+  padding:9px 16px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:13px;font-weight:600;max-width:calc(100% - 32px);text-align:center}
+.appnet.in{transform:translate(-50%,0)}
+.appnet.ok{background:var(--good)}
+
+/* the /app page */
+.app-how{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:24px 0}
+.app-how .card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px 20px}
+.app-how h2{margin:0 0 8px;font-size:20px}
+.app-how ol{margin:0;padding-left:20px}
+.app-how li{margin:4px 0}
+.app-install{display:none}
+.app-install.show{display:inline-flex}
+@media print{.apptabs,.appbanner,.appnet{display:none!important}}
+.app-cta{display:flex;flex-wrap:wrap;gap:10px}
+.app-cta .btn{align-items:center;gap:8px;font:700 14px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;padding:15px 22px;border-radius:999px;text-decoration:none;border:2px solid transparent;cursor:pointer}
+.app-cta a.btn,.app-cta .btn.show{display:inline-flex}
+.app-cta .btn.gold{background:var(--accent);color:#0b0b0b}
+.app-cta .btn.ghost{display:inline-flex;background:none;border-color:currentColor;color:inherit}

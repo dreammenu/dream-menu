@@ -59,10 +59,10 @@ ITAGS = {
  'b1': 'about', 'b9': 'about sales', 'b10': 'costs drinks', 'b11': 'places', 'b12': 'food menu', 'b13': 'food menu',
  'b14': 'drinks', 'b15': 'menu food', 'b16': 'places', 'b17': 'places', 'b18': 'food menu', 'b19': 'food places',
  'b20': 'costs', 'b21': 'places sales', 'b22': 'places', 'b23': 'menu costs sales', 'b24': 'menu food drinks',
- 'b2': 'about menu sales', 'b6': 'about sales', 'b7': 'sales places about', 'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about',
+ 'b2': 'about menu sales', 'b6': 'about sales', 'b7': 'sales places about', 'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about', 'a4': 'about',
 }
 # Pages that are not destinations (sign-in, errors, internal tools, redirects); everything else on disk must be in ITEMS.
-NOT_PAGES = {'/analysis', '/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/'}
+NOT_PAGES = {'/analysis', '/index', '/404', '/login', '/geocoder', '/review', '/insights', '/intelligence', '/partner', '/briefing', '/explore', '/awards', '/', '/offline'}
 AUD_SHORT = {'food': 'food lovers', 'venue': 'operators', 'new': 'new venues', 'chef': 'chefs', 'supplier': 'suppliers', 'investor': 'investors', 'press': 'press'}
 # extra search words, so people find things by the words they use
 KEYWORDS = {
@@ -79,7 +79,7 @@ KEYWORDS = {
  'o5': 'behavioural psychology nudges bread decoy wait', 'o6': 'checklist bathroom sunday festive christmas january quiet season price rise supplier solo diners celebration',
  'o7': 'instagram tiktok reviews google tripadvisor reply', 'o8': 'research evidence studies nudges menu psychology pricing no-shows reminder texts loyalty cards buffet plates music cutlery wine glass', 'o10': 'myths choice overload mints wansink',
  'o11': 'test trial experiment a/b sample size', 'o12': 'audit review consultancy diagnostic mystery', 'b3': 'quarterly briefing sales team movers', 
- 'a0': 'about us mission why who founder gordon best story contact podcast napkin pitch youtube spotify', 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies', 'a3': 'press media journalist quote statistics logo credit',
+ 'a0': 'about us mission why who founder gordon best story contact podcast napkin pitch youtube spotify', 'b1': 'partnership sponsor commission research data', 'b7': 'contact commission sponsor partner', 'a1': 'method methodology data sources interviews geocoding', 'a2': 'gdpr data protection cookies', 'a4': 'app install phone mobile home screen offline iphone android download', 'a3': 'press media journalist quote statistics logo credit',
 }
 AUD_ICON = {
  'food': '<path d="M7 3v7a2 2 0 0 0 4 0V3M9 3v18M17 3c-2 2-2.5 4-2.5 7H17v11"/>',
@@ -108,13 +108,13 @@ GROUPS = [  # key, label, landing page, one-line summary. Grouped by reader (24 
 SEC = {'analysis': ['f24', 'f21', 'f17', 'f19', 'b2', 'r1', 'f20', 'b9'],
        'venues': ['o30', 'o1', 'o8', 'o12', 'o13'],
        'trends': ['f6', 'f30', 'f7', 'f1', 'f31', 'f9', 'f13', 'f15'],
-       'about': ['a0', 'a1', 'f22', 'a2', 'b1', 'a3']}
+       'about': ['a0', 'a1', 'f22', 'a4', 'a2', 'b1', 'a3']}
 # Each section is split into short labelled groups (25 Nov 2026): the dropdown shows them as titled columns, a
 # short page's tab bar shows only its own group, and the footer uses the same titles.
 SUB = {'analysis': [('The findings', ['f24', 'f21', 'f17', 'f19']), ('Reports and briefings', ['b2', 'r1', 'f20', 'b9'])],
        'venues': [('Tools for your venue', ['o30', 'o1', 'o8']), ('Get a review or a badge', ['o12', 'o13'])],
        'trends': [('Where to eat', ['f6', 'f30', 'f7']), ('Join in', ['f1', 'f31', 'f9', 'f13', 'f15'])],
-       'about': [('About Dream Menu', ['a0', 'a1', 'f22', 'a2']), ('Work with us', ['b1', 'a3'])]}
+       'about': [('About Dream Menu', ['a0', 'a1', 'f22', 'a4', 'a2']), ('Work with us', ['b1', 'a3'])]}
 assert all(sum((ids for _, ids in SUB[g]), []) == SEC[g] for g in SUB), 'SUB must list SEC in order'
 # Header dropdowns = the section lists. The analysis page's own parts are in its "On this page" bar.
 HMENU = {g: SEC[g] for g in SEC}
@@ -132,7 +132,7 @@ PLACE = {'f1': 'trends', 'f19': 'analysis', 'f9': 'trends', 'f31': 'trends', 'f1
          'f16': 'analysis', 'r0': 'analysis', 'f20': 'analysis', 'r1': 'analysis', 'r4': 'analysis', 'r7': 'analysis', 'r12': 'analysis', 'r15': 'analysis', 'b9': 'analysis',
          'o1': 'venues', 'o30': 'venues', 'o8': 'venues', 'o13': 'venues', 'o12': 'venues',
          'b1': 'about', 'b2': 'analysis',
-         'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about', 'f15': 'trends'}
+         'a0': 'about', 'a1': 'about', 'a3': 'about', 'a2': 'about', 'a4': 'about', 'f15': 'trends'}
 MENU = [i for g in SEC.values() for i in g]
 RETITLE = {'f22': 'Can we trust it?', 'b7': 'Venues to call', 'f24': 'What guests want', 'f21': 'What is changing', 'f17': 'Where it differs',
            'o13': 'Venue badge', 'r0': 'All reports', 'f1': 'The dream menu', 'r1': 'Report 2026', 'b2': 'Partner briefing', 'b1': 'Ways to work with us', 'f16': 'The analysis', 'b9': 'Insight Series'}
@@ -229,6 +229,7 @@ ITEMS = [
  ('a0', 'About Dream Menu', '/about', 'Why we do it, what we do and who is behind it, including the Napkin Pitch podcast', 'about', 'food venue new chef supplier investor press', 1, None),
  ('a1', 'How it works', '/how-it-works', 'Where the data comes from, how venues are placed and which guides count', 'about', 'press', 0, None),
  ('a3', 'Press kit', '/press', 'Figures to quote, how to credit them and logos', 'about', 'press', 0, None),
+ ('a4', 'Get the app', '/app', 'Dream Menu on your phone: add it to your home screen, free, no app store', 'about', 'food venue chef supplier investor press', 0, None),
  ('a2', 'Privacy', '/privacy', 'How interview answers and site visits are used', 'about', 'press', 0, None),
 ]
 
@@ -364,6 +365,10 @@ def page_group(path):
             return g
     return {'/explore': 'start'}.get(path)
 
+APP_TAGS = ('<link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes">'
+            '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Dream Menu">'
+            '<meta name="apple-mobile-web-app-status-bar-style" content="default">'
+            '<link rel="stylesheet" href="/app.css"><script src="/app.js" defer></script>')
 HEAD_TAGS = '<script>document.documentElement.classList.add("js")</script><script src="/nav-data.js" defer></script><script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>'
 
 def check_coverage():
@@ -445,6 +450,8 @@ def main():
             s = s.replace('<script src="/nav.js" defer></script>', '<script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>', 1)
         if 'src="/nav.js"' not in s:
             s = s.replace('<link rel="stylesheet" href="/brand.css">', HEAD_TAGS + '\n<link rel="stylesheet" href="/brand.css">', 1)
+        if 'rel="manifest"' not in s:   # the installable app (28 Nov 2026): manifest, home-screen settings, app.js and app.css
+            s = s.replace('</head>', APP_TAGS + '\n</head>', 1)
         if '/_vercel/insights/script.js' not in s:   # Vercel Web Analytics (cookie-free); switch it on in the Vercel dashboard
             s = s.replace('</head>', '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1)
         if False and fn == 'index.html' and 'class="audband"' not in s:   # the home page no longer carries the audience band (tools/build_home.py)
