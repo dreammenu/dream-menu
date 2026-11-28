@@ -166,7 +166,7 @@ BODY = f'''<main class="pg">
 <p class="eyebrow">Partners · Where to sell it</p>
 <h1>Venues to call, range by range</h1>
 <p class="lede">Every Scottish venue guests have named at least twice, scored for each supplier range by the dishes guests name there and whether those dishes are worth backing. Lead with the first dish; check the &ldquo;watch out&rdquo; column before you go.</p>
-<p class="acct-noprint"><button class="cta" type="button" onclick="window.print()">Print this list</button> <a class="go" href="/analysis#sell-sec">Back to the briefing</a></p>
+<p class="acct-noprint"><button class="cta" type="button" onclick="window.print()">Print this list</button> <a class="go" href="/analysis/partner#sell-sec">Back to the briefing</a></p>
 </div></section>
 <section><div class="wrap">
 <p class="pg-src" id="acct-print-h"></p>

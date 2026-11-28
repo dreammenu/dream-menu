@@ -18,6 +18,7 @@ def _load(fn):
     return json.JSONDecoder().raw_decode(t[t.index('=') + 1:])[0]
 _P, _M = _load('partner-data.js'), _load('dm-data.js')['meta']
 N_ALL, N_PINNED, N_COUNTRIES = f"{_P['n_all']:,}", f"{_M['pinned']:,}", _M['countries']
+N_VENUES = f"{_M['venues']:,}"   # same figure as the home page and the map ("venues named"), 28 Nov 2026
 
 PUBLIC = ('/case-studies/guests-and-critics',)   # the free sample report
 LOCKED = ('/briefing', '/onepager', '/review', '/geocoder', '/partner', '/insights')   # report chapters, toolkit, tested ideas and Insight Series are open text with partner-only charts (tools/build_gate.py)
@@ -155,7 +156,7 @@ ITEMS = [
  ('f2', 'The dishes people choose', '/#courses', 'The top dishes for every course and their share of guests', 'food', 'food chef supplier', 0, 'f1'),
  ('f4', 'The great debates', '/#debates', 'Irn-Bru or Coke, coffee or tea, pineapple on pizza, tap or sparkling', 'food', 'food press', 1, 'f1'),
  ('f5', 'Guilty pleasures and Bin it', '/#mood', 'The comfort food guests admit to, and the trends they want gone', 'food', 'food chef venue', 1, 'f1'),
- ('f6', 'Venue map', '/map', f'{N_PINNED} venues guests have named in {N_COUNTRIES} countries, plus Dream Menu’s own list and award winners', 'food', 'food investor new supplier', 1, None),
+ ('f6', 'Venue map', '/map', f'{N_VENUES} venues guests have named in {N_COUNTRIES} countries, plus Dream Menu’s own list and award winners', 'food', 'food investor new supplier', 1, None),
  ('f20', 'State of the Menu', '/quarterly', 'The quarter in food, with an email edition', 'food', 'food press supplier chef', 1, None),
  ('f19', 'Dish trends', '/trends', 'A page for every dish and drink we track', 'food', 'food chef supplier press', 1, None),
  ('f30', 'City guides', '/cities', 'Where foodies eat in each city: most named, hidden gems, award holders', 'food', 'food venue press new', 0, None),
@@ -282,9 +283,9 @@ def header(cur_group):
                 out.append(f'<div class="mp-page"><a class="mp-p" href="{it["u"]}"><b>{E(it["t"])}{lk(it)}</b><span>{E(it["d"])}</span></a></div>')
             out.append('</div></div>')
         out.append('</div></div></div></li>')
-    out.append('</ul><a class="mnav-all" href="/login?next=/analysis%23partner">Partner sign-in ' + ARROW + '</a></nav>')   # shown in the phone menu only
+    out.append('</ul><a class="mnav-all" href="/login?next=/analysis/partner">Partner sign-in ' + ARROW + '</a></nav>')   # shown in the phone menu only
     out.append('<button type="button" class="msearch" data-search aria-label="Search the site">' + SEARCH + '<span>Search</span><kbd>/</kbd></button>')
-    out.append('<a class="signin" href="/login?next=/analysis%23partner">Partner sign-in</a>')
+    out.append('<a class="signin" href="/login?next=/analysis/partner">Partner sign-in</a>')
     out.append('<button type="button" class="mburger" aria-expanded="false" aria-controls="mnav"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr">Menu</span></button>')
     out.append('</div></header>')
     return ''.join(out)
@@ -444,7 +445,7 @@ def main():
         # footer logo sits beside the words "Dream Menu", so it is decorative (screen readers would read the name twice)
         s = s.replace('<div class="footband"><img src="/logo-128.png" alt="Dream Menu"', '<div class="footband"><img src="/logo-128.png" alt=""')
         # bottom line: no repeats of links already in the columns above (audit, 16 Nov 2026)
-        s = s.replace('<a href="/privacy">Privacy</a> · <a href="/login?next=/analysis%23partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/"',
+        s = s.replace('<a href="/privacy">Privacy</a> · <a href="/login?next=/analysis/partner">Partner sign-in</a> · <a href="/how-it-works">How it works</a> · <a href="https://www.instagram.com/dream.menu/"',
                       '<a href="mailto:contact.dreammenu@gmail.com">contact.dreammenu@gmail.com</a> · <a href="https://www.instagram.com/dream.menu/"')
         if 'src="/nav.js"' in s and 'src="/dm-fresh.js"' not in s:
             s = s.replace('<script src="/nav.js" defer></script>', '<script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>', 1)

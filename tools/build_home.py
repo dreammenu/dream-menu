@@ -149,7 +149,7 @@ section = (
     f'  <p class="lede">Six things the data says right now, from {N_ALL:,} interviews to {when}. Changes are tested against chance, not just counted; '
     'the grey card is an outside source, kept apart as a challenge to our own data. Each ends with what to do about it.</p></div>\n'
     f'  <div class="hf-grid hf-three">{"".join(cards)}</div>\n'
-    f'  <p class="hf-bench"><span aria-hidden="true">&#10003;</span> {benchlib.headline()}. <a href="/analysis#compare">See every comparison</a></p>\n'
+    f'  <p class="hf-bench"><span aria-hidden="true">&#10003;</span> {benchlib.headline()}. <a href="/analysis/trust#compare">See every comparison</a></p>\n'
     '  <p class="hf-foot"><a class="btn gold" href="/analysis/demand">See all the findings</a> <a class="hf-link" href="/report#library">All reports</a></p>\n'
     '</div></section>\n')
 METHOD_NOTE = (f'<p class="method">Source: {N_ALL:,} Dream Menu interviews, 1 September 2025 to {when}. Dish categories were made more specific on 24 October 2026: '

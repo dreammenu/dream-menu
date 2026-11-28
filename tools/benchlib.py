@@ -68,7 +68,7 @@ def dish_card(slug):
     if not ids:
         return ''
     return ('<div class="card bx"><h2>How it compares</h2>' + ''.join(card(ITEMS[i]) for i in ids)
-            + f'<p class="pg-mut"><a href="/analysis#compare">All {N_ALL} comparisons with outside research</a></p></div>')
+            + f'<p class="pg-mut"><a href="/analysis/trust#compare">All {N_ALL} comparisons with outside research</a></p></div>')
 
 
 def agree_list(limit=None, cls='bx-list'):

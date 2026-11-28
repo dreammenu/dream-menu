@@ -11,7 +11,7 @@ fills two slots on /analysis:
   bottom: the partnership this term, terms of use and sponsorship (folded)
 The scorecard, scores, confidence and segments in between are drawn by partner/intel.js and trend-charts.js.
 Source blocks (download table, terms, confidential line) live in tools/data/partner-static.html.
-partner.html is a redirect to /analysis#partner.
+partner.html is a redirect to /analysis/partner.
 /for-business gets one block that routes each kind of visitor to the offer that fits them.
 """
 import datetime as dt, html, json, os, re
@@ -175,7 +175,7 @@ else:
 fb = fb.replace('<div class="eyebrow">For suppliers, distributors and venues</div>', '<div class="eyebrow">For business</div>')
 BENCH = ('<!--fb-bench--><section><div class="wrap">\n  <h2 id="checked">Checked against the wider market</h2>\n'
          f'  <p class="lede" style="margin-bottom:14px">{benchlib.headline()}. Some of the findings that agree with national research:</p>\n'
-         + benchlib.agree_list(6) + '\n  <p class="note"><a href="/analysis#compare">Every comparison, with sources and the local insights</a></p>\n</div></section><!--/fb-bench-->')
+         + benchlib.agree_list(6) + '\n  <p class="note"><a href="/analysis/trust#compare">Every comparison, with sources and the local insights</a></p>\n</div></section><!--/fb-bench-->')
 if '<!--fb-bench-->' in fb:
     fb = re.sub(r'<!--fb-bench-->.*?<!--/fb-bench-->', lambda m: BENCH, fb, count=1, flags=re.S)
 else:

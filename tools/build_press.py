@@ -92,7 +92,7 @@ body = f'''<section class="navyband"><div class="wrap">
   <h2 id="checked">Checked against outside research</h2>
   <p class="lede" style="margin-bottom:14px">{benchlib.headline()}. Each finding below is backed by a published source; quote both with their dates.</p>
   {benchlib.agree_list()}
-  <p class="note"><a href="/analysis#compare">Every comparison, including the local insights</a></p>
+  <p class="note"><a href="/analysis/trust#compare">Every comparison, including the local insights</a></p>
 </div></section>
 <section><div class="wrap prose">
   <h2 id="credit">How to credit</h2>

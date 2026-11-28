@@ -686,7 +686,7 @@ def city_page(c, co):
 </div></section>
 {('<section><div class="wrap"><h2 class="pg-h2">In guests&rsquo; words</h2><div class="pg-quotes">' + ''.join(qs[:4]) + '</div></div></section>') if qs else ''}
 <section><div class="wrap pg-grid">
-  <div class="card"><h2>Run a venue in {E(c)}?</h2><p>See how {E(c)}&rsquo;s taste differs from other cities, check whether your venue has a page, and get the free badge.</p><p><a class="go" href="/analysis#cities">Every city&rsquo;s appetite</a> · <a class="go" href="/badge">Get the badge</a> · <a class="go" href="/operators">Operator toolkit</a></p></div>
+  <div class="card"><h2>Run a venue in {E(c)}?</h2><p>See how {E(c)}&rsquo;s taste differs from other cities, check whether your venue has a page, and get the free badge.</p><p><a class="go" href="/analysis/cities">Every city&rsquo;s appetite</a> · <a class="go" href="/badge">Get the badge</a> · <a class="go" href="/operators">Operator toolkit</a></p></div>
   {('<div class="card"><h2>By neighbourhood</h2><div class="pg-chips">' + AREA_CHIPS[(c, co)] + '</div></div>') if AREA_CHIPS.get((c, co)) else ''}
   <div class="card"><h2>Other city guides</h2><div class="pg-chips">{others}</div></div>
 </div>{SRC}</section>'''

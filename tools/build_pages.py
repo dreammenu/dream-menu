@@ -268,7 +268,7 @@ main = f"""<main class="iv-page">
 {ACTIONS}
 </div></section>
 <div id="partner">
-<section class="iv-pteaser"><div class="iv-wrap"><p><b>The partner briefing.</b> Below is everything partners get each quarter: the clear movers, a buying call for every category, the venues to call, a score for every dish, confidence ranges, who buys and partnership dates. The charts and figures unlock when you sign in. <a href="/for-business">Become a partner</a>.</p><a href="/login?next=/analysis%23partner">Partner sign-in</a></div></section>
+<section class="iv-pteaser"><div class="iv-wrap"><p><b>The partner briefing.</b> Below is everything partners get each quarter: the clear movers, a buying call for every category, the venues to call, a score for every dish, confidence ranges, who buys and partnership dates. The charts and figures unlock when you sign in. <a href="/for-business">Become a partner</a>.</p><a href="/login?next=/analysis/partner">Partner sign-in</a></div></section>
 <div class="iv-pzone">
 <div class="iv-part"><div class="iv-wrap"><span>Partner briefing</span></div></div>
 <div id="p-hub-top"></div>
@@ -321,7 +321,7 @@ open('analysis.html', 'w', encoding='utf-8').write(an)
 # the old partner page now lives inside /analysis
 open('intelligence.html', 'w', encoding='utf-8').write('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>The analysis | Dream Menu</title>'
     '<meta name="robots" content="noindex"><link rel="canonical" href="https://www.dream-menu.com/analysis">'
-    '<meta http-equiv="refresh" content="0; url=/analysis#matrix-sec"></head><body><p>Partner intelligence is now part of <a href="/analysis">the analysis</a>.</p></body></html>\n')
+    '<meta http-equiv="refresh" content="0; url=/analysis/partner#matrix-sec"></head><body><p>Partner intelligence is now part of <a href="/analysis">the analysis</a>.</p></body></html>\n')
 print('wrote analysis.html', len(an), '(intelligence.html is a redirect)')
 
 # ---------------------------------------------------------------- the analysis, spread across the site (24 Nov 2026)
@@ -382,6 +382,10 @@ os.makedirs('analysis', exist_ok=True)
 written = []
 for sl, kick, title, ids, line in PARTS:
     content = ''.join(_block(_body, sid) + '\n' for sid in ids)
+    # section numbers belong to each page, not to the old single page (28 Nov 2026): a one-question page has no
+    # number at all, and the partner briefing counts its own sections from 1
+    _k = iter(range(1, 100))
+    content = re.sub(r'<span class="iv-num">\d+</span>', (lambda m: f'<span class="iv-num">{next(_k)}</span>') if sl == 'partner' else '', content)
     if sl == 'cities' and len(_roles) > 1:
         content += _role_box(1)                                   # opening a venue or investing
     if sl == 'partner' and len(_roles) > 2:
