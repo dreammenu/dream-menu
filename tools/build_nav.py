@@ -370,6 +370,7 @@ APP_TAGS = ('<link rel="manifest" href="/manifest.webmanifest"><meta name="mobil
             '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Dream Menu">'
             '<meta name="apple-mobile-web-app-status-bar-style" content="default">'
             '<link rel="stylesheet" href="/app.css"><script src="/app.js" defer></script>')
+VIS_TAGS = '<link rel="stylesheet" href="/dm-visual.css"><script src="/dm-visual.js" defer></script>'
 HEAD_TAGS = '<script>document.documentElement.classList.add("js")</script><script src="/nav-data.js" defer></script><script src="/nav.js" defer></script><script src="/dm-fresh.js" defer></script>'
 
 def check_coverage():
@@ -453,6 +454,8 @@ def main():
             s = s.replace('<link rel="stylesheet" href="/brand.css">', HEAD_TAGS + '\n<link rel="stylesheet" href="/brand.css">', 1)
         if 'rel="manifest"' not in s:   # the installable app (28 Nov 2026): manifest, home-screen settings, app.js and app.css
             s = s.replace('</head>', APP_TAGS + '\n</head>', 1)
+        if 'dm-visual.js' not in s:   # icons and count-up figures across the site (28 Nov 2026)
+            s = s.replace('</head>', VIS_TAGS + '\n</head>', 1)
         if '/_vercel/insights/script.js' not in s:   # Vercel Web Analytics (cookie-free); switch it on in the Vercel dashboard
             s = s.replace('</head>', '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1)
         if False and fn == 'index.html' and 'class="audband"' not in s:   # the home page no longer carries the audience band (tools/build_home.py)
